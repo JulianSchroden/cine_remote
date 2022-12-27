@@ -1,27 +1,30 @@
 import 'dart:async';
-import 'dart:io';
 
-import 'package:cine_remote/data/models/wifi_camera_handle.dart';
-import 'package:cine_remote/data/services/camera_remote_service.dart';
-import 'package:flutter/foundation.dart';
+import 'data/models/wifi_camera_handle.dart';
+import 'data/services/camera_remote_service.dart';
+import 'presentation/camera_selection/page/camera_selection_page.dart';
+import 'presentation/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const CineRemote());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class CineRemote extends StatelessWidget {
+  const CineRemote({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Cine Remote',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(),
+      routes: {
+        Routes.cameraConnection: (_) => const CameraSelectionPage()
+      },
+      initialRoute: Routes.cameraConnection,
     );
   }
 }
@@ -42,8 +45,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    SystemChrome.setPreferredOrientations(
-        [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
+    //SystemChrome.setPreferredOrientations(
+    //    [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
     super.initState();
   }
 
@@ -78,12 +81,11 @@ class _MyHomePageState extends State<MyHomePage> {
   void _startLiveView() async {
     cameraRemoteService.startLiveView(handle!);
     _timer?.cancel();
-    _timer = Timer.periodic(const Duration(milliseconds: 100), (timer) async {
+    _timer = Timer.periodic(const Duration(milliseconds: 150), (timer) async {
       final stopwatch = Stopwatch();
       stopwatch.start();
       final bytes = await cameraRemoteService.getLiveViewImage(handle!);
       stopwatch.stop();
-      //print(stopwatch.elapsed);
       print(stopwatch.elapsedMilliseconds);
 
       setState(() {
