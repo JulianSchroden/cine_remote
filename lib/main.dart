@@ -1,11 +1,14 @@
 import 'dart:async';
 
-import 'data/models/wifi_camera_handle.dart';
-import 'data/services/camera_remote_service.dart';
-import 'presentation/camera_selection/page/camera_selection_page.dart';
-import 'presentation/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'data/models/wifi_camera_handle.dart';
+import 'data/services/camera_remote_service.dart';
+import 'presentation/camera_connection/bloc/camera_connection_cubit.dart';
+import 'presentation/camera_selection/page/camera_selection_page.dart';
+import 'presentation/routes.dart';
 
 void main() {
   runApp(const CineRemote());
@@ -16,15 +19,21 @@ class CineRemote extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Cine Remote',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) =>
+              CameraConnectionCubit(cameraRemoteService: CameraRemoteService()),
+        )
+      ],
+      child: MaterialApp(
+        title: 'Cine Remote',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        routes: {Routes.cameraConnection: (_) => const CameraSelectionPage()},
+        initialRoute: Routes.cameraConnection,
       ),
-      routes: {
-        Routes.cameraConnection: (_) => const CameraSelectionPage()
-      },
-      initialRoute: Routes.cameraConnection,
     );
   }
 }
