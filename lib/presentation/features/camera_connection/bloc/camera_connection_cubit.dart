@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../data/models/wifi_camera_handle.dart';
-import '../../../data/services/camera_remote_service.dart';
+import '../../../../data/models/wifi_camera_handle.dart';
+import '../../../../data/services/camera_remote_service.dart';
 
 part 'camera_connection_cubit.freezed.dart';
 
@@ -26,6 +26,9 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
   Future<void> connect() async {
     print('connect');
     emit(const CameraConnectionState.initConnection());
+    await Future.delayed(const Duration(seconds: 2));
+    emit(CameraConnectionState.connectSuccess(WifiCameraHandle(cookies: [])));
+    return;
     try {
       final handle = await cameraRemoteService.connect();
       emit(CameraConnectionState.connectSuccess(handle));
@@ -37,6 +40,7 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
 
   Future<void> disconnect() async {
     emit(const CameraConnectionState.disconnecting());
+    await Future.delayed(const Duration(seconds: 1));
     emit(const CameraConnectionState.disconnected());
   }
 }

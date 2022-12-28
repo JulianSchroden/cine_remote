@@ -6,8 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'data/models/wifi_camera_handle.dart';
 import 'data/services/camera_remote_service.dart';
-import 'presentation/camera_connection/bloc/camera_connection_cubit.dart';
-import 'presentation/camera_selection/page/camera_selection_page.dart';
+import 'presentation/features/camera_connection/bloc/camera_connection_cubit.dart';
+import 'presentation/features/camera_control/page/camera_control_page.dart';
+import 'presentation/features/camera_selection/page/camera_selection_page.dart';
 import 'presentation/routes.dart';
 
 void main() {
@@ -31,8 +32,11 @@ class CineRemote extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        routes: {Routes.cameraConnection: (_) => const CameraSelectionPage()},
-        initialRoute: Routes.cameraConnection,
+        routes: {
+          Routes.cameraSelection: (_) => const CameraSelectionPage(),
+          Routes.cameraControl: (_) => const CameraControlPage(),
+        },
+        initialRoute: Routes.cameraSelection,
       ),
     );
   }
