@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 
+import '../../domain/models/control_prop_type.dart';
 import '../exceptions/camera_connection_exception.dart';
 import '../models/wifi_camera_handle.dart';
 
@@ -27,7 +29,15 @@ class CameraRemoteService {
           'Could not establish connection: $connectResponse');
     }
 
-    return WifiCameraHandle(cookies: response.cookies);
+    return WifiCameraHandle(
+      cookies: response.cookies,
+      supportedProps: [
+        ControlPropType.aperture,
+        ControlPropType.iso,
+        ControlPropType.shutterAngle,
+        ControlPropType.whiteBalance,
+      ],
+    );
   }
 
   Future<void> triggerRecord(WifiCameraHandle handle) async {
@@ -74,7 +84,8 @@ class CameraRemoteService {
   }
 
   Future<void> startLiveView(WifiCameraHandle handle) async {
-    final liveViewUrl = Uri.http(_authority, 'api/cam/lv', {'cmd': 'start', 'sz': 'l'});
+    final liveViewUrl =
+        Uri.http(_authority, 'api/cam/lv', {'cmd': 'start', 'sz': 'l'});
     final response = await _getUrl(liveViewUrl, handle);
     final body = await response.transform(utf8.decoder).join();
     print(body);
@@ -89,7 +100,8 @@ class CameraRemoteService {
 
   Future<Uint8List> getLiveViewImage(WifiCameraHandle handle) async {
     final timeStamp = DateTime.now().toIso8601String();
-    final liveViewGetImageUrl = Uri.http(_authority, 'api/cam/lvgetimg', {'d': timeStamp});
+    final liveViewGetImageUrl =
+        Uri.http(_authority, 'api/cam/lvgetimg', {'d': timeStamp});
     final response = await _getUrl(liveViewGetImageUrl, handle);
     return await consolidateHttpClientResponseBytes(response);
   }

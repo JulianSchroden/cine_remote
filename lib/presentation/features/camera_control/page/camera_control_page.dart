@@ -24,7 +24,7 @@ class CameraControlPage extends StatelessWidget {
         children: [
           SizedBox(height: 32),
           LiveViewImage(),
-          SizedBox(height: 32),
+          SizedBox(height: 16),
           ControlPropsBar(),
           Spacer(),
           ControlActionsBar(),

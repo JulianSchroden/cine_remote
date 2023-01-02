@@ -1,9 +1,12 @@
-
-
 import 'dart:io';
 
-class WifiCameraHandle {
+import '../../domain/models/camera_handle.dart';
+
+class WifiCameraHandle extends CameraHandle {
   List<Cookie> cookies;
 
-  WifiCameraHandle({required this.cookies});
+  WifiCameraHandle({
+    required this.cookies,
+    required super.supportedProps,
+  });
 }

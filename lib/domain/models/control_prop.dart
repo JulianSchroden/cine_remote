@@ -1,13 +1,13 @@
 import 'package:cine_remote/domain/models/control_prop_type.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class ControlProp {
-  final ControlPropType type;
-  final String currentValue;
-  final List<String> allowedValues;
+part 'control_prop.freezed.dart';
 
-  const ControlProp({
-    required this.type,
-    required this.currentValue,
-    required this.allowedValues,
-  });
+@freezed
+class ControlProp with _$ControlProp {
+  const factory ControlProp({
+    required ControlPropType type,
+    @Default('') String currentValue,
+    @Default([]) List<String> allowedValues,
+  }) = _ControlProp;
 }
