@@ -1,46 +1,63 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../domain/models/control_prop.dart';
 import '../../../../domain/models/control_prop_type.dart';
+import '../../camera_connection/bloc/camera_connection_cubit.dart';
 
-part 'control_prop_cubit.freezed.dart';
+part 'control_props_cubit.freezed.dart';
 
-@freezed
-class ControlPropState with _$ControlPropState {
-  const factory ControlPropState.init() = _Init;
-  const factory ControlPropState.updating(ControlProp prop) = _Updating;
-  const factory ControlPropState.updateSuccess(ControlProp prop) =
+@Freezed(makeCollectionsUnmodifiable: false)
+class ControlPropsState with _$ControlPropsState {
+  const factory ControlPropsState.init() = _Init;
+  const factory ControlPropsState.updating(List<ControlProp> props) = _Updating;
+  const factory ControlPropsState.updateSuccess(List<ControlProp> props) =
       _UpdateSuccess;
-  const factory ControlPropState.updateFailed(ControlProp prop) = _UpdateFailed;
+  const factory ControlPropsState.updateFailed(List<ControlProp> props) =
+      _UpdateFailed;
 }
 
-class ControlPropCubit extends Cubit<ControlPropState> {
-  ControlPropCubit() : super(const ControlPropState.init());
+class ControlPropsCubit extends Cubit<ControlPropsState> {
+  CameraConnectionCubit cameraConnectionCubit;
 
-  Future<void> init(ControlPropType propType) async {
-    emit(ControlPropState.updating(ControlProp(
-      type: propType,
-      currentValue: '',
-      allowedValues: [],
-    )));
+  ControlPropsCubit({
+    required this.cameraConnectionCubit,
+  }) : super(const ControlPropsState.init());
+
+  Future<void> init() async {
+    final cameraHandle = cameraConnectionCubit.state
+        .whenOrNull(connectSuccess: ((cameraHandle) => cameraHandle));
+    if (cameraHandle == null) return;
+
+    emit(const ControlPropsState.updating([]));
     // getProp()
-    final controlProp = getDummyPropByType(propType);
-    emit(ControlPropState.updateSuccess(controlProp));
+    final controlProps = cameraHandle.supportedProps
+        .map((propType) => getDummyPropByType(propType))
+        .toList();
+
+    emit(ControlPropsState.updateSuccess(controlProps));
   }
 
-  Future<void> setProp(String value) async {
-    final controlProp = state.whenOrNull(
-        updating: (prop) => prop,
-        updateSuccess: (prop) => prop,
-        updateFailed: (prop) => prop);
+  Future<void> setProp(ControlPropType propType, String value) async {
+    final allControlProps = state.whenOrNull(
+        updating: (props) => props,
+        updateSuccess: (props) => props,
+        updateFailed: (props) => props);
 
-    if (controlProp == null) return;
+    if (allControlProps == null) return;
+    emit(ControlPropsState.updating(allControlProps));
 
-    final updatedProp = controlProp.copyWith(currentValue: value);
-    emit(ControlPropState.updating(updatedProp));
+    final propIndex =
+        allControlProps.indexWhere((prop) => prop.type == propType);
+    if (propIndex == -1) return;
+
+    allControlProps[propIndex] =
+        allControlProps[propIndex].copyWith(currentValue: value);
+
     // setProp
-    emit(ControlPropState.updateSuccess(updatedProp));
+    emit(ControlPropsState.updateSuccess(allControlProps));
   }
 
   ControlProp getDummyPropByType(ControlPropType type) {

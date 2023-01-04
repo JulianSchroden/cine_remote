@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'control_prop_cubit.dart';
+part of 'control_props_cubit.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,29 +15,29 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$ControlPropState {
+mixin _$ControlPropsState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
-    required TResult Function(ControlProp prop) updating,
-    required TResult Function(ControlProp prop) updateSuccess,
-    required TResult Function(ControlProp prop) updateFailed,
+    required TResult Function(List<ControlProp> props) updating,
+    required TResult Function(List<ControlProp> props) updateSuccess,
+    required TResult Function(List<ControlProp> props) updateFailed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
-    TResult? Function(ControlProp prop)? updating,
-    TResult? Function(ControlProp prop)? updateSuccess,
-    TResult? Function(ControlProp prop)? updateFailed,
+    TResult? Function(List<ControlProp> props)? updating,
+    TResult? Function(List<ControlProp> props)? updateSuccess,
+    TResult? Function(List<ControlProp> props)? updateFailed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function(ControlProp prop)? updating,
-    TResult Function(ControlProp prop)? updateSuccess,
-    TResult Function(ControlProp prop)? updateFailed,
+    TResult Function(List<ControlProp> props)? updating,
+    TResult Function(List<ControlProp> props)? updateSuccess,
+    TResult Function(List<ControlProp> props)? updateFailed,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -69,16 +69,16 @@ mixin _$ControlPropState {
 }
 
 /// @nodoc
-abstract class $ControlPropStateCopyWith<$Res> {
-  factory $ControlPropStateCopyWith(
-          ControlPropState value, $Res Function(ControlPropState) then) =
-      _$ControlPropStateCopyWithImpl<$Res, ControlPropState>;
+abstract class $ControlPropsStateCopyWith<$Res> {
+  factory $ControlPropsStateCopyWith(
+          ControlPropsState value, $Res Function(ControlPropsState) then) =
+      _$ControlPropsStateCopyWithImpl<$Res, ControlPropsState>;
 }
 
 /// @nodoc
-class _$ControlPropStateCopyWithImpl<$Res, $Val extends ControlPropState>
-    implements $ControlPropStateCopyWith<$Res> {
-  _$ControlPropStateCopyWithImpl(this._value, this._then);
+class _$ControlPropsStateCopyWithImpl<$Res, $Val extends ControlPropsState>
+    implements $ControlPropsStateCopyWith<$Res> {
+  _$ControlPropsStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -94,7 +94,7 @@ abstract class _$$_InitCopyWith<$Res> {
 
 /// @nodoc
 class __$$_InitCopyWithImpl<$Res>
-    extends _$ControlPropStateCopyWithImpl<$Res, _$_Init>
+    extends _$ControlPropsStateCopyWithImpl<$Res, _$_Init>
     implements _$$_InitCopyWith<$Res> {
   __$$_InitCopyWithImpl(_$_Init _value, $Res Function(_$_Init) _then)
       : super(_value, _then);
@@ -107,7 +107,7 @@ class _$_Init implements _Init {
 
   @override
   String toString() {
-    return 'ControlPropState.init()';
+    return 'ControlPropsState.init()';
   }
 
   @override
@@ -123,9 +123,9 @@ class _$_Init implements _Init {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
-    required TResult Function(ControlProp prop) updating,
-    required TResult Function(ControlProp prop) updateSuccess,
-    required TResult Function(ControlProp prop) updateFailed,
+    required TResult Function(List<ControlProp> props) updating,
+    required TResult Function(List<ControlProp> props) updateSuccess,
+    required TResult Function(List<ControlProp> props) updateFailed,
   }) {
     return init();
   }
@@ -134,9 +134,9 @@ class _$_Init implements _Init {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
-    TResult? Function(ControlProp prop)? updating,
-    TResult? Function(ControlProp prop)? updateSuccess,
-    TResult? Function(ControlProp prop)? updateFailed,
+    TResult? Function(List<ControlProp> props)? updating,
+    TResult? Function(List<ControlProp> props)? updateSuccess,
+    TResult? Function(List<ControlProp> props)? updateFailed,
   }) {
     return init?.call();
   }
@@ -145,9 +145,9 @@ class _$_Init implements _Init {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function(ControlProp prop)? updating,
-    TResult Function(ControlProp prop)? updateSuccess,
-    TResult Function(ControlProp prop)? updateFailed,
+    TResult Function(List<ControlProp> props)? updating,
+    TResult Function(List<ControlProp> props)? updateSuccess,
+    TResult Function(List<ControlProp> props)? updateFailed,
     required TResult orElse(),
   }) {
     if (init != null) {
@@ -194,7 +194,7 @@ class _$_Init implements _Init {
   }
 }
 
-abstract class _Init implements ControlPropState {
+abstract class _Init implements ControlPropsState {
   const factory _Init() = _$_Init;
 }
 
@@ -204,14 +204,12 @@ abstract class _$$_UpdatingCopyWith<$Res> {
           _$_Updating value, $Res Function(_$_Updating) then) =
       __$$_UpdatingCopyWithImpl<$Res>;
   @useResult
-  $Res call({ControlProp prop});
-
-  $ControlPropCopyWith<$Res> get prop;
+  $Res call({List<ControlProp> props});
 }
 
 /// @nodoc
 class __$$_UpdatingCopyWithImpl<$Res>
-    extends _$ControlPropStateCopyWithImpl<$Res, _$_Updating>
+    extends _$ControlPropsStateCopyWithImpl<$Res, _$_Updating>
     implements _$$_UpdatingCopyWith<$Res> {
   __$$_UpdatingCopyWithImpl(
       _$_Updating _value, $Res Function(_$_Updating) _then)
@@ -220,36 +218,28 @@ class __$$_UpdatingCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? prop = null,
+    Object? props = null,
   }) {
     return _then(_$_Updating(
-      null == prop
-          ? _value.prop
-          : prop // ignore: cast_nullable_to_non_nullable
-              as ControlProp,
+      null == props
+          ? _value.props
+          : props // ignore: cast_nullable_to_non_nullable
+              as List<ControlProp>,
     ));
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $ControlPropCopyWith<$Res> get prop {
-    return $ControlPropCopyWith<$Res>(_value.prop, (value) {
-      return _then(_value.copyWith(prop: value));
-    });
   }
 }
 
 /// @nodoc
 
 class _$_Updating implements _Updating {
-  const _$_Updating(this.prop);
+  const _$_Updating(this.props);
 
   @override
-  final ControlProp prop;
+  final List<ControlProp> props;
 
   @override
   String toString() {
-    return 'ControlPropState.updating(prop: $prop)';
+    return 'ControlPropsState.updating(props: $props)';
   }
 
   @override
@@ -257,11 +247,12 @@ class _$_Updating implements _Updating {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Updating &&
-            (identical(other.prop, prop) || other.prop == prop));
+            const DeepCollectionEquality().equals(other.props, props));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, prop);
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(props));
 
   @JsonKey(ignore: true)
   @override
@@ -273,35 +264,35 @@ class _$_Updating implements _Updating {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
-    required TResult Function(ControlProp prop) updating,
-    required TResult Function(ControlProp prop) updateSuccess,
-    required TResult Function(ControlProp prop) updateFailed,
+    required TResult Function(List<ControlProp> props) updating,
+    required TResult Function(List<ControlProp> props) updateSuccess,
+    required TResult Function(List<ControlProp> props) updateFailed,
   }) {
-    return updating(prop);
+    return updating(props);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
-    TResult? Function(ControlProp prop)? updating,
-    TResult? Function(ControlProp prop)? updateSuccess,
-    TResult? Function(ControlProp prop)? updateFailed,
+    TResult? Function(List<ControlProp> props)? updating,
+    TResult? Function(List<ControlProp> props)? updateSuccess,
+    TResult? Function(List<ControlProp> props)? updateFailed,
   }) {
-    return updating?.call(prop);
+    return updating?.call(props);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function(ControlProp prop)? updating,
-    TResult Function(ControlProp prop)? updateSuccess,
-    TResult Function(ControlProp prop)? updateFailed,
+    TResult Function(List<ControlProp> props)? updating,
+    TResult Function(List<ControlProp> props)? updateSuccess,
+    TResult Function(List<ControlProp> props)? updateFailed,
     required TResult orElse(),
   }) {
     if (updating != null) {
-      return updating(prop);
+      return updating(props);
     }
     return orElse();
   }
@@ -344,10 +335,10 @@ class _$_Updating implements _Updating {
   }
 }
 
-abstract class _Updating implements ControlPropState {
-  const factory _Updating(final ControlProp prop) = _$_Updating;
+abstract class _Updating implements ControlPropsState {
+  const factory _Updating(final List<ControlProp> props) = _$_Updating;
 
-  ControlProp get prop;
+  List<ControlProp> get props;
   @JsonKey(ignore: true)
   _$$_UpdatingCopyWith<_$_Updating> get copyWith =>
       throw _privateConstructorUsedError;
@@ -359,14 +350,12 @@ abstract class _$$_UpdateSuccessCopyWith<$Res> {
           _$_UpdateSuccess value, $Res Function(_$_UpdateSuccess) then) =
       __$$_UpdateSuccessCopyWithImpl<$Res>;
   @useResult
-  $Res call({ControlProp prop});
-
-  $ControlPropCopyWith<$Res> get prop;
+  $Res call({List<ControlProp> props});
 }
 
 /// @nodoc
 class __$$_UpdateSuccessCopyWithImpl<$Res>
-    extends _$ControlPropStateCopyWithImpl<$Res, _$_UpdateSuccess>
+    extends _$ControlPropsStateCopyWithImpl<$Res, _$_UpdateSuccess>
     implements _$$_UpdateSuccessCopyWith<$Res> {
   __$$_UpdateSuccessCopyWithImpl(
       _$_UpdateSuccess _value, $Res Function(_$_UpdateSuccess) _then)
@@ -375,36 +364,28 @@ class __$$_UpdateSuccessCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? prop = null,
+    Object? props = null,
   }) {
     return _then(_$_UpdateSuccess(
-      null == prop
-          ? _value.prop
-          : prop // ignore: cast_nullable_to_non_nullable
-              as ControlProp,
+      null == props
+          ? _value.props
+          : props // ignore: cast_nullable_to_non_nullable
+              as List<ControlProp>,
     ));
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $ControlPropCopyWith<$Res> get prop {
-    return $ControlPropCopyWith<$Res>(_value.prop, (value) {
-      return _then(_value.copyWith(prop: value));
-    });
   }
 }
 
 /// @nodoc
 
 class _$_UpdateSuccess implements _UpdateSuccess {
-  const _$_UpdateSuccess(this.prop);
+  const _$_UpdateSuccess(this.props);
 
   @override
-  final ControlProp prop;
+  final List<ControlProp> props;
 
   @override
   String toString() {
-    return 'ControlPropState.updateSuccess(prop: $prop)';
+    return 'ControlPropsState.updateSuccess(props: $props)';
   }
 
   @override
@@ -412,11 +393,12 @@ class _$_UpdateSuccess implements _UpdateSuccess {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_UpdateSuccess &&
-            (identical(other.prop, prop) || other.prop == prop));
+            const DeepCollectionEquality().equals(other.props, props));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, prop);
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(props));
 
   @JsonKey(ignore: true)
   @override
@@ -428,35 +410,35 @@ class _$_UpdateSuccess implements _UpdateSuccess {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
-    required TResult Function(ControlProp prop) updating,
-    required TResult Function(ControlProp prop) updateSuccess,
-    required TResult Function(ControlProp prop) updateFailed,
+    required TResult Function(List<ControlProp> props) updating,
+    required TResult Function(List<ControlProp> props) updateSuccess,
+    required TResult Function(List<ControlProp> props) updateFailed,
   }) {
-    return updateSuccess(prop);
+    return updateSuccess(props);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
-    TResult? Function(ControlProp prop)? updating,
-    TResult? Function(ControlProp prop)? updateSuccess,
-    TResult? Function(ControlProp prop)? updateFailed,
+    TResult? Function(List<ControlProp> props)? updating,
+    TResult? Function(List<ControlProp> props)? updateSuccess,
+    TResult? Function(List<ControlProp> props)? updateFailed,
   }) {
-    return updateSuccess?.call(prop);
+    return updateSuccess?.call(props);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function(ControlProp prop)? updating,
-    TResult Function(ControlProp prop)? updateSuccess,
-    TResult Function(ControlProp prop)? updateFailed,
+    TResult Function(List<ControlProp> props)? updating,
+    TResult Function(List<ControlProp> props)? updateSuccess,
+    TResult Function(List<ControlProp> props)? updateFailed,
     required TResult orElse(),
   }) {
     if (updateSuccess != null) {
-      return updateSuccess(prop);
+      return updateSuccess(props);
     }
     return orElse();
   }
@@ -499,10 +481,11 @@ class _$_UpdateSuccess implements _UpdateSuccess {
   }
 }
 
-abstract class _UpdateSuccess implements ControlPropState {
-  const factory _UpdateSuccess(final ControlProp prop) = _$_UpdateSuccess;
+abstract class _UpdateSuccess implements ControlPropsState {
+  const factory _UpdateSuccess(final List<ControlProp> props) =
+      _$_UpdateSuccess;
 
-  ControlProp get prop;
+  List<ControlProp> get props;
   @JsonKey(ignore: true)
   _$$_UpdateSuccessCopyWith<_$_UpdateSuccess> get copyWith =>
       throw _privateConstructorUsedError;
@@ -514,14 +497,12 @@ abstract class _$$_UpdateFailedCopyWith<$Res> {
           _$_UpdateFailed value, $Res Function(_$_UpdateFailed) then) =
       __$$_UpdateFailedCopyWithImpl<$Res>;
   @useResult
-  $Res call({ControlProp prop});
-
-  $ControlPropCopyWith<$Res> get prop;
+  $Res call({List<ControlProp> props});
 }
 
 /// @nodoc
 class __$$_UpdateFailedCopyWithImpl<$Res>
-    extends _$ControlPropStateCopyWithImpl<$Res, _$_UpdateFailed>
+    extends _$ControlPropsStateCopyWithImpl<$Res, _$_UpdateFailed>
     implements _$$_UpdateFailedCopyWith<$Res> {
   __$$_UpdateFailedCopyWithImpl(
       _$_UpdateFailed _value, $Res Function(_$_UpdateFailed) _then)
@@ -530,36 +511,28 @@ class __$$_UpdateFailedCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? prop = null,
+    Object? props = null,
   }) {
     return _then(_$_UpdateFailed(
-      null == prop
-          ? _value.prop
-          : prop // ignore: cast_nullable_to_non_nullable
-              as ControlProp,
+      null == props
+          ? _value.props
+          : props // ignore: cast_nullable_to_non_nullable
+              as List<ControlProp>,
     ));
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $ControlPropCopyWith<$Res> get prop {
-    return $ControlPropCopyWith<$Res>(_value.prop, (value) {
-      return _then(_value.copyWith(prop: value));
-    });
   }
 }
 
 /// @nodoc
 
 class _$_UpdateFailed implements _UpdateFailed {
-  const _$_UpdateFailed(this.prop);
+  const _$_UpdateFailed(this.props);
 
   @override
-  final ControlProp prop;
+  final List<ControlProp> props;
 
   @override
   String toString() {
-    return 'ControlPropState.updateFailed(prop: $prop)';
+    return 'ControlPropsState.updateFailed(props: $props)';
   }
 
   @override
@@ -567,11 +540,12 @@ class _$_UpdateFailed implements _UpdateFailed {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_UpdateFailed &&
-            (identical(other.prop, prop) || other.prop == prop));
+            const DeepCollectionEquality().equals(other.props, props));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, prop);
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(props));
 
   @JsonKey(ignore: true)
   @override
@@ -583,35 +557,35 @@ class _$_UpdateFailed implements _UpdateFailed {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
-    required TResult Function(ControlProp prop) updating,
-    required TResult Function(ControlProp prop) updateSuccess,
-    required TResult Function(ControlProp prop) updateFailed,
+    required TResult Function(List<ControlProp> props) updating,
+    required TResult Function(List<ControlProp> props) updateSuccess,
+    required TResult Function(List<ControlProp> props) updateFailed,
   }) {
-    return updateFailed(prop);
+    return updateFailed(props);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
-    TResult? Function(ControlProp prop)? updating,
-    TResult? Function(ControlProp prop)? updateSuccess,
-    TResult? Function(ControlProp prop)? updateFailed,
+    TResult? Function(List<ControlProp> props)? updating,
+    TResult? Function(List<ControlProp> props)? updateSuccess,
+    TResult? Function(List<ControlProp> props)? updateFailed,
   }) {
-    return updateFailed?.call(prop);
+    return updateFailed?.call(props);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function(ControlProp prop)? updating,
-    TResult Function(ControlProp prop)? updateSuccess,
-    TResult Function(ControlProp prop)? updateFailed,
+    TResult Function(List<ControlProp> props)? updating,
+    TResult Function(List<ControlProp> props)? updateSuccess,
+    TResult Function(List<ControlProp> props)? updateFailed,
     required TResult orElse(),
   }) {
     if (updateFailed != null) {
-      return updateFailed(prop);
+      return updateFailed(props);
     }
     return orElse();
   }
@@ -654,10 +628,10 @@ class _$_UpdateFailed implements _UpdateFailed {
   }
 }
 
-abstract class _UpdateFailed implements ControlPropState {
-  const factory _UpdateFailed(final ControlProp prop) = _$_UpdateFailed;
+abstract class _UpdateFailed implements ControlPropsState {
+  const factory _UpdateFailed(final List<ControlProp> props) = _$_UpdateFailed;
 
-  ControlProp get prop;
+  List<ControlProp> get props;
   @JsonKey(ignore: true)
   _$$_UpdateFailedCopyWith<_$_UpdateFailed> get copyWith =>
       throw _privateConstructorUsedError;

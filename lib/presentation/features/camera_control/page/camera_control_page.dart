@@ -21,12 +21,10 @@ class CameraControlPage extends StatelessWidget {
       backgroundColor: Colors.grey[900],
       body: SafeArea(
           child: Column(
-        children: [
-          SizedBox(height: 32),
+        children: const [
           LiveViewImage(),
-          SizedBox(height: 16),
-          ControlPropsBar(),
-          Spacer(),
+          Expanded(child: ControlPropsBar()),
+          SizedBox(height: 32),
           ControlActionsBar(),
           SizedBox(height: 32),
         ],
