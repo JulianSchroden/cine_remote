@@ -3,7 +3,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../data/models/wifi_camera_handle.dart';
 import '../../../../data/services/camera_remote_service.dart';
-import '../../../../domain/models/control_prop_type.dart';
 
 part 'camera_connection_cubit.freezed.dart';
 
@@ -24,22 +23,11 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
       : super(const CameraConnectionState.disconnected());
 
   Future<void> connect() async {
-    print('connect');
     emit(const CameraConnectionState.initConnection());
-    await Future.delayed(const Duration(seconds: 2));
-    emit(CameraConnectionState.connectSuccess(
-        WifiCameraHandle(cookies: [], supportedProps: [
-      ControlPropType.aperture,
-      ControlPropType.iso,
-      ControlPropType.shutterAngle,
-      ControlPropType.whiteBalance,
-    ])));
-    return;
     try {
       final handle = await cameraRemoteService.connect();
       emit(CameraConnectionState.connectSuccess(handle));
     } catch (e) {
-      print(e);
       emit(const CameraConnectionState.connectFailed());
     }
   }
