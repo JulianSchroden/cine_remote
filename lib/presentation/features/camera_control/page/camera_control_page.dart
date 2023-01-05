@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../cine_remote_colors.dart';
+import '../../../core/widgets/laoding_overlay_layout.dart';
 import '../../camera_connection/bloc/camera_connection_cubit.dart';
 import '../widgets/control_actions_bar.dart';
 import '../widgets/control_props_bar.dart';
@@ -20,16 +21,27 @@ class CameraControlPage extends StatelessWidget {
         backgroundColor: Colors.black,
       ),
       backgroundColor: CineRemoteColors.background,
-      body: SafeArea(
-          child: Column(
-        children: const [
-          LiveViewImage(),
-          Expanded(child: ControlPropsBar()),
-          SizedBox(height: 32),
-          ControlActionsBar(),
-          SizedBox(height: 32),
-        ],
-      )),
+      body: BlocBuilder<CameraConnectionCubit, CameraConnectionState>(
+        builder: (context, state) => LoadingOverlayLayout(
+          backgroundColor: const Color.fromARGB(200, 0, 0, 0),
+          overlayMessage: 'Disconnecting',
+          showOverlay: state.maybeWhen(
+            disconnecting: () => true,
+            orElse: () => false,
+          ),
+          child: SafeArea(
+            child: Column(
+              children: const [
+                LiveViewImage(),
+                Expanded(child: ControlPropsBar()),
+                SizedBox(height: 32),
+                ControlActionsBar(),
+                SizedBox(height: 32),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 
