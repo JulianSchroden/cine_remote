@@ -1,5 +1,4 @@
-import 'package:cine_remote/domain/models/camera_handle.dart';
-
+import '../models/camera_handle.dart';
 import '../models/control_prop_type.dart';
 
 abstract class CameraRemoteService<H extends CameraHandle> {

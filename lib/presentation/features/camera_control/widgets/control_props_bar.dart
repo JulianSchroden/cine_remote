@@ -1,4 +1,5 @@
-import 'control_prop_value_picker.dart';
+import '../../../../dependencies.dart';
+import '../../../../domain/services/camera_remote_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -7,6 +8,7 @@ import '../../../../domain/models/control_prop_type.dart';
 import '../../camera_connection/bloc/camera_connection_cubit.dart';
 import '../bloc/props_control_cubit.dart';
 import 'control_prop_item.dart';
+import 'control_prop_value_picker.dart';
 
 class ControlPropsBar extends StatefulWidget {
   const ControlPropsBar({super.key});
@@ -70,7 +72,8 @@ class _ControlPropsBarState extends State<ControlPropsBar> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => PropsControlCubit(
-        cameraConnectionCubit: context.read<CameraConnectionCubit>(),
+        context.read<CameraConnectionCubit>(),
+        get<CameraRemoteService>(),
       )..init(),
       child: BlocBuilder<PropsControlCubit, PropsControlState>(
         builder: (context, state) => Padding(

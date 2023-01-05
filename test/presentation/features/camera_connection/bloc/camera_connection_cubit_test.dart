@@ -1,12 +1,11 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:cine_remote/data/models/wifi_camera_handle.dart';
 import 'package:cine_remote/domain/models/camera_handle.dart';
-import 'package:cine_remote/domain/services/camera_remote_service.dart';
 import 'package:cine_remote/presentation/features/camera_connection/bloc/camera_connection_cubit.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockCameraRemoteService extends Mock implements CameraRemoteService {}
+import '../../../../test_mocks.dart';
 
 void main() {
   late MockCameraRemoteService mockCameraRemoteService;
@@ -22,8 +21,7 @@ void main() {
 
   blocTest<CameraConnectionCubit, CameraConnectionState>(
     'emits [initConnection, connectSuccess] when connecting to camera succeeds',
-    build: () =>
-        CameraConnectionCubit(cameraRemoteService: mockCameraRemoteService),
+    build: () => CameraConnectionCubit(mockCameraRemoteService),
     setUp: () {
       when(() => mockCameraRemoteService.connect())
           .thenAnswer((_) async => cameraHandle);
@@ -37,8 +35,7 @@ void main() {
 
   blocTest<CameraConnectionCubit, CameraConnectionState>(
     'emits [initConnection, connectFailed] when connecting to camera fails',
-    build: () =>
-        CameraConnectionCubit(cameraRemoteService: mockCameraRemoteService),
+    build: () => CameraConnectionCubit(mockCameraRemoteService),
     setUp: () {
       when(() => mockCameraRemoteService.connect())
           .thenThrow(Exception('Cannot connect to camera'));

@@ -17,9 +17,9 @@ class CameraConnectionState with _$CameraConnectionState {
 }
 
 class CameraConnectionCubit extends Cubit<CameraConnectionState> {
-  CameraRemoteService cameraRemoteService;
+  final CameraRemoteService cameraRemoteService;
 
-  CameraConnectionCubit({required this.cameraRemoteService})
+  CameraConnectionCubit(this.cameraRemoteService)
       : super(const CameraConnectionState.disconnected());
 
   Future<void> connect() async {

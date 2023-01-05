@@ -21,10 +21,12 @@ class PropsControlState with _$PropsControlState {
 
 class PropsControlCubit extends Cubit<PropsControlState> {
   CameraConnectionCubit cameraConnectionCubit;
+  CameraRemoteService cameraRemoteService;
 
-  PropsControlCubit({
-    required this.cameraConnectionCubit,
-  }) : super(const PropsControlState.init());
+  PropsControlCubit(
+    this.cameraConnectionCubit,
+    this.cameraRemoteService,
+  ) : super(const PropsControlState.init());
 
   Future<void> init() async {
     final cameraHandle = cameraConnectionCubit.state

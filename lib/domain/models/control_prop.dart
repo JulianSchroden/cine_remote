@@ -1,5 +1,6 @@
-import 'package:cine_remote/domain/models/control_prop_type.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import 'control_prop_type.dart';
 
 part 'control_prop.freezed.dart';
 

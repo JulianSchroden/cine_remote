@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'data/services/wifi_camera_remote_service.dart';
+import 'dependencies.dart';
+import 'domain/services/camera_remote_service.dart';
 import 'presentation/features/camera_connection/bloc/camera_connection_cubit.dart';
 import 'presentation/features/camera_control/page/camera_control_page.dart';
 import 'presentation/features/camera_selection/page/camera_selection_page.dart';
 import 'presentation/routes.dart';
 
 void main() {
+  registerDependencies();
   runApp(const CineRemote());
 }
 
@@ -20,7 +22,8 @@ class CineRemote extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (_) => CameraConnectionCubit(
-              cameraRemoteService: WifiCameraRemoteService()),
+            get<CameraRemoteService>(),
+          ),
         )
       ],
       child: MaterialApp(
