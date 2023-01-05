@@ -1,9 +1,9 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
-part of 'control_props_cubit.dart';
+part of 'props_control_cubit.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$ControlPropsState {
+mixin _$PropsControlState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
@@ -69,16 +69,16 @@ mixin _$ControlPropsState {
 }
 
 /// @nodoc
-abstract class $ControlPropsStateCopyWith<$Res> {
-  factory $ControlPropsStateCopyWith(
-          ControlPropsState value, $Res Function(ControlPropsState) then) =
-      _$ControlPropsStateCopyWithImpl<$Res, ControlPropsState>;
+abstract class $PropsControlStateCopyWith<$Res> {
+  factory $PropsControlStateCopyWith(
+          PropsControlState value, $Res Function(PropsControlState) then) =
+      _$PropsControlStateCopyWithImpl<$Res, PropsControlState>;
 }
 
 /// @nodoc
-class _$ControlPropsStateCopyWithImpl<$Res, $Val extends ControlPropsState>
-    implements $ControlPropsStateCopyWith<$Res> {
-  _$ControlPropsStateCopyWithImpl(this._value, this._then);
+class _$PropsControlStateCopyWithImpl<$Res, $Val extends PropsControlState>
+    implements $PropsControlStateCopyWith<$Res> {
+  _$PropsControlStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -94,7 +94,7 @@ abstract class _$$_InitCopyWith<$Res> {
 
 /// @nodoc
 class __$$_InitCopyWithImpl<$Res>
-    extends _$ControlPropsStateCopyWithImpl<$Res, _$_Init>
+    extends _$PropsControlStateCopyWithImpl<$Res, _$_Init>
     implements _$$_InitCopyWith<$Res> {
   __$$_InitCopyWithImpl(_$_Init _value, $Res Function(_$_Init) _then)
       : super(_value, _then);
@@ -107,7 +107,7 @@ class _$_Init implements _Init {
 
   @override
   String toString() {
-    return 'ControlPropsState.init()';
+    return 'PropsControlState.init()';
   }
 
   @override
@@ -194,7 +194,7 @@ class _$_Init implements _Init {
   }
 }
 
-abstract class _Init implements ControlPropsState {
+abstract class _Init implements PropsControlState {
   const factory _Init() = _$_Init;
 }
 
@@ -209,7 +209,7 @@ abstract class _$$_UpdatingCopyWith<$Res> {
 
 /// @nodoc
 class __$$_UpdatingCopyWithImpl<$Res>
-    extends _$ControlPropsStateCopyWithImpl<$Res, _$_Updating>
+    extends _$PropsControlStateCopyWithImpl<$Res, _$_Updating>
     implements _$$_UpdatingCopyWith<$Res> {
   __$$_UpdatingCopyWithImpl(
       _$_Updating _value, $Res Function(_$_Updating) _then)
@@ -239,7 +239,7 @@ class _$_Updating implements _Updating {
 
   @override
   String toString() {
-    return 'ControlPropsState.updating(props: $props)';
+    return 'PropsControlState.updating(props: $props)';
   }
 
   @override
@@ -335,7 +335,7 @@ class _$_Updating implements _Updating {
   }
 }
 
-abstract class _Updating implements ControlPropsState {
+abstract class _Updating implements PropsControlState {
   const factory _Updating(final List<ControlProp> props) = _$_Updating;
 
   List<ControlProp> get props;
@@ -355,7 +355,7 @@ abstract class _$$_UpdateSuccessCopyWith<$Res> {
 
 /// @nodoc
 class __$$_UpdateSuccessCopyWithImpl<$Res>
-    extends _$ControlPropsStateCopyWithImpl<$Res, _$_UpdateSuccess>
+    extends _$PropsControlStateCopyWithImpl<$Res, _$_UpdateSuccess>
     implements _$$_UpdateSuccessCopyWith<$Res> {
   __$$_UpdateSuccessCopyWithImpl(
       _$_UpdateSuccess _value, $Res Function(_$_UpdateSuccess) _then)
@@ -385,7 +385,7 @@ class _$_UpdateSuccess implements _UpdateSuccess {
 
   @override
   String toString() {
-    return 'ControlPropsState.updateSuccess(props: $props)';
+    return 'PropsControlState.updateSuccess(props: $props)';
   }
 
   @override
@@ -481,7 +481,7 @@ class _$_UpdateSuccess implements _UpdateSuccess {
   }
 }
 
-abstract class _UpdateSuccess implements ControlPropsState {
+abstract class _UpdateSuccess implements PropsControlState {
   const factory _UpdateSuccess(final List<ControlProp> props) =
       _$_UpdateSuccess;
 
@@ -502,7 +502,7 @@ abstract class _$$_UpdateFailedCopyWith<$Res> {
 
 /// @nodoc
 class __$$_UpdateFailedCopyWithImpl<$Res>
-    extends _$ControlPropsStateCopyWithImpl<$Res, _$_UpdateFailed>
+    extends _$PropsControlStateCopyWithImpl<$Res, _$_UpdateFailed>
     implements _$$_UpdateFailedCopyWith<$Res> {
   __$$_UpdateFailedCopyWithImpl(
       _$_UpdateFailed _value, $Res Function(_$_UpdateFailed) _then)
@@ -532,7 +532,7 @@ class _$_UpdateFailed implements _UpdateFailed {
 
   @override
   String toString() {
-    return 'ControlPropsState.updateFailed(props: $props)';
+    return 'PropsControlState.updateFailed(props: $props)';
   }
 
   @override
@@ -628,7 +628,7 @@ class _$_UpdateFailed implements _UpdateFailed {
   }
 }
 
-abstract class _UpdateFailed implements ControlPropsState {
+abstract class _UpdateFailed implements PropsControlState {
   const factory _UpdateFailed(final List<ControlProp> props) = _$_UpdateFailed;
 
   List<ControlProp> get props;

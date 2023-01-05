@@ -7,37 +7,37 @@ import '../../../../domain/models/control_prop.dart';
 import '../../../../domain/models/control_prop_type.dart';
 import '../../camera_connection/bloc/camera_connection_cubit.dart';
 
-part 'control_props_cubit.freezed.dart';
+part 'props_control_cubit.freezed.dart';
 
 @Freezed(makeCollectionsUnmodifiable: false)
-class ControlPropsState with _$ControlPropsState {
-  const factory ControlPropsState.init() = _Init;
-  const factory ControlPropsState.updating(List<ControlProp> props) = _Updating;
-  const factory ControlPropsState.updateSuccess(List<ControlProp> props) =
+class PropsControlState with _$PropsControlState {
+  const factory PropsControlState.init() = _Init;
+  const factory PropsControlState.updating(List<ControlProp> props) = _Updating;
+  const factory PropsControlState.updateSuccess(List<ControlProp> props) =
       _UpdateSuccess;
-  const factory ControlPropsState.updateFailed(List<ControlProp> props) =
+  const factory PropsControlState.updateFailed(List<ControlProp> props) =
       _UpdateFailed;
 }
 
-class ControlPropsCubit extends Cubit<ControlPropsState> {
+class PropsControlCubit extends Cubit<PropsControlState> {
   CameraConnectionCubit cameraConnectionCubit;
 
-  ControlPropsCubit({
+  PropsControlCubit({
     required this.cameraConnectionCubit,
-  }) : super(const ControlPropsState.init());
+  }) : super(const PropsControlState.init());
 
   Future<void> init() async {
     final cameraHandle = cameraConnectionCubit.state
         .whenOrNull(connectSuccess: ((cameraHandle) => cameraHandle));
     if (cameraHandle == null) return;
 
-    emit(const ControlPropsState.updating([]));
+    emit(const PropsControlState.updating([]));
     // getProp()
     final controlProps = cameraHandle.supportedProps
         .map((propType) => getDummyPropByType(propType))
         .toList();
 
-    emit(ControlPropsState.updateSuccess(controlProps));
+    emit(PropsControlState.updateSuccess(controlProps));
   }
 
   Future<void> setProp(ControlPropType propType, String value) async {
@@ -47,7 +47,7 @@ class ControlPropsCubit extends Cubit<ControlPropsState> {
         updateFailed: (props) => props);
 
     if (allControlProps == null) return;
-    emit(ControlPropsState.updating(allControlProps));
+    emit(PropsControlState.updating(allControlProps));
 
     final propIndex =
         allControlProps.indexWhere((prop) => prop.type == propType);
@@ -57,7 +57,7 @@ class ControlPropsCubit extends Cubit<ControlPropsState> {
         allControlProps[propIndex].copyWith(currentValue: value);
 
     // setProp
-    emit(ControlPropsState.updateSuccess(allControlProps));
+    emit(PropsControlState.updateSuccess(allControlProps));
   }
 
   ControlProp getDummyPropByType(ControlPropType type) {

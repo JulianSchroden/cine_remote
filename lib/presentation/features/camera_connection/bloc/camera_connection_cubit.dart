@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../data/models/wifi_camera_handle.dart';
-import '../../../../data/services/camera_remote_service.dart';
+import '../../../../domain/models/camera_handle.dart';
+import '../../../../domain/services/camera_remote_service.dart';
 
 part 'camera_connection_cubit.freezed.dart';
 
@@ -10,7 +10,7 @@ part 'camera_connection_cubit.freezed.dart';
 class CameraConnectionState with _$CameraConnectionState {
   const factory CameraConnectionState.initConnection() = _InitConnection;
   const factory CameraConnectionState.connectSuccess(
-      WifiCameraHandle cameraHandle) = _connectSuccess;
+      CameraHandle cameraHandle) = _connectSuccess;
   const factory CameraConnectionState.connectFailed() = _ConnectFailed;
   const factory CameraConnectionState.disconnecting() = _Disconnecting;
   const factory CameraConnectionState.disconnected() = _Disconnected;

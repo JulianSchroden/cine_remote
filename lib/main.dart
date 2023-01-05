@@ -1,11 +1,7 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'data/models/wifi_camera_handle.dart';
-import 'data/services/camera_remote_service.dart';
+import 'data/services/wifi_camera_remote_service.dart';
 import 'presentation/features/camera_connection/bloc/camera_connection_cubit.dart';
 import 'presentation/features/camera_control/page/camera_control_page.dart';
 import 'presentation/features/camera_selection/page/camera_selection_page.dart';
@@ -23,8 +19,8 @@ class CineRemote extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) =>
-              CameraConnectionCubit(cameraRemoteService: CameraRemoteService()),
+          create: (_) => CameraConnectionCubit(
+              cameraRemoteService: WifiCameraRemoteService()),
         )
       ],
       child: MaterialApp(
@@ -42,6 +38,8 @@ class CineRemote extends StatelessWidget {
   }
 }
 
+
+/*
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
 
@@ -50,8 +48,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  CameraRemoteService cameraRemoteService = CameraRemoteService();
-  WifiCameraHandle? handle;
+  CameraRemoteService cameraRemoteService = WifiCameraRemoteService();
+  CameraHandle? handle;
   Uint8List? imageBytes;
   bool isRecording = false;
   Timer? _timer;
@@ -284,3 +282,5 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
+*/

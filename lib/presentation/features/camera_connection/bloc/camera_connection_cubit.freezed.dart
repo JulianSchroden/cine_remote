@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'camera_connection_cubit.dart';
 
@@ -19,7 +19,7 @@ mixin _$CameraConnectionState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initConnection,
-    required TResult Function(WifiCameraHandle cameraHandle) connectSuccess,
+    required TResult Function(CameraHandle cameraHandle) connectSuccess,
     required TResult Function() connectFailed,
     required TResult Function() disconnecting,
     required TResult Function() disconnected,
@@ -28,7 +28,7 @@ mixin _$CameraConnectionState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initConnection,
-    TResult? Function(WifiCameraHandle cameraHandle)? connectSuccess,
+    TResult? Function(CameraHandle cameraHandle)? connectSuccess,
     TResult? Function()? connectFailed,
     TResult? Function()? disconnecting,
     TResult? Function()? disconnected,
@@ -37,7 +37,7 @@ mixin _$CameraConnectionState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initConnection,
-    TResult Function(WifiCameraHandle cameraHandle)? connectSuccess,
+    TResult Function(CameraHandle cameraHandle)? connectSuccess,
     TResult Function()? connectFailed,
     TResult Function()? disconnecting,
     TResult Function()? disconnected,
@@ -132,7 +132,7 @@ class _$_InitConnection implements _InitConnection {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initConnection,
-    required TResult Function(WifiCameraHandle cameraHandle) connectSuccess,
+    required TResult Function(CameraHandle cameraHandle) connectSuccess,
     required TResult Function() connectFailed,
     required TResult Function() disconnecting,
     required TResult Function() disconnected,
@@ -144,7 +144,7 @@ class _$_InitConnection implements _InitConnection {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initConnection,
-    TResult? Function(WifiCameraHandle cameraHandle)? connectSuccess,
+    TResult? Function(CameraHandle cameraHandle)? connectSuccess,
     TResult? Function()? connectFailed,
     TResult? Function()? disconnecting,
     TResult? Function()? disconnected,
@@ -156,7 +156,7 @@ class _$_InitConnection implements _InitConnection {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initConnection,
-    TResult Function(WifiCameraHandle cameraHandle)? connectSuccess,
+    TResult Function(CameraHandle cameraHandle)? connectSuccess,
     TResult Function()? connectFailed,
     TResult Function()? disconnecting,
     TResult Function()? disconnected,
@@ -219,7 +219,7 @@ abstract class _$$_connectSuccessCopyWith<$Res> {
           _$_connectSuccess value, $Res Function(_$_connectSuccess) then) =
       __$$_connectSuccessCopyWithImpl<$Res>;
   @useResult
-  $Res call({WifiCameraHandle cameraHandle});
+  $Res call({CameraHandle cameraHandle});
 }
 
 /// @nodoc
@@ -239,7 +239,7 @@ class __$$_connectSuccessCopyWithImpl<$Res>
       null == cameraHandle
           ? _value.cameraHandle
           : cameraHandle // ignore: cast_nullable_to_non_nullable
-              as WifiCameraHandle,
+              as CameraHandle,
     ));
   }
 }
@@ -250,7 +250,7 @@ class _$_connectSuccess implements _connectSuccess {
   const _$_connectSuccess(this.cameraHandle);
 
   @override
-  final WifiCameraHandle cameraHandle;
+  final CameraHandle cameraHandle;
 
   @override
   String toString() {
@@ -279,7 +279,7 @@ class _$_connectSuccess implements _connectSuccess {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initConnection,
-    required TResult Function(WifiCameraHandle cameraHandle) connectSuccess,
+    required TResult Function(CameraHandle cameraHandle) connectSuccess,
     required TResult Function() connectFailed,
     required TResult Function() disconnecting,
     required TResult Function() disconnected,
@@ -291,7 +291,7 @@ class _$_connectSuccess implements _connectSuccess {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initConnection,
-    TResult? Function(WifiCameraHandle cameraHandle)? connectSuccess,
+    TResult? Function(CameraHandle cameraHandle)? connectSuccess,
     TResult? Function()? connectFailed,
     TResult? Function()? disconnecting,
     TResult? Function()? disconnected,
@@ -303,7 +303,7 @@ class _$_connectSuccess implements _connectSuccess {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initConnection,
-    TResult Function(WifiCameraHandle cameraHandle)? connectSuccess,
+    TResult Function(CameraHandle cameraHandle)? connectSuccess,
     TResult Function()? connectFailed,
     TResult Function()? disconnecting,
     TResult Function()? disconnected,
@@ -357,10 +357,10 @@ class _$_connectSuccess implements _connectSuccess {
 }
 
 abstract class _connectSuccess implements CameraConnectionState {
-  const factory _connectSuccess(final WifiCameraHandle cameraHandle) =
+  const factory _connectSuccess(final CameraHandle cameraHandle) =
       _$_connectSuccess;
 
-  WifiCameraHandle get cameraHandle;
+  CameraHandle get cameraHandle;
   @JsonKey(ignore: true)
   _$$_connectSuccessCopyWith<_$_connectSuccess> get copyWith =>
       throw _privateConstructorUsedError;
@@ -405,7 +405,7 @@ class _$_ConnectFailed implements _ConnectFailed {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initConnection,
-    required TResult Function(WifiCameraHandle cameraHandle) connectSuccess,
+    required TResult Function(CameraHandle cameraHandle) connectSuccess,
     required TResult Function() connectFailed,
     required TResult Function() disconnecting,
     required TResult Function() disconnected,
@@ -417,7 +417,7 @@ class _$_ConnectFailed implements _ConnectFailed {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initConnection,
-    TResult? Function(WifiCameraHandle cameraHandle)? connectSuccess,
+    TResult? Function(CameraHandle cameraHandle)? connectSuccess,
     TResult? Function()? connectFailed,
     TResult? Function()? disconnecting,
     TResult? Function()? disconnected,
@@ -429,7 +429,7 @@ class _$_ConnectFailed implements _ConnectFailed {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initConnection,
-    TResult Function(WifiCameraHandle cameraHandle)? connectSuccess,
+    TResult Function(CameraHandle cameraHandle)? connectSuccess,
     TResult Function()? connectFailed,
     TResult Function()? disconnecting,
     TResult Function()? disconnected,
@@ -525,7 +525,7 @@ class _$_Disconnecting implements _Disconnecting {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initConnection,
-    required TResult Function(WifiCameraHandle cameraHandle) connectSuccess,
+    required TResult Function(CameraHandle cameraHandle) connectSuccess,
     required TResult Function() connectFailed,
     required TResult Function() disconnecting,
     required TResult Function() disconnected,
@@ -537,7 +537,7 @@ class _$_Disconnecting implements _Disconnecting {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initConnection,
-    TResult? Function(WifiCameraHandle cameraHandle)? connectSuccess,
+    TResult? Function(CameraHandle cameraHandle)? connectSuccess,
     TResult? Function()? connectFailed,
     TResult? Function()? disconnecting,
     TResult? Function()? disconnected,
@@ -549,7 +549,7 @@ class _$_Disconnecting implements _Disconnecting {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initConnection,
-    TResult Function(WifiCameraHandle cameraHandle)? connectSuccess,
+    TResult Function(CameraHandle cameraHandle)? connectSuccess,
     TResult Function()? connectFailed,
     TResult Function()? disconnecting,
     TResult Function()? disconnected,
@@ -645,7 +645,7 @@ class _$_Disconnected implements _Disconnected {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initConnection,
-    required TResult Function(WifiCameraHandle cameraHandle) connectSuccess,
+    required TResult Function(CameraHandle cameraHandle) connectSuccess,
     required TResult Function() connectFailed,
     required TResult Function() disconnecting,
     required TResult Function() disconnected,
@@ -657,7 +657,7 @@ class _$_Disconnected implements _Disconnected {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initConnection,
-    TResult? Function(WifiCameraHandle cameraHandle)? connectSuccess,
+    TResult? Function(CameraHandle cameraHandle)? connectSuccess,
     TResult? Function()? connectFailed,
     TResult? Function()? disconnecting,
     TResult? Function()? disconnected,
@@ -669,7 +669,7 @@ class _$_Disconnected implements _Disconnected {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initConnection,
-    TResult Function(WifiCameraHandle cameraHandle)? connectSuccess,
+    TResult Function(CameraHandle cameraHandle)? connectSuccess,
     TResult Function()? connectFailed,
     TResult Function()? disconnecting,
     TResult Function()? disconnected,

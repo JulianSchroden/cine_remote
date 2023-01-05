@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../domain/models/control_prop.dart';
 import '../../../../domain/models/control_prop_type.dart';
 import '../../camera_connection/bloc/camera_connection_cubit.dart';
-import '../bloc/control_props_cubit.dart';
+import '../bloc/props_control_cubit.dart';
 import 'control_prop_item.dart';
 
 class ControlPropsBar extends StatefulWidget {
@@ -56,7 +56,7 @@ class _ControlPropsBarState extends State<ControlPropsBar> {
                     controlProp: controlProps
                         .firstWhere((prop) => prop.type == _selectedType),
                     onValuePicked: (type, value) =>
-                        context.read<ControlPropsCubit>().setProp(type, value),
+                        context.read<PropsControlCubit>().setProp(type, value),
                   ),
                 ],
               ),
@@ -69,10 +69,10 @@ class _ControlPropsBarState extends State<ControlPropsBar> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ControlPropsCubit(
+      create: (context) => PropsControlCubit(
         cameraConnectionCubit: context.read<CameraConnectionCubit>(),
       )..init(),
-      child: BlocBuilder<ControlPropsCubit, ControlPropsState>(
+      child: BlocBuilder<PropsControlCubit, PropsControlState>(
         builder: (context, state) => Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: state.maybeWhen(

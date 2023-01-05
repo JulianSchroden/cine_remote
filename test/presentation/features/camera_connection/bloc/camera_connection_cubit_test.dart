@@ -1,7 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:cine_remote/data/models/wifi_camera_handle.dart';
-import 'package:cine_remote/data/services/camera_remote_service.dart';
 import 'package:cine_remote/domain/models/camera_handle.dart';
+import 'package:cine_remote/domain/services/camera_remote_service.dart';
 import 'package:cine_remote/presentation/features/camera_connection/bloc/camera_connection_cubit.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';

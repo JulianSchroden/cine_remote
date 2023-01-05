@@ -4,14 +4,16 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 
 import '../../domain/models/control_prop_type.dart';
+import '../../domain/services/camera_remote_service.dart';
 import '../exceptions/camera_connection_exception.dart';
 import '../models/wifi_camera_handle.dart';
 
-class CameraRemoteService {
+class WifiCameraRemoteService extends CameraRemoteService<WifiCameraHandle> {
   final String _authority = '192.168.0.80';
 
   //{"res":"rootredirect"}
 
+  @override
   Future<WifiCameraHandle> connect() async {
     final loginUrl = Uri.http(_authority, '/api/acnt/login');
     final response = await _getUrl(loginUrl);
@@ -40,6 +42,7 @@ class CameraRemoteService {
     );
   }
 
+  @override
   Future<void> triggerRecord(WifiCameraHandle handle) async {
     final triggerRecordUrl =
         Uri.http(_authority, '/api/cam/rec', {'cmd': 'trig'});
@@ -48,6 +51,10 @@ class CameraRemoteService {
     final body = await response.transform(utf8.decoder).join();
     print(body);
   }
+
+  @override
+  Future<void> setProp(
+      WifiCameraHandle handle, ControlPropType propType, String value) async {}
 
   Future<void> setIso(WifiCameraHandle handle, String isoValue) async {
     final response = await _setProp(handle, 'gcv', isoValue);
