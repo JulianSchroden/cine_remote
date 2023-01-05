@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../cine_remote_colors.dart';
 import '../../camera_connection/bloc/camera_connection_cubit.dart';
 import '../widgets/control_actions_bar.dart';
 import '../widgets/control_props_bar.dart';
@@ -18,7 +19,7 @@ class CameraControlPage extends StatelessWidget {
         ),
         backgroundColor: Colors.black,
       ),
-      backgroundColor: Colors.grey[900],
+      backgroundColor: CineRemoteColors.background,
       body: SafeArea(
           child: Column(
         children: const [

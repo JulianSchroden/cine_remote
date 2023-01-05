@@ -33,7 +33,7 @@ class CameraSelectionPage extends StatelessWidget {
                   modelImageSource:
                       'https://www.canon.de/media/EOS%20C100%20Mark%20II%20Default_tcm83-1211141.jpg',
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 48),
                 RoundedTextButton(
                   text: 'Connect',
                   minWidth: 128,

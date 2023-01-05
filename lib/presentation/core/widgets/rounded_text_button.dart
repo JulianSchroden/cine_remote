@@ -41,13 +41,14 @@ class RoundedTextButton extends StatelessWidget {
               ),
               backgroundColor: MaterialStateProperty.resolveWith((states) {
                 if (states.contains(MaterialState.pressed)) {
-                  return CineRemoteColors.accent.withOpacity(0.75);
+                  return CineRemoteColors.primary.withOpacity(0.75);
                 }
 
-                return CineRemoteColors.accent;
+                return CineRemoteColors.primary;
               }),
               foregroundColor: MaterialStateProperty.all<Color>(
-                  CineRemoteColors.accentForeground),
+                CineRemoteColors.primaryForeground,
+              ),
             ),
             onPressed: onPressed,
             child: Padding(

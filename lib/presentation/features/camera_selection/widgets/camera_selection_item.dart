@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../cine_remote_colors.dart';
-
 class CameraSelectionItem extends StatelessWidget {
   final String modelName;
   final String modelImageSource;
@@ -15,9 +13,9 @@ class CameraSelectionItem extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             shape: BoxShape.circle,
-            color: CineRemoteColors.accent.withOpacity(0.6),
+            color: Colors.white,
           ),
           padding: const EdgeInsets.all(8),
           child: ClipRRect(
@@ -30,10 +28,14 @@ class CameraSelectionItem extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 20),
         Text(
           modelName,
-          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+          style: const TextStyle(
+            fontSize: 28,
+            fontWeight: FontWeight.w400,
+            color: Colors.white,
+          ),
         ),
       ],
     );
