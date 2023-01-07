@@ -10,6 +10,7 @@ import '../../camera_connection/bloc/camera_connection_cubit.dart';
 
 part 'props_control_cubit.freezed.dart';
 
+@freezed
 class PropsControlState with _$PropsControlState {
   const factory PropsControlState.init() = _Init;
   const factory PropsControlState.updating(List<ControlProp> props) = _Updating;

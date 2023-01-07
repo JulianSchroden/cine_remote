@@ -222,7 +222,7 @@ class __$$_UpdatingCopyWithImpl<$Res>
   }) {
     return _then(_$_Updating(
       null == props
-          ? _value.props
+          ? _value._props
           : props // ignore: cast_nullable_to_non_nullable
               as List<ControlProp>,
     ));
@@ -232,10 +232,14 @@ class __$$_UpdatingCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Updating implements _Updating {
-  const _$_Updating(this.props);
+  const _$_Updating(final List<ControlProp> props) : _props = props;
 
+  final List<ControlProp> _props;
   @override
-  final List<ControlProp> props;
+  List<ControlProp> get props {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_props);
+  }
 
   @override
   String toString() {
@@ -247,12 +251,12 @@ class _$_Updating implements _Updating {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Updating &&
-            const DeepCollectionEquality().equals(other.props, props));
+            const DeepCollectionEquality().equals(other._props, _props));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(props));
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_props));
 
   @JsonKey(ignore: true)
   @override
@@ -368,7 +372,7 @@ class __$$_UpdateSuccessCopyWithImpl<$Res>
   }) {
     return _then(_$_UpdateSuccess(
       null == props
-          ? _value.props
+          ? _value._props
           : props // ignore: cast_nullable_to_non_nullable
               as List<ControlProp>,
     ));
@@ -378,10 +382,14 @@ class __$$_UpdateSuccessCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_UpdateSuccess implements _UpdateSuccess {
-  const _$_UpdateSuccess(this.props);
+  const _$_UpdateSuccess(final List<ControlProp> props) : _props = props;
 
+  final List<ControlProp> _props;
   @override
-  final List<ControlProp> props;
+  List<ControlProp> get props {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_props);
+  }
 
   @override
   String toString() {
@@ -393,12 +401,12 @@ class _$_UpdateSuccess implements _UpdateSuccess {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_UpdateSuccess &&
-            const DeepCollectionEquality().equals(other.props, props));
+            const DeepCollectionEquality().equals(other._props, _props));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(props));
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_props));
 
   @JsonKey(ignore: true)
   @override
@@ -515,7 +523,7 @@ class __$$_UpdateFailedCopyWithImpl<$Res>
   }) {
     return _then(_$_UpdateFailed(
       null == props
-          ? _value.props
+          ? _value._props
           : props // ignore: cast_nullable_to_non_nullable
               as List<ControlProp>,
     ));
@@ -525,10 +533,14 @@ class __$$_UpdateFailedCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_UpdateFailed implements _UpdateFailed {
-  const _$_UpdateFailed(this.props);
+  const _$_UpdateFailed(final List<ControlProp> props) : _props = props;
 
+  final List<ControlProp> _props;
   @override
-  final List<ControlProp> props;
+  List<ControlProp> get props {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_props);
+  }
 
   @override
   String toString() {
@@ -540,12 +552,12 @@ class _$_UpdateFailed implements _UpdateFailed {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_UpdateFailed &&
-            const DeepCollectionEquality().equals(other.props, props));
+            const DeepCollectionEquality().equals(other._props, _props));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(props));
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_props));
 
   @JsonKey(ignore: true)
   @override
