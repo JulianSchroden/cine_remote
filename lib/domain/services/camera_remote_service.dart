@@ -9,4 +9,5 @@ abstract class CameraRemoteService<H extends CameraHandle> {
   Future<void> setProp(H handle, ControlPropType propType, String value);
 
   Future<void> triggerRecord(H handle);
+  Future<void> toggleAfLock(H handle);
 }
