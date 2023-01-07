@@ -7,25 +7,29 @@ import '../../domain/models/control_prop.dart';
 import '../../domain/models/control_prop_type.dart';
 import '../../domain/services/camera_remote_service.dart';
 import '../exceptions/camera_connection_exception.dart';
+import '../extensions/control_prop_type_extensions.dart';
 import '../models/wifi_camera_handle.dart';
+import 'http_adapter.dart';
 
 class WifiCameraRemoteService extends CameraRemoteService<WifiCameraHandle> {
+  final HttpAdapter httpAdapter;
+
+  WifiCameraRemoteService(this.httpAdapter);
   final String _authority = '192.168.0.80';
 
   //{"res":"rootredirect"}
 
   @override
   Future<WifiCameraHandle> connect() async {
-    final loginUrl = Uri.http(_authority, '/api/acnt/login');
-    final response = await _getUrl(loginUrl);
+    const loginPath = '/api/acnt/login';
+    final response = await httpAdapter.get(null, loginPath);
 
     if (response.statusCode != 200) {
       throw CameraConnectionException(
           'Failed to connect to camera. Status: ${response.statusCode}');
     }
 
-    final body = await response.transform(utf8.decoder).join();
-    final json = jsonDecode(body);
+    final json = response.jsonBody;
     final connectResponse = json['res'];
     if (connectResponse != 'ok') {
       throw CameraConnectionException(
@@ -58,7 +62,20 @@ class WifiCameraRemoteService extends CameraRemoteService<WifiCameraHandle> {
     WifiCameraHandle handle,
     ControlPropType propType,
   ) async {
-    return ControlProp(type: propType, currentValue: '', allowedValues: []);
+    const getPropPath = '/api/cam/getprop';
+    final propKey = propType.toKey();
+    final response = await httpAdapter.get(
+      handle,
+      getPropPath,
+      {'r': propKey},
+    );
+
+    final propContent = response.jsonBody['O$propKey'];
+    return ControlProp(
+      type: propType,
+      currentValue: propContent['pv'],
+      allowedValues: List<String>.from(propContent['rv']),
+    );
   }
 
   @override
