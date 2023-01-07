@@ -8,7 +8,7 @@ part 'control_prop.freezed.dart';
 class ControlProp with _$ControlProp {
   const factory ControlProp({
     required ControlPropType type,
-    @Default('') String currentValue,
-    @Default([]) List<String> allowedValues,
+    required String currentValue,
+    required List<String> allowedValues,
   }) = _ControlProp;
 }

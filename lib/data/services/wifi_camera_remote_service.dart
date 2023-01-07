@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 
+import '../../domain/models/control_prop.dart';
 import '../../domain/models/control_prop_type.dart';
 import '../../domain/services/camera_remote_service.dart';
 import '../exceptions/camera_connection_exception.dart';
@@ -53,8 +54,19 @@ class WifiCameraRemoteService extends CameraRemoteService<WifiCameraHandle> {
   }
 
   @override
+  Future<ControlProp?> getProp(
+    WifiCameraHandle handle,
+    ControlPropType propType,
+  ) async {
+    return ControlProp(type: propType, currentValue: '', allowedValues: []);
+  }
+
+  @override
   Future<void> setProp(
-      WifiCameraHandle handle, ControlPropType propType, String value) async {}
+    WifiCameraHandle handle,
+    ControlPropType propType,
+    String value,
+  ) async {}
 
   Future<void> setIso(WifiCameraHandle handle, String isoValue) async {
     final response = await _setProp(handle, 'gcv', isoValue);

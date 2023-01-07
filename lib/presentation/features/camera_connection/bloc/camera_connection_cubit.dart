@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -36,5 +38,15 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
     emit(const CameraConnectionState.disconnecting());
     await Future.delayed(const Duration(seconds: 1));
     emit(const CameraConnectionState.disconnected());
+  }
+
+  Future<void> withConnectedCamera(
+    FutureOr Function(CameraHandle cameraHandle) callback, {
+    FutureOr Function()? orElse,
+  }) async {
+    await state.maybeWhen(
+      connectSuccess: (cameraHandle) => callback(cameraHandle),
+      orElse: () => orElse?.call(),
+    );
   }
 }
