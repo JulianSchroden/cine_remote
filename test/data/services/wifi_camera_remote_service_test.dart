@@ -45,13 +45,14 @@ void main() {
       const getIsoResponseBody =
           '{"res":"ok","Ogcv":{"pv":"[850]","en":1,"rvn":27,"rv":["640","800","[850]","1000","1250"]}}';
 
-      when(() => mockHttpAdapter
-              .get(cameraHandle, '/api/cam/getprop', {'r': 'gcv'}))
-          .thenAnswer((_) async => HttpAdapterResponse(
-                statusCode: 200,
-                jsonBody: jsonDecode(getIsoResponseBody),
-                cookies: [],
-              ));
+      when(
+        () =>
+            mockHttpAdapter.get(cameraHandle, '/api/cam/getprop', {'r': 'gcv'}),
+      ).thenAnswer((_) async => HttpAdapterResponse(
+            statusCode: 200,
+            jsonBody: jsonDecode(getIsoResponseBody),
+            cookies: [],
+          ));
 
       final result = await sut.getProp(cameraHandle, ControlPropType.iso);
       expect(
@@ -66,13 +67,14 @@ void main() {
       const getApertureResponseBody =
           '{"res":"ok","Oav":{"pv":"2.8","en":1,"rvn":22,"rv":["2.8","3.2","3.5","4.0","4.5","5.0"]}}';
 
-      when(() => mockHttpAdapter
-              .get(cameraHandle, '/api/cam/getprop', {'r': 'av'}))
-          .thenAnswer((_) async => HttpAdapterResponse(
-                statusCode: 200,
-                jsonBody: jsonDecode(getApertureResponseBody),
-                cookies: [],
-              ));
+      when(
+        () =>
+            mockHttpAdapter.get(cameraHandle, '/api/cam/getprop', {'r': 'av'}),
+      ).thenAnswer((_) async => HttpAdapterResponse(
+            statusCode: 200,
+            jsonBody: jsonDecode(getApertureResponseBody),
+            cookies: [],
+          ));
 
       final result = await sut.getProp(cameraHandle, ControlPropType.aperture);
       expect(
@@ -87,13 +89,14 @@ void main() {
       const getShutterAngleResponseBody =
           '{"res":"ok","Ossv":{"pv":"180.00","en":1,"rvn":14,"rv":["360.00","300.00","240.00","180.00"]}}';
 
-      when(() => mockHttpAdapter
-              .get(cameraHandle, '/api/cam/getprop', {'r': 'ssv'}))
-          .thenAnswer((_) async => HttpAdapterResponse(
-                statusCode: 200,
-                jsonBody: jsonDecode(getShutterAngleResponseBody),
-                cookies: [],
-              ));
+      when(
+        () =>
+            mockHttpAdapter.get(cameraHandle, '/api/cam/getprop', {'r': 'ssv'}),
+      ).thenAnswer((_) async => HttpAdapterResponse(
+            statusCode: 200,
+            jsonBody: jsonDecode(getShutterAngleResponseBody),
+            cookies: [],
+          ));
 
       final result =
           await sut.getProp(cameraHandle, ControlPropType.shutterAngle);
@@ -105,17 +108,18 @@ void main() {
               allowedValues: ['360.00', '300.00', '240.00', '180.00']));
     });
 
-    test('should white balance prop', () async {
+    test('should get white balance prop', () async {
       const getWhiteBalanceResponseBody =
           '{"res":"ok","Owbv":{"pv":"5600","en":1,"rvn":131,"rv":["5400","5500","5600","5700","5800","5900"]}}';
 
-      when(() => mockHttpAdapter
-              .get(cameraHandle, '/api/cam/getprop', {'r': 'wbv'}))
-          .thenAnswer((_) async => HttpAdapterResponse(
-                statusCode: 200,
-                jsonBody: jsonDecode(getWhiteBalanceResponseBody),
-                cookies: [],
-              ));
+      when(
+        () =>
+            mockHttpAdapter.get(cameraHandle, '/api/cam/getprop', {'r': 'wbv'}),
+      ).thenAnswer((_) async => HttpAdapterResponse(
+            statusCode: 200,
+            jsonBody: jsonDecode(getWhiteBalanceResponseBody),
+            cookies: [],
+          ));
 
       final result =
           await sut.getProp(cameraHandle, ControlPropType.whiteBalance);
@@ -125,6 +129,21 @@ void main() {
               type: ControlPropType.whiteBalance,
               currentValue: '5600',
               allowedValues: ['5400', '5500', '5600', '5700', '5800', '5900']));
+    });
+  });
+
+  group('setProp', () {
+    test('should set iso value', () async {
+      when(
+        () => mockHttpAdapter
+            .get(cameraHandle, '/api/cam/setprop', {'gcv': '1250'}),
+      ).thenAnswer((_) async => HttpAdapterResponse(
+            statusCode: 200,
+            jsonBody: jsonDecode('{"res":"ok"}'),
+            cookies: [],
+          ));
+
+      await sut.setProp(cameraHandle, ControlPropType.iso, '1250');
     });
   });
 }

@@ -48,16 +48,6 @@ class WifiCameraRemoteService extends CameraRemoteService<WifiCameraHandle> {
   }
 
   @override
-  Future<void> triggerRecord(WifiCameraHandle handle) async {
-    final triggerRecordUrl =
-        Uri.http(_authority, '/api/cam/rec', {'cmd': 'trig'});
-
-    final response = await _getUrl(triggerRecordUrl, handle);
-    final body = await response.transform(utf8.decoder).join();
-    print(body);
-  }
-
-  @override
   Future<ControlProp?> getProp(
     WifiCameraHandle handle,
     ControlPropType propType,
@@ -83,7 +73,21 @@ class WifiCameraRemoteService extends CameraRemoteService<WifiCameraHandle> {
     WifiCameraHandle handle,
     ControlPropType propType,
     String value,
-  ) async {}
+  ) async {
+    const setPropPath = '/api/cam/setprop';
+    final response =
+        await httpAdapter.get(handle, setPropPath, {propType.toKey(): value});
+    print(response.jsonBody);
+  }
+
+  @override
+  Future<void> triggerRecord(WifiCameraHandle handle) async {
+    const triggerRecordPath = '/api/cam/rec';
+    final response =
+        await httpAdapter.get(handle, triggerRecordPath, {'cmd': 'trig'});
+
+    print(response.jsonBody);
+  }
 
   Future<void> setIso(WifiCameraHandle handle, String isoValue) async {
     final response = await _setProp(handle, 'gcv', isoValue);
