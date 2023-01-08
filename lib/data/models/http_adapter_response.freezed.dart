@@ -113,12 +113,13 @@ class __$$_HttpAdapterResponseCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_HttpAdapterResponse implements _HttpAdapterResponse {
-  _$_HttpAdapterResponse(
+class _$_HttpAdapterResponse extends _HttpAdapterResponse {
+  const _$_HttpAdapterResponse(
       {required this.statusCode,
       required this.jsonBody,
       required final List<Cookie> cookies})
-      : _cookies = cookies;
+      : _cookies = cookies,
+        super._();
 
   @override
   final int statusCode;
@@ -162,11 +163,12 @@ class _$_HttpAdapterResponse implements _HttpAdapterResponse {
           this, _$identity);
 }
 
-abstract class _HttpAdapterResponse implements HttpAdapterResponse {
-  factory _HttpAdapterResponse(
+abstract class _HttpAdapterResponse extends HttpAdapterResponse {
+  const factory _HttpAdapterResponse(
       {required final int statusCode,
       required final dynamic jsonBody,
       required final List<Cookie> cookies}) = _$_HttpAdapterResponse;
+  const _HttpAdapterResponse._() : super._();
 
   @override
   int get statusCode;

@@ -1,10 +1,10 @@
-import '../../../../dependencies.dart';
-import '../../../../domain/services/camera_remote_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../dependencies.dart';
 import '../../../../domain/models/control_prop.dart';
 import '../../../../domain/models/control_prop_type.dart';
+import '../../../../domain/services/camera_remote_service.dart';
 import '../../camera_connection/bloc/camera_connection_cubit.dart';
 import '../bloc/props_control_cubit.dart';
 import 'control_prop_item.dart';

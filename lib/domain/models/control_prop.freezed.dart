@@ -118,18 +118,16 @@ class __$$_ControlPropCopyWithImpl<$Res>
 class _$_ControlProp implements _ControlProp {
   const _$_ControlProp(
       {required this.type,
-      this.currentValue = '',
-      final List<String> allowedValues = const []})
+      required this.currentValue,
+      required final List<String> allowedValues})
       : _allowedValues = allowedValues;
 
   @override
   final ControlPropType type;
   @override
-  @JsonKey()
   final String currentValue;
   final List<String> _allowedValues;
   @override
-  @JsonKey()
   List<String> get allowedValues {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_allowedValues);
@@ -166,8 +164,8 @@ class _$_ControlProp implements _ControlProp {
 abstract class _ControlProp implements ControlProp {
   const factory _ControlProp(
       {required final ControlPropType type,
-      final String currentValue,
-      final List<String> allowedValues}) = _$_ControlProp;
+      required final String currentValue,
+      required final List<String> allowedValues}) = _$_ControlProp;
 
   @override
   ControlPropType get type;

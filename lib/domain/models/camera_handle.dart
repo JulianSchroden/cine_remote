@@ -1,7 +1,12 @@
+import 'package:equatable/equatable.dart';
+
 import 'control_prop_type.dart';
 
-class CameraHandle {
-  List<ControlPropType> supportedProps;
+class CameraHandle extends Equatable {
+  final List<ControlPropType> supportedProps;
 
-  CameraHandle({required this.supportedProps});
+  const CameraHandle({required this.supportedProps});
+
+  @override
+  List<Object?> get props => [supportedProps];
 }
