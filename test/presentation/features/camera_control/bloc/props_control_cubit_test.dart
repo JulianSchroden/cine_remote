@@ -1,6 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:cine_remote/data/models/wifi_camera_handle.dart';
-import 'package:cine_remote/domain/models/camera_handle.dart';
 import 'package:cine_remote/domain/models/control_prop.dart';
 import 'package:cine_remote/domain/models/control_prop_type.dart';
 import 'package:cine_remote/presentation/features/camera_control/bloc/props_control_cubit.dart';
@@ -45,29 +44,11 @@ void main() {
     mockCameraRemoteService = MockCameraRemoteService();
   });
 
-  void setupCameraConnected(CameraHandle cameraHandle) {
-    when(() => mockCameraConnectionCubit.withConnectedCamera(any(),
-        orElse: any(named: 'orElse'))).thenAnswer(
-      (invocation) async {
-        invocation.positionalArguments[0].call(cameraHandle);
-      },
-    );
-  }
-
-  void setupCameraDisconnected() {
-    when(() => mockCameraConnectionCubit.withConnectedCamera(any(),
-        orElse: any(named: 'orElse'))).thenAnswer(
-      (invocation) async {
-        invocation.namedArguments[const Symbol('orElse')].call();
-      },
-    );
-  }
-
   group('init', () {
     blocTest<PropsControlCubit, PropsControlState>(
       'emits [updatedFailed] when camera not connected',
       seed: () => const PropsControlState.updateSuccess([]),
-      setUp: () => setupCameraDisconnected(),
+      setUp: () => mockCameraConnectionCubit.setupCameraDisconnected(),
       build: () =>
           PropsControlCubit(mockCameraConnectionCubit, mockCameraRemoteService),
       act: (cubit) => cubit.init(),
@@ -80,7 +61,7 @@ void main() {
       'emits [updating, updateSuccess] when reading initial prop data succeeds',
       seed: () => const PropsControlState.updateSuccess([]),
       setUp: () {
-        setupCameraConnected(cameraHandle);
+        mockCameraConnectionCubit.setupCameraConnected(cameraHandle);
 
         when(() => mockCameraRemoteService.getProp(
                 cameraHandle, ControlPropType.aperture))
@@ -106,7 +87,7 @@ void main() {
       'emits [updating, updateFailed] when getting prop data throws',
       seed: () => const PropsControlState.updateSuccess([]),
       setUp: () {
-        setupCameraConnected(cameraHandle);
+        mockCameraConnectionCubit.setupCameraConnected(cameraHandle);
 
         when(() => mockCameraRemoteService.getProp(
                 cameraHandle, ControlPropType.aperture))
@@ -126,7 +107,7 @@ void main() {
     blocTest<PropsControlCubit, PropsControlState>(
       'emits [updatedFailed] when camera not connected',
       seed: () => const PropsControlState.updateSuccess([]),
-      setUp: () => setupCameraDisconnected(),
+      setUp: () => mockCameraConnectionCubit.setupCameraDisconnected(),
       build: () =>
           PropsControlCubit(mockCameraConnectionCubit, mockCameraRemoteService),
       act: (cubit) => cubit.setProp(ControlPropType.aperture, '4.0'),
@@ -139,7 +120,7 @@ void main() {
       'emits [updatedFailed] when controlProps not initialized',
       seed: () => const PropsControlState.init(),
       setUp: () {
-        setupCameraConnected(cameraHandle);
+        mockCameraConnectionCubit.setupCameraConnected(cameraHandle);
       },
       build: () =>
           PropsControlCubit(mockCameraConnectionCubit, mockCameraRemoteService),
@@ -153,7 +134,7 @@ void main() {
       'emits [updatedFailed] when there is no controlProp with provided propType',
       seed: () => const PropsControlState.updateSuccess([apertureControlProp]),
       setUp: () {
-        setupCameraConnected(cameraHandle);
+        mockCameraConnectionCubit.setupCameraConnected(cameraHandle);
       },
       build: () =>
           PropsControlCubit(mockCameraConnectionCubit, mockCameraRemoteService),
@@ -167,7 +148,7 @@ void main() {
       'emits [updating, updateSuccess] when updating prop value succeeds',
       seed: () => const PropsControlState.updateSuccess([apertureControlProp]),
       setUp: () {
-        setupCameraConnected(cameraHandle);
+        mockCameraConnectionCubit.setupCameraConnected(cameraHandle);
         when(() => mockCameraRemoteService.setProp(
                 cameraHandle, ControlPropType.aperture, '4.0'))
             .thenAnswer((invocation) async {});
@@ -186,7 +167,7 @@ void main() {
       'emits [updating, updateFailed] when setting prop fails',
       seed: () => const PropsControlState.updateSuccess([apertureControlProp]),
       setUp: () {
-        setupCameraConnected(cameraHandle);
+        mockCameraConnectionCubit.setupCameraConnected(cameraHandle);
         when(() => mockCameraRemoteService.setProp(
                 cameraHandle, ControlPropType.aperture, '4.0'))
             .thenThrow((_) => Exception('failied to set prop'));

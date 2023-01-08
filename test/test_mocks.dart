@@ -6,3 +6,23 @@ import 'package:mocktail/mocktail.dart';
 class MockCameraConnectionCubit extends Mock implements CameraConnectionCubit {}
 
 class MockCameraRemoteService extends Mock implements CameraRemoteService {}
+
+extension SetupCameraConnectedExtension on MockCameraConnectionCubit {
+  void setupCameraConnected(CameraHandle cameraHandle) {
+    when(() => withConnectedCamera(any(), orElse: any(named: 'orElse')))
+        .thenAnswer(
+      (invocation) async {
+        invocation.positionalArguments[0].call(cameraHandle);
+      },
+    );
+  }
+
+  void setupCameraDisconnected() {
+    when(() => withConnectedCamera(any(), orElse: any(named: 'orElse')))
+        .thenAnswer(
+      (invocation) async {
+        invocation.namedArguments[const Symbol('orElse')].call();
+      },
+    );
+  }
+}

@@ -36,14 +36,18 @@ class ActionsControlCubit extends Cubit<ActionsControlState> {
 
   Future<void> triggerRecord() async {
     await cameraConnectionCubit.withConnectedCamera((cameraHandle) async {
-      emit(ActionsControlState.updating(state.actionsState));
-      await cameraRemoteService.triggerRecord(cameraHandle);
-      emit(ActionsControlState.updateSuccess(
-        state.actionsState
-            .copyWith(isRecording: !state.actionsState.isRecording),
-      ));
+      try {
+        emit(ActionsControlState.updating(state.actionsState));
+        await cameraRemoteService.triggerRecord(cameraHandle);
+        emit(ActionsControlState.updateSuccess(
+          state.actionsState
+              .copyWith(isRecording: !state.actionsState.isRecording),
+        ));
+      } catch (e) {
+        emit(ActionsControlState.updateFailed(state.actionsState));
+      }
     }, orElse: () {
-      ActionsControlState.updateFailed(state.actionsState);
+      emit(ActionsControlState.updateFailed(state.actionsState));
     });
   }
 
