@@ -11,6 +11,7 @@ import '../../domain/models/control_prop_type.dart';
 import '../../domain/services/camera_remote_service.dart';
 import '../exceptions/camera_connection_exception.dart';
 import '../extensions/control_prop_type_extensions.dart';
+import '../models/camera_info.dart';
 import '../models/wifi_camera_handle.dart';
 import 'http_adapter.dart';
 
@@ -158,6 +159,16 @@ class WifiCameraRemoteService extends CameraRemoteService<WifiCameraHandle> {
       cameraHandle: handle.copyWith(updateCounter: response.jsonBody['seq']),
       cameraEvents: updateEvents,
     );
+  }
+
+  Future<CameraInfo> getInfo(WifiCameraHandle cameraHandle) async {
+    const getInfoPath = '/api/sys/getdevinfo';
+    final response = await httpAdapter.get(cameraHandle, getInfoPath);
+    if (!response.isOkay()) {
+      throw CameraConnectionException('Failed to get info');
+    }
+
+    return CameraInfo.fromJson(response.jsonBody);
   }
 
   // http://192.168.0.80/api/cam/getcurprop?seq=5

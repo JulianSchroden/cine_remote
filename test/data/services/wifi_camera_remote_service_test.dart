@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:cine_remote/data/exceptions/camera_connection_exception.dart';
+import 'package:cine_remote/data/models/camera_info.dart';
 import 'package:cine_remote/data/models/http_adapter_response.dart';
 import 'package:cine_remote/data/models/wifi_camera_handle.dart';
 import 'package:cine_remote/data/services/http_adapter.dart';
@@ -14,6 +15,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockHttpAdapter extends Mock implements HttpAdapter {}
+
+class MockHttpAdapterResponse extends Mock implements HttpAdapterResponse {}
 
 class MockHttpClientResponse extends Mock implements HttpClientResponse {}
 
@@ -32,7 +35,7 @@ void main() {
 
   group('connect', () {
     test('should throw when statusCode is not okay', () async {
-      final response = HttpAdapterResponse(
+      const response = HttpAdapterResponse(
         statusCode: 404,
         jsonBody: '',
         cookies: [],
@@ -332,6 +335,31 @@ void main() {
           contains(const CameraUpdateEvent.focusMode(AutoFocusMode.continues)),
         );
       });
+    });
+  });
+
+  group('getInfo', () {
+    test('should throw when response is not okay', () {
+      final mockResponse = MockHttpAdapterResponse();
+      when(() => mockResponse.isOkay()).thenReturn(false);
+      when(() => mockHttpAdapter.get(cameraHandle, '/api/sys/getdevinfo'))
+          .thenAnswer((_) async => mockResponse);
+
+      expect(
+          sut.getInfo(cameraHandle), throwsA(isA<CameraConnectionException>()));
+    });
+
+    test('should map response to model', () async {
+      const getInfoResponse =
+          '{"res": "ok", "modelName": "", "manufacturer": "", "serialNum": "", "lang": 0, "mode": 1,"productId": "VKIX00"}';
+      when(() => mockHttpAdapter.get(cameraHandle, '/api/sys/getdevinfo'))
+          .thenAnswer((_) async => HttpAdapterResponse(
+              statusCode: 200,
+              jsonBody: jsonDecode(getInfoResponse),
+              cookies: []));
+
+      final response = await sut.getInfo(cameraHandle);
+      expect(response, const CameraInfo(language: 0, productId: 'VKIX00'));
     });
   });
 }
