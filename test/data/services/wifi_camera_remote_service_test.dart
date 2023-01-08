@@ -35,15 +35,49 @@ void main() {
 
   group('connect', () {
     test('should throw when statusCode is not okay', () async {
-      const response = HttpAdapterResponse(
+      final response = HttpAdapterResponse(
         statusCode: 404,
-        jsonBody: '',
+        jsonBody: jsonDecode('{"res":"ok"}'),
         cookies: [],
       );
 
       when(() => mockHttpAdapter.get(null, '/api/acnt/login'))
           .thenAnswer((invocation) async => response);
       expect(() => sut.connect(), throwsA(isA<CameraConnectionException>()));
+    });
+
+    test('should throw when res field is not okay', () async {
+      final response = HttpAdapterResponse(
+        statusCode: 200,
+        jsonBody: jsonDecode('{"res":"busy"}'),
+        cookies: [],
+      );
+
+      when(() => mockHttpAdapter.get(null, '/api/acnt/login'))
+          .thenAnswer((invocation) async => response);
+      expect(() => sut.connect(), throwsA(isA<CameraConnectionException>()));
+    });
+
+    test('should get camera info and set cookies accordingly', () async {
+      when(() => mockHttpAdapter.get(null, '/api/acnt/login')).thenAnswer(
+          (_) async => HttpAdapterResponse(
+              statusCode: 200,
+              jsonBody: jsonDecode('{"res":"ok"}'),
+              cookies: [Cookie('acid', '7dd0')]));
+      when(() =>
+          mockHttpAdapter.get(any(),
+              '/api/sys/getdevinfo')).thenAnswer((_) async => HttpAdapterResponse(
+          statusCode: 200,
+          jsonBody: jsonDecode(
+              '{"res":"ok","modelName":"","manufacturer":"","serialNum":"","lang":0,"mode":1,"productId":"VKIX00"}'),
+          cookies: []));
+
+      final result = await sut.connect();
+      expect(result.cookies, [
+        predicate<Cookie>((c) => c.name == 'productId' && c.value == 'VKIX00'),
+        predicate<Cookie>((c) => c.name == 'brlang' && c.value == '0'),
+        predicate<Cookie>((c) => c.name == 'acid' && c.value == '7dd0'),
+      ]);
     });
   });
 
@@ -157,7 +191,7 @@ void main() {
   group('getUpdate', () {
     void setupGetProp(int statusCode, String body) {
       when(() => mockHttpAdapter
-              .get(cameraHandle, '/api/cam/getcurprop', {'seq': 0}))
+              .get(cameraHandle, '/api/cam/getcurprop', {'seq': '0'}))
           .thenAnswer((_) async => HttpAdapterResponse(
                 statusCode: statusCode,
                 jsonBody: jsonDecode(body),
@@ -351,7 +385,7 @@ void main() {
 
     test('should map response to model', () async {
       const getInfoResponse =
-          '{"res": "ok", "modelName": "", "manufacturer": "", "serialNum": "", "lang": 0, "mode": 1,"productId": "VKIX00"}';
+          '{"res":"ok","modelName":"","manufacturer":"","serialNum":"","lang":0,"mode":1,"productId":"VKIX00"}';
       when(() => mockHttpAdapter.get(cameraHandle, '/api/sys/getdevinfo'))
           .thenAnswer((_) async => HttpAdapterResponse(
               statusCode: 200,

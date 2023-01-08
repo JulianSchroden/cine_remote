@@ -6,7 +6,7 @@ import 'control_prop_type.dart';
 part 'camera_update_event.freezed.dart';
 
 @freezed
-class CameraUpdateEvent {
+class CameraUpdateEvent with _$CameraUpdateEvent {
   const factory CameraUpdateEvent.prop(ControlPropType propType, String value) =
       _PropUpdate;
   const factory CameraUpdateEvent.recordState(bool isRecording) =

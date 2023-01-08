@@ -26,19 +26,12 @@ class WifiCameraRemoteService extends CameraRemoteService<WifiCameraHandle> {
     const loginPath = '/api/acnt/login';
     final response = await httpAdapter.get(null, loginPath);
 
-    if (response.statusCode != 200) {
+    if (!response.isOkay()) {
       throw CameraConnectionException(
           'Failed to connect to camera. Status: ${response.statusCode}');
     }
 
-    final json = response.jsonBody;
-    final connectResponse = json['res'];
-    if (connectResponse != 'ok') {
-      throw CameraConnectionException(
-          'Could not establish connection: $connectResponse');
-    }
-
-    return WifiCameraHandle(
+    final cameraHandle = WifiCameraHandle(
       cookies: response.cookies,
       supportedProps: const [
         ControlPropType.aperture,
@@ -47,6 +40,13 @@ class WifiCameraRemoteService extends CameraRemoteService<WifiCameraHandle> {
         ControlPropType.whiteBalance,
       ],
     );
+
+    final cameraInfo = await getInfo(cameraHandle);
+    return cameraHandle.copyWith(cookies: [
+      Cookie('productId', cameraInfo.productId),
+      Cookie('brlang', cameraInfo.language.toString()),
+      ...cameraHandle.cookies
+    ]);
   }
 
   @override
@@ -103,7 +103,7 @@ class WifiCameraRemoteService extends CameraRemoteService<WifiCameraHandle> {
   Future<CameraUpdateResponse> getUpdate(WifiCameraHandle handle) async {
     const getUpdatePath = '/api/cam/getcurprop';
     final response = await httpAdapter
-        .get(handle, getUpdatePath, {'seq': handle.updateCounter});
+        .get(handle, getUpdatePath, {'seq': handle.updateCounter.toString()});
 
     if (!response.isOkay()) {
       throw CameraConnectionException('Failed to get updates');
@@ -170,6 +170,11 @@ class WifiCameraRemoteService extends CameraRemoteService<WifiCameraHandle> {
 
     return CameraInfo.fromJson(response.jsonBody);
   }
+
+  //  http://192.168.0.80/api/cam/setlang?lang=0
+  //  http://192.168.0.80/api/cam/getcurprop?seq=0
+
+  // busy, failparam, rootredirect
 
   // http://192.168.0.80/api/cam/getcurprop?seq=5
   // no change: {"res":"ok","seq":6,"com":2}

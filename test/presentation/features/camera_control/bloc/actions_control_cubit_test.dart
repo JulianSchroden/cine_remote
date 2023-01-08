@@ -9,7 +9,7 @@ import '../../../../test_mocks.dart';
 void main() {
   late MockCameraConnectionCubit mockCameraConnectionCubit;
   late MockCameraRemoteService mockCameraRemoteService;
-  final cameraHandle = WifiCameraHandle(cookies: [], supportedProps: []);
+  const cameraHandle = WifiCameraHandle(cookies: [], supportedProps: []);
 
   setUp(() {
     mockCameraConnectionCubit = MockCameraConnectionCubit();

@@ -7,12 +7,25 @@ import 'package:mocktail/mocktail.dart';
 
 import '../../../../test_mocks.dart';
 
+abstract class CallbackWithCameraHandle {
+  void call(CameraHandle handle);
+}
+
+class MockCallbackWithCameraHandle extends Mock
+    implements CallbackWithCameraHandle {}
+
+abstract class CallbackWithNoParams {
+  void call();
+}
+
+class MockCallbackWithNoParams extends Mock implements CallbackWithNoParams {}
+
 void main() {
   late MockCameraRemoteService mockCameraRemoteService;
-  final cameraHandle = WifiCameraHandle(cookies: [], supportedProps: []);
+  const cameraHandle = WifiCameraHandle(cookies: [], supportedProps: []);
 
   setUpAll(() {
-    registerFallbackValue(CameraHandle(supportedProps: []));
+    registerFallbackValue(const CameraHandle(supportedProps: []));
   });
 
   setUp(() {
@@ -27,9 +40,9 @@ void main() {
           .thenAnswer((_) async => cameraHandle);
     },
     act: (cubit) => cubit.connect(),
-    expect: () => [
-      const CameraConnectionState.initConnection(),
-      CameraConnectionState.connectSuccess(cameraHandle)
+    expect: () => const [
+      CameraConnectionState.connecting(),
+      CameraConnectionState.connectionEstablished(cameraHandle)
     ],
   );
 
@@ -42,8 +55,33 @@ void main() {
     },
     act: (cubit) => cubit.connect(),
     expect: () => const [
-      CameraConnectionState.initConnection(),
-      CameraConnectionState.connectFailed()
+      CameraConnectionState.connecting(),
+      CameraConnectionState.connectingFailed()
     ],
   );
+
+  group('withConnectedCamera', () {
+    blocTest<CameraConnectionCubit, CameraConnectionState>(
+      'calls callback with cameraHandle when connected',
+      seed: () =>
+          const CameraConnectionState.connectionEstablished(cameraHandle),
+      build: () => CameraConnectionCubit(mockCameraRemoteService),
+      act: (cubit) {
+        final callback = MockCallbackWithCameraHandle();
+        cubit.withConnectedCamera(callback);
+        verify(() => callback(cameraHandle)).called(1);
+      },
+    );
+
+    blocTest<CameraConnectionCubit, CameraConnectionState>(
+      'calls orElse when not connected',
+      seed: () => const CameraConnectionState.connecting(),
+      build: () => CameraConnectionCubit(mockCameraRemoteService),
+      act: (cubit) {
+        final orElseCallback = MockCallbackWithNoParams();
+        cubit.withConnectedCamera((handle) {}, orElse: orElseCallback);
+        verify(() => orElseCallback()).called(1);
+      },
+    );
+  });
 }

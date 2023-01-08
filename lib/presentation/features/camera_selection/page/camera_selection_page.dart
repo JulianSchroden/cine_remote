@@ -15,7 +15,7 @@ class CameraSelectionPage extends StatelessWidget {
     return BlocConsumer<CameraConnectionCubit, CameraConnectionState>(
       listener: (context, state) {
         state.maybeWhen(
-            connectSuccess: ((_) =>
+            connectionEstablished: ((_) =>
                 Navigator.of(context).pushNamed(Routes.cameraControl)),
             orElse: () {});
       },
@@ -28,17 +28,17 @@ class CameraSelectionPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const CameraSelectionItem(
-                  modelName: 'Canon C100 II',
-                  modelImageSource:
-                      'https://www.canon.de/media/EOS%20C100%20Mark%20II%20Default_tcm83-1211141.jpg',
-                ),
+                //const CameraSelectionItem(
+                //  modelName: 'Canon C100 II',
+                //  modelImageSource:
+                //      'https://www.canon.de/media/EOS%20C100%20Mark%20II%20Default_tcm83-1211141.jpg',
+                //),
                 const SizedBox(height: 48),
                 RoundedTextButton(
                   text: 'Connect',
                   minWidth: 128,
                   showLoadingIndicator: state.maybeWhen(
-                      initConnection: () => true,
+                      connecting: () => true,
                       disconnecting: () => true,
                       orElse: () => false),
                   onPressed: () {

@@ -11,7 +11,7 @@ import '../../../../test_mocks.dart';
 void main() {
   late MockCameraConnectionCubit mockCameraConnectionCubit;
   late MockCameraRemoteService mockCameraRemoteService;
-  final cameraHandle = WifiCameraHandle(
+  const cameraHandle = WifiCameraHandle(
     cookies: [],
     supportedProps: [
       ControlPropType.aperture,
@@ -62,6 +62,8 @@ void main() {
       seed: () => const PropsControlState.updateSuccess([]),
       setUp: () {
         mockCameraConnectionCubit.setupCameraConnected(cameraHandle);
+        when(() => mockCameraConnectionCubit.updateEvents)
+            .thenAnswer((_) => const Stream.empty());
 
         when(() => mockCameraRemoteService.getProp(
                 cameraHandle, ControlPropType.aperture))

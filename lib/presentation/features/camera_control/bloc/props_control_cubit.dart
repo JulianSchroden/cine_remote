@@ -3,12 +3,15 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../domain/models/camera_update_event.dart';
 import '../../../../domain/models/control_prop.dart';
 import '../../../../domain/models/control_prop_type.dart';
 import '../../../../domain/services/camera_remote_service.dart';
 import '../../camera_connection/bloc/camera_connection_cubit.dart';
 
 part 'props_control_cubit.freezed.dart';
+
+class ControlPropNotFoundException implements Exception {}
 
 @freezed
 class PropsControlState with _$PropsControlState {
@@ -23,11 +26,18 @@ class PropsControlState with _$PropsControlState {
 class PropsControlCubit extends Cubit<PropsControlState> {
   CameraConnectionCubit cameraConnectionCubit;
   CameraRemoteService cameraRemoteService;
+  StreamSubscription<CameraUpdateEvent>? _updateStreamSubscription;
 
   PropsControlCubit(
     this.cameraConnectionCubit,
     this.cameraRemoteService,
   ) : super(const PropsControlState.init());
+
+  @override
+  Future<void> close() async {
+    _updateStreamSubscription?.cancel();
+    return super.close();
+  }
 
   Future<void> init() async {
     await cameraConnectionCubit.withConnectedCamera((cameraHandle) async {
@@ -42,6 +52,9 @@ class PropsControlCubit extends Cubit<PropsControlState> {
             controlProps.add(controlProp);
           }
         }
+
+        _setupUpdateListener();
+
         emit(PropsControlState.updateSuccess(controlProps));
       } catch (e) {
         emit(const PropsControlState.updateFailed([]));
@@ -54,38 +67,73 @@ class PropsControlCubit extends Cubit<PropsControlState> {
   Future<void> setProp(ControlPropType propType, String value) async {
     await cameraConnectionCubit.withConnectedCamera(
       (cameraHandle) async {
-        final previousControlProps = state.maybeWhen(
-            updating: (props) => props,
-            updateSuccess: (props) => props,
-            updateFailed: (props) => props,
-            orElse: () => <ControlProp>[]);
-
-        final updatedControlProps =
-            List<ControlProp>.from(previousControlProps);
-
-        final propIndex =
-            updatedControlProps.indexWhere((prop) => prop.type == propType);
-        if (propIndex == -1) {
-          emit(PropsControlState.updateFailed(previousControlProps));
-          return;
-        }
-
-        emit(PropsControlState.updating(previousControlProps));
-
+        final previousProps = currentControlProps;
         try {
-          updatedControlProps[propIndex] =
-              updatedControlProps[propIndex].copyWith(currentValue: value);
+          final updatedProps = _updateProp(
+            previousProps,
+            propType,
+            (prop) => prop.copyWith(
+              currentValue: value,
+              isPending: true,
+            ),
+          );
+          emit(PropsControlState.updating(updatedProps));
 
           await cameraRemoteService.setProp(cameraHandle, propType, value);
-
-          emit(PropsControlState.updateSuccess(updatedControlProps));
         } catch (e) {
-          emit(PropsControlState.updateFailed(previousControlProps));
+          emit(PropsControlState.updateFailed(previousProps));
         }
       },
       orElse: () {
         emit(const PropsControlState.updateFailed([]));
       },
     );
+  }
+
+  List<ControlProp> get currentControlProps => state.maybeWhen(
+      updating: (props) => props,
+      updateSuccess: (props) => props,
+      updateFailed: (props) => props,
+      orElse: () => <ControlProp>[]);
+
+  void _setupUpdateListener() {
+    _updateStreamSubscription = cameraConnectionCubit.updateEvents
+        .where((event) =>
+            event.maybeWhen(prop: (_, __) => true, orElse: () => false))
+        .listen((event) {
+      event.maybeWhen(
+          prop: (propType, value) {
+            try {
+              final updatedProps = _updateProp(
+                currentControlProps,
+                propType,
+                (prop) => prop.copyWith(
+                  currentValue: prop.isPending ? prop.currentValue : value,
+                  isPending: prop.isPending && prop.currentValue != value,
+                ),
+              );
+              emit(PropsControlState.updateSuccess(updatedProps));
+            } catch (e) {}
+          },
+          orElse: () {});
+    });
+  }
+
+  List<ControlProp> _updateProp(
+    List<ControlProp> previousControlProps,
+    ControlPropType propType,
+    ControlProp Function(ControlProp prop) transform,
+  ) {
+    final updatedControlProps = List<ControlProp>.from(currentControlProps);
+
+    final propIndex =
+        updatedControlProps.indexWhere((prop) => prop.type == propType);
+    if (propIndex == -1) {
+      throw ControlPropNotFoundException();
+    }
+
+    updatedControlProps[propIndex] = transform(updatedControlProps[propIndex]);
+
+    return updatedControlProps;
   }
 }

@@ -19,6 +19,7 @@ mixin _$ControlProp {
   ControlPropType get type => throw _privateConstructorUsedError;
   String get currentValue => throw _privateConstructorUsedError;
   List<String> get allowedValues => throw _privateConstructorUsedError;
+  bool get isPending => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ControlPropCopyWith<ControlProp> get copyWith =>
@@ -32,7 +33,10 @@ abstract class $ControlPropCopyWith<$Res> {
       _$ControlPropCopyWithImpl<$Res, ControlProp>;
   @useResult
   $Res call(
-      {ControlPropType type, String currentValue, List<String> allowedValues});
+      {ControlPropType type,
+      String currentValue,
+      List<String> allowedValues,
+      bool isPending});
 }
 
 /// @nodoc
@@ -51,6 +55,7 @@ class _$ControlPropCopyWithImpl<$Res, $Val extends ControlProp>
     Object? type = null,
     Object? currentValue = null,
     Object? allowedValues = null,
+    Object? isPending = null,
   }) {
     return _then(_value.copyWith(
       type: null == type
@@ -65,6 +70,10 @@ class _$ControlPropCopyWithImpl<$Res, $Val extends ControlProp>
           ? _value.allowedValues
           : allowedValues // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      isPending: null == isPending
+          ? _value.isPending
+          : isPending // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -78,7 +87,10 @@ abstract class _$$_ControlPropCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {ControlPropType type, String currentValue, List<String> allowedValues});
+      {ControlPropType type,
+      String currentValue,
+      List<String> allowedValues,
+      bool isPending});
 }
 
 /// @nodoc
@@ -95,6 +107,7 @@ class __$$_ControlPropCopyWithImpl<$Res>
     Object? type = null,
     Object? currentValue = null,
     Object? allowedValues = null,
+    Object? isPending = null,
   }) {
     return _then(_$_ControlProp(
       type: null == type
@@ -109,6 +122,10 @@ class __$$_ControlPropCopyWithImpl<$Res>
           ? _value._allowedValues
           : allowedValues // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      isPending: null == isPending
+          ? _value.isPending
+          : isPending // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -119,7 +136,8 @@ class _$_ControlProp implements _ControlProp {
   const _$_ControlProp(
       {required this.type,
       required this.currentValue,
-      required final List<String> allowedValues})
+      required final List<String> allowedValues,
+      this.isPending = false})
       : _allowedValues = allowedValues;
 
   @override
@@ -134,8 +152,12 @@ class _$_ControlProp implements _ControlProp {
   }
 
   @override
+  @JsonKey()
+  final bool isPending;
+
+  @override
   String toString() {
-    return 'ControlProp(type: $type, currentValue: $currentValue, allowedValues: $allowedValues)';
+    return 'ControlProp(type: $type, currentValue: $currentValue, allowedValues: $allowedValues, isPending: $isPending)';
   }
 
   @override
@@ -147,12 +169,14 @@ class _$_ControlProp implements _ControlProp {
             (identical(other.currentValue, currentValue) ||
                 other.currentValue == currentValue) &&
             const DeepCollectionEquality()
-                .equals(other._allowedValues, _allowedValues));
+                .equals(other._allowedValues, _allowedValues) &&
+            (identical(other.isPending, isPending) ||
+                other.isPending == isPending));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, type, currentValue,
-      const DeepCollectionEquality().hash(_allowedValues));
+      const DeepCollectionEquality().hash(_allowedValues), isPending);
 
   @JsonKey(ignore: true)
   @override
@@ -165,7 +189,8 @@ abstract class _ControlProp implements ControlProp {
   const factory _ControlProp(
       {required final ControlPropType type,
       required final String currentValue,
-      required final List<String> allowedValues}) = _$_ControlProp;
+      required final List<String> allowedValues,
+      final bool isPending}) = _$_ControlProp;
 
   @override
   ControlPropType get type;
@@ -173,6 +198,8 @@ abstract class _ControlProp implements ControlProp {
   String get currentValue;
   @override
   List<String> get allowedValues;
+  @override
+  bool get isPending;
   @override
   @JsonKey(ignore: true)
   _$$_ControlPropCopyWith<_$_ControlProp> get copyWith =>

@@ -27,17 +27,23 @@ class ControlPropValuePicker extends StatelessWidget {
           ...controlProp.allowedValues.map(
             (value) {
               final isCurrentValue = value == controlProp.currentValue;
+              final isUpdatePending = controlProp.isPending;
+
               return TextButton(
-                onPressed: () {
-                  onValuePicked(controlProp.type, value);
-                },
+                onPressed: isUpdatePending
+                    ? null
+                    : () {
+                        onValuePicked(controlProp.type, value);
+                      },
                 style: ButtonStyle(
                   shape: MaterialStateProperty.all<OutlinedBorder>(
                     const CircleBorder(),
                   ),
                   side: MaterialStateProperty.all(
                     isCurrentValue
-                        ? const BorderSide(width: 4, color: Colors.green)
+                        ? BorderSide(
+                            width: 4,
+                            color: isUpdatePending ? Colors.grey : Colors.green)
                         : null,
                   ),
                   backgroundColor:

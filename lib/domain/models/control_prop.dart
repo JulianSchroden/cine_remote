@@ -10,5 +10,6 @@ class ControlProp with _$ControlProp {
     required ControlPropType type,
     required String currentValue,
     required List<String> allowedValues,
+    @Default(false) bool isPending,
   }) = _ControlProp;
 }
