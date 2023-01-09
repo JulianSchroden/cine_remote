@@ -7,11 +7,10 @@ import '../../../../domain/models/camera_update_event.dart';
 import '../../../../domain/models/control_prop.dart';
 import '../../../../domain/models/control_prop_type.dart';
 import '../../../../domain/services/camera_remote_service.dart';
+import '../../../core/extensions/list_copy_with.dart';
 import '../../camera_connection/bloc/camera_connection_cubit.dart';
 
 part 'props_control_cubit.freezed.dart';
-
-class ControlPropNotFoundException implements Exception {}
 
 @freezed
 class PropsControlState with _$PropsControlState {
@@ -69,13 +68,14 @@ class PropsControlCubit extends Cubit<PropsControlState> {
       (cameraHandle) async {
         final previousProps = currentControlProps;
         try {
-          final updatedProps = _updateProp(
-            propType,
-            (prop) => prop.copyWith(
+          final updatedProps = currentControlProps.copyWith(
+            predecate: (prop) => prop.type == propType,
+            transform: (prop) => prop.copyWith(
               currentValue: value,
               isPending: true,
             ),
           );
+
           emit(PropsControlState.updating(updatedProps));
 
           await cameraRemoteService.setProp(cameraHandle, propType, value);
@@ -108,13 +108,14 @@ class PropsControlCubit extends Cubit<PropsControlState> {
                 return;
               }
 
-              final updatedProps = _updateProp(
-                propType,
-                (prop) => prop.copyWith(
+              final updatedProps = currentControlProps.copyWith(
+                predecate: (prop) => prop.type == propType,
+                transform: (prop) => prop.copyWith(
                   currentValue: value,
                   isPending: false,
                 ),
               );
+
               emit(PropsControlState.updateSuccess(updatedProps));
             } catch (e) {}
           },
@@ -123,27 +124,5 @@ class PropsControlCubit extends Cubit<PropsControlState> {
   }
 
   ControlProp _getProp(ControlPropType propType) =>
-      currentControlProps.firstWhere(
-        (prop) => prop.type == propType,
-        orElse: () {
-          throw ControlPropNotFoundException();
-        },
-      );
-
-  List<ControlProp> _updateProp(
-    ControlPropType propType,
-    ControlProp Function(ControlProp prop) transform,
-  ) {
-    final updatedControlProps = List<ControlProp>.from(currentControlProps);
-
-    final propIndex =
-        updatedControlProps.indexWhere((prop) => prop.type == propType);
-    if (propIndex == -1) {
-      throw ControlPropNotFoundException();
-    }
-
-    updatedControlProps[propIndex] = transform(updatedControlProps[propIndex]);
-
-    return updatedControlProps;
-  }
+      currentControlProps.firstWhere((prop) => prop.type == propType);
 }
