@@ -70,7 +70,6 @@ class PropsControlCubit extends Cubit<PropsControlState> {
         final previousProps = currentControlProps;
         try {
           final updatedProps = _updateProp(
-            previousProps,
             propType,
             (prop) => prop.copyWith(
               currentValue: value,
@@ -104,12 +103,16 @@ class PropsControlCubit extends Cubit<PropsControlState> {
       event.maybeWhen(
           prop: (propType, value) {
             try {
+              final prop = _getProp(propType);
+              if (prop.isPending && prop.currentValue != value) {
+                return;
+              }
+
               final updatedProps = _updateProp(
-                currentControlProps,
                 propType,
                 (prop) => prop.copyWith(
-                  currentValue: prop.isPending ? prop.currentValue : value,
-                  isPending: prop.isPending && prop.currentValue != value,
+                  currentValue: value,
+                  isPending: false,
                 ),
               );
               emit(PropsControlState.updateSuccess(updatedProps));
@@ -119,8 +122,15 @@ class PropsControlCubit extends Cubit<PropsControlState> {
     });
   }
 
+  ControlProp _getProp(ControlPropType propType) =>
+      currentControlProps.firstWhere(
+        (prop) => prop.type == propType,
+        orElse: () {
+          throw ControlPropNotFoundException();
+        },
+      );
+
   List<ControlProp> _updateProp(
-    List<ControlProp> previousControlProps,
     ControlPropType propType,
     ControlProp Function(ControlProp prop) transform,
   ) {
