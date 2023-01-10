@@ -6,10 +6,14 @@ part 'control_prop.freezed.dart';
 
 @freezed
 class ControlProp with _$ControlProp {
+  const ControlProp._();
+
   const factory ControlProp({
     required ControlPropType type,
     required String currentValue,
     required List<String> allowedValues,
-    @Default(false) bool isPending,
+    DateTime? pendingSince,
   }) = _ControlProp;
+
+  bool get isPending => pendingSince != null;
 }

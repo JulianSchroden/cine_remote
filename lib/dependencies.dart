@@ -2,12 +2,15 @@ import 'dart:async';
 
 import 'package:get_it/get_it.dart';
 
+import 'data/services/date_time_adapter_impl.dart';
 import 'data/services/http_adapter.dart';
 import 'data/services/wifi_camera_remote_service.dart';
 import 'domain/services/camera_remote_service.dart';
+import 'domain/services/date_time_adapter.dart';
 
 void registerDependencies() {
   factory<HttpAdapter>(() => HttpAdapter());
+  factory<DateTimeAdapter>(() => DateTimeAdapterImpl());
   singleton<CameraRemoteService>(
       () => WifiCameraRemoteService(get<HttpAdapter>()));
 }

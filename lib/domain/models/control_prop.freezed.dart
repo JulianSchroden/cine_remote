@@ -19,7 +19,7 @@ mixin _$ControlProp {
   ControlPropType get type => throw _privateConstructorUsedError;
   String get currentValue => throw _privateConstructorUsedError;
   List<String> get allowedValues => throw _privateConstructorUsedError;
-  bool get isPending => throw _privateConstructorUsedError;
+  DateTime? get pendingSince => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ControlPropCopyWith<ControlProp> get copyWith =>
@@ -36,7 +36,7 @@ abstract class $ControlPropCopyWith<$Res> {
       {ControlPropType type,
       String currentValue,
       List<String> allowedValues,
-      bool isPending});
+      DateTime? pendingSince});
 }
 
 /// @nodoc
@@ -55,7 +55,7 @@ class _$ControlPropCopyWithImpl<$Res, $Val extends ControlProp>
     Object? type = null,
     Object? currentValue = null,
     Object? allowedValues = null,
-    Object? isPending = null,
+    Object? pendingSince = freezed,
   }) {
     return _then(_value.copyWith(
       type: null == type
@@ -70,10 +70,10 @@ class _$ControlPropCopyWithImpl<$Res, $Val extends ControlProp>
           ? _value.allowedValues
           : allowedValues // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      isPending: null == isPending
-          ? _value.isPending
-          : isPending // ignore: cast_nullable_to_non_nullable
-              as bool,
+      pendingSince: freezed == pendingSince
+          ? _value.pendingSince
+          : pendingSince // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -90,7 +90,7 @@ abstract class _$$_ControlPropCopyWith<$Res>
       {ControlPropType type,
       String currentValue,
       List<String> allowedValues,
-      bool isPending});
+      DateTime? pendingSince});
 }
 
 /// @nodoc
@@ -107,7 +107,7 @@ class __$$_ControlPropCopyWithImpl<$Res>
     Object? type = null,
     Object? currentValue = null,
     Object? allowedValues = null,
-    Object? isPending = null,
+    Object? pendingSince = freezed,
   }) {
     return _then(_$_ControlProp(
       type: null == type
@@ -122,23 +122,24 @@ class __$$_ControlPropCopyWithImpl<$Res>
           ? _value._allowedValues
           : allowedValues // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      isPending: null == isPending
-          ? _value.isPending
-          : isPending // ignore: cast_nullable_to_non_nullable
-              as bool,
+      pendingSince: freezed == pendingSince
+          ? _value.pendingSince
+          : pendingSince // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
 
 /// @nodoc
 
-class _$_ControlProp implements _ControlProp {
+class _$_ControlProp extends _ControlProp {
   const _$_ControlProp(
       {required this.type,
       required this.currentValue,
       required final List<String> allowedValues,
-      this.isPending = false})
-      : _allowedValues = allowedValues;
+      this.pendingSince})
+      : _allowedValues = allowedValues,
+        super._();
 
   @override
   final ControlPropType type;
@@ -152,12 +153,11 @@ class _$_ControlProp implements _ControlProp {
   }
 
   @override
-  @JsonKey()
-  final bool isPending;
+  final DateTime? pendingSince;
 
   @override
   String toString() {
-    return 'ControlProp(type: $type, currentValue: $currentValue, allowedValues: $allowedValues, isPending: $isPending)';
+    return 'ControlProp(type: $type, currentValue: $currentValue, allowedValues: $allowedValues, pendingSince: $pendingSince)';
   }
 
   @override
@@ -170,13 +170,13 @@ class _$_ControlProp implements _ControlProp {
                 other.currentValue == currentValue) &&
             const DeepCollectionEquality()
                 .equals(other._allowedValues, _allowedValues) &&
-            (identical(other.isPending, isPending) ||
-                other.isPending == isPending));
+            (identical(other.pendingSince, pendingSince) ||
+                other.pendingSince == pendingSince));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, type, currentValue,
-      const DeepCollectionEquality().hash(_allowedValues), isPending);
+      const DeepCollectionEquality().hash(_allowedValues), pendingSince);
 
   @JsonKey(ignore: true)
   @override
@@ -185,12 +185,13 @@ class _$_ControlProp implements _ControlProp {
       __$$_ControlPropCopyWithImpl<_$_ControlProp>(this, _$identity);
 }
 
-abstract class _ControlProp implements ControlProp {
+abstract class _ControlProp extends ControlProp {
   const factory _ControlProp(
       {required final ControlPropType type,
       required final String currentValue,
       required final List<String> allowedValues,
-      final bool isPending}) = _$_ControlProp;
+      final DateTime? pendingSince}) = _$_ControlProp;
+  const _ControlProp._() : super._();
 
   @override
   ControlPropType get type;
@@ -199,7 +200,7 @@ abstract class _ControlProp implements ControlProp {
   @override
   List<String> get allowedValues;
   @override
-  bool get isPending;
+  DateTime? get pendingSince;
   @override
   @JsonKey(ignore: true)
   _$$_ControlPropCopyWith<_$_ControlProp> get copyWith =>

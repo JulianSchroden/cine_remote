@@ -17,6 +17,8 @@ import '../../../../test_mocks.dart';
 void main() {
   late MockCameraConnectionCubit mockCameraConnectionCubit;
   late MockCameraRemoteService mockCameraRemoteService;
+  late MockDateTimeAdapter mockDateTimeAdapter;
+
   const cameraHandle = WifiCameraHandle(
     cookies: [],
     supportedProps: [
@@ -36,6 +38,8 @@ void main() {
     allowedValues: ['100', '200', '400', '800'],
   );
 
+  final nowTime = DateTime(2023, 1, 10, 9, 18, 0);
+
   setUpAll(() {
     registerFallbackValue(
       const ControlProp(
@@ -48,6 +52,8 @@ void main() {
   setUp(() {
     mockCameraConnectionCubit = MockCameraConnectionCubit();
     mockCameraRemoteService = MockCameraRemoteService();
+    mockDateTimeAdapter = MockDateTimeAdapter();
+    when(() => mockDateTimeAdapter.now()).thenReturn(nowTime);
   });
 
   setupGetProp(
@@ -65,8 +71,8 @@ void main() {
       'emits [updatedFailed] when camera not connected',
       seed: () => const PropsControlState.updateSuccess([]),
       setUp: () => mockCameraConnectionCubit.setupCameraDisconnected(),
-      build: () =>
-          PropsControlCubit(mockCameraConnectionCubit, mockCameraRemoteService),
+      build: () => PropsControlCubit(mockCameraConnectionCubit,
+          mockCameraRemoteService, mockDateTimeAdapter),
       act: (cubit) => cubit.init(),
       expect: () => [
         const PropsControlState.updateFailed([]),
@@ -87,8 +93,8 @@ void main() {
           ControlPropType.whiteBalance: null,
         });
       },
-      build: () =>
-          PropsControlCubit(mockCameraConnectionCubit, mockCameraRemoteService),
+      build: () => PropsControlCubit(mockCameraConnectionCubit,
+          mockCameraRemoteService, mockDateTimeAdapter),
       act: (cubit) => cubit.init(),
       expect: () => [
         const PropsControlState.updating([]),
@@ -107,8 +113,8 @@ void main() {
                 cameraHandle, ControlPropType.aperture))
             .thenThrow(() => Exception('failed to get prop'));
       },
-      build: () =>
-          PropsControlCubit(mockCameraConnectionCubit, mockCameraRemoteService),
+      build: () => PropsControlCubit(mockCameraConnectionCubit,
+          mockCameraRemoteService, mockDateTimeAdapter),
       act: (cubit) => cubit.init(),
       expect: () => [
         const PropsControlState.updating([]),
@@ -122,8 +128,8 @@ void main() {
       'emits [updatedFailed] when camera not connected',
       seed: () => const PropsControlState.updateSuccess([]),
       setUp: () => mockCameraConnectionCubit.setupCameraDisconnected(),
-      build: () =>
-          PropsControlCubit(mockCameraConnectionCubit, mockCameraRemoteService),
+      build: () => PropsControlCubit(mockCameraConnectionCubit,
+          mockCameraRemoteService, mockDateTimeAdapter),
       act: (cubit) => cubit.setProp(ControlPropType.aperture, '4.0'),
       expect: () => [
         const PropsControlState.updateFailed([]),
@@ -136,8 +142,8 @@ void main() {
       setUp: () {
         mockCameraConnectionCubit.setupCameraConnected(cameraHandle);
       },
-      build: () =>
-          PropsControlCubit(mockCameraConnectionCubit, mockCameraRemoteService),
+      build: () => PropsControlCubit(mockCameraConnectionCubit,
+          mockCameraRemoteService, mockDateTimeAdapter),
       act: (cubit) => cubit.setProp(ControlPropType.aperture, '4.0'),
       expect: () => [
         const PropsControlState.updateFailed([]),
@@ -150,8 +156,8 @@ void main() {
       setUp: () {
         mockCameraConnectionCubit.setupCameraConnected(cameraHandle);
       },
-      build: () =>
-          PropsControlCubit(mockCameraConnectionCubit, mockCameraRemoteService),
+      build: () => PropsControlCubit(mockCameraConnectionCubit,
+          mockCameraRemoteService, mockDateTimeAdapter),
       act: (cubit) => cubit.setProp(ControlPropType.iso, '100'),
       expect: () => [
         const PropsControlState.updateFailed([apertureControlProp]),
@@ -167,12 +173,13 @@ void main() {
                 cameraHandle, ControlPropType.aperture, '4.0'))
             .thenAnswer((invocation) async {});
       },
-      build: () =>
-          PropsControlCubit(mockCameraConnectionCubit, mockCameraRemoteService),
+      build: () => PropsControlCubit(mockCameraConnectionCubit,
+          mockCameraRemoteService, mockDateTimeAdapter),
       act: (cubit) => cubit.setProp(ControlPropType.aperture, '4.0'),
       expect: () => [
         PropsControlState.updating([
-          apertureControlProp.copyWith(currentValue: '4.0', isPending: true)
+          apertureControlProp.copyWith(
+              currentValue: '4.0', pendingSince: nowTime)
         ]),
       ],
     );
@@ -186,12 +193,15 @@ void main() {
                 cameraHandle, ControlPropType.aperture, '4.0'))
             .thenThrow((_) => Exception('failied to set prop'));
       },
-      build: () =>
-          PropsControlCubit(mockCameraConnectionCubit, mockCameraRemoteService),
+      build: () => PropsControlCubit(mockCameraConnectionCubit,
+          mockCameraRemoteService, mockDateTimeAdapter),
       act: (cubit) => cubit.setProp(ControlPropType.aperture, '4.0'),
       expect: () => [
         PropsControlState.updating([
-          apertureControlProp.copyWith(currentValue: '4.0', isPending: true)
+          apertureControlProp.copyWith(
+            currentValue: '4.0',
+            pendingSince: nowTime,
+          )
         ]),
         const PropsControlState.updateFailed([apertureControlProp]),
       ],
@@ -199,35 +209,65 @@ void main() {
   });
 
   group('prop event handling', () {
+    StreamController<CameraUpdateEvent> propEventTestSetup() {
+      mockCameraConnectionCubit.setupCameraConnected(cameraHandle);
+      setupGetProp(cameraHandle, {
+        ControlPropType.aperture: apertureControlProp,
+        ControlPropType.iso: isoControlProp,
+        ControlPropType.whiteBalance: null,
+      });
+
+      final cameraUpdateStreamController =
+          StreamController<CameraUpdateEvent>();
+      when(() => mockCameraConnectionCubit.updateEvents)
+          .thenAnswer((_) => cameraUpdateStreamController.stream);
+      return cameraUpdateStreamController;
+    }
+
+    BlocTestStep<PropsControlCubit,
+            PropsControlState, StreamController<CameraUpdateEvent>>
+        initBlocStep() => BlocTestStep(
+              'calling init should emit [updating, updateSuccess]',
+              act: (cubit, updateStreamController) => cubit.init(),
+              expect: () => const [
+                PropsControlState.updating([]),
+                PropsControlState.updateSuccess(
+                    [apertureControlProp, isoControlProp])
+              ],
+            );
+
+    BlocTestStep<PropsControlCubit, PropsControlState,
+            StreamController<CameraUpdateEvent>>
+        setIsoPropBlocStep() => BlocTestStep(
+              'calling setProp should emit [updating] with pendingSince set to current time',
+              setUp: () {
+                when(() => mockCameraRemoteService.setProp(
+                      cameraHandle,
+                      ControlPropType.iso,
+                      '800',
+                    )).thenAnswer((_) async {});
+              },
+              act: (cubit, updateStreamController) =>
+                  cubit.setProp(ControlPropType.iso, '800'),
+              expect: () => [
+                PropsControlState.updating([
+                  apertureControlProp,
+                  isoControlProp.copyWith(
+                    currentValue: '800',
+                    pendingSince: nowTime,
+                  )
+                ])
+              ],
+            );
+
     multiStepBlocTest<PropsControlCubit, PropsControlState,
         StreamController<CameraUpdateEvent>>(
-      'should listen for updates and only emit [updateSuccess] for initialied props',
-      setUp: () {
-        mockCameraConnectionCubit.setupCameraConnected(cameraHandle);
-        setupGetProp(cameraHandle, {
-          ControlPropType.aperture: apertureControlProp,
-          ControlPropType.iso: isoControlProp,
-          ControlPropType.whiteBalance: null,
-        });
-
-        final cameraUpdateStreamController =
-            StreamController<CameraUpdateEvent>();
-        when(() => mockCameraConnectionCubit.updateEvents)
-            .thenAnswer((_) => cameraUpdateStreamController.stream);
-        return cameraUpdateStreamController;
-      },
-      build: () =>
-          PropsControlCubit(mockCameraConnectionCubit, mockCameraRemoteService),
+      'should listen for updates and only emit [updateSuccess] for initialized props',
+      setUp: propEventTestSetup,
+      build: () => PropsControlCubit(mockCameraConnectionCubit,
+          mockCameraRemoteService, mockDateTimeAdapter),
       steps: [
-        BlocTestStep(
-          'calling init should emit [updating, updateSuccess]',
-          act: (cubit, updateStreamController) => cubit.init(),
-          expect: () => const [
-            PropsControlState.updating([]),
-            PropsControlState.updateSuccess(
-                [apertureControlProp, isoControlProp])
-          ],
-        ),
+        initBlocStep(),
         BlocTestStep(
           'events which arent prop events should be ignored',
           act: (cubit, updateStreamController) {
@@ -252,10 +292,7 @@ void main() {
           },
           expect: () => [
             PropsControlState.updateSuccess([
-              apertureControlProp.copyWith(
-                currentValue: '8.0',
-                isPending: false,
-              ),
+              apertureControlProp.copyWith(currentValue: '8.0'),
               isoControlProp
             ])
           ],
@@ -265,56 +302,15 @@ void main() {
 
     multiStepBlocTest<PropsControlCubit, PropsControlState,
         StreamController<CameraUpdateEvent>>(
-      'setProp and propEvent should set isPending flag correctly',
-      setUp: () {
-        mockCameraConnectionCubit.setupCameraConnected(cameraHandle);
-        setupGetProp(cameraHandle, {
-          ControlPropType.aperture: apertureControlProp,
-          ControlPropType.iso: isoControlProp,
-          ControlPropType.whiteBalance: null,
-        });
-
-        final cameraUpdateStreamController =
-            StreamController<CameraUpdateEvent>();
-        when(() => mockCameraConnectionCubit.updateEvents)
-            .thenAnswer((_) => cameraUpdateStreamController.stream);
-        return cameraUpdateStreamController;
-      },
-      build: () =>
-          PropsControlCubit(mockCameraConnectionCubit, mockCameraRemoteService),
+      'propEvent should only emit pending value when prop is pending',
+      setUp: propEventTestSetup,
+      build: () => PropsControlCubit(mockCameraConnectionCubit,
+          mockCameraRemoteService, mockDateTimeAdapter),
       steps: [
+        initBlocStep(),
+        setIsoPropBlocStep(),
         BlocTestStep(
-          'calling init should emit [updating, updateSuccess]',
-          act: (cubit, updateStreamController) => cubit.init(),
-          expect: () => const [
-            PropsControlState.updating([]),
-            PropsControlState.updateSuccess(
-                [apertureControlProp, isoControlProp])
-          ],
-        ),
-        BlocTestStep(
-          'calling setProp should emit [updating] with isPending true',
-          setUp: () {
-            when(() => mockCameraRemoteService.setProp(
-                  cameraHandle,
-                  ControlPropType.iso,
-                  '800',
-                )).thenAnswer((_) async {});
-          },
-          act: (cubit, updateStreamController) =>
-              cubit.setProp(ControlPropType.iso, '800'),
-          expect: () => [
-            PropsControlState.updating([
-              apertureControlProp,
-              isoControlProp.copyWith(
-                currentValue: '800',
-                isPending: true,
-              )
-            ])
-          ],
-        ),
-        BlocTestStep(
-          'should not emit when prop isPending and event contains different value',
+          'should not emit when prop is pending and event contains different value',
           act: (cubit, updateStreamController) {
             updateStreamController
                 .add(const CameraUpdateEvent.prop(ControlPropType.iso, '400'));
@@ -322,7 +318,7 @@ void main() {
           expect: () => [],
         ),
         BlocTestStep(
-          'should emit [updateSuccess] with isPending false when event contains pending value',
+          'should emit [updateSuccess] with pendingSince set to null when event contains pending value',
           act: (cubit, updateStreamController) {
             updateStreamController
                 .add(const CameraUpdateEvent.prop(ControlPropType.iso, '800'));
@@ -332,11 +328,41 @@ void main() {
               apertureControlProp,
               isoControlProp.copyWith(
                 currentValue: '800',
-                isPending: false,
+                pendingSince: null,
               )
             ])
           ],
         )
+      ],
+    );
+
+    multiStepBlocTest<PropsControlCubit, PropsControlState,
+        StreamController<CameraUpdateEvent>>(
+      'should reset pending state after pendingDuration to ensure state is not dead locked',
+      setUp: propEventTestSetup,
+      build: () => PropsControlCubit(mockCameraConnectionCubit,
+          mockCameraRemoteService, mockDateTimeAdapter),
+      steps: [
+        initBlocStep(),
+        setIsoPropBlocStep(),
+        BlocTestStep(
+          'should emit [updateSuccess] with value from propEvent when pendingDuration is over',
+          setUp: () {
+            when(() => mockDateTimeAdapter.now()).thenReturn(nowTime.add(
+                PropsControlCubit.pendingDuration +
+                    const Duration(milliseconds: 100)));
+          },
+          act: (cubit, updateStreamController) {
+            updateStreamController
+                .add(const CameraUpdateEvent.prop(ControlPropType.iso, '400'));
+          },
+          expect: () => [
+            PropsControlState.updateSuccess([
+              apertureControlProp,
+              isoControlProp.copyWith(currentValue: '400')
+            ])
+          ],
+        ),
       ],
     );
   });

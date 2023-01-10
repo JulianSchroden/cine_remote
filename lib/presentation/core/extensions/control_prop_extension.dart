@@ -15,3 +15,11 @@ extension FormatControlPropExtension on ControlProp {
     }
   }
 }
+
+extension ControlPropIsPending on ControlProp {
+  bool isWithinPendingTime(DateTime currentTime, Duration pendingDuration) {
+    if (pendingSince == null) return false;
+
+    return currentTime.isBefore(pendingSince!.add(pendingDuration));
+  }
+}

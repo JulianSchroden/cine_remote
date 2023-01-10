@@ -7,6 +7,8 @@ import '../../../../domain/models/camera_update_event.dart';
 import '../../../../domain/models/control_prop.dart';
 import '../../../../domain/models/control_prop_type.dart';
 import '../../../../domain/services/camera_remote_service.dart';
+import '../../../../domain/services/date_time_adapter.dart';
+import '../../../core/extensions/control_prop_extension.dart';
 import '../../../core/extensions/list_copy_with.dart';
 import '../../camera_connection/bloc/camera_connection_cubit.dart';
 
@@ -23,13 +25,16 @@ class PropsControlState with _$PropsControlState {
 }
 
 class PropsControlCubit extends Cubit<PropsControlState> {
-  CameraConnectionCubit cameraConnectionCubit;
-  CameraRemoteService cameraRemoteService;
+  static const pendingDuration = Duration(seconds: 2);
+  final CameraConnectionCubit _cameraConnectionCubit;
+  final CameraRemoteService _cameraRemoteService;
+  final DateTimeAdapter _dateTimeAdapter;
   StreamSubscription<CameraUpdateEvent>? _updateStreamSubscription;
 
   PropsControlCubit(
-    this.cameraConnectionCubit,
-    this.cameraRemoteService,
+    this._cameraConnectionCubit,
+    this._cameraRemoteService,
+    this._dateTimeAdapter,
   ) : super(const PropsControlState.init());
 
   @override
@@ -39,14 +44,14 @@ class PropsControlCubit extends Cubit<PropsControlState> {
   }
 
   Future<void> init() async {
-    await cameraConnectionCubit.withConnectedCamera((cameraHandle) async {
+    await _cameraConnectionCubit.withConnectedCamera((cameraHandle) async {
       emit(const PropsControlState.updating([]));
 
       try {
         final controlProps = <ControlProp>[];
         for (final propType in cameraHandle.supportedProps) {
           final controlProp =
-              await cameraRemoteService.getProp(cameraHandle, propType);
+              await _cameraRemoteService.getProp(cameraHandle, propType);
           if (controlProp != null) {
             controlProps.add(controlProp);
           }
@@ -64,7 +69,7 @@ class PropsControlCubit extends Cubit<PropsControlState> {
   }
 
   Future<void> setProp(ControlPropType propType, String value) async {
-    await cameraConnectionCubit.withConnectedCamera(
+    await _cameraConnectionCubit.withConnectedCamera(
       (cameraHandle) async {
         final previousProps = currentControlProps;
         try {
@@ -72,13 +77,13 @@ class PropsControlCubit extends Cubit<PropsControlState> {
             predecate: (prop) => prop.type == propType,
             transform: (prop) => prop.copyWith(
               currentValue: value,
-              isPending: true,
+              pendingSince: _dateTimeAdapter.now(),
             ),
           );
 
           emit(PropsControlState.updating(updatedProps));
 
-          await cameraRemoteService.setProp(cameraHandle, propType, value);
+          await _cameraRemoteService.setProp(cameraHandle, propType, value);
         } catch (e) {
           emit(PropsControlState.updateFailed(previousProps));
         }
@@ -96,7 +101,7 @@ class PropsControlCubit extends Cubit<PropsControlState> {
       orElse: () => <ControlProp>[]);
 
   void _setupUpdateListener() {
-    _updateStreamSubscription = cameraConnectionCubit.updateEvents
+    _updateStreamSubscription = _cameraConnectionCubit.updateEvents
         .where((event) =>
             event.maybeWhen(prop: (_, __) => true, orElse: () => false))
         .listen((event) {
@@ -104,7 +109,11 @@ class PropsControlCubit extends Cubit<PropsControlState> {
           prop: (propType, value) {
             try {
               final prop = _getProp(propType);
-              if (prop.isPending && prop.currentValue != value) {
+              final isWithinPendingTime = prop.isWithinPendingTime(
+                  _dateTimeAdapter.now(), pendingDuration);
+              final isWaitingForPendingValue =
+                  isWithinPendingTime && prop.currentValue != value;
+              if (isWaitingForPendingValue) {
                 return;
               }
 
@@ -112,7 +121,7 @@ class PropsControlCubit extends Cubit<PropsControlState> {
                 predecate: (prop) => prop.type == propType,
                 transform: (prop) => prop.copyWith(
                   currentValue: value,
-                  isPending: false,
+                  pendingSince: null,
                 ),
               );
 

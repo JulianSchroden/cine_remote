@@ -27,10 +27,9 @@ class ControlPropValuePicker extends StatelessWidget {
           ...controlProp.allowedValues.map(
             (value) {
               final isCurrentValue = value == controlProp.currentValue;
-              final isUpdatePending = controlProp.isPending;
 
               return TextButton(
-                onPressed: isUpdatePending
+                onPressed: controlProp.isPending
                     ? null
                     : () {
                         onValuePicked(controlProp.type, value);
@@ -43,7 +42,9 @@ class ControlPropValuePicker extends StatelessWidget {
                     isCurrentValue
                         ? BorderSide(
                             width: 4,
-                            color: isUpdatePending ? Colors.grey : Colors.green)
+                            color: controlProp.isPending
+                                ? Colors.grey
+                                : Colors.green)
                         : null,
                   ),
                   backgroundColor:

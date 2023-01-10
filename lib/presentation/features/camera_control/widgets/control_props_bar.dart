@@ -5,6 +5,7 @@ import '../../../../dependencies.dart';
 import '../../../../domain/models/control_prop.dart';
 import '../../../../domain/models/control_prop_type.dart';
 import '../../../../domain/services/camera_remote_service.dart';
+import '../../../../domain/services/date_time_adapter.dart';
 import '../../camera_connection/bloc/camera_connection_cubit.dart';
 import '../bloc/props_control_cubit.dart';
 import 'control_prop_item.dart';
@@ -72,9 +73,10 @@ class _ControlPropsBarState extends State<ControlPropsBar> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => PropsControlCubit(
-        context.read<CameraConnectionCubit>(),
-        get<CameraRemoteService>(),
-      )..init(),
+          context.read<CameraConnectionCubit>(),
+          get<CameraRemoteService>(),
+          get<DateTimeAdapter>())
+        ..init(),
       child: BlocBuilder<PropsControlCubit, PropsControlState>(
         builder: (context, state) => Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
