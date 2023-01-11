@@ -57,7 +57,7 @@ class PropsControlCubit extends Cubit<PropsControlState> {
           }
         }
 
-        _setupUpdateListener();
+        await _setupUpdateListener();
 
         emit(PropsControlState.updateSuccess(controlProps));
       } catch (e) {
@@ -100,7 +100,8 @@ class PropsControlCubit extends Cubit<PropsControlState> {
       updateFailed: (props) => props,
       orElse: () => <ControlProp>[]);
 
-  void _setupUpdateListener() {
+  Future<void> _setupUpdateListener() async {
+    await _updateStreamSubscription?.cancel();
     _updateStreamSubscription = _cameraConnectionCubit.updateEvents
         .where((event) =>
             event.maybeWhen(prop: (_, __) => true, orElse: () => false))
