@@ -16,12 +16,23 @@ part 'props_control_cubit.freezed.dart';
 
 @freezed
 class PropsControlState with _$PropsControlState {
+  const PropsControlState._();
+
   const factory PropsControlState.init() = _Init;
   const factory PropsControlState.updating(List<ControlProp> props) = _Updating;
   const factory PropsControlState.updateSuccess(List<ControlProp> props) =
       _UpdateSuccess;
   const factory PropsControlState.updateFailed(List<ControlProp> props) =
       _UpdateFailed;
+
+  List<ControlProp> get controlProps => maybeWhen(
+      updating: (props) => props,
+      updateSuccess: (props) => props,
+      updateFailed: (props) => props,
+      orElse: () => <ControlProp>[]);
+
+  ControlProp getProp(ControlPropType propType) =>
+      controlProps.firstWhere((prop) => prop.type == propType);
 }
 
 class PropsControlCubit extends Cubit<PropsControlState> {
@@ -71,9 +82,9 @@ class PropsControlCubit extends Cubit<PropsControlState> {
   Future<void> setProp(ControlPropType propType, String value) async {
     await _cameraConnectionCubit.withConnectedCamera(
       (cameraHandle) async {
-        final previousProps = currentControlProps;
+        final previousProps = state.controlProps;
         try {
-          final updatedProps = currentControlProps.copyWith(
+          final updatedProps = state.controlProps.copyWith(
             predecate: (prop) => prop.type == propType,
             transform: (prop) => prop.copyWith(
               currentValue: value,
@@ -94,45 +105,35 @@ class PropsControlCubit extends Cubit<PropsControlState> {
     );
   }
 
-  List<ControlProp> get currentControlProps => state.maybeWhen(
-      updating: (props) => props,
-      updateSuccess: (props) => props,
-      updateFailed: (props) => props,
-      orElse: () => <ControlProp>[]);
-
   Future<void> _setupUpdateListener() async {
     await _updateStreamSubscription?.cancel();
-    _updateStreamSubscription = _cameraConnectionCubit.updateEvents
-        .where((event) =>
-            event.maybeWhen(prop: (_, __) => true, orElse: () => false))
-        .listen((event) {
+    _updateStreamSubscription =
+        _cameraConnectionCubit.updateEvents.listen((event) {
       event.maybeWhen(
-          prop: (propType, value) {
-            try {
-              final prop = _getProp(propType);
-              final isWithinPendingTime = prop.isWithinPendingTime(
-                  _dateTimeAdapter.now(), pendingDuration);
-              final isWaitingForPendingValue =
-                  isWithinPendingTime && prop.currentValue != value;
-              if (isWaitingForPendingValue) {
-                return;
-              }
+        prop: (propType, value) {
+          try {
+            final prop = state.getProp(propType);
+            final isWithinPendingTime = prop.isWithinPendingTime(
+                _dateTimeAdapter.now(), pendingDuration);
+            final isWaitingForPendingValue =
+                isWithinPendingTime && prop.currentValue != value;
+            if (isWaitingForPendingValue) {
+              return;
+            }
 
-              final updatedProps = currentControlProps.copyWith(
-                predecate: (prop) => prop.type == propType,
-                transform: (prop) => prop.copyWith(
-                  currentValue: value,
-                  pendingSince: null,
-                ),
-              );
+            final updatedProps = state.controlProps.copyWith(
+              predecate: (prop) => prop.type == propType,
+              transform: (prop) => prop.copyWith(
+                currentValue: value,
+                pendingSince: null,
+              ),
+            );
 
-              emit(PropsControlState.updateSuccess(updatedProps));
-            } catch (e) {}
-          },
-          orElse: () {});
+            emit(PropsControlState.updateSuccess(updatedProps));
+          } catch (e) {}
+        },
+        orElse: () {},
+      );
     });
   }
-
-  ControlProp _getProp(ControlPropType propType) =>
-      currentControlProps.firstWhere((prop) => prop.type == propType);
 }

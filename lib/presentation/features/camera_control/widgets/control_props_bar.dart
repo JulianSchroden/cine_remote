@@ -1,82 +1,81 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../domain/models/control_prop.dart';
 import '../../../../domain/models/control_prop_type.dart';
 import '../bloc/props_control_cubit.dart';
 import 'control_prop_item.dart';
-import 'control_prop_value_picker.dart';
 
-class ControlPropsBar extends StatefulWidget {
-  const ControlPropsBar({super.key});
+class ControlPropsBar extends StatelessWidget {
+  final Orientation orientation;
+  final ControlPropType? selectedType;
+  final void Function(ControlPropType propType) onPropSelected;
 
-  @override
-  State<ControlPropsBar> createState() => _ControlPropsBarState();
-}
+  factory ControlPropsBar.portrait({
+    required ControlPropType? selectedType,
+    required void Function(ControlPropType propType) onPropSelected,
+  }) =>
+      ControlPropsBar(
+        orientation: Orientation.portrait,
+        selectedType: selectedType,
+        onPropSelected: onPropSelected,
+      );
 
-class _ControlPropsBarState extends State<ControlPropsBar> {
-  ControlPropType? _selectedType;
+  factory ControlPropsBar.landscape({
+    required ControlPropType? selectedType,
+    required void Function(ControlPropType propType) onPropSelected,
+  }) =>
+      ControlPropsBar(
+        orientation: Orientation.landscape,
+        selectedType: selectedType,
+        onPropSelected: onPropSelected,
+      );
 
-  Widget _buildPropItems(BuildContext context, List<ControlProp> controlProps) {
+  const ControlPropsBar({
+    required this.orientation,
+    required this.selectedType,
+    required this.onPropSelected,
+    super.key,
+  });
+
+  Widget _buildContainer(
+      {required BuildContext context, required List<Widget> children}) {
+    if (orientation == Orientation.portrait) {
+      return Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: children,
+      );
+    }
+
     return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 16),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ...controlProps.map(
-                (controlProp) => Expanded(
-                  child: ControlPropItem(
-                    controlProp: controlProp,
-                    onPressed: () {
-                      setState(() {
-                        if (_selectedType == controlProp.type) {
-                          _selectedType = null;
-                        } else {
-                          _selectedType = controlProp.type;
-                        }
-                      });
-                    },
-                    isSelected: _selectedType == controlProp.type,
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-        if (_selectedType != null)
-          Expanded(
-            child: Container(
-              color: Colors.grey[850],
-              child: Column(
-                children: [
-                  ControlPropValuePicker(
-                    controlProp: controlProps
-                        .firstWhere((prop) => prop.type == _selectedType),
-                    onValuePicked: (type, value) =>
-                        context.read<PropsControlCubit>().setProp(type, value),
-                  ),
-                ],
-              ),
-            ),
-          )
-      ],
+      children: children,
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PropsControlCubit, PropsControlState>(
-      builder: (context, state) => Padding(
+        builder: (context, state) {
+      final controlProps = state.controlProps;
+
+      return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: state.maybeWhen(
-          updating: (props) => _buildPropItems(context, props),
-          updateSuccess: (props) => _buildPropItems(context, props),
-          updateFailed: (props) => _buildPropItems(context, props),
-          orElse: () => Container(),
+        child: _buildContainer(
+          context: context,
+          children: [
+            ...controlProps.map(
+              (controlProp) => Expanded(
+                child: ControlPropItem(
+                  controlProp: controlProp,
+                  onPressed: () {
+                    onPropSelected(controlProp.type);
+                  },
+                  isSelected: selectedType == controlProp.type,
+                ),
+              ),
+            )
+          ],
         ),
-      ),
-    );
+      );
+    });
   }
 }

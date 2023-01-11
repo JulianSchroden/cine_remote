@@ -102,8 +102,8 @@ class __$$_InitCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Init implements _Init {
-  const _$_Init();
+class _$_Init extends _Init {
+  const _$_Init() : super._();
 
   @override
   String toString() {
@@ -194,8 +194,9 @@ class _$_Init implements _Init {
   }
 }
 
-abstract class _Init implements PropsControlState {
+abstract class _Init extends PropsControlState {
   const factory _Init() = _$_Init;
+  const _Init._() : super._();
 }
 
 /// @nodoc
@@ -231,8 +232,10 @@ class __$$_UpdatingCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Updating implements _Updating {
-  const _$_Updating(final List<ControlProp> props) : _props = props;
+class _$_Updating extends _Updating {
+  const _$_Updating(final List<ControlProp> props)
+      : _props = props,
+        super._();
 
   final List<ControlProp> _props;
   @override
@@ -339,8 +342,9 @@ class _$_Updating implements _Updating {
   }
 }
 
-abstract class _Updating implements PropsControlState {
+abstract class _Updating extends PropsControlState {
   const factory _Updating(final List<ControlProp> props) = _$_Updating;
+  const _Updating._() : super._();
 
   List<ControlProp> get props;
   @JsonKey(ignore: true)
@@ -381,8 +385,10 @@ class __$$_UpdateSuccessCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_UpdateSuccess implements _UpdateSuccess {
-  const _$_UpdateSuccess(final List<ControlProp> props) : _props = props;
+class _$_UpdateSuccess extends _UpdateSuccess {
+  const _$_UpdateSuccess(final List<ControlProp> props)
+      : _props = props,
+        super._();
 
   final List<ControlProp> _props;
   @override
@@ -489,9 +495,10 @@ class _$_UpdateSuccess implements _UpdateSuccess {
   }
 }
 
-abstract class _UpdateSuccess implements PropsControlState {
+abstract class _UpdateSuccess extends PropsControlState {
   const factory _UpdateSuccess(final List<ControlProp> props) =
       _$_UpdateSuccess;
+  const _UpdateSuccess._() : super._();
 
   List<ControlProp> get props;
   @JsonKey(ignore: true)
@@ -532,8 +539,10 @@ class __$$_UpdateFailedCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_UpdateFailed implements _UpdateFailed {
-  const _$_UpdateFailed(final List<ControlProp> props) : _props = props;
+class _$_UpdateFailed extends _UpdateFailed {
+  const _$_UpdateFailed(final List<ControlProp> props)
+      : _props = props,
+        super._();
 
   final List<ControlProp> _props;
   @override
@@ -640,8 +649,9 @@ class _$_UpdateFailed implements _UpdateFailed {
   }
 }
 
-abstract class _UpdateFailed implements PropsControlState {
+abstract class _UpdateFailed extends PropsControlState {
   const factory _UpdateFailed(final List<ControlProp> props) = _$_UpdateFailed;
+  const _UpdateFailed._() : super._();
 
   List<ControlProp> get props;
   @JsonKey(ignore: true)
