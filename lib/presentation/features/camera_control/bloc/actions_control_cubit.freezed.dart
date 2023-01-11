@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ActionsState {
   bool get isRecording => throw _privateConstructorUsedError;
-  bool get isAfLocked => throw _privateConstructorUsedError;
+  AutoFocusMode get focusMode => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ActionsStateCopyWith<ActionsState> get copyWith =>
@@ -30,7 +30,7 @@ abstract class $ActionsStateCopyWith<$Res> {
           ActionsState value, $Res Function(ActionsState) then) =
       _$ActionsStateCopyWithImpl<$Res, ActionsState>;
   @useResult
-  $Res call({bool isRecording, bool isAfLocked});
+  $Res call({bool isRecording, AutoFocusMode focusMode});
 }
 
 /// @nodoc
@@ -47,17 +47,17 @@ class _$ActionsStateCopyWithImpl<$Res, $Val extends ActionsState>
   @override
   $Res call({
     Object? isRecording = null,
-    Object? isAfLocked = null,
+    Object? focusMode = null,
   }) {
     return _then(_value.copyWith(
       isRecording: null == isRecording
           ? _value.isRecording
           : isRecording // ignore: cast_nullable_to_non_nullable
               as bool,
-      isAfLocked: null == isAfLocked
-          ? _value.isAfLocked
-          : isAfLocked // ignore: cast_nullable_to_non_nullable
-              as bool,
+      focusMode: null == focusMode
+          ? _value.focusMode
+          : focusMode // ignore: cast_nullable_to_non_nullable
+              as AutoFocusMode,
     ) as $Val);
   }
 }
@@ -70,7 +70,7 @@ abstract class _$$_ActionsStateCopyWith<$Res>
       __$$_ActionsStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isRecording, bool isAfLocked});
+  $Res call({bool isRecording, AutoFocusMode focusMode});
 }
 
 /// @nodoc
@@ -85,17 +85,17 @@ class __$$_ActionsStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isRecording = null,
-    Object? isAfLocked = null,
+    Object? focusMode = null,
   }) {
     return _then(_$_ActionsState(
       isRecording: null == isRecording
           ? _value.isRecording
           : isRecording // ignore: cast_nullable_to_non_nullable
               as bool,
-      isAfLocked: null == isAfLocked
-          ? _value.isAfLocked
-          : isAfLocked // ignore: cast_nullable_to_non_nullable
-              as bool,
+      focusMode: null == focusMode
+          ? _value.focusMode
+          : focusMode // ignore: cast_nullable_to_non_nullable
+              as AutoFocusMode,
     ));
   }
 }
@@ -103,16 +103,16 @@ class __$$_ActionsStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_ActionsState implements _ActionsState {
-  _$_ActionsState({required this.isRecording, required this.isAfLocked});
+  _$_ActionsState({required this.isRecording, required this.focusMode});
 
   @override
   final bool isRecording;
   @override
-  final bool isAfLocked;
+  final AutoFocusMode focusMode;
 
   @override
   String toString() {
-    return 'ActionsState(isRecording: $isRecording, isAfLocked: $isAfLocked)';
+    return 'ActionsState(isRecording: $isRecording, focusMode: $focusMode)';
   }
 
   @override
@@ -122,12 +122,12 @@ class _$_ActionsState implements _ActionsState {
             other is _$_ActionsState &&
             (identical(other.isRecording, isRecording) ||
                 other.isRecording == isRecording) &&
-            (identical(other.isAfLocked, isAfLocked) ||
-                other.isAfLocked == isAfLocked));
+            (identical(other.focusMode, focusMode) ||
+                other.focusMode == focusMode));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isRecording, isAfLocked);
+  int get hashCode => Object.hash(runtimeType, isRecording, focusMode);
 
   @JsonKey(ignore: true)
   @override
@@ -139,12 +139,12 @@ class _$_ActionsState implements _ActionsState {
 abstract class _ActionsState implements ActionsState {
   factory _ActionsState(
       {required final bool isRecording,
-      required final bool isAfLocked}) = _$_ActionsState;
+      required final AutoFocusMode focusMode}) = _$_ActionsState;
 
   @override
   bool get isRecording;
   @override
-  bool get isAfLocked;
+  AutoFocusMode get focusMode;
   @override
   @JsonKey(ignore: true)
   _$$_ActionsStateCopyWith<_$_ActionsState> get copyWith =>

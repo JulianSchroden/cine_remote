@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../domain/models/auto_focus_mode.dart';
+import '../../../../domain/models/camera_update_event.dart';
 import '../../../../domain/services/camera_remote_service.dart';
 import '../../camera_connection/bloc/camera_connection_cubit.dart';
 
@@ -10,7 +14,7 @@ part 'actions_control_cubit.freezed.dart';
 class ActionsState with _$ActionsState {
   factory ActionsState({
     required bool isRecording,
-    required bool isAfLocked,
+    required AutoFocusMode focusMode,
   }) = _ActionsState;
 }
 
@@ -25,24 +29,45 @@ class ActionsControlState with _$ActionsControlState {
 }
 
 class ActionsControlCubit extends Cubit<ActionsControlState> {
-  final CameraConnectionCubit cameraConnectionCubit;
-  final CameraRemoteService cameraRemoteService;
+  final CameraConnectionCubit _cameraConnectionCubit;
+  final CameraRemoteService _cameraRemoteService;
+  StreamSubscription<CameraUpdateEvent>? _updateStreamSubscription;
 
   ActionsControlCubit(
-    this.cameraConnectionCubit,
-    this.cameraRemoteService,
+    this._cameraConnectionCubit,
+    this._cameraRemoteService,
   ) : super(ActionsControlState.init(
-            ActionsState(isRecording: false, isAfLocked: false)));
+            ActionsState(isRecording: false, focusMode: AutoFocusMode.off)));
+
+  @override
+  Future<void> close() async {
+    await _updateStreamSubscription?.cancel();
+    return super.close();
+  }
+
+  Future<void> init() async {
+    await _updateStreamSubscription?.cancel();
+    _updateStreamSubscription = _cameraConnectionCubit.updateEvents.listen(
+      (event) {
+        event.maybeWhen(
+            recordState: (isRecording) {
+              emit(ActionsControlState.updateSuccess(
+                  state.actionsState.copyWith(isRecording: isRecording)));
+            },
+            focusMode: (focusMode) {
+              emit(ActionsControlState.updateSuccess(
+                  state.actionsState.copyWith(focusMode: focusMode)));
+            },
+            orElse: () {});
+      },
+    );
+  }
 
   Future<void> triggerRecord() async {
-    await cameraConnectionCubit.withConnectedCamera((cameraHandle) async {
+    await _cameraConnectionCubit.withConnectedCamera((cameraHandle) async {
       try {
         emit(ActionsControlState.updating(state.actionsState));
-        await cameraRemoteService.triggerRecord(cameraHandle);
-        emit(ActionsControlState.updateSuccess(
-          state.actionsState
-              .copyWith(isRecording: !state.actionsState.isRecording),
-        ));
+        await _cameraRemoteService.triggerRecord(cameraHandle);
       } catch (e) {
         emit(ActionsControlState.updateFailed(state.actionsState));
       }
@@ -51,15 +76,15 @@ class ActionsControlCubit extends Cubit<ActionsControlState> {
     });
   }
 
-  Future<void> toggleAfLock() async {
-    await cameraConnectionCubit.withConnectedCamera((cameraHandle) async {
-      emit(ActionsControlState.updating(state.actionsState));
-      await cameraRemoteService.toggleAfLock(cameraHandle);
-      emit(ActionsControlState.updateSuccess(
-        state.actionsState.copyWith(isAfLocked: !state.actionsState.isAfLocked),
-      ));
-    }, orElse: () {
-      ActionsControlState.updateFailed(state.actionsState);
-    });
-  }
+  //Future<void> toggleAfLock() async {
+  //  await _cameraConnectionCubit.withConnectedCamera((cameraHandle) async {
+  //    emit(ActionsControlState.updating(state.actionsState));
+  //    await _cameraRemoteService.toggleAfLock(cameraHandle);
+  //    emit(ActionsControlState.updateSuccess(
+  //      state.actionsState.copyWith(isAfLocked: !state.actionsState.isAfLocked),
+  //    ));
+  //  }, orElse: () {
+  //    ActionsControlState.updateFailed(state.actionsState);
+  //  });
+  //}
 }
