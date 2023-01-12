@@ -9,6 +9,8 @@ class ControlPropsBar extends StatelessWidget {
   final Orientation orientation;
   final ControlPropType? selectedType;
   final void Function(ControlPropType propType) onPropSelected;
+  final OutlinedBorder itemShape;
+  final EdgeInsets itemPadding;
 
   factory ControlPropsBar.portrait({
     required ControlPropType? selectedType,
@@ -18,6 +20,13 @@ class ControlPropsBar extends StatelessWidget {
         orientation: Orientation.portrait,
         selectedType: selectedType,
         onPropSelected: onPropSelected,
+        itemShape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(10),
+            topRight: Radius.circular(10),
+          ),
+        ),
+        itemPadding: const EdgeInsets.symmetric(vertical: 16),
       );
 
   factory ControlPropsBar.landscape({
@@ -28,12 +37,17 @@ class ControlPropsBar extends StatelessWidget {
         orientation: Orientation.landscape,
         selectedType: selectedType,
         onPropSelected: onPropSelected,
+        itemShape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(16))),
+        itemPadding: const EdgeInsets.all(8),
       );
 
   const ControlPropsBar({
     required this.orientation,
     required this.selectedType,
     required this.onPropSelected,
+    required this.itemShape,
+    required this.itemPadding,
     super.key,
   });
 
@@ -47,6 +61,7 @@ class ControlPropsBar extends StatelessWidget {
     }
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: children,
     );
   }
@@ -54,28 +69,27 @@ class ControlPropsBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PropsControlCubit, PropsControlState>(
-        builder: (context, state) {
-      final controlProps = state.controlProps;
-
-      return Padding(
+      builder: (context, state) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: _buildContainer(
           context: context,
           children: [
-            ...controlProps.map(
+            ...state.controlProps.map(
               (controlProp) => Expanded(
                 child: ControlPropItem(
                   controlProp: controlProp,
                   onPressed: () {
                     onPropSelected(controlProp.type);
                   },
+                  shape: itemShape,
+                  padding: itemPadding,
                   isSelected: selectedType == controlProp.type,
                 ),
               ),
             )
           ],
         ),
-      );
-    });
+      ),
+    );
   }
 }

@@ -6,11 +6,15 @@ import '../../../core/extensions/control_prop_extension.dart';
 class ControlPropItem extends StatelessWidget {
   final ControlProp controlProp;
   final void Function() onPressed;
+  final OutlinedBorder shape;
+  final EdgeInsets padding;
   final bool isSelected;
 
   const ControlPropItem({
     required this.controlProp,
     required this.onPressed,
+    required this.shape,
+    required this.padding,
     this.isSelected = false,
     super.key,
   });
@@ -22,18 +26,9 @@ class ControlPropItem extends StatelessWidget {
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(
             isSelected ? Colors.grey[850]! : Colors.transparent),
-        padding: MaterialStateProperty.all(
-          const EdgeInsets.symmetric(vertical: 16),
-        ),
+        padding: MaterialStateProperty.all(padding),
         overlayColor: MaterialStateProperty.all(Colors.white10),
-        shape: MaterialStateProperty.all(
-          const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(10),
-            ),
-          ),
-        ),
+        shape: MaterialStateProperty.all(shape),
       ),
       child: Text(
         controlProp.format(),
