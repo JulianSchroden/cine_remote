@@ -1,73 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../domain/models/control_prop.dart';
 import '../../../../domain/models/control_prop_type.dart';
 import '../bloc/props_control_cubit.dart';
+import 'control_prop_value_picker_grid.dart';
+import 'control_prop_value_picker_list.dart';
 
 class ControlPropValuePicker extends StatelessWidget {
-  final ControlPropType selectedPropType;
+  final ControlPropType propType;
+  final Widget Function(BuildContext context, BoxConstraints constraints,
+      ControlProp controlProp) builder;
 
   const ControlPropValuePicker({
-    required this.selectedPropType,
+    required this.propType,
+    required this.builder,
     super.key,
   });
 
+  factory ControlPropValuePicker.grid({required ControlPropType propType}) =>
+      ControlPropValuePicker(
+        propType: propType,
+        builder: (context, constraints, controlProp) =>
+            ControlPropValuePickerGrid(
+          maxWidth: constraints.maxWidth,
+          controlProp: controlProp,
+        ),
+      );
+
+  factory ControlPropValuePicker.list({required ControlPropType propType}) =>
+      ControlPropValuePicker(
+        propType: propType,
+        builder: (context, constraints, controlProp) =>
+            ControlPropValuePickerList(
+          controlProp: controlProp,
+          maxHeight: constraints.maxHeight,
+        ),
+      );
+
   @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<PropsControlCubit, PropsControlState>(
-      builder: (context, state) {
-        final controlProp = state.getProp(selectedPropType);
-
-        return GridView(
-          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 80,
-            mainAxisSpacing: 16,
-            crossAxisSpacing: 16,
-          ),
-          padding: const EdgeInsets.all(16),
-          children: [
-            ...controlProp.allowedValues.map(
-              (value) {
-                final isCurrentValue = value == controlProp.currentValue;
-
-                return TextButton(
-                  onPressed: controlProp.isPending
-                      ? null
-                      : () {
-                          context
-                              .read<PropsControlCubit>()
-                              .setProp(controlProp.type, value);
-                        },
-                  style: ButtonStyle(
-                    shape: MaterialStateProperty.all<OutlinedBorder>(
-                      const CircleBorder(),
-                    ),
-                    side: MaterialStateProperty.all(
-                      isCurrentValue
-                          ? BorderSide(
-                              width: 4,
-                              color: controlProp.isPending
-                                  ? Colors.grey
-                                  : Colors.green)
-                          : null,
-                    ),
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.grey[700]!),
-                  ),
-                  child: Text(
-                    value,
-                    style: TextStyle(
-                      color: isCurrentValue ? Colors.white : Colors.grey[300],
-                      fontWeight:
-                          isCurrentValue ? FontWeight.bold : FontWeight.normal,
-                    ),
-                  ),
-                );
-              },
-            )
-          ],
-        );
-      },
-    );
-  }
+  Widget build(BuildContext context) =>
+      BlocBuilder<PropsControlCubit, PropsControlState>(
+          builder: (context, state) => LayoutBuilder(
+              builder: (context, constraints) =>
+                  builder(context, constraints, state.getProp(propType))));
 }

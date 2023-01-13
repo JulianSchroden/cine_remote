@@ -82,12 +82,18 @@ class CameraControlPageLandscape extends StatelessWidget {
                     ),
                   ),
                   if (state.activePropType != null)
-                    Container(
-                      color: Colors.grey[850],
-                      child: SafeArea(
-                        left: false,
-                        child: ControlPropValuePicker(
-                          selectedPropType: state.activePropType!,
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Container(
+                        color: Colors.grey[850],
+                        padding: EdgeInsets.only(
+                          top: MediaQuery.of(context).padding.top + 16,
+                          bottom: MediaQuery.of(context).padding.bottom + 16,
+                        ),
+                        alignment: Alignment.center,
+                        width: 150,
+                        child: ControlPropValuePicker.list(
+                          propType: state.activePropType!,
                         ),
                       ),
                     ),

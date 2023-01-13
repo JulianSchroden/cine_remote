@@ -54,8 +54,8 @@ class CameraControlPagePortrait extends StatelessWidget {
               child: state.activePropType != null
                   ? Container(
                       color: Colors.grey[850],
-                      child: ControlPropValuePicker(
-                        selectedPropType: state.activePropType!,
+                      child: ControlPropValuePicker.grid(
+                        propType: state.activePropType!,
                       ),
                     )
                   : Container(),
