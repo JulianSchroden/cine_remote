@@ -25,10 +25,11 @@ class FakeCameraRemoteService extends CameraRemoteService {
       currentValue: '180',
       allowedValues: ['90', '180', '270', '360'],
     ),
-    const ControlProp(
+    ControlProp(
       type: ControlPropType.whiteBalance,
       currentValue: '5600',
-      allowedValues: ['5000', '5300', '5600', '5900'],
+      allowedValues:
+          List.generate(50, (index) => (2000 + index * 100).toString()),
     )
   ];
   bool _reordState = false;
