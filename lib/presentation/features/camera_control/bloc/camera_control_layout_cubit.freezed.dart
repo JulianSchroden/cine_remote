@@ -16,7 +16,6 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$CameraControlLayoutState {
-  Orientation? get forcedOrientation => throw _privateConstructorUsedError;
   ControlPropType? get activePropType => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -30,7 +29,7 @@ abstract class $CameraControlLayoutStateCopyWith<$Res> {
           $Res Function(CameraControlLayoutState) then) =
       _$CameraControlLayoutStateCopyWithImpl<$Res, CameraControlLayoutState>;
   @useResult
-  $Res call({Orientation? forcedOrientation, ControlPropType? activePropType});
+  $Res call({ControlPropType? activePropType});
 }
 
 /// @nodoc
@@ -47,14 +46,9 @@ class _$CameraControlLayoutStateCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? forcedOrientation = freezed,
     Object? activePropType = freezed,
   }) {
     return _then(_value.copyWith(
-      forcedOrientation: freezed == forcedOrientation
-          ? _value.forcedOrientation
-          : forcedOrientation // ignore: cast_nullable_to_non_nullable
-              as Orientation?,
       activePropType: freezed == activePropType
           ? _value.activePropType
           : activePropType // ignore: cast_nullable_to_non_nullable
@@ -72,7 +66,7 @@ abstract class _$$_CameraControlPageLandscapeStateCopyWith<$Res>
       __$$_CameraControlPageLandscapeStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Orientation? forcedOrientation, ControlPropType? activePropType});
+  $Res call({ControlPropType? activePropType});
 }
 
 /// @nodoc
@@ -88,14 +82,9 @@ class __$$_CameraControlPageLandscapeStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? forcedOrientation = freezed,
     Object? activePropType = freezed,
   }) {
     return _then(_$_CameraControlPageLandscapeState(
-      forcedOrientation: freezed == forcedOrientation
-          ? _value.forcedOrientation
-          : forcedOrientation // ignore: cast_nullable_to_non_nullable
-              as Orientation?,
       activePropType: freezed == activePropType
           ? _value.activePropType
           : activePropType // ignore: cast_nullable_to_non_nullable
@@ -108,17 +97,14 @@ class __$$_CameraControlPageLandscapeStateCopyWithImpl<$Res>
 
 class _$_CameraControlPageLandscapeState
     implements _CameraControlPageLandscapeState {
-  const _$_CameraControlPageLandscapeState(
-      {required this.forcedOrientation, required this.activePropType});
+  const _$_CameraControlPageLandscapeState({required this.activePropType});
 
-  @override
-  final Orientation? forcedOrientation;
   @override
   final ControlPropType? activePropType;
 
   @override
   String toString() {
-    return 'CameraControlLayoutState(forcedOrientation: $forcedOrientation, activePropType: $activePropType)';
+    return 'CameraControlLayoutState(activePropType: $activePropType)';
   }
 
   @override
@@ -126,15 +112,12 @@ class _$_CameraControlPageLandscapeState
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_CameraControlPageLandscapeState &&
-            (identical(other.forcedOrientation, forcedOrientation) ||
-                other.forcedOrientation == forcedOrientation) &&
             (identical(other.activePropType, activePropType) ||
                 other.activePropType == activePropType));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, forcedOrientation, activePropType);
+  int get hashCode => Object.hash(runtimeType, activePropType);
 
   @JsonKey(ignore: true)
   @override
@@ -148,12 +131,9 @@ class _$_CameraControlPageLandscapeState
 abstract class _CameraControlPageLandscapeState
     implements CameraControlLayoutState {
   const factory _CameraControlPageLandscapeState(
-          {required final Orientation? forcedOrientation,
-          required final ControlPropType? activePropType}) =
+          {required final ControlPropType? activePropType}) =
       _$_CameraControlPageLandscapeState;
 
-  @override
-  Orientation? get forcedOrientation;
   @override
   ControlPropType? get activePropType;
   @override

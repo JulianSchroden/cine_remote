@@ -6,6 +6,7 @@ import 'domain/services/camera_remote_service.dart';
 import 'presentation/features/camera_connection/bloc/camera_connection_cubit.dart';
 import 'presentation/features/camera_control/page/camera_control_page.dart';
 import 'presentation/features/camera_selection/page/camera_selection_page.dart';
+import 'presentation/features/screen_orientation/bloc/screen_orientation_cubit.dart';
 import 'presentation/routes.dart';
 
 void main() {
@@ -24,6 +25,9 @@ class CineRemote extends StatelessWidget {
           create: (_) => CameraConnectionCubit(
             get<CameraRemoteService>(),
           ),
+        ),
+        BlocProvider(
+          create: (_) => ScreenOrientationCubit()..setForcedOrientation(null),
         )
       ],
       child: MaterialApp(

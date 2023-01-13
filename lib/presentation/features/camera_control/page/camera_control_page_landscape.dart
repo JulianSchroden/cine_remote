@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../camera_connection/bloc/camera_connection_cubit.dart';
+import '../../screen_orientation/bloc/screen_orientation_cubit.dart';
 import '../bloc/camera_control_layout_cubit.dart';
 import '../widgets/camera_control_base_layout.dart';
 import '../widgets/control_prop_value_picker.dart';
@@ -69,7 +70,7 @@ class CameraControlPageLandscape extends StatelessWidget {
                           alignment: Alignment.bottomRight,
                           child: IconButton(
                             onPressed: () => context
-                                .read<CameraControlLayoutCubit>()
+                                .read<ScreenOrientationCubit>()
                                 .setForcedOrientation(Orientation.portrait),
                             icon: const Icon(
                               Icons.fullscreen,
