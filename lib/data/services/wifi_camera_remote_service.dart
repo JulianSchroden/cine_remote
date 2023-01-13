@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -109,6 +108,7 @@ class WifiCameraRemoteService extends CameraRemoteService<WifiCameraHandle> {
       throw CameraConnectionException('Failed to get updates');
     }
 
+    print(response.jsonBody);
     final List<CameraUpdateEvent> updateEvents = [];
     final recordState = response.jsonBody['rec'];
     if (recordState != null) {
@@ -231,21 +231,23 @@ class WifiCameraRemoteService extends CameraRemoteService<WifiCameraHandle> {
   // http://192.168.0.80/api/cam/drivelens?fl=near3
   // {"res":"ok"}
 
+  @override
   Future<void> startLiveView(WifiCameraHandle handle) async {
-    final liveViewUrl =
-        Uri.http(_authority, 'api/cam/lv', {'cmd': 'start', 'sz': 'l'});
-    final response = await _getUrl(liveViewUrl, handle);
-    final body = await response.transform(utf8.decoder).join();
-    print(body);
+    const liveViewControlPath = 'api/cam/lv';
+    final response = await httpAdapter
+        .get(handle, liveViewControlPath, {'cmd': 'start', 'sz': 'l'});
+    print(response.jsonBody);
   }
 
+  @override
   Future<void> stopLiveView(WifiCameraHandle handle) async {
-    final liveViewUrl = Uri.http(_authority, 'api/cam/lv', {'cmd': 'stop'});
-    final response = await _getUrl(liveViewUrl, handle);
-    final body = await response.transform(utf8.decoder).join();
-    print(body);
+    const liveViewControlPath = 'api/cam/lv';
+    final response =
+        await httpAdapter.get(handle, liveViewControlPath, {'cmd': 'stop'});
+    print(response.jsonBody);
   }
 
+  @override
   Future<Uint8List> getLiveViewImage(WifiCameraHandle handle) async {
     final timeStamp = DateTime.now().toIso8601String();
     final liveViewGetImageUrl =

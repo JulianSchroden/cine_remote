@@ -5,6 +5,7 @@ import '../../../../dependencies.dart';
 import '../../../../domain/services/camera_remote_service.dart';
 import '../../../../domain/services/date_time_adapter.dart';
 import '../../camera_connection/bloc/camera_connection_cubit.dart';
+import '../../live_view/bloc/live_view_cubit.dart';
 import '../../screen_orientation/bloc/screen_orientation_cubit.dart';
 import '../bloc/actions_control_cubit.dart';
 import '../bloc/camera_control_layout_cubit.dart';
@@ -33,9 +34,13 @@ class CameraControlPage extends StatelessWidget {
           )..init(),
         ),
         BlocProvider(
-          create: (context) {
-            return CameraControlLayoutCubit();
-          },
+          create: (context) => CameraControlLayoutCubit(),
+        ),
+        BlocProvider(
+          create: (context) => LiveViewCubit(
+            context.read<CameraConnectionCubit>(),
+            get<CameraRemoteService>(),
+          ),
         )
       ],
       child: BlocListener<CameraConnectionCubit, CameraConnectionState>(

@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter/services.dart';
+
 import '../../domain/models/camera_handle.dart';
 import '../../domain/models/camera_update_event.dart';
 import '../../domain/models/camera_update_response.dart';
@@ -81,5 +83,19 @@ class FakeCameraRemoteService extends CameraRemoteService {
     await Future.delayed(const Duration(milliseconds: 200));
     _reordState = !_reordState;
     _pendingUpdateEvents.add(CameraUpdateEvent.recordState(_reordState));
+  }
+
+  @override
+  Future<void> startLiveView(CameraHandle handle) async {}
+
+  @override
+  Future<void> stopLiveView(CameraHandle handle) async {}
+
+  @override
+  Future<Uint8List> getLiveViewImage(CameraHandle handle) async {
+    ByteData byteData =
+        await rootBundle.load('assets/images/dummy_live_view_image.jpg');
+
+    return byteData.buffer.asUint8List();
   }
 }

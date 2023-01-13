@@ -7,7 +7,7 @@ import '../bloc/camera_control_layout_cubit.dart';
 import '../widgets/camera_control_base_layout.dart';
 import '../widgets/control_prop_value_picker.dart';
 import '../widgets/control_props_bar.dart';
-import '../widgets/live_view_player.dart';
+import '../../live_view/widgets/live_view_player.dart';
 import '../widgets/record_button.dart';
 
 class CameraControlPageLandscape extends StatelessWidget {
@@ -59,27 +59,24 @@ class CameraControlPageLandscape extends StatelessWidget {
                     top: false,
                     bottom: false,
                     left: false,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: LiveViewPlayer(children: [
-                        const Align(
-                          alignment: Alignment.centerRight,
-                          child: RecordButton(),
-                        ),
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: IconButton(
-                            onPressed: () => context
-                                .read<ScreenOrientationCubit>()
-                                .setForcedOrientation(Orientation.portrait),
-                            icon: const Icon(
-                              Icons.fullscreen,
-                              color: Colors.white,
-                            ),
+                    child: LiveViewPlayer(children: [
+                      const Align(
+                        alignment: Alignment.centerRight,
+                        child: RecordButton(),
+                      ),
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: IconButton(
+                          onPressed: () => context
+                              .read<ScreenOrientationCubit>()
+                              .setForcedOrientation(Orientation.portrait),
+                          icon: const Icon(
+                            Icons.fullscreen,
+                            color: Colors.white,
                           ),
                         ),
-                      ]),
-                    ),
+                      ),
+                    ]),
                   ),
                   if (state.activePropType != null)
                     Align(

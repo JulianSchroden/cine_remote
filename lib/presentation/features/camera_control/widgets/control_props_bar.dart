@@ -9,6 +9,7 @@ class ControlPropsBar extends StatelessWidget {
   final Orientation orientation;
   final ControlPropType? selectedType;
   final void Function(ControlPropType propType) onPropSelected;
+  final EdgeInsets padding;
   final OutlinedBorder itemShape;
   final EdgeInsets itemPadding;
 
@@ -20,6 +21,7 @@ class ControlPropsBar extends StatelessWidget {
         orientation: Orientation.portrait,
         selectedType: selectedType,
         onPropSelected: onPropSelected,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         itemShape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(10),
@@ -37,6 +39,7 @@ class ControlPropsBar extends StatelessWidget {
         orientation: Orientation.landscape,
         selectedType: selectedType,
         onPropSelected: onPropSelected,
+        padding: const EdgeInsets.only(right: 16),
         itemShape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(16))),
         itemPadding: const EdgeInsets.all(8),
@@ -46,6 +49,7 @@ class ControlPropsBar extends StatelessWidget {
     required this.orientation,
     required this.selectedType,
     required this.onPropSelected,
+    required this.padding,
     required this.itemShape,
     required this.itemPadding,
     super.key,
@@ -70,7 +74,7 @@ class ControlPropsBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<PropsControlCubit, PropsControlState>(
       builder: (context, state) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: padding,
         child: _buildContainer(
           context: context,
           children: [

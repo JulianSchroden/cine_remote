@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import '../models/camera_handle.dart';
 import '../models/camera_update_response.dart';
 import '../models/control_prop.dart';
@@ -13,4 +15,8 @@ abstract class CameraRemoteService<H extends CameraHandle> {
   Future<void> toggleAfLock(H handle);
 
   Future<CameraUpdateResponse> getUpdate(H handle);
+
+  Future<void> startLiveView(H handle);
+  Future<void> stopLiveView(H handle);
+  Future<Uint8List> getLiveViewImage(H handle);
 }

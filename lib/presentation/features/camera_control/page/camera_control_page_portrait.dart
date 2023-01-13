@@ -8,7 +8,7 @@ import '../widgets/camera_control_base_layout.dart';
 import '../widgets/control_actions_bar.dart';
 import '../widgets/control_prop_value_picker.dart';
 import '../widgets/control_props_bar.dart';
-import '../widgets/live_view_player.dart';
+import '../../live_view/widgets/live_view_player.dart';
 
 class CameraControlPagePortrait extends StatelessWidget {
   const CameraControlPagePortrait({super.key});
