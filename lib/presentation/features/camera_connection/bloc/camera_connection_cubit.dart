@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../dependencies.dart';
 import '../../../../domain/models/camera_handle.dart';
+import '../../../../domain/models/camera_model.dart';
 import '../../../../domain/models/camera_update_event.dart';
 import '../../../../domain/services/camera_remote_service.dart';
 
@@ -11,6 +13,8 @@ part 'camera_connection_cubit.freezed.dart';
 
 @freezed
 class CameraConnectionState with _$CameraConnectionState {
+  const CameraConnectionState._();
+
   const factory CameraConnectionState.connecting() = _InitConnection;
   const factory CameraConnectionState.connectingFailed() = _ConnectingFailed;
   const factory CameraConnectionState.connectionEstablished(
@@ -19,14 +23,18 @@ class CameraConnectionState with _$CameraConnectionState {
       CameraHandle cameraHandle) = _ConnectionUpdated;
   const factory CameraConnectionState.disconnecting() = _Disconnecting;
   const factory CameraConnectionState.disconnected() = _Disconnected;
+
+  bool get isLoading => maybeWhen(
+      connecting: () => true, disconnecting: () => true, orElse: () => false);
 }
 
 class CameraConnectionCubit extends Cubit<CameraConnectionState> {
-  final CameraRemoteService _cameraRemoteService;
+  final DependencyHelper _dependencyHelper;
+  CameraRemoteService? _cameraRemoteService;
   StreamController<CameraUpdateEvent>? _cameraUpdateStreamController;
   Timer? _updateTimer;
 
-  CameraConnectionCubit(this._cameraRemoteService)
+  CameraConnectionCubit(this._dependencyHelper)
       : super(const CameraConnectionState.disconnected());
 
   @override
@@ -36,10 +44,14 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
     return super.close();
   }
 
-  Future<void> connect() async {
-    emit(const CameraConnectionState.connecting());
+  Future<void> connect(CameraModel cameraModel) async {
     try {
-      final cameraHandle = await _cameraRemoteService.connect();
+      _cameraRemoteService =
+          _dependencyHelper.registerCameraRemoteService(cameraModel);
+
+      emit(const CameraConnectionState.connecting());
+
+      final cameraHandle = await _cameraRemoteService!.connect();
       emit(CameraConnectionState.connectionEstablished(cameraHandle));
     } catch (e) {
       emit(const CameraConnectionState.connectingFailed());
@@ -74,11 +86,12 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
         onListen: () {
           _updateTimer =
               Timer.periodic(const Duration(milliseconds: 500), (timer) {
+            if (_cameraRemoteService == null) return;
             if (_cameraUpdateStreamController?.isClosed ?? true) return;
 
             withConnectedCamera((cameraHandle) async {
               final updateResponse =
-                  await _cameraRemoteService.getUpdate(cameraHandle);
+                  await _cameraRemoteService!.getUpdate(cameraHandle);
               emit(CameraConnectionState.connectionUpdated(
                   updateResponse.cameraHandle));
               await _cameraUpdateStreamController

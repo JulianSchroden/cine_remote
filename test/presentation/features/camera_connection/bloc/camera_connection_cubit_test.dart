@@ -1,6 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:cine_remote/data/models/wifi_camera_handle.dart';
 import 'package:cine_remote/domain/models/camera_handle.dart';
+import 'package:cine_remote/domain/models/camera_model.dart';
 import 'package:cine_remote/presentation/features/camera_connection/bloc/camera_connection_cubit.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -21,7 +22,10 @@ abstract class CallbackWithNoParams {
 class MockCallbackWithNoParams extends Mock implements CallbackWithNoParams {}
 
 void main() {
+  late MockDependencyHelper mockDependencyHelper;
   late MockCameraRemoteService mockCameraRemoteService;
+  const cameraModel =
+      CameraModel(identifier: 'C100II', name: 'Canon EOS C100 II');
   const cameraHandle = WifiCameraHandle(cookies: [], supportedProps: []);
 
   setUpAll(() {
@@ -29,17 +33,21 @@ void main() {
   });
 
   setUp(() {
+    mockDependencyHelper = MockDependencyHelper();
     mockCameraRemoteService = MockCameraRemoteService();
+
+    when(() => mockDependencyHelper.registerCameraRemoteService(cameraModel))
+        .thenReturn(mockCameraRemoteService);
   });
 
   blocTest<CameraConnectionCubit, CameraConnectionState>(
     'emits [initConnection, connectSuccess] when connecting to camera succeeds',
-    build: () => CameraConnectionCubit(mockCameraRemoteService),
+    build: () => CameraConnectionCubit(mockDependencyHelper),
     setUp: () {
       when(() => mockCameraRemoteService.connect())
           .thenAnswer((_) async => cameraHandle);
     },
-    act: (cubit) => cubit.connect(),
+    act: (cubit) => cubit.connect(cameraModel),
     expect: () => const [
       CameraConnectionState.connecting(),
       CameraConnectionState.connectionEstablished(cameraHandle)
@@ -48,12 +56,12 @@ void main() {
 
   blocTest<CameraConnectionCubit, CameraConnectionState>(
     'emits [initConnection, connectFailed] when connecting to camera fails',
-    build: () => CameraConnectionCubit(mockCameraRemoteService),
+    build: () => CameraConnectionCubit(mockDependencyHelper),
     setUp: () {
       when(() => mockCameraRemoteService.connect())
           .thenThrow(Exception('Cannot connect to camera'));
     },
-    act: (cubit) => cubit.connect(),
+    act: (cubit) => cubit.connect(cameraModel),
     expect: () => const [
       CameraConnectionState.connecting(),
       CameraConnectionState.connectingFailed()
@@ -65,7 +73,7 @@ void main() {
       'calls callback with cameraHandle when connected',
       seed: () =>
           const CameraConnectionState.connectionEstablished(cameraHandle),
-      build: () => CameraConnectionCubit(mockCameraRemoteService),
+      build: () => CameraConnectionCubit(mockDependencyHelper),
       act: (cubit) {
         final callback = MockCallbackWithCameraHandle();
         cubit.withConnectedCamera(callback);
@@ -76,7 +84,7 @@ void main() {
     blocTest<CameraConnectionCubit, CameraConnectionState>(
       'calls orElse when not connected',
       seed: () => const CameraConnectionState.connecting(),
-      build: () => CameraConnectionCubit(mockCameraRemoteService),
+      build: () => CameraConnectionCubit(mockDependencyHelper),
       act: (cubit) {
         final orElseCallback = MockCallbackWithNoParams();
         cubit.withConnectedCamera((handle) {}, orElse: orElseCallback);

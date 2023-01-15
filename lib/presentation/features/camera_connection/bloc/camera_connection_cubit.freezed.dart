@@ -118,8 +118,8 @@ class __$$_InitConnectionCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_InitConnection implements _InitConnection {
-  const _$_InitConnection();
+class _$_InitConnection extends _InitConnection {
+  const _$_InitConnection() : super._();
 
   @override
   String toString() {
@@ -223,8 +223,9 @@ class _$_InitConnection implements _InitConnection {
   }
 }
 
-abstract class _InitConnection implements CameraConnectionState {
+abstract class _InitConnection extends CameraConnectionState {
   const factory _InitConnection() = _$_InitConnection;
+  const _InitConnection._() : super._();
 }
 
 /// @nodoc
@@ -245,8 +246,8 @@ class __$$_ConnectingFailedCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ConnectingFailed implements _ConnectingFailed {
-  const _$_ConnectingFailed();
+class _$_ConnectingFailed extends _ConnectingFailed {
+  const _$_ConnectingFailed() : super._();
 
   @override
   String toString() {
@@ -350,8 +351,9 @@ class _$_ConnectingFailed implements _ConnectingFailed {
   }
 }
 
-abstract class _ConnectingFailed implements CameraConnectionState {
+abstract class _ConnectingFailed extends CameraConnectionState {
   const factory _ConnectingFailed() = _$_ConnectingFailed;
+  const _ConnectingFailed._() : super._();
 }
 
 /// @nodoc
@@ -387,8 +389,8 @@ class __$$_ConnectionEstablishedCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ConnectionEstablished implements _ConnectionEstablished {
-  const _$_ConnectionEstablished(this.cameraHandle);
+class _$_ConnectionEstablished extends _ConnectionEstablished {
+  const _$_ConnectionEstablished(this.cameraHandle) : super._();
 
   @override
   final CameraHandle cameraHandle;
@@ -505,9 +507,10 @@ class _$_ConnectionEstablished implements _ConnectionEstablished {
   }
 }
 
-abstract class _ConnectionEstablished implements CameraConnectionState {
+abstract class _ConnectionEstablished extends CameraConnectionState {
   const factory _ConnectionEstablished(final CameraHandle cameraHandle) =
       _$_ConnectionEstablished;
+  const _ConnectionEstablished._() : super._();
 
   CameraHandle get cameraHandle;
   @JsonKey(ignore: true)
@@ -548,8 +551,8 @@ class __$$_ConnectionUpdatedCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ConnectionUpdated implements _ConnectionUpdated {
-  const _$_ConnectionUpdated(this.cameraHandle);
+class _$_ConnectionUpdated extends _ConnectionUpdated {
+  const _$_ConnectionUpdated(this.cameraHandle) : super._();
 
   @override
   final CameraHandle cameraHandle;
@@ -666,9 +669,10 @@ class _$_ConnectionUpdated implements _ConnectionUpdated {
   }
 }
 
-abstract class _ConnectionUpdated implements CameraConnectionState {
+abstract class _ConnectionUpdated extends CameraConnectionState {
   const factory _ConnectionUpdated(final CameraHandle cameraHandle) =
       _$_ConnectionUpdated;
+  const _ConnectionUpdated._() : super._();
 
   CameraHandle get cameraHandle;
   @JsonKey(ignore: true)
@@ -694,8 +698,8 @@ class __$$_DisconnectingCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Disconnecting implements _Disconnecting {
-  const _$_Disconnecting();
+class _$_Disconnecting extends _Disconnecting {
+  const _$_Disconnecting() : super._();
 
   @override
   String toString() {
@@ -799,8 +803,9 @@ class _$_Disconnecting implements _Disconnecting {
   }
 }
 
-abstract class _Disconnecting implements CameraConnectionState {
+abstract class _Disconnecting extends CameraConnectionState {
   const factory _Disconnecting() = _$_Disconnecting;
+  const _Disconnecting._() : super._();
 }
 
 /// @nodoc
@@ -821,8 +826,8 @@ class __$$_DisconnectedCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Disconnected implements _Disconnected {
-  const _$_Disconnected();
+class _$_Disconnected extends _Disconnected {
+  const _$_Disconnected() : super._();
 
   @override
   String toString() {
@@ -926,6 +931,7 @@ class _$_Disconnected implements _Disconnected {
   }
 }
 
-abstract class _Disconnected implements CameraConnectionState {
+abstract class _Disconnected extends CameraConnectionState {
   const factory _Disconnected() = _$_Disconnected;
+  const _Disconnected._() : super._();
 }

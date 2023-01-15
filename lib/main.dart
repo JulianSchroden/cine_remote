@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'config.dart';
 import 'dependencies.dart';
 import 'domain/services/camera_remote_service.dart';
 import 'presentation/features/camera_connection/bloc/camera_connection_cubit.dart';
@@ -22,9 +23,7 @@ class CineRemote extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => CameraConnectionCubit(
-            get<CameraRemoteService>(),
-          ),
+          create: (_) => CameraConnectionCubit(get<DependencyHelper>()),
         ),
         BlocProvider(
           create: (_) => ScreenOrientationCubit()..setForcedOrientation(null),
@@ -36,7 +35,8 @@ class CineRemote extends StatelessWidget {
           primarySwatch: Colors.green,
         ),
         routes: {
-          Routes.cameraSelection: (_) => const CameraSelectionPage(),
+          Routes.cameraSelection: (_) =>
+              CameraSelectionPage(config: get<Config>()),
           Routes.cameraControl: (_) => const CameraControlPage(),
         },
         initialRoute: Routes.cameraSelection,

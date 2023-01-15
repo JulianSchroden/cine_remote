@@ -1,14 +1,17 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../config.dart';
 import '../../../cine_remote_colors.dart';
-import '../../../core/widgets/rounded_text_button.dart';
 import '../../../routes.dart';
 import '../../camera_connection/bloc/camera_connection_cubit.dart';
 import '../widgets/camera_selection_item.dart';
 
 class CameraSelectionPage extends StatelessWidget {
-  const CameraSelectionPage({super.key});
+  final Config config;
+
+  const CameraSelectionPage({required this.config, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,23 +31,22 @@ class CameraSelectionPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                //const CameraSelectionItem(
-                //  modelName: 'Canon C100 II',
-                //  modelImageSource:
-                //      'https://www.canon.de/media/EOS%20C100%20Mark%20II%20Default_tcm83-1211141.jpg',
-                //),
                 const SizedBox(height: 48),
-                RoundedTextButton(
-                  text: 'Connect',
-                  minWidth: 128,
-                  showLoadingIndicator: state.maybeWhen(
-                      connecting: () => true,
-                      disconnecting: () => true,
-                      orElse: () => false),
-                  onPressed: () {
-                    context.read<CameraConnectionCubit>().connect();
-                  },
-                )
+                CarouselSlider(
+                  options: CarouselOptions(
+                    viewportFraction: 0.7,
+                    height: 260,
+                    enableInfiniteScroll: false,
+                  ),
+                  items: config.supportedCameras
+                      .map(
+                        (cameraModel) => CameraSelectionItem(
+                          cameraModel: cameraModel,
+                          isLoading: state.isLoading,
+                        ),
+                      )
+                      .toList(),
+                ),
               ],
             ),
           ),
