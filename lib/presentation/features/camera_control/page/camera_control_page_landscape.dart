@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../camera_connection/bloc/camera_connection_cubit.dart';
 import '../../live_view/widgets/live_view_player.dart';
 import '../../screen_orientation/bloc/screen_orientation_cubit.dart';
 import '../bloc/camera_control_layout_cubit.dart';
 import '../widgets/camera_control_base_layout.dart';
+import '../widgets/camera_control_menu.dart';
 import '../widgets/control_prop_item.dart';
 import '../widgets/control_prop_value_picker.dart';
 import '../widgets/control_props_bar.dart';
@@ -100,8 +100,8 @@ class CameraControlPageLandscape extends StatelessWidget {
                   if (state.showMenu)
                     Align(
                       alignment: Alignment.centerLeft,
-                      child: Container(
-                        color: Colors.grey[850],
+                      child: CameraControlMenu(
+                        backgroundColor: Colors.grey[850]!,
                         padding: EdgeInsets.only(
                           top: MediaQuery.of(context).padding.top + 16,
                           right: 8,
@@ -109,17 +109,7 @@ class CameraControlPageLandscape extends StatelessWidget {
                           left: 8,
                         ),
                         width: 150,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            TextButton(
-                              child: const Text('Disconnect'),
-                              onPressed: () => context
-                                  .read<CameraConnectionCubit>()
-                                  .disconnect(),
-                            ),
-                          ],
-                        ),
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                       ),
                     ),
                 ],

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../camera_connection/bloc/camera_connection_cubit.dart';
+import '../../../cine_remote_colors.dart';
+import '../../live_view/widgets/live_view_player.dart';
 import '../../screen_orientation/bloc/screen_orientation_cubit.dart';
 import '../bloc/camera_control_layout_cubit.dart';
 import '../widgets/camera_control_base_layout.dart';
+import '../widgets/camera_control_menu.dart';
 import '../widgets/control_actions_bar.dart';
 import '../widgets/control_prop_value_picker.dart';
 import '../widgets/control_props_bar.dart';
-import '../../live_view/widgets/live_view_player.dart';
 
 class CameraControlPagePortrait extends StatelessWidget {
   const CameraControlPagePortrait({super.key});
@@ -16,10 +17,16 @@ class CameraControlPagePortrait extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CameraControlBaseLayout(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.close),
-          onPressed: () => context.read<CameraConnectionCubit>().disconnect(),
+      appBarBuilder: (context, state) => AppBar(
+        leadingWidth: 80,
+        leading: TextButton(
+          onPressed: () =>
+              context.read<CameraControlLayoutCubit>().toggleMenu(),
+          style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.all(
+                state.showMenu ? CineRemoteColors.primary : Colors.white),
+          ),
+          child: const Text('Menu'),
         ),
         backgroundColor: Colors.black,
       ),
@@ -40,6 +47,12 @@ class CameraControlPagePortrait extends StatelessWidget {
                     ),
                   ),
                 ),
+                if (state.showMenu)
+                  CameraControlMenu(
+                    backgroundColor: Colors.grey[850]!.withOpacity(0.95),
+                    width: MediaQuery.of(context).size.width,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                  )
               ],
             ),
             const SizedBox(height: 16),
