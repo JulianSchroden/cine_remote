@@ -31,6 +31,7 @@ class CameraControlMenu extends StatelessWidget {
             TextButton(
               style: ButtonStyle(
                   foregroundColor: MaterialStateProperty.all(Colors.white),
+                  backgroundColor: MaterialStateProperty.all(Colors.red[500]),
                   padding: MaterialStateProperty.all(const EdgeInsets.all(16))),
               onPressed: () =>
                   context.read<CameraConnectionCubit>().disconnect(),
