@@ -49,7 +49,7 @@ class CameraControlPagePortrait extends StatelessWidget {
                 ),
                 if (state.showMenu)
                   CameraControlMenu(
-                    backgroundColor: Colors.grey[850]!.withOpacity(0.95),
+                    backgroundColor: CineRemoteColors.overlayBackground,
                     width: MediaQuery.of(context).size.width,
                     mainAxisAlignment: MainAxisAlignment.center,
                   )

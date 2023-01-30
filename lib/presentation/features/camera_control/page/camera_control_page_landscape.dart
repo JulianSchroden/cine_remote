@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../cine_remote_colors.dart';
 import '../../live_view/widgets/live_view_player.dart';
 import '../../screen_orientation/bloc/screen_orientation_cubit.dart';
 import '../bloc/camera_control_layout_cubit.dart';
@@ -85,7 +86,7 @@ class CameraControlPageLandscape extends StatelessWidget {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Container(
-                        color: Colors.grey[850],
+                        color: CineRemoteColors.overlayBackground,
                         padding: EdgeInsets.only(
                           top: MediaQuery.of(context).padding.top + 16,
                           bottom: MediaQuery.of(context).padding.bottom + 16,
@@ -101,7 +102,7 @@ class CameraControlPageLandscape extends StatelessWidget {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: CameraControlMenu(
-                        backgroundColor: Colors.grey[850]!,
+                        backgroundColor: CineRemoteColors.overlayBackground,
                         padding: EdgeInsets.only(
                           top: MediaQuery.of(context).padding.top + 16,
                           right: 8,

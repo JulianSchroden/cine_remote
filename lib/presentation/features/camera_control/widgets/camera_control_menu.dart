@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../cine_remote_colors.dart';
 import '../../camera_connection/bloc/camera_connection_cubit.dart';
 
 class CameraControlMenu extends StatelessWidget {
@@ -31,7 +32,8 @@ class CameraControlMenu extends StatelessWidget {
             TextButton(
               style: ButtonStyle(
                   foregroundColor: MaterialStateProperty.all(Colors.white),
-                  backgroundColor: MaterialStateProperty.all(Colors.red[500]),
+                  backgroundColor:
+                      MaterialStateProperty.all(CineRemoteColors.warning),
                   padding: MaterialStateProperty.all(const EdgeInsets.all(16))),
               onPressed: () =>
                   context.read<CameraConnectionCubit>().disconnect(),
