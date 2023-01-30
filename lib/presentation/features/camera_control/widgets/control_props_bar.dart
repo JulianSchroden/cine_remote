@@ -39,7 +39,7 @@ class ControlPropsBar extends StatelessWidget {
         orientation: Orientation.landscape,
         selectedType: selectedType,
         onPropSelected: onPropSelected,
-        padding: const EdgeInsets.only(right: 16),
+        padding: const EdgeInsets.all(0),
         itemShape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(16))),
         itemPadding: const EdgeInsets.all(8),

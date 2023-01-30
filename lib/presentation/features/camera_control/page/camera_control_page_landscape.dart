@@ -21,33 +21,38 @@ class CameraControlPageLandscape extends StatelessWidget {
               right: false,
               child: SizedBox(
                 width: 120,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16, bottom: 24),
-                      child: IconButton(
-                        onPressed: () =>
-                            context.read<CameraConnectionCubit>().disconnect(),
-                        icon: const Icon(
-                          Icons.close,
-                          color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const SizedBox(height: 16),
+                      TextButton(
+                        onPressed: () => context
+                            .read<CameraControlLayoutCubit>()
+                            .toggleMenu(),
+                        child: const Text(
+                          'Menu',
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.w700),
                         ),
                       ),
-                    ),
-                    Expanded(
-                      child: ControlPropsBar.landscape(
-                        selectedType: state.activePropType,
-                        onPropSelected: (propType) {
-                          context
-                              .read<CameraControlLayoutCubit>()
-                              .setActivePropType(
-                                  state.activePropType == propType
-                                      ? null
-                                      : propType);
-                        },
+                      const SizedBox(height: 24),
+                      Expanded(
+                        child: ControlPropsBar.landscape(
+                          selectedType: state.activePropType,
+                          onPropSelected: (propType) {
+                            context
+                                .read<CameraControlLayoutCubit>()
+                                .setActivePropType(
+                                    state.activePropType == propType
+                                        ? null
+                                        : propType);
+                          },
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -91,6 +96,28 @@ class CameraControlPageLandscape extends StatelessWidget {
                         width: 150,
                         child: ControlPropValuePicker.list(
                           propType: state.activePropType!,
+                        ),
+                      ),
+                    ),
+                  if (state.showMenu)
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Container(
+                        color: Colors.grey[850],
+                        padding: EdgeInsets.only(
+                          top: MediaQuery.of(context).padding.top + 16,
+                          bottom: MediaQuery.of(context).padding.bottom + 16,
+                        ),
+                        width: 150,
+                        child: Column(
+                          children: [
+                            TextButton(
+                              child: const Text('Disconnect'),
+                              onPressed: () => context
+                                  .read<CameraConnectionCubit>()
+                                  .disconnect(),
+                            ),
+                          ],
                         ),
                       ),
                     ),

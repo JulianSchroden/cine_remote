@@ -11,8 +11,8 @@ abstract class CameraId {
 
 class Config {
   List<CameraModel> get supportedCameras => [
+        const CameraModel(identifier: CameraId.fakeCamera, name: 'Fake Camera'),
         const CameraModel(
             identifier: CameraId.canonC100II, name: 'Canon EOS C100 II'),
-        const CameraModel(identifier: CameraId.fakeCamera, name: 'Fake Camera')
       ];
 }

@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$CameraControlLayoutState {
   ControlPropType? get activePropType => throw _privateConstructorUsedError;
+  bool get showMenu => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CameraControlLayoutStateCopyWith<CameraControlLayoutState> get copyWith =>
@@ -29,7 +30,7 @@ abstract class $CameraControlLayoutStateCopyWith<$Res> {
           $Res Function(CameraControlLayoutState) then) =
       _$CameraControlLayoutStateCopyWithImpl<$Res, CameraControlLayoutState>;
   @useResult
-  $Res call({ControlPropType? activePropType});
+  $Res call({ControlPropType? activePropType, bool showMenu});
 }
 
 /// @nodoc
@@ -47,12 +48,17 @@ class _$CameraControlLayoutStateCopyWithImpl<$Res,
   @override
   $Res call({
     Object? activePropType = freezed,
+    Object? showMenu = null,
   }) {
     return _then(_value.copyWith(
       activePropType: freezed == activePropType
           ? _value.activePropType
           : activePropType // ignore: cast_nullable_to_non_nullable
               as ControlPropType?,
+      showMenu: null == showMenu
+          ? _value.showMenu
+          : showMenu // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -66,7 +72,7 @@ abstract class _$$_CameraControlPageLandscapeStateCopyWith<$Res>
       __$$_CameraControlPageLandscapeStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({ControlPropType? activePropType});
+  $Res call({ControlPropType? activePropType, bool showMenu});
 }
 
 /// @nodoc
@@ -83,12 +89,17 @@ class __$$_CameraControlPageLandscapeStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? activePropType = freezed,
+    Object? showMenu = null,
   }) {
     return _then(_$_CameraControlPageLandscapeState(
       activePropType: freezed == activePropType
           ? _value.activePropType
           : activePropType // ignore: cast_nullable_to_non_nullable
               as ControlPropType?,
+      showMenu: null == showMenu
+          ? _value.showMenu
+          : showMenu // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -97,14 +108,17 @@ class __$$_CameraControlPageLandscapeStateCopyWithImpl<$Res>
 
 class _$_CameraControlPageLandscapeState
     implements _CameraControlPageLandscapeState {
-  const _$_CameraControlPageLandscapeState({required this.activePropType});
+  const _$_CameraControlPageLandscapeState(
+      {required this.activePropType, required this.showMenu});
 
   @override
   final ControlPropType? activePropType;
+  @override
+  final bool showMenu;
 
   @override
   String toString() {
-    return 'CameraControlLayoutState(activePropType: $activePropType)';
+    return 'CameraControlLayoutState(activePropType: $activePropType, showMenu: $showMenu)';
   }
 
   @override
@@ -113,11 +127,13 @@ class _$_CameraControlPageLandscapeState
         (other.runtimeType == runtimeType &&
             other is _$_CameraControlPageLandscapeState &&
             (identical(other.activePropType, activePropType) ||
-                other.activePropType == activePropType));
+                other.activePropType == activePropType) &&
+            (identical(other.showMenu, showMenu) ||
+                other.showMenu == showMenu));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, activePropType);
+  int get hashCode => Object.hash(runtimeType, activePropType, showMenu);
 
   @JsonKey(ignore: true)
   @override
@@ -131,11 +147,13 @@ class _$_CameraControlPageLandscapeState
 abstract class _CameraControlPageLandscapeState
     implements CameraControlLayoutState {
   const factory _CameraControlPageLandscapeState(
-          {required final ControlPropType? activePropType}) =
-      _$_CameraControlPageLandscapeState;
+      {required final ControlPropType? activePropType,
+      required final bool showMenu}) = _$_CameraControlPageLandscapeState;
 
   @override
   ControlPropType? get activePropType;
+  @override
+  bool get showMenu;
   @override
   @JsonKey(ignore: true)
   _$$_CameraControlPageLandscapeStateCopyWith<
