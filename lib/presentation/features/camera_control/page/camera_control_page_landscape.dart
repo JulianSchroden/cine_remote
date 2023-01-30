@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../camera_connection/bloc/camera_connection_cubit.dart';
+import '../../live_view/widgets/live_view_player.dart';
 import '../../screen_orientation/bloc/screen_orientation_cubit.dart';
 import '../bloc/camera_control_layout_cubit.dart';
 import '../widgets/camera_control_base_layout.dart';
+import '../widgets/control_prop_item.dart';
 import '../widgets/control_prop_value_picker.dart';
 import '../widgets/control_props_bar.dart';
-import '../../live_view/widgets/live_view_player.dart';
 import '../widgets/record_button.dart';
 
 class CameraControlPageLandscape extends StatelessWidget {
@@ -19,40 +20,37 @@ class CameraControlPageLandscape extends StatelessWidget {
           children: [
             SafeArea(
               right: false,
-              child: SizedBox(
+              child: Container(
                 width: 120,
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      const SizedBox(height: 16),
-                      TextButton(
-                        onPressed: () => context
-                            .read<CameraControlLayoutCubit>()
-                            .toggleMenu(),
-                        child: const Text(
-                          'Menu',
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.w700),
-                        ),
+                padding: const EdgeInsets.only(
+                  top: 16,
+                  right: 16,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    ControlPropItem(
+                      data: 'Menu',
+                      onPressed: () =>
+                          context.read<CameraControlLayoutCubit>().toggleMenu(),
+                      style: const ControlPropItemStyle.square(),
+                      isSelected: state.showMenu,
+                    ),
+                    const SizedBox(height: 24),
+                    Expanded(
+                      child: ControlPropsBar.landscape(
+                        selectedType: state.activePropType,
+                        onPropSelected: (propType) {
+                          context
+                              .read<CameraControlLayoutCubit>()
+                              .setActivePropType(
+                                  state.activePropType == propType
+                                      ? null
+                                      : propType);
+                        },
                       ),
-                      const SizedBox(height: 24),
-                      Expanded(
-                        child: ControlPropsBar.landscape(
-                          selectedType: state.activePropType,
-                          onPropSelected: (propType) {
-                            context
-                                .read<CameraControlLayoutCubit>()
-                                .setActivePropType(
-                                    state.activePropType == propType
-                                        ? null
-                                        : propType);
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -106,10 +104,13 @@ class CameraControlPageLandscape extends StatelessWidget {
                         color: Colors.grey[850],
                         padding: EdgeInsets.only(
                           top: MediaQuery.of(context).padding.top + 16,
+                          right: 8,
                           bottom: MediaQuery.of(context).padding.bottom + 16,
+                          left: 8,
                         ),
                         width: 150,
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             TextButton(
                               child: const Text('Disconnect'),

@@ -16,7 +16,9 @@ class CameraControlLayoutState with _$CameraControlLayoutState {
 class CameraControlLayoutCubit extends Cubit<CameraControlLayoutState> {
   CameraControlLayoutCubit()
       : super(const CameraControlLayoutState(
-            activePropType: null, showMenu: false));
+          activePropType: null,
+          showMenu: false,
+        ));
 
   void setActivePropType(ControlPropType? activePropType) {
     emit(state.copyWith(activePropType: activePropType, showMenu: false));

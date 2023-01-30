@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../domain/models/control_prop_type.dart';
+import '../../../core/extensions/control_prop_extension.dart';
 import '../bloc/props_control_cubit.dart';
 import 'control_prop_item.dart';
 
@@ -10,50 +11,32 @@ class ControlPropsBar extends StatelessWidget {
   final ControlPropType? selectedType;
   final void Function(ControlPropType propType) onPropSelected;
   final EdgeInsets padding;
-  final OutlinedBorder itemShape;
-  final EdgeInsets itemPadding;
-
-  factory ControlPropsBar.portrait({
-    required ControlPropType? selectedType,
-    required void Function(ControlPropType propType) onPropSelected,
-  }) =>
-      ControlPropsBar(
-        orientation: Orientation.portrait,
-        selectedType: selectedType,
-        onPropSelected: onPropSelected,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        itemShape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10),
-            topRight: Radius.circular(10),
-          ),
-        ),
-        itemPadding: const EdgeInsets.symmetric(vertical: 16),
-      );
-
-  factory ControlPropsBar.landscape({
-    required ControlPropType? selectedType,
-    required void Function(ControlPropType propType) onPropSelected,
-  }) =>
-      ControlPropsBar(
-        orientation: Orientation.landscape,
-        selectedType: selectedType,
-        onPropSelected: onPropSelected,
-        padding: const EdgeInsets.all(0),
-        itemShape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(16))),
-        itemPadding: const EdgeInsets.all(8),
-      );
+  final ControlPropItemStyle itemStyle;
 
   const ControlPropsBar({
     required this.orientation,
     required this.selectedType,
     required this.onPropSelected,
     required this.padding,
-    required this.itemShape,
-    required this.itemPadding,
+    required this.itemStyle,
     super.key,
   });
+
+  const ControlPropsBar.portrait({
+    required this.selectedType,
+    required this.onPropSelected,
+    super.key,
+  })  : orientation = Orientation.portrait,
+        padding = const EdgeInsets.symmetric(horizontal: 16),
+        itemStyle = const ControlPropItemStyle.circular();
+
+  const ControlPropsBar.landscape({
+    required this.selectedType,
+    required this.onPropSelected,
+    super.key,
+  })  : orientation = Orientation.landscape,
+        padding = const EdgeInsets.all(0),
+        itemStyle = const ControlPropItemStyle.square();
 
   Widget _buildContainer(
       {required BuildContext context, required List<Widget> children}) {
@@ -81,12 +64,11 @@ class ControlPropsBar extends StatelessWidget {
             ...state.controlProps.map(
               (controlProp) => Expanded(
                 child: ControlPropItem(
-                  controlProp: controlProp,
+                  data: controlProp.format(),
                   onPressed: () {
                     onPropSelected(controlProp.type);
                   },
-                  shape: itemShape,
-                  padding: itemPadding,
+                  style: itemStyle,
                   isSelected: selectedType == controlProp.type,
                 ),
               ),

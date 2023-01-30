@@ -1,20 +1,40 @@
 import 'package:flutter/material.dart';
 
-import '../../../../domain/models/control_prop.dart';
-import '../../../core/extensions/control_prop_extension.dart';
+class ControlPropItemStyle {
+  final EdgeInsets padding;
+  final OutlinedBorder shape;
+
+  const ControlPropItemStyle({
+    required this.padding,
+    required this.shape,
+  });
+
+  const ControlPropItemStyle.circular()
+      : padding = const EdgeInsets.symmetric(vertical: 16),
+        shape = const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(10),
+            topRight: Radius.circular(10),
+          ),
+        );
+
+  const ControlPropItemStyle.square()
+      : padding = const EdgeInsets.all(8),
+        shape = const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(16)),
+        );
+}
 
 class ControlPropItem extends StatelessWidget {
-  final ControlProp controlProp;
+  final String data;
   final void Function() onPressed;
-  final OutlinedBorder shape;
-  final EdgeInsets padding;
+  final ControlPropItemStyle style;
   final bool isSelected;
 
   const ControlPropItem({
-    required this.controlProp,
+    required this.data,
     required this.onPressed,
-    required this.shape,
-    required this.padding,
+    required this.style,
     this.isSelected = false,
     super.key,
   });
@@ -26,12 +46,12 @@ class ControlPropItem extends StatelessWidget {
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(
             isSelected ? Colors.grey[850]! : Colors.transparent),
-        padding: MaterialStateProperty.all(padding),
+        padding: MaterialStateProperty.all(style.padding),
         overlayColor: MaterialStateProperty.all(Colors.white10),
-        shape: MaterialStateProperty.all(shape),
+        shape: MaterialStateProperty.all(style.shape),
       ),
       child: Text(
-        controlProp.format(),
+        data,
         style: TextStyle(
           color: Colors.white,
           fontWeight: isSelected ? FontWeight.w600 : FontWeight.w300,
