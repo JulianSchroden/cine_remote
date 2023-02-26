@@ -9,7 +9,7 @@ class ControlActionsBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: const [
-        //Expanded(å
+        //Expanded(
         //  child: Center(
         //    child: TextButton(
         //      onPressed: () =>
