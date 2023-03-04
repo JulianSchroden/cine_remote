@@ -1,9 +1,31 @@
-# Cine Remote
+![Cine Remote Banner](docs/assets/cine_remote_banner.png)
+<br>
+<br>
 
+<p align="center">
 Cine Remote allows you to remote-control your Canon camera using its WiFi remote control capabilities.
+</p>
+<br>
+<br>
+
+Table of Contents
+
+- [Project Status](#project-status)
+- [Features](#features)
+- [List of Supported Cameras](#list-of-supported-cameras)
+- [Future Development](#future-development)
+
+<br>
+
+## Project Status
 
 In its current version, the app is in a proof-of-concept state and supports only the Canon C100 II.
-While implementing the communication with the camera, I used its browser-remote functionality to reverse engineer the issued API calls. You can find more info on the [C100 II's API and my development process on my blog](https://julianschroden.com/series/Exploring-the-Canon-Browser-Remote-API/1/).
+While implementing the communication with the camera, I used its browser-remote functionality to reverse engineer the issued API calls. For more info on the C100 II's API and my development process, check out [my blog](https://julianschroden.com/series/Exploring-the-Canon-Browser-Remote-API/1/).
+
+<p align="center">
+  <img src="docs/assets/cine_remote_teaser.gif" alt="Cine Remote Demo"/>
+</p>
+<br>
 
 ## Features
 
@@ -13,9 +35,13 @@ While implementing the communication with the camera, I used its browser-remote 
 - **Live View Preview**: Turn on the Live View preview to check your exposure and framing.
 - **Demo Mode**: Even without a supported model, you can try out the Cine Remote app using its demo mode, which mimics the camera's responses and response times.
 
+<br>
+
 ## List of Supported Cameras
 
 - Canon EOS C100 II
+
+<br>
 
 ## Future Development
 
