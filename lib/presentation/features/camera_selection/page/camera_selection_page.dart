@@ -1,4 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cine_remote/data/services/ptp_ip_camera_remote_service.dart';
+import 'package:cine_remote/presentation/core/widgets/rounded_text_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,6 +14,15 @@ class CameraSelectionPage extends StatelessWidget {
   final Config config;
 
   const CameraSelectionPage({required this.config, super.key});
+
+  void tryToConnect() {
+    try {
+      final service = PtpIpCameraRemoteService();
+      service.connect();
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +58,14 @@ class CameraSelectionPage extends StatelessWidget {
                       )
                       .toList(),
                 ),
+                const SizedBox(height: 16),
+                RoundedTextButton(
+                  text: "TCP Test",
+                  onPressed: () {
+                    print("On Button pressed");
+                    tryToConnect();
+                  },
+                )
               ],
             ),
           ),
