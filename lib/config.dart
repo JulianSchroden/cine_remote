@@ -1,4 +1,4 @@
-import 'domain/models/camera_model.dart';
+import 'camera_control/interface/models/camera_model.dart';
 
 abstract class CameraId {
   CameraId._();

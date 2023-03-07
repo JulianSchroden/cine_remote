@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../camera_control/common/date_time_adapter.dart';
+import '../../../../camera_control/interface/camera_remote_client.dart';
 import '../../../../dependencies.dart';
-import '../../../../domain/services/camera_remote_service.dart';
-import '../../../../domain/services/date_time_adapter.dart';
 import '../../camera_connection/bloc/camera_connection_cubit.dart';
 import '../../live_view/bloc/live_view_cubit.dart';
 import '../../screen_orientation/bloc/screen_orientation_cubit.dart';
@@ -23,14 +23,14 @@ class CameraControlPage extends StatelessWidget {
         BlocProvider(
           create: (context) => PropsControlCubit(
               context.read<CameraConnectionCubit>(),
-              get<CameraRemoteService>(),
+              get<CameraRemoteClient>(),
               get<DateTimeAdapter>())
             ..init(),
         ),
         BlocProvider(
           create: (context) => ActionsControlCubit(
             context.read<CameraConnectionCubit>(),
-            get<CameraRemoteService>(),
+            get<CameraRemoteClient>(),
           )..init(),
         ),
         BlocProvider(
@@ -39,7 +39,7 @@ class CameraControlPage extends StatelessWidget {
         BlocProvider(
           create: (context) => LiveViewCubit(
             context.read<CameraConnectionCubit>(),
-            get<CameraRemoteService>(),
+            get<CameraRemoteClient>(),
           ),
         )
       ],

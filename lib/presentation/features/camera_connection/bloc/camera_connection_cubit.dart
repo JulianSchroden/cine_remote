@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../camera_control/interface/camera_remote_client.dart';
+import '../../../../camera_control/interface/models/camera_handle.dart';
+import '../../../../camera_control/interface/models/camera_model.dart';
+import '../../../../camera_control/interface/models/camera_update_event.dart';
 import '../../../../dependencies.dart';
-import '../../../../domain/models/camera_handle.dart';
-import '../../../../domain/models/camera_model.dart';
-import '../../../../domain/models/camera_update_event.dart';
-import '../../../../domain/services/camera_remote_service.dart';
 
 part 'camera_connection_cubit.freezed.dart';
 
@@ -30,7 +30,7 @@ class CameraConnectionState with _$CameraConnectionState {
 
 class CameraConnectionCubit extends Cubit<CameraConnectionState> {
   final DependencyHelper _dependencyHelper;
-  CameraRemoteService? _cameraRemoteService;
+  CameraRemoteClient? _cameraRemoteService;
   StreamController<CameraUpdateEvent>? _cameraUpdateStreamController;
   Timer? _updateTimer;
 

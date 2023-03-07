@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 
-import '../models/camera_handle.dart';
-import '../models/camera_update_response.dart';
-import '../models/control_prop.dart';
-import '../models/control_prop_type.dart';
+import 'models/camera_handle.dart';
+import 'models/camera_update_response.dart';
+import 'models/control_prop.dart';
+import 'models/control_prop_type.dart';
 
-abstract class CameraRemoteService<H extends CameraHandle> {
+abstract class CameraRemoteClient<H extends CameraHandle> {
   Future<CameraHandle> connect();
 
   Future<ControlProp?> getProp(H handle, ControlPropType propType);

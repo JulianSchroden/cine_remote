@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../domain/models/control_prop.dart';
+import '../../../../camera_control/interface/models/control_prop.dart';
 import '../bloc/props_control_cubit.dart';
 
 class ControlPropValuePickerList extends StatefulWidget {

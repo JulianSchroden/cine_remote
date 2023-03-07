@@ -1,13 +1,13 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import '../../domain/models/camera_handle.dart';
-import '../../domain/models/camera_update_response.dart';
-import '../../domain/models/control_prop.dart';
-import '../../domain/models/control_prop_type.dart';
-import '../../domain/services/camera_remote_service.dart';
+import '../interface/camera_remote_client.dart';
+import '../interface/models/camera_handle.dart';
+import '../interface/models/camera_update_response.dart';
+import '../interface/models/control_prop.dart';
+import '../interface/models/control_prop_type.dart';
 
-class PtpIpCameraRemoteService extends CameraRemoteService {
+class EosPtpIpRemoteClient extends CameraRemoteClient {
   void dumpHexData(Uint8List data) {
     final hexDump =
         data.map((d) => d.toRadixString(16).padLeft(2, '0')).toList();

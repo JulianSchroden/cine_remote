@@ -1,5 +1,3 @@
-
-
 class CameraConnectionException implements Exception {
   String message;
 

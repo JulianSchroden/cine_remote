@@ -1,4 +1,6 @@
-import '../../domain/services/date_time_adapter.dart';
+abstract class DateTimeAdapter {
+  DateTime now();
+}
 
 class DateTimeAdapterImpl extends DateTimeAdapter {
   @override

@@ -1,4 +1,4 @@
-import '../../domain/models/control_prop_type.dart';
+import '../../interface/models/control_prop_type.dart';
 
 extension ControlPropTypeToPropKeyExtension on ControlPropType {
   String toKey() {

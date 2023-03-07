@@ -1,7 +1,8 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:cine_remote/data/models/wifi_camera_handle.dart';
-import 'package:cine_remote/domain/models/camera_handle.dart';
-import 'package:cine_remote/domain/models/camera_model.dart';
+import 'package:cine_remote/camera_control/eos_cine_http/models/eos_cine_http_camera_handle.dart';
+import 'package:cine_remote/camera_control/interface/models/camera_handle.dart';
+import 'package:cine_remote/camera_control/interface/models/camera_model.dart';
+
 import 'package:cine_remote/presentation/features/camera_connection/bloc/camera_connection_cubit.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -26,7 +27,7 @@ void main() {
   late MockCameraRemoteService mockCameraRemoteService;
   const cameraModel =
       CameraModel(identifier: 'C100II', name: 'Canon EOS C100 II');
-  const cameraHandle = WifiCameraHandle(cookies: [], supportedProps: []);
+  const cameraHandle = EosCineHttpCameraHandle(cookies: [], supportedProps: []);
 
   setUpAll(() {
     registerFallbackValue(const CameraHandle(supportedProps: []));

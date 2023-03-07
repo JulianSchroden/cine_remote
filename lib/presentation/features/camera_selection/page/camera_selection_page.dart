@@ -1,11 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:cine_remote/data/services/ptp_ip_camera_remote_service.dart';
-import 'package:cine_remote/presentation/core/widgets/rounded_text_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../camera_control/eos_ptp_ip/eos_ptp_ip_remote_client.dart';
 import '../../../../config.dart';
 import '../../../cine_remote_colors.dart';
+import '../../../core/widgets/rounded_text_button.dart';
 import '../../../routes.dart';
 import '../../camera_connection/bloc/camera_connection_cubit.dart';
 import '../widgets/camera_selection_item.dart';
@@ -17,7 +17,7 @@ class CameraSelectionPage extends StatelessWidget {
 
   void tryToConnect() {
     try {
-      final service = PtpIpCameraRemoteService();
+      final service = EosPtpIpRemoteClient();
       service.connect();
     } catch (e) {
       print(e);

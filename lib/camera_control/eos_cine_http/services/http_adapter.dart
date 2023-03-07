@@ -2,7 +2,7 @@ import 'dart:io';
 
 import '../extensions/client_response_extensions.dart';
 import '../models/http_adapter_response.dart';
-import '../models/wifi_camera_handle.dart';
+import '../models/eos_cine_http_camera_handle.dart';
 
 class HttpAdapter {
   final String _authority = '192.168.0.80';
@@ -10,7 +10,7 @@ class HttpAdapter {
   HttpAdapter();
 
   Future<HttpAdapterResponse> get(
-    WifiCameraHandle? handle,
+    EosCineHttpCameraHandle? handle,
     String path, [
     Map<String, dynamic>? queryParams,
   ]) async {

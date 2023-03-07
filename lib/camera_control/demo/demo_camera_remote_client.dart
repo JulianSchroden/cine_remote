@@ -2,15 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 
-import '../../domain/models/camera_handle.dart';
-import '../../domain/models/camera_update_event.dart';
-import '../../domain/models/camera_update_response.dart';
-import '../../domain/models/control_prop.dart';
-import '../../domain/models/control_prop_type.dart';
-import '../../domain/services/camera_remote_service.dart';
-import '../models/wifi_camera_handle.dart';
+import '../eos_cine_http/models/eos_cine_http_camera_handle.dart';
+import '../interface/models/camera_handle.dart';
+import '../interface/models/camera_update_event.dart';
+import '../interface/models/camera_update_response.dart';
+import '../interface/models/control_prop.dart';
+import '../interface/models/control_prop_type.dart';
+import '../interface/camera_remote_client.dart';
 
-class FakeCameraRemoteService extends CameraRemoteService {
+class FakeCameraRemoteService extends CameraRemoteClient {
   final List<ControlProp> _dummyControlProps = [
     const ControlProp(
       type: ControlPropType.iso,
@@ -41,7 +41,7 @@ class FakeCameraRemoteService extends CameraRemoteService {
   Future<CameraHandle> connect() async {
     await Future.delayed(const Duration(seconds: 1));
 
-    return WifiCameraHandle(
+    return EosCineHttpCameraHandle(
       cookies: const [],
       supportedProps: _dummyControlProps.map((prop) => prop.type).toList(),
     );

@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../domain/models/auto_focus_mode.dart';
-import '../../../../domain/models/camera_update_event.dart';
-import '../../../../domain/services/camera_remote_service.dart';
+import '../../../../camera_control/interface/camera_remote_client.dart';
+import '../../../../camera_control/interface/models/auto_focus_mode.dart';
+import '../../../../camera_control/interface/models/camera_update_event.dart';
 import '../../camera_connection/bloc/camera_connection_cubit.dart';
 
 part 'actions_control_cubit.freezed.dart';
@@ -30,7 +30,7 @@ class ActionsControlState with _$ActionsControlState {
 
 class ActionsControlCubit extends Cubit<ActionsControlState> {
   final CameraConnectionCubit _cameraConnectionCubit;
-  final CameraRemoteService _cameraRemoteService;
+  final CameraRemoteClient _cameraRemoteService;
   StreamSubscription<CameraUpdateEvent>? _updateStreamSubscription;
 
   ActionsControlCubit(

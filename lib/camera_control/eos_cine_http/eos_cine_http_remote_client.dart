@@ -2,26 +2,27 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 
-import '../../domain/models/auto_focus_mode.dart';
-import '../../domain/models/camera_update_event.dart';
-import '../../domain/models/camera_update_response.dart';
-import '../../domain/models/control_prop.dart';
-import '../../domain/models/control_prop_type.dart';
-import '../../domain/services/camera_remote_service.dart';
-import '../exceptions/camera_connection_exception.dart';
-import '../extensions/control_prop_type_extensions.dart';
-import '../models/camera_info.dart';
-import '../models/wifi_camera_handle.dart';
-import 'http_adapter.dart';
+import '../interface/camera_remote_client.dart';
+import '../interface/exceptions/camera_connection_exception.dart';
+import '../interface/models/auto_focus_mode.dart';
+import '../interface/models/camera_update_event.dart';
+import '../interface/models/camera_update_response.dart';
+import '../interface/models/control_prop.dart';
+import '../interface/models/control_prop_type.dart';
+import 'extensions/control_prop_type_extensions.dart';
+import 'models/camera_info.dart';
+import 'models/eos_cine_http_camera_handle.dart';
+import 'services/http_adapter.dart';
 
-class WifiCameraRemoteService extends CameraRemoteService<WifiCameraHandle> {
+class EosCineHttpRemoteClient
+    extends CameraRemoteClient<EosCineHttpCameraHandle> {
   final HttpAdapter httpAdapter;
 
-  WifiCameraRemoteService(this.httpAdapter);
+  EosCineHttpRemoteClient(this.httpAdapter);
   final String _authority = '192.168.0.80';
 
   @override
-  Future<WifiCameraHandle> connect() async {
+  Future<EosCineHttpCameraHandle> connect() async {
     const loginPath = '/api/acnt/login';
     final response = await httpAdapter.get(null, loginPath);
 
@@ -30,7 +31,7 @@ class WifiCameraRemoteService extends CameraRemoteService<WifiCameraHandle> {
           'Failed to connect to camera. Status: ${response.statusCode}');
     }
 
-    final cameraHandle = WifiCameraHandle(
+    final cameraHandle = EosCineHttpCameraHandle(
       cookies: response.cookies,
       supportedProps: const [
         ControlPropType.aperture,
@@ -50,7 +51,7 @@ class WifiCameraRemoteService extends CameraRemoteService<WifiCameraHandle> {
 
   @override
   Future<ControlProp?> getProp(
-    WifiCameraHandle handle,
+    EosCineHttpCameraHandle handle,
     ControlPropType propType,
   ) async {
     const getPropPath = '/api/cam/getprop';
@@ -71,7 +72,7 @@ class WifiCameraRemoteService extends CameraRemoteService<WifiCameraHandle> {
 
   @override
   Future<void> setProp(
-    WifiCameraHandle handle,
+    EosCineHttpCameraHandle handle,
     ControlPropType propType,
     String value,
   ) async {
@@ -82,7 +83,7 @@ class WifiCameraRemoteService extends CameraRemoteService<WifiCameraHandle> {
   }
 
   @override
-  Future<void> triggerRecord(WifiCameraHandle handle) async {
+  Future<void> triggerRecord(EosCineHttpCameraHandle handle) async {
     const triggerRecordPath = '/api/cam/rec';
     final response =
         await httpAdapter.get(handle, triggerRecordPath, {'cmd': 'trig'});
@@ -91,7 +92,7 @@ class WifiCameraRemoteService extends CameraRemoteService<WifiCameraHandle> {
   }
 
   @override
-  Future<void> toggleAfLock(WifiCameraHandle handle) async {
+  Future<void> toggleAfLock(EosCineHttpCameraHandle handle) async {
     const toggleAfLockPath = '/api/cam/drivelens';
     final response =
         await httpAdapter.get(handle, toggleAfLockPath, {'af': 'togglelock'});
@@ -99,7 +100,7 @@ class WifiCameraRemoteService extends CameraRemoteService<WifiCameraHandle> {
   }
 
   @override
-  Future<CameraUpdateResponse> getUpdate(WifiCameraHandle handle) async {
+  Future<CameraUpdateResponse> getUpdate(EosCineHttpCameraHandle handle) async {
     const getUpdatePath = '/api/cam/getcurprop';
     final response = await httpAdapter
         .get(handle, getUpdatePath, {'seq': handle.updateCounter.toString()});
@@ -161,7 +162,7 @@ class WifiCameraRemoteService extends CameraRemoteService<WifiCameraHandle> {
     );
   }
 
-  Future<CameraInfo> getInfo(WifiCameraHandle cameraHandle) async {
+  Future<CameraInfo> getInfo(EosCineHttpCameraHandle cameraHandle) async {
     const getInfoPath = '/api/sys/getdevinfo';
     final response = await httpAdapter.get(cameraHandle, getInfoPath);
     if (!response.isOkay()) {
@@ -232,7 +233,7 @@ class WifiCameraRemoteService extends CameraRemoteService<WifiCameraHandle> {
   // {"res":"ok"}
 
   @override
-  Future<void> startLiveView(WifiCameraHandle handle) async {
+  Future<void> startLiveView(EosCineHttpCameraHandle handle) async {
     const liveViewControlPath = 'api/cam/lv';
     final response = await httpAdapter
         .get(handle, liveViewControlPath, {'cmd': 'start', 'sz': 'l'});
@@ -240,7 +241,7 @@ class WifiCameraRemoteService extends CameraRemoteService<WifiCameraHandle> {
   }
 
   @override
-  Future<void> stopLiveView(WifiCameraHandle handle) async {
+  Future<void> stopLiveView(EosCineHttpCameraHandle handle) async {
     const liveViewControlPath = 'api/cam/lv';
     final response =
         await httpAdapter.get(handle, liveViewControlPath, {'cmd': 'stop'});
@@ -248,7 +249,7 @@ class WifiCameraRemoteService extends CameraRemoteService<WifiCameraHandle> {
   }
 
   @override
-  Future<Uint8List> getLiveViewImage(WifiCameraHandle handle) async {
+  Future<Uint8List> getLiveViewImage(EosCineHttpCameraHandle handle) async {
     final timeStamp = DateTime.now().toIso8601String();
     final liveViewGetImageUrl =
         Uri.http(_authority, 'api/cam/lvgetimg', {'d': timeStamp});
@@ -257,7 +258,7 @@ class WifiCameraRemoteService extends CameraRemoteService<WifiCameraHandle> {
   }
 
   Future<HttpClientResponse> _getUrl(Uri url,
-      [WifiCameraHandle? handle]) async {
+      [EosCineHttpCameraHandle? handle]) async {
     final client = HttpClient();
     final request = await client.getUrl(url);
     if (handle != null) {

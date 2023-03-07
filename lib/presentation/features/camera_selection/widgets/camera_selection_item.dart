@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../domain/models/camera_model.dart';
+import '../../../../camera_control/interface/models/camera_model.dart';
 import '../../../core/widgets/rounded_text_button.dart';
 import '../../camera_connection/bloc/camera_connection_cubit.dart';
 

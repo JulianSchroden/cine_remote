@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../domain/models/camera_update_event.dart';
-import '../../../../domain/models/control_prop.dart';
-import '../../../../domain/models/control_prop_type.dart';
-import '../../../../domain/services/camera_remote_service.dart';
-import '../../../../domain/services/date_time_adapter.dart';
+import '../../../../camera_control/common/date_time_adapter.dart';
+import '../../../../camera_control/interface/camera_remote_client.dart';
+import '../../../../camera_control/interface/models/camera_update_event.dart';
+import '../../../../camera_control/interface/models/control_prop.dart';
+import '../../../../camera_control/interface/models/control_prop_type.dart';
 import '../../../core/extensions/control_prop_extension.dart';
 import '../../../core/extensions/list_copy_with.dart';
 import '../../camera_connection/bloc/camera_connection_cubit.dart';
@@ -38,7 +38,7 @@ class PropsControlState with _$PropsControlState {
 class PropsControlCubit extends Cubit<PropsControlState> {
   static const pendingDuration = Duration(seconds: 2);
   final CameraConnectionCubit _cameraConnectionCubit;
-  final CameraRemoteService _cameraRemoteService;
+  final CameraRemoteClient _cameraRemoteService;
   final DateTimeAdapter _dateTimeAdapter;
   StreamSubscription<CameraUpdateEvent>? _updateStreamSubscription;
 

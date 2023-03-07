@@ -1,15 +1,14 @@
 import 'dart:async';
 
-import 'domain/models/camera_model.dart';
 import 'package:get_it/get_it.dart';
 
+import 'camera_control/common/date_time_adapter.dart';
+import 'camera_control/demo/demo_camera_remote_client.dart';
+import 'camera_control/eos_cine_http/eos_cine_http_remote_client.dart';
+import 'camera_control/eos_cine_http/services/http_adapter.dart';
+import 'camera_control/interface/camera_remote_client.dart';
+import 'camera_control/interface/models/camera_model.dart';
 import 'config.dart';
-import 'data/services/date_time_adapter_impl.dart';
-import 'data/services/fake_camera_remote_service.dart';
-import 'data/services/http_adapter.dart';
-import 'data/services/wifi_camera_remote_service.dart';
-import 'domain/services/camera_remote_service.dart';
-import 'domain/services/date_time_adapter.dart';
 
 void registerDependencies() {
   factory<HttpAdapter>(() => HttpAdapter());
@@ -19,22 +18,21 @@ void registerDependencies() {
 }
 
 class DependencyHelper {
-  CameraRemoteService registerCameraRemoteService(CameraModel cameraModel) {
-    if (GetIt.instance.isRegistered<CameraRemoteService>()) {
-      GetIt.instance.unregister<CameraRemoteService>();
+  CameraRemoteClient registerCameraRemoteService(CameraModel cameraModel) {
+    if (GetIt.instance.isRegistered<CameraRemoteClient>()) {
+      GetIt.instance.unregister<CameraRemoteClient>();
     }
 
     final serviceImpl = _getCameraRemoteService(cameraModel);
-    GetIt.instance
-        .registerLazySingleton<CameraRemoteService>(() => serviceImpl);
+    GetIt.instance.registerLazySingleton<CameraRemoteClient>(() => serviceImpl);
     return serviceImpl;
   }
 
-  CameraRemoteService _getCameraRemoteService(CameraModel cameraModel) {
+  CameraRemoteClient _getCameraRemoteService(CameraModel cameraModel) {
     switch (cameraModel.identifier) {
       case CameraId.canonC100II:
         {
-          return WifiCameraRemoteService(get<HttpAdapter>());
+          return EosCineHttpRemoteClient(get<HttpAdapter>());
         }
       case CameraId.fakeCamera:
         {

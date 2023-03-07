@@ -1,16 +1,16 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:cine_remote/data/exceptions/camera_connection_exception.dart';
-import 'package:cine_remote/data/models/camera_info.dart';
-import 'package:cine_remote/data/models/http_adapter_response.dart';
-import 'package:cine_remote/data/models/wifi_camera_handle.dart';
-import 'package:cine_remote/data/services/http_adapter.dart';
-import 'package:cine_remote/data/services/wifi_camera_remote_service.dart';
-import 'package:cine_remote/domain/models/auto_focus_mode.dart';
-import 'package:cine_remote/domain/models/camera_update_event.dart';
-import 'package:cine_remote/domain/models/control_prop.dart';
-import 'package:cine_remote/domain/models/control_prop_type.dart';
+import 'package:cine_remote/camera_control/eos_cine_http/models/camera_info.dart';
+import 'package:cine_remote/camera_control/eos_cine_http/models/http_adapter_response.dart';
+import 'package:cine_remote/camera_control/eos_cine_http/models/eos_cine_http_camera_handle.dart';
+import 'package:cine_remote/camera_control/interface/exceptions/camera_connection_exception.dart';
+import 'package:cine_remote/camera_control/interface/models/auto_focus_mode.dart';
+import 'package:cine_remote/camera_control/interface/models/camera_update_event.dart';
+import 'package:cine_remote/camera_control/interface/models/control_prop.dart';
+import 'package:cine_remote/camera_control/interface/models/control_prop_type.dart';
+import 'package:cine_remote/camera_control/eos_cine_http/services/http_adapter.dart';
+import 'package:cine_remote/camera_control/eos_cine_http/eos_cine_http_remote_client.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -21,16 +21,16 @@ class MockHttpAdapterResponse extends Mock implements HttpAdapterResponse {}
 class MockHttpClientResponse extends Mock implements HttpClientResponse {}
 
 void main() {
-  late WifiCameraRemoteService sut;
+  late EosCineHttpRemoteClient sut;
   late MockHttpAdapter mockHttpAdapter;
-  const WifiCameraHandle cameraHandle = WifiCameraHandle(
+  const EosCineHttpCameraHandle cameraHandle = EosCineHttpCameraHandle(
     cookies: [],
     supportedProps: [],
   );
 
   setUp(() {
     mockHttpAdapter = MockHttpAdapter();
-    sut = WifiCameraRemoteService(mockHttpAdapter);
+    sut = EosCineHttpRemoteClient(mockHttpAdapter);
   });
 
   group('connect', () {

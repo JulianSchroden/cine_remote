@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../domain/services/camera_remote_service.dart';
+import '../../../../camera_control/interface/camera_remote_client.dart';
 import '../../camera_connection/bloc/camera_connection_cubit.dart';
 
 part 'live_view_cubit.freezed.dart';
@@ -21,7 +21,7 @@ class LiveViewState with _$LiveViewState {
 
 class LiveViewCubit extends Cubit<LiveViewState> {
   final CameraConnectionCubit _cameraConnectionCubit;
-  final CameraRemoteService _cameraRemoteService;
+  final CameraRemoteClient _cameraRemoteService;
   Timer? _pollImageTimer;
   Completer? _getLiveViewImageCompleter;
 

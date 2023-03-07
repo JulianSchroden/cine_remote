@@ -1,13 +1,13 @@
 import 'dart:io';
 
-import '../../domain/models/camera_handle.dart';
-import '../../domain/models/control_prop_type.dart';
+import '../../interface/models/camera_handle.dart';
+import '../../interface/models/control_prop_type.dart';
 
-class WifiCameraHandle extends CameraHandle {
+class EosCineHttpCameraHandle extends CameraHandle {
   final List<Cookie> cookies;
   final int updateCounter;
 
-  const WifiCameraHandle({
+  const EosCineHttpCameraHandle({
     required this.cookies,
     this.updateCounter = 0,
     required super.supportedProps,
@@ -16,12 +16,12 @@ class WifiCameraHandle extends CameraHandle {
   @override
   List<Object?> get props => [cookies, updateCounter, ...super.props];
 
-  WifiCameraHandle copyWith({
+  EosCineHttpCameraHandle copyWith({
     List<Cookie>? cookies,
     int? updateCounter,
     List<ControlPropType>? supportedProps,
   }) {
-    return WifiCameraHandle(
+    return EosCineHttpCameraHandle(
       cookies: cookies ?? this.cookies,
       updateCounter: updateCounter ?? this.updateCounter,
       supportedProps: supportedProps ?? this.supportedProps,
