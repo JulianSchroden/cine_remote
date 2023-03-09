@@ -1,13 +1,15 @@
 import 'package:flutter/foundation.dart';
 
-class PtpDataReader {
-  final Uint8List _data;
+import '../models/ptp_packet.dart';
+
+class PtpPacketReader {
+  final PtpPacket _packet;
   final ByteData _bytes;
   int offset = 0;
 
-  PtpDataReader(this._data) : _bytes = ByteData.view(_data.buffer);
+  PtpPacketReader(this._packet) : _bytes = ByteData.view(_packet.data.buffer);
 
-  int get length => _data.length;
+  int get length => _packet.data.length;
 
   int getUint32() {
     final result = _bytes.getUint32(offset, Endian.little);
@@ -22,7 +24,7 @@ class PtpDataReader {
   }
 
   Uint8List getBytes(int count) {
-    final bytes = _data.sublist(offset, offset + count);
+    final bytes = _packet.data.sublist(offset, offset + count);
     offset += count;
     return bytes;
   }

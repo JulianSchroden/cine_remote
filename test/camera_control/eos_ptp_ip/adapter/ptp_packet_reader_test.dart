@@ -1,13 +1,18 @@
 import 'dart:typed_data';
 
-import 'package:cine_remote/camera_control/eos_ptp_ip/ptp_data_reader.dart';
+import 'package:cine_remote/camera_control/eos_ptp_ip/adapter/ptp_packet_reader.dart';
+import 'package:cine_remote/camera_control/eos_ptp_ip/models/ptp_packet.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  PtpPacket buildPacket(List<int> data) {
+    return PtpPacket(Uint8List.fromList(data));
+  }
+
   group('getUint32', () {
     test('returns correct uint32 value', () {
-      final data = Uint8List.fromList([0x01, 0x02, 0x03, 0x04]);
-      final reader = PtpDataReader(data);
+      final packet = buildPacket([0x01, 0x02, 0x03, 0x04]);
+      final reader = PtpPacketReader(packet);
 
       final result = reader.getUint32();
 
@@ -15,9 +20,9 @@ void main() {
     });
 
     test('returns correct value when called in sequence', () {
-      final data =
-          Uint8List.fromList([0x09, 0x08, 0x07, 0x06, 0x01, 0x02, 0x03, 0x04]);
-      final reader = PtpDataReader(data);
+      final packet =
+          buildPacket([0x09, 0x08, 0x07, 0x06, 0x01, 0x02, 0x03, 0x04]);
+      final reader = PtpPacketReader(packet);
 
       final value1 = reader.getUint32();
       final value2 = reader.getUint32();
@@ -27,8 +32,8 @@ void main() {
     });
 
     test('throws RangeError when trying to read out of bounds bytes', () {
-      final data = Uint8List(0);
-      final reader = PtpDataReader(data);
+      final packet = buildPacket([]);
+      final reader = PtpPacketReader(packet);
 
       expect(() => reader.getUint32(), throwsA(isA<RangeError>()));
     });
@@ -36,8 +41,8 @@ void main() {
 
   group('getUint16', () {
     test('should return correct uint16 value', () {
-      final data = Uint8List.fromList([0x01, 0x02]);
-      final reader = PtpDataReader(data);
+      final packet = buildPacket([0x01, 0x02]);
+      final reader = PtpPacketReader(packet);
 
       final result = reader.getUint16();
 
@@ -45,8 +50,8 @@ void main() {
     });
 
     test('returns correct value when called in sequence', () {
-      final data = Uint8List.fromList([0x09, 0x08, 0x03, 0x04]);
-      final reader = PtpDataReader(data);
+      final packet = buildPacket([0x09, 0x08, 0x03, 0x04]);
+      final reader = PtpPacketReader(packet);
 
       final value1 = reader.getUint16();
       final value2 = reader.getUint16();
@@ -56,8 +61,8 @@ void main() {
     });
 
     test('throws RangeError when trying to read out of bounds bytes', () {
-      final data = Uint8List(0);
-      final reader = PtpDataReader(data);
+      final packet = buildPacket([]);
+      final reader = PtpPacketReader(packet);
 
       expect(() => reader.getUint16(), throwsA(isA<RangeError>()));
     });
@@ -65,8 +70,8 @@ void main() {
 
   group('getBytes', () {
     test('returns correct list of bytes', () {
-      final data = Uint8List.fromList([0x01, 0x02, 0x03, 0x04, 0x05]);
-      final reader = PtpDataReader(data);
+      final packet = buildPacket([0x01, 0x02, 0x03, 0x04, 0x05]);
+      final reader = PtpPacketReader(packet);
 
       final result = reader.getBytes(3);
 
@@ -74,8 +79,8 @@ void main() {
     });
 
     test('returns correct value when called in sequence', () {
-      final data = Uint8List.fromList([0x01, 0x02, 0x03, 0x04, 0x05]);
-      final reader = PtpDataReader(data);
+      final packet = buildPacket([0x01, 0x02, 0x03, 0x04, 0x05]);
+      final reader = PtpPacketReader(packet);
 
       final result1 = reader.getBytes(2);
       final result2 = reader.getBytes(2);
@@ -85,8 +90,8 @@ void main() {
     });
 
     test('throws RangeError when trying to read out of bounds bytes', () {
-      final data = Uint8List.fromList([0x01, 0x02, 0x03]);
-      final reader = PtpDataReader(data);
+      final packet = buildPacket([0x01, 0x02, 0x03]);
+      final reader = PtpPacketReader(packet);
 
       expect(() => reader.getBytes(5), throwsA(isA<RangeError>()));
     });
@@ -94,7 +99,7 @@ void main() {
 
   group('getString', () {
     test('should return correct string', () {
-      final data = Uint8List.fromList([
+      final packet = buildPacket([
         0x48,
         0x000,
         0x65,
@@ -108,14 +113,14 @@ void main() {
         0x0,
         0x0
       ]);
-      final reader = PtpDataReader(data);
+      final reader = PtpPacketReader(packet);
 
       final result = reader.getString();
       expect(result, 'Hello');
     });
 
     test('returns correct value when called in sequence', () {
-      final data = Uint8List.fromList([
+      final packet = buildPacket([
         0x48,
         0x00,
         0x65,
@@ -133,7 +138,7 @@ void main() {
         0x00,
         0x00
       ]);
-      final reader = PtpDataReader(data);
+      final reader = PtpPacketReader(packet);
 
       final result1 = reader.getString();
       final result2 = reader.getString();
@@ -142,7 +147,7 @@ void main() {
     });
 
     test('throws when sequence is not null terminated', () {
-      final data = Uint8List.fromList([
+      final packet = buildPacket([
         0x48,
         0x00,
         0x65,
@@ -151,7 +156,7 @@ void main() {
         0x00,
       ]);
 
-      final reader = PtpDataReader(data);
+      final reader = PtpPacketReader(packet);
       expect(() => reader.getString(), throwsA(isA<RangeError>()));
     });
   });

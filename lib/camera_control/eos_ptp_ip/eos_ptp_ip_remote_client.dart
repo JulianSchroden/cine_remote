@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -6,69 +7,103 @@ import '../interface/models/camera_handle.dart';
 import '../interface/models/camera_update_response.dart';
 import '../interface/models/control_prop.dart';
 import '../interface/models/control_prop_type.dart';
+import 'adapter/ptp_request_factory.dart';
+import 'adapter/ptp_response_parser.dart';
+import 'extensions/dump_bytes_extensions.dart';
+import 'models/ptp_packet.dart';
+import 'responses/ptp_init_command_response.dart';
+import 'responses/ptp_init_event_response.dart';
 
 class EosPtpIpRemoteClient extends CameraRemoteClient {
-  void dumpHexData(Uint8List data) {
-    final hexDump =
-        data.map((d) => d.toRadixString(16).padLeft(2, '0')).toList();
-    print(hexDump);
-  }
+  Socket? socket;
+  Socket? eventSocket;
+  StreamSubscription<Uint8List>? subscription;
+  StreamSubscription<Uint8List>? eventSubscription;
+  final PtpRequestFactory _ptpRequestFactory;
+  final PtpResponseParser _ptpResponseParser;
+
+  EosPtpIpRemoteClient()
+      : _ptpRequestFactory = PtpRequestFactory(),
+        _ptpResponseParser = PtpResponseParser();
 
   @override
   Future<CameraHandle> connect() async {
-    const clientName = "Cine Remote";
-    final nameCodeUnits = [...clientName.codeUnits, 0];
-    final nameData = ByteData(nameCodeUnits.length * 2);
-    for (var i = 0; i < nameCodeUnits.length; i++) {
-      nameData.setInt16(i * 2, nameCodeUnits[i], Endian.little);
-    }
-
-    final nameBytes = Uint8List.view(nameData.buffer);
-    print('mock impl');
+    const clientName = 'Cine Remote';
+    const cameraIp = '192.168.178.43';
+    const port = 15740;
+    final guid = Uint8List.fromList(List.generate(16, (index) => 0x00));
 
     print('Attempting to connect');
-    final address = InternetAddress.tryParse('192.168.178.43');
-    print(address);
-    final socket = await Socket.connect(address, 15740);
-    final subscription = socket.listen((event) {
+    final address = InternetAddress.tryParse(cameraIp);
+    await subscription?.cancel();
+    socket?.destroy();
+
+    await eventSubscription?.cancel();
+    eventSocket?.destroy();
+
+    final initCommandCompleter = Completer<PtpInitCommandResponse>();
+
+    socket = await Socket.connect(
+      address,
+      port,
+      timeout: const Duration(seconds: 10),
+    );
+    subscription = socket!.listen((data) {
+      final response = _ptpResponseParser.read(PtpPacket(data));
+      if (response is PtpInitCommandResponse) {
+        initCommandCompleter.complete(response);
+        print('Connected to camera ${response.cameraName}');
+      } else if (response is PtpInitEventResponse) {
+        print('Init event response');
+      }
+
       print('onData');
-      dumpHexData(event);
+      print(data.dumpAsHex());
     }, onError: (e) {
       print("Connection error");
       print(e);
-    }, onDone: () {
-      print('Connected closed');
+    }, onDone: () async {
+      print('Connection closed');
+      socket?.destroy();
+      await subscription?.cancel();
     });
 
-    final messageLength = 4 + 4 + 16 + nameBytes.length + 4;
-    print('messageLength: ${messageLength}');
-    Uint8List data = Uint8List(messageLength);
+    final initCommandRequest = _ptpRequestFactory.createInitCommandRequest(
+      name: clientName,
+      guid: guid,
+    );
+    print(initCommandRequest.data.dumpAsHex());
 
-    final buffer = ByteData.view(data.buffer);
-    // set length
-    buffer.setInt32(0, messageLength, Endian.little); // 4 bytes length
-    // Init command
-    buffer.setInt32(4, 1, Endian.little); // 4 bytes command: 1 = init
-
-    // client guid
-    final guid = List.generate(16, (index) => 0x00);
-    data.setAll(8, guid.reversed);
-
-    // name
-    data.setAll(24, nameBytes);
-
-    // version
-    buffer.setInt32(8 + 16 + nameBytes.length, 1, Endian.little);
-
-    dumpHexData(data);
-
-    socket.add(data);
-    await socket.flush();
+    // sending package
+    socket!.add(initCommandRequest.data);
+    await socket!.flush();
     print('flush complete');
 
-    await Future.delayed(const Duration(seconds: 10));
-    subscription.cancel();
-    socket.destroy();
+    final initResponse =
+        await initCommandCompleter.future.timeout(const Duration(seconds: 10));
+
+    print('completer completed: now, sending init event request');
+    print('Trying to init event socket');
+    eventSocket = await Socket.connect(
+      address,
+      port,
+      timeout: const Duration(seconds: 10),
+    );
+
+    eventSocket!.listen((event) {
+      print('received response on event line');
+      event.dumpAsHex();
+    });
+
+    final initEventRequest = _ptpRequestFactory.createInitEventRequest(
+        connectionNumber: initResponse.connectionNumber);
+    print(initEventRequest.data.dumpAsHex());
+    eventSocket!.add(initEventRequest.data);
+    await eventSocket!.flush();
+
+    print('Waiting a bit for no reason');
+
+    await Future.delayed(Duration(seconds: 10));
 
     return const CameraHandle(supportedProps: []);
   }

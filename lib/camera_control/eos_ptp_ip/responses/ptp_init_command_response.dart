@@ -2,13 +2,13 @@ import 'package:flutter/foundation.dart';
 
 import 'ptp_response.dart';
 
-class PtpInitAckResponse extends PtpResponse {
+class PtpInitCommandResponse extends PtpResponse {
   final int connectionNumber;
   final Uint8List cameraGuid;
   final String cameraName;
   final String version;
 
-  PtpInitAckResponse({
+  PtpInitCommandResponse({
     required this.connectionNumber,
     required this.cameraGuid,
     required this.cameraName,

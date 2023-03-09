@@ -1,12 +1,13 @@
-import 'package:cine_remote/camera_control/eos_ptp_ip/ptp_response_reader.dart';
-import 'package:cine_remote/camera_control/eos_ptp_ip/responses/ptp_init_ack_response.dart';
+import 'package:cine_remote/camera_control/eos_ptp_ip/adapter/ptp_response_parser.dart';
+import 'package:cine_remote/camera_control/eos_ptp_ip/models/ptp_packet.dart';
+import 'package:cine_remote/camera_control/eos_ptp_ip/responses/ptp_init_command_response.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('initAckResponse', () {
     test('returns parsed reponse model', () {
-      final data = Uint8List.fromList([
+      final packet = PtpPacket(Uint8List.fromList([
         0x28,
         0x00,
         0x00,
@@ -47,15 +48,15 @@ void main() {
         0x00,
         0x01,
         0x00,
-      ]);
+      ]));
 
-      final reader = PtpResponseReader();
-      final response = reader.read(data);
+      final reader = PtpResponseParser();
+      final response = reader.read(packet);
       expect(response, isNotNull);
-      expect(response, isA<PtpInitAckResponse>());
+      expect(response, isA<PtpInitCommandResponse>());
       expect(
         response,
-        PtpInitAckResponse(
+        PtpInitCommandResponse(
             connectionNumber: 1,
             cameraGuid: Uint8List.fromList([
               0x00,

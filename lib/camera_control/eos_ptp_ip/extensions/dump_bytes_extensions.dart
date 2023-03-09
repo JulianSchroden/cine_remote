@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 extension DumpHexDataExtension on Uint8List {
-  String dumpHexData() {
+  String dumpAsHex() {
     final hexValues =
         map((value) => value.toRadixString(16).padLeft(2, '0')).toList();
 

@@ -1,0 +1,27 @@
+import 'dart:typed_data';
+
+import '../adapter/ptp_packet_builder.dart';
+import '../ptp_package_typ.dart';
+import '../models/ptp_packet.dart';
+
+class PtpRequestFactory {
+  PtpPacket createInitCommandRequest({
+    required String name,
+    required Uint8List guid,
+    int version = 1,
+  }) {
+    final builder = PtpPacketBuilder();
+    builder.addUInt32(PtpPacketTyp.initCommandRequest);
+    builder.add(guid);
+    builder.addString(name);
+    builder.addUInt32(version);
+    return builder.build();
+  }
+
+  PtpPacket createInitEventRequest({required int connectionNumber}) {
+    final builder = PtpPacketBuilder();
+    builder.addUInt32(PtpPacketTyp.initEventRequest);
+    builder.addUInt32(connectionNumber);
+    return builder.build();
+  }
+}
