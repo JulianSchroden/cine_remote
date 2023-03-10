@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:cine_remote/camera_control/eos_ptp_ip/eos_ptp_ip_camera.dart';
 import 'package:get_it/get_it.dart';
+import 'package:logging/logging.dart';
 
 import 'camera_control/common/date_time_adapter.dart';
 import 'camera_control/demo/demo_camera_remote_client.dart';
@@ -15,6 +17,14 @@ void registerDependencies() {
   factory<DateTimeAdapter>(() => DateTimeAdapterImpl());
   singleton<Config>(() => Config());
   singleton<DependencyHelper>(() => DependencyHelper());
+
+  setupLogging();
+}
+
+void setupLogging() {
+  Logger.root.onRecord.listen((record) {
+    print('${record.level.name}: ${record.time}: ${record.message}');
+  });
 }
 
 class DependencyHelper {
@@ -30,13 +40,17 @@ class DependencyHelper {
 
   CameraRemoteClient _getCameraRemoteService(CameraModel cameraModel) {
     switch (cameraModel.identifier) {
+      case CameraId.fakeCamera:
+        {
+          return FakeCameraRemoteService();
+        }
       case CameraId.canonC100II:
         {
           return EosCineHttpRemoteClient(get<HttpAdapter>());
         }
-      case CameraId.fakeCamera:
+      case CameraId.canon70D:
         {
-          return FakeCameraRemoteService();
+          return EosPtpIpCamera();
         }
       default:
         {

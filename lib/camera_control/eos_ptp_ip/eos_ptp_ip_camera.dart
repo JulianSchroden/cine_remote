@@ -6,34 +6,20 @@ import '../interface/models/camera_handle.dart';
 import '../interface/models/camera_update_response.dart';
 import '../interface/models/control_prop.dart';
 import '../interface/models/control_prop_type.dart';
-import 'adapter/ptp_response_parser.dart';
-import 'adapter/ptp_response_stream_transformer.dart';
-import 'adapter/socket_factory.dart';
 import 'communication/ptp_ip_client.dart';
 
 class EosPtpIpCamera extends CameraRemoteClient {
-  PtpIpClient client;
-  Socket? socket;
-  Socket? eventSocket;
-
-  EosPtpIpCamera()
-      : client = PtpIpClient(
-          socketFactory: SocketFactory(),
-          ptpResponseStreamTransformer: PtpResponseStreamTransformer(
-            PtpResponseParser(),
-          ),
-        );
+  PtpIpClient? _client;
 
   @override
   Future<CameraHandle> connect() async {
     final guid = Uint8List.fromList(List.generate(16, (index) => 0x00));
 
-    await client.connect(
-      address: InternetAddress.tryParse('192.168.178.43')!,
-      port: 15740,
-      clientName: 'Cine Remote',
-      guid: guid,
-    );
+    _client = await PtpIpClient.connect(
+        address: InternetAddress.tryParse('192.168.178.43')!,
+        port: 15740,
+        clientName: 'Cine Remote',
+        guid: guid);
 
     return const CameraHandle(supportedProps: []);
   }

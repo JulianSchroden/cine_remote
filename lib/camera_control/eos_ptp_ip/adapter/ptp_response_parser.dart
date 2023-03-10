@@ -6,6 +6,8 @@ import '../responses/ptp_response.dart';
 import 'ptp_packet_reader.dart';
 
 class PtpResponseParser {
+  const PtpResponseParser();
+
   PtpResponse? read(PtpPacket packet) {
     final reader = PtpPacketReader(packet);
     if (reader.length < 8) {

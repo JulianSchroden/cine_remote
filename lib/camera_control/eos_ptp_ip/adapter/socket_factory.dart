@@ -1,6 +1,8 @@
 import 'dart:io';
 
 class SocketFactory {
+  const SocketFactory();
+
   Future<Socket> connect({
     required InternetAddress address,
     required int port,

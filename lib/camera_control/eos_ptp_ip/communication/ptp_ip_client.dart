@@ -2,91 +2,75 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:logging/logging.dart';
 
 import '../adapter/ptp_request_factory.dart';
-import '../adapter/ptp_response_stream_transformer.dart';
-import '../adapter/socket_factory.dart';
 import '../extensions/stream_extensions.dart';
 import '../models/ptp_packet.dart';
 import '../responses/ptp_init_command_response.dart';
 import '../responses/ptp_init_event_response.dart';
 import '../responses/ptp_response.dart';
+import 'ptp_ip_channel.dart';
 
 class PtpIpClient {
-  final SocketFactory socketFactory;
-  final PtpResponseStreamTransformer ptpResponseStreamTransformer;
-  Socket? _commandSocket;
-  Socket? _eventSocket;
-  StreamController<Uint8List>? _commandResponseStreamController;
-  StreamController<Uint8List>? _eventResponseStreamController;
+  final PtpIpChannel _commandChannel;
+  final PtpIpChannel _eventChannel;
+  final Logger logger = Logger('PtpIpClient');
 
-  PtpIpClient({
-    required this.socketFactory,
-    required this.ptpResponseStreamTransformer,
-  });
+  PtpIpClient(this._commandChannel, this._eventChannel);
 
-  Future<void> connect({
+  static Future<PtpIpClient> connect({
     required InternetAddress address,
     required int port,
     required String clientName,
     required Uint8List guid,
   }) async {
-    _commandSocket?.destroy();
-    await _commandResponseStreamController?.close();
+    final logger = Logger('PtpIpClient.connect');
 
-    print('Trying to connect to socket');
-    _commandSocket = await socketFactory.connect(address: address, port: port);
-    _commandResponseStreamController = StreamController.broadcast();
-    _commandResponseStreamController!.addStream(_commandSocket!);
+    logger.info('Attempting to open command channel');
+    final commandChannel = await PtpIpChannel.connect(address, port);
 
-    print('Sending initCommandRequest');
-    await sendCommand(PtpRequestFactory()
+    logger.info('Sending initCommand request');
+    await commandChannel.write(PtpRequestFactory()
         .createInitCommandRequest(name: clientName, guid: guid));
 
-    final initCommandResponse = await commandResponseStream
+    final initCommandResponse = await commandChannel.onResponse
         .firstWhereType<PtpInitCommandResponse>()
         .timeout(const Duration(seconds: 10));
 
-    print('Received Response');
-    print(initCommandResponse.connectionNumber);
+    logger.info(
+        'Received initCommand response with connectionNumber: ${initCommandResponse.connectionNumber}');
 
-    _eventSocket = await socketFactory.connect(address: address, port: port);
-    _eventResponseStreamController = StreamController.broadcast();
-    _eventResponseStreamController!.addStream(_eventSocket!);
+    logger.info('Attempting to open event channel');
+    final eventChannel = await PtpIpChannel.connect(address, port);
 
-    print("sending initEventRequest");
-    await sendEvent(PtpRequestFactory().createInitEventRequest(
+    logger.info("Sending initEvent request");
+    await eventChannel.write(PtpRequestFactory().createInitEventRequest(
         connectionNumber: initCommandResponse.connectionNumber));
 
-    final initEventResponse = await eventResponseStream
+    await eventChannel.onResponse
         .firstWhereType<PtpInitEventResponse>()
         .timeout(const Duration(seconds: 10));
 
-    print('receieved initEventResponse');
+    logger.info('Received initEvent response');
+
+    return PtpIpClient(commandChannel, eventChannel);
   }
 
   Future<void> disconnect() async {
-    _commandSocket?.destroy();
-    _eventSocket?.destroy();
-    _commandResponseStreamController?.close();
-    _eventResponseStreamController?.close();
+    _commandChannel.close();
+    _eventChannel.close();
   }
 
   Future<void> sendCommand(PtpPacket packet) async {
-    _commandSocket!.add(packet.data);
-    await _commandSocket!.flush();
+    await _commandChannel.write(packet);
   }
 
   Future<void> sendEvent(PtpPacket packet) async {
-    _eventSocket!.add(packet.data);
-    await _eventSocket!.flush();
+    await _eventChannel.write(packet);
   }
 
-  Stream<PtpResponse> get commandResponseStream =>
-      _commandResponseStreamController!.stream
-          .transform(ptpResponseStreamTransformer);
+  Stream<PtpResponse> get onCommandResponse => _commandChannel.onResponse;
 
-  Stream<PtpResponse> get eventResponseStream =>
-      _eventResponseStreamController!.stream
-          .transform(ptpResponseStreamTransformer);
+  Stream<PtpResponse> get onEventResponse => _eventChannel.onResponse;
 }

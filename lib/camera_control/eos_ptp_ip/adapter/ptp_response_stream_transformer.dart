@@ -7,14 +7,16 @@ import 'ptp_response_parser.dart';
 
 class PtpResponseStreamTransformer
     extends StreamTransformerBase<Uint8List, PtpResponse> {
-  final PtpResponseParser responseParser;
+  final PtpResponseParser _responseParser;
 
-  PtpResponseStreamTransformer(this.responseParser);
+  const PtpResponseStreamTransformer([
+    this._responseParser = const PtpResponseParser(),
+  ]);
 
   @override
   Stream<PtpResponse> bind(Stream<Uint8List> stream) {
     return stream
-        .map((data) => responseParser.read(PtpPacket(data)))
+        .map((data) => _responseParser.read(PtpPacket(data)))
         .where((response) => response != null)
         .cast<PtpResponse>();
   }
