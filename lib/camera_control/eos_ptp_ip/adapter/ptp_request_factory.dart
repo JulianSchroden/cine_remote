@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import '../adapter/ptp_packet_builder.dart';
-import '../ptp_package_typ.dart';
+import '../constants/ptp_package_typ.dart';
 import '../models/ptp_packet.dart';
 
 class PtpRequestFactory {

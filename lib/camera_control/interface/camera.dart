@@ -5,7 +5,7 @@ import 'models/camera_update_response.dart';
 import 'models/control_prop.dart';
 import 'models/control_prop_type.dart';
 
-abstract class CameraRemoteClient<H extends CameraHandle> {
+abstract class Camera<H extends CameraHandle> {
   Future<CameraHandle> connect();
 
   Future<ControlProp?> getProp(H handle, ControlPropType propType);

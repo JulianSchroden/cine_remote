@@ -1,4 +1,4 @@
-import '../ptp_package_typ.dart';
+import '../constants/ptp_package_typ.dart';
 import '../models/ptp_packet.dart';
 import '../responses/ptp_init_command_response.dart';
 import '../responses/ptp_init_event_response.dart';

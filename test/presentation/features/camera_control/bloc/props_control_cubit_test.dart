@@ -16,7 +16,7 @@ import '../../../../test_mocks.dart';
 
 void main() {
   late MockCameraConnectionCubit mockCameraConnectionCubit;
-  late MockCameraRemoteService mockCameraRemoteService;
+  late MockCamera mockCamera;
   late MockDateTimeAdapter mockDateTimeAdapter;
 
   const cameraHandle = EosCineHttpCameraHandle(
@@ -51,7 +51,7 @@ void main() {
 
   setUp(() {
     mockCameraConnectionCubit = MockCameraConnectionCubit();
-    mockCameraRemoteService = MockCameraRemoteService();
+    mockCamera = MockCamera();
     mockDateTimeAdapter = MockDateTimeAdapter();
     when(() => mockDateTimeAdapter.now()).thenReturn(nowTime);
   });
@@ -61,7 +61,7 @@ void main() {
     Map<ControlPropType, ControlProp?> propTypeToProp,
   ) {
     for (final entry in propTypeToProp.entries) {
-      when(() => mockCameraRemoteService.getProp(cameraHandle, entry.key))
+      when(() => mockCamera.getProp(cameraHandle, entry.key))
           .thenAnswer((_) async => entry.value);
     }
   }
@@ -71,8 +71,8 @@ void main() {
       'emits [updatedFailed] when camera not connected',
       seed: () => const PropsControlState.updateSuccess([]),
       setUp: () => mockCameraConnectionCubit.setupCameraDisconnected(),
-      build: () => PropsControlCubit(mockCameraConnectionCubit,
-          mockCameraRemoteService, mockDateTimeAdapter),
+      build: () => PropsControlCubit(
+          mockCameraConnectionCubit, mockCamera, mockDateTimeAdapter),
       act: (cubit) => cubit.init(),
       expect: () => [
         const PropsControlState.updateFailed([]),
@@ -93,8 +93,8 @@ void main() {
           ControlPropType.whiteBalance: null,
         });
       },
-      build: () => PropsControlCubit(mockCameraConnectionCubit,
-          mockCameraRemoteService, mockDateTimeAdapter),
+      build: () => PropsControlCubit(
+          mockCameraConnectionCubit, mockCamera, mockDateTimeAdapter),
       act: (cubit) => cubit.init(),
       expect: () => [
         const PropsControlState.updating([]),
@@ -109,12 +109,11 @@ void main() {
       setUp: () {
         mockCameraConnectionCubit.setupCameraConnected(cameraHandle);
 
-        when(() => mockCameraRemoteService.getProp(
-                cameraHandle, ControlPropType.aperture))
+        when(() => mockCamera.getProp(cameraHandle, ControlPropType.aperture))
             .thenThrow(() => Exception('failed to get prop'));
       },
-      build: () => PropsControlCubit(mockCameraConnectionCubit,
-          mockCameraRemoteService, mockDateTimeAdapter),
+      build: () => PropsControlCubit(
+          mockCameraConnectionCubit, mockCamera, mockDateTimeAdapter),
       act: (cubit) => cubit.init(),
       expect: () => [
         const PropsControlState.updating([]),
@@ -128,8 +127,8 @@ void main() {
       'emits [updatedFailed] when camera not connected',
       seed: () => const PropsControlState.updateSuccess([]),
       setUp: () => mockCameraConnectionCubit.setupCameraDisconnected(),
-      build: () => PropsControlCubit(mockCameraConnectionCubit,
-          mockCameraRemoteService, mockDateTimeAdapter),
+      build: () => PropsControlCubit(
+          mockCameraConnectionCubit, mockCamera, mockDateTimeAdapter),
       act: (cubit) => cubit.setProp(ControlPropType.aperture, '4.0'),
       expect: () => [
         const PropsControlState.updateFailed([]),
@@ -142,8 +141,8 @@ void main() {
       setUp: () {
         mockCameraConnectionCubit.setupCameraConnected(cameraHandle);
       },
-      build: () => PropsControlCubit(mockCameraConnectionCubit,
-          mockCameraRemoteService, mockDateTimeAdapter),
+      build: () => PropsControlCubit(
+          mockCameraConnectionCubit, mockCamera, mockDateTimeAdapter),
       act: (cubit) => cubit.setProp(ControlPropType.aperture, '4.0'),
       expect: () => [
         const PropsControlState.updateFailed([]),
@@ -156,8 +155,8 @@ void main() {
       setUp: () {
         mockCameraConnectionCubit.setupCameraConnected(cameraHandle);
       },
-      build: () => PropsControlCubit(mockCameraConnectionCubit,
-          mockCameraRemoteService, mockDateTimeAdapter),
+      build: () => PropsControlCubit(
+          mockCameraConnectionCubit, mockCamera, mockDateTimeAdapter),
       act: (cubit) => cubit.setProp(ControlPropType.iso, '100'),
       expect: () => [
         const PropsControlState.updateFailed([apertureControlProp]),
@@ -169,12 +168,12 @@ void main() {
       seed: () => const PropsControlState.updateSuccess([apertureControlProp]),
       setUp: () {
         mockCameraConnectionCubit.setupCameraConnected(cameraHandle);
-        when(() => mockCameraRemoteService.setProp(
+        when(() => mockCamera.setProp(
                 cameraHandle, ControlPropType.aperture, '4.0'))
             .thenAnswer((invocation) async {});
       },
-      build: () => PropsControlCubit(mockCameraConnectionCubit,
-          mockCameraRemoteService, mockDateTimeAdapter),
+      build: () => PropsControlCubit(
+          mockCameraConnectionCubit, mockCamera, mockDateTimeAdapter),
       act: (cubit) => cubit.setProp(ControlPropType.aperture, '4.0'),
       expect: () => [
         PropsControlState.updating([
@@ -189,12 +188,12 @@ void main() {
       seed: () => const PropsControlState.updateSuccess([apertureControlProp]),
       setUp: () {
         mockCameraConnectionCubit.setupCameraConnected(cameraHandle);
-        when(() => mockCameraRemoteService.setProp(
+        when(() => mockCamera.setProp(
                 cameraHandle, ControlPropType.aperture, '4.0'))
             .thenThrow((_) => Exception('failied to set prop'));
       },
-      build: () => PropsControlCubit(mockCameraConnectionCubit,
-          mockCameraRemoteService, mockDateTimeAdapter),
+      build: () => PropsControlCubit(
+          mockCameraConnectionCubit, mockCamera, mockDateTimeAdapter),
       act: (cubit) => cubit.setProp(ControlPropType.aperture, '4.0'),
       expect: () => [
         PropsControlState.updating([
@@ -241,7 +240,7 @@ void main() {
         setIsoPropBlocStep() => BlocTestStep(
               'calling setProp should emit [updating] with pendingSince set to current time',
               setUp: () {
-                when(() => mockCameraRemoteService.setProp(
+                when(() => mockCamera.setProp(
                       cameraHandle,
                       ControlPropType.iso,
                       '800',
@@ -264,8 +263,8 @@ void main() {
         StreamController<CameraUpdateEvent>>(
       'should listen for updates and only emit [updateSuccess] for initialized props',
       setUp: propEventTestSetup,
-      build: () => PropsControlCubit(mockCameraConnectionCubit,
-          mockCameraRemoteService, mockDateTimeAdapter),
+      build: () => PropsControlCubit(
+          mockCameraConnectionCubit, mockCamera, mockDateTimeAdapter),
       steps: [
         initBlocStep(),
         BlocTestStep(
@@ -304,8 +303,8 @@ void main() {
         StreamController<CameraUpdateEvent>>(
       'propEvent should only emit pending value when prop is pending',
       setUp: propEventTestSetup,
-      build: () => PropsControlCubit(mockCameraConnectionCubit,
-          mockCameraRemoteService, mockDateTimeAdapter),
+      build: () => PropsControlCubit(
+          mockCameraConnectionCubit, mockCamera, mockDateTimeAdapter),
       steps: [
         initBlocStep(),
         setIsoPropBlocStep(),
@@ -340,8 +339,8 @@ void main() {
         StreamController<CameraUpdateEvent>>(
       'should reset pending state after pendingDuration to ensure state is not dead locked',
       setUp: propEventTestSetup,
-      build: () => PropsControlCubit(mockCameraConnectionCubit,
-          mockCameraRemoteService, mockDateTimeAdapter),
+      build: () => PropsControlCubit(
+          mockCameraConnectionCubit, mockCamera, mockDateTimeAdapter),
       steps: [
         initBlocStep(),
         setIsoPropBlocStep(),

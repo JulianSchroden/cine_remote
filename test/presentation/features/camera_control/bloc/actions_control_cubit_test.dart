@@ -13,12 +13,12 @@ import '../../../../test_mocks.dart';
 
 void main() {
   late MockCameraConnectionCubit mockCameraConnectionCubit;
-  late MockCameraRemoteService mockCameraRemoteService;
+  late MockCamera mockCamera;
   const cameraHandle = EosCineHttpCameraHandle(cookies: [], supportedProps: []);
 
   setUp(() {
     mockCameraConnectionCubit = MockCameraConnectionCubit();
-    mockCameraRemoteService = MockCameraRemoteService();
+    mockCamera = MockCamera();
   });
 
   group('triggerRecord', () {
@@ -29,7 +29,7 @@ void main() {
       },
       build: () => ActionsControlCubit(
         mockCameraConnectionCubit,
-        mockCameraRemoteService,
+        mockCamera,
       ),
       act: (cubit) => cubit.triggerRecord(),
       expect: () => [
@@ -43,7 +43,7 @@ void main() {
       'emits [updating, updateSuccess] when triggering record succeeds',
       setUp: () {
         mockCameraConnectionCubit.setupCameraConnected(cameraHandle);
-        when(() => mockCameraRemoteService.triggerRecord(cameraHandle))
+        when(() => mockCamera.triggerRecord(cameraHandle))
             .thenAnswer((_) async {});
 
         final cameraUpdateStreamController =
@@ -54,7 +54,7 @@ void main() {
       },
       build: () => ActionsControlCubit(
         mockCameraConnectionCubit,
-        mockCameraRemoteService,
+        mockCamera,
       ),
       steps: [
         BlocTestStep('call init to setup stream subscription',
@@ -84,12 +84,12 @@ void main() {
       'emits [updating, updateFailed] when triggering record succeeds',
       setUp: () {
         mockCameraConnectionCubit.setupCameraConnected(cameraHandle);
-        when(() => mockCameraRemoteService.triggerRecord(cameraHandle))
+        when(() => mockCamera.triggerRecord(cameraHandle))
             .thenThrow(() => Exception('trigger record failed'));
       },
       build: () => ActionsControlCubit(
         mockCameraConnectionCubit,
-        mockCameraRemoteService,
+        mockCamera,
       ),
       act: (cubit) => cubit.triggerRecord(),
       expect: () => [

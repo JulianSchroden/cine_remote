@@ -5,10 +5,10 @@ import 'package:get_it/get_it.dart';
 import 'package:logging/logging.dart';
 
 import 'camera_control/common/date_time_adapter.dart';
-import 'camera_control/demo/demo_camera_remote_client.dart';
-import 'camera_control/eos_cine_http/eos_cine_http_remote_client.dart';
+import 'camera_control/demo/demo_camera.dart';
+import 'camera_control/eos_cine_http/eos_cine_http_camera.dart';
 import 'camera_control/eos_cine_http/services/http_adapter.dart';
-import 'camera_control/interface/camera_remote_client.dart';
+import 'camera_control/interface/camera.dart';
 import 'camera_control/interface/models/camera_model.dart';
 import 'config.dart';
 
@@ -28,25 +28,25 @@ void setupLogging() {
 }
 
 class DependencyHelper {
-  CameraRemoteClient registerCameraRemoteService(CameraModel cameraModel) {
-    if (GetIt.instance.isRegistered<CameraRemoteClient>()) {
-      GetIt.instance.unregister<CameraRemoteClient>();
+  Camera registerCameraRemoteService(CameraModel cameraModel) {
+    if (GetIt.instance.isRegistered<Camera>()) {
+      GetIt.instance.unregister<Camera>();
     }
 
     final serviceImpl = _getCameraRemoteService(cameraModel);
-    GetIt.instance.registerLazySingleton<CameraRemoteClient>(() => serviceImpl);
+    GetIt.instance.registerLazySingleton<Camera>(() => serviceImpl);
     return serviceImpl;
   }
 
-  CameraRemoteClient _getCameraRemoteService(CameraModel cameraModel) {
+  Camera _getCameraRemoteService(CameraModel cameraModel) {
     switch (cameraModel.identifier) {
       case CameraId.fakeCamera:
         {
-          return FakeCameraRemoteService();
+          return DemoCamera();
         }
       case CameraId.canonC100II:
         {
-          return EosCineHttpRemoteClient(get<HttpAdapter>());
+          return EosCineHttpCamera();
         }
       case CameraId.canon70D:
         {

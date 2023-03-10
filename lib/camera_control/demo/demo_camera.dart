@@ -8,9 +8,9 @@ import '../interface/models/camera_update_event.dart';
 import '../interface/models/camera_update_response.dart';
 import '../interface/models/control_prop.dart';
 import '../interface/models/control_prop_type.dart';
-import '../interface/camera_remote_client.dart';
+import '../interface/camera.dart';
 
-class FakeCameraRemoteService extends CameraRemoteClient {
+class DemoCamera extends Camera {
   final List<ControlProp> _dummyControlProps = [
     const ControlProp(
       type: ControlPropType.iso,

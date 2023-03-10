@@ -28,10 +28,10 @@ class CameraSelectionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<CameraConnectionCubit, CameraConnectionState>(
       listener: (context, state) {
-        state.maybeWhen(
-            connectionEstablished: ((_) =>
-                Navigator.of(context).pushNamed(Routes.cameraControl)),
-            orElse: () {});
+        //state.maybeWhen(
+        //    connectionEstablished: ((_) =>
+        //        Navigator.of(context).pushNamed(Routes.cameraControl)),
+        //    orElse: () {});
       },
       builder: (context, state) => Scaffold(
         backgroundColor: CineRemoteColors.background,

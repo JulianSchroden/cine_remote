@@ -1,5 +1,5 @@
 import 'package:cine_remote/camera_control/common/date_time_adapter.dart';
-import 'package:cine_remote/camera_control/interface/camera_remote_client.dart';
+import 'package:cine_remote/camera_control/interface/camera.dart';
 import 'package:cine_remote/camera_control/interface/models/camera_handle.dart';
 import 'package:cine_remote/dependencies.dart';
 import 'package:cine_remote/presentation/features/camera_connection/bloc/camera_connection_cubit.dart';
@@ -9,7 +9,7 @@ class MockDependencyHelper extends Mock implements DependencyHelper {}
 
 class MockDateTimeAdapter extends Mock implements DateTimeAdapter {}
 
-class MockCameraRemoteService extends Mock implements CameraRemoteClient {}
+class MockCamera extends Mock implements Camera {}
 
 class MockCameraConnectionCubit extends Mock implements CameraConnectionCubit {}
 

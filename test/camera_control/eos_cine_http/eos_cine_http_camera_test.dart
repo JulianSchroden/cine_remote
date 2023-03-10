@@ -10,7 +10,7 @@ import 'package:cine_remote/camera_control/interface/models/camera_update_event.
 import 'package:cine_remote/camera_control/interface/models/control_prop.dart';
 import 'package:cine_remote/camera_control/interface/models/control_prop_type.dart';
 import 'package:cine_remote/camera_control/eos_cine_http/services/http_adapter.dart';
-import 'package:cine_remote/camera_control/eos_cine_http/eos_cine_http_remote_client.dart';
+import 'package:cine_remote/camera_control/eos_cine_http/eos_cine_http_camera.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -21,7 +21,7 @@ class MockHttpAdapterResponse extends Mock implements HttpAdapterResponse {}
 class MockHttpClientResponse extends Mock implements HttpClientResponse {}
 
 void main() {
-  late EosCineHttpRemoteClient sut;
+  late EosCineHttpCamera sut;
   late MockHttpAdapter mockHttpAdapter;
   const EosCineHttpCameraHandle cameraHandle = EosCineHttpCameraHandle(
     cookies: [],
@@ -30,7 +30,7 @@ void main() {
 
   setUp(() {
     mockHttpAdapter = MockHttpAdapter();
-    sut = EosCineHttpRemoteClient(mockHttpAdapter);
+    sut = EosCineHttpCamera(mockHttpAdapter);
   });
 
   group('connect', () {

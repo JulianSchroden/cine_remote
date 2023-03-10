@@ -1,14 +1,14 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import '../interface/camera_remote_client.dart';
+import '../interface/camera.dart';
 import '../interface/models/camera_handle.dart';
 import '../interface/models/camera_update_response.dart';
 import '../interface/models/control_prop.dart';
 import '../interface/models/control_prop_type.dart';
 import 'communication/ptp_ip_client.dart';
 
-class EosPtpIpCamera extends CameraRemoteClient {
+class EosPtpIpCamera extends Camera {
   PtpIpClient? _client;
 
   @override

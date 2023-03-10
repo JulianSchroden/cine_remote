@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../camera_control/interface/camera_remote_client.dart';
+import '../../../../camera_control/interface/camera.dart';
 import '../../../../camera_control/interface/models/camera_handle.dart';
 import '../../../../camera_control/interface/models/camera_model.dart';
 import '../../../../camera_control/interface/models/camera_update_event.dart';
@@ -30,7 +30,7 @@ class CameraConnectionState with _$CameraConnectionState {
 
 class CameraConnectionCubit extends Cubit<CameraConnectionState> {
   final DependencyHelper _dependencyHelper;
-  CameraRemoteClient? _cameraRemoteService;
+  Camera? _camera;
   StreamController<CameraUpdateEvent>? _cameraUpdateStreamController;
   Timer? _updateTimer;
 
@@ -46,14 +46,16 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
 
   Future<void> connect(CameraModel cameraModel) async {
     try {
-      _cameraRemoteService =
-          _dependencyHelper.registerCameraRemoteService(cameraModel);
+      print('cubit connect');
+      _camera = _dependencyHelper.registerCameraRemoteService(cameraModel);
 
       emit(const CameraConnectionState.connecting());
 
-      final cameraHandle = await _cameraRemoteService!.connect();
+      final cameraHandle = await _camera!.connect();
+      print('connection success');
       emit(CameraConnectionState.connectionEstablished(cameraHandle));
     } catch (e) {
+      print(e);
       emit(const CameraConnectionState.connectingFailed());
     }
   }
@@ -79,7 +81,9 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
     );
   }
 
-  Stream<CameraUpdateEvent> get updateEvents {
+  Stream<CameraUpdateEvent> get updateEvents => const Stream.empty();
+
+  /*{
     if (_cameraUpdateStreamController?.isClosed ?? true) {
       _cameraUpdateStreamController =
           StreamController<CameraUpdateEvent>.broadcast(
@@ -108,5 +112,5 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
     }
 
     return _cameraUpdateStreamController!.stream;
-  }
+  } */
 }

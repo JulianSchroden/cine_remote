@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../camera_control/interface/camera_remote_client.dart';
+import '../../../../camera_control/interface/camera.dart';
 import '../../../../camera_control/interface/models/auto_focus_mode.dart';
 import '../../../../camera_control/interface/models/camera_update_event.dart';
 import '../../camera_connection/bloc/camera_connection_cubit.dart';
@@ -30,12 +30,12 @@ class ActionsControlState with _$ActionsControlState {
 
 class ActionsControlCubit extends Cubit<ActionsControlState> {
   final CameraConnectionCubit _cameraConnectionCubit;
-  final CameraRemoteClient _cameraRemoteService;
+  final Camera _camera;
   StreamSubscription<CameraUpdateEvent>? _updateStreamSubscription;
 
   ActionsControlCubit(
     this._cameraConnectionCubit,
-    this._cameraRemoteService,
+    this._camera,
   ) : super(ActionsControlState.init(
             ActionsState(isRecording: false, focusMode: AutoFocusMode.off)));
 
@@ -67,7 +67,7 @@ class ActionsControlCubit extends Cubit<ActionsControlState> {
     await _cameraConnectionCubit.withConnectedCamera((cameraHandle) async {
       try {
         emit(ActionsControlState.updating(state.actionsState));
-        await _cameraRemoteService.triggerRecord(cameraHandle);
+        await _camera.triggerRecord(cameraHandle);
       } catch (e) {
         emit(ActionsControlState.updateFailed(state.actionsState));
       }

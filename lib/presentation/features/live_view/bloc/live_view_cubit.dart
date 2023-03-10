@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../camera_control/interface/camera_remote_client.dart';
+import '../../../../camera_control/interface/camera.dart';
 import '../../camera_connection/bloc/camera_connection_cubit.dart';
 
 part 'live_view_cubit.freezed.dart';
@@ -21,13 +21,13 @@ class LiveViewState with _$LiveViewState {
 
 class LiveViewCubit extends Cubit<LiveViewState> {
   final CameraConnectionCubit _cameraConnectionCubit;
-  final CameraRemoteClient _cameraRemoteService;
+  final Camera _camera;
   Timer? _pollImageTimer;
   Completer? _getLiveViewImageCompleter;
 
   LiveViewCubit(
     this._cameraConnectionCubit,
-    this._cameraRemoteService,
+    this._camera,
   ) : super(const LiveViewState(isLiveViewActive: false));
 
   @override
@@ -42,12 +42,12 @@ class LiveViewCubit extends Cubit<LiveViewState> {
         emit(state.copyWith(hasError: false, isLoading: true));
 
         if (!state.isLiveViewActive) {
-          await _cameraRemoteService.startLiveView(cameraHandle);
+          await _camera.startLiveView(cameraHandle);
           _startPollImageTimer();
           emit(state.copyWith(isLoading: false, isLiveViewActive: true));
         } else {
           _pollImageTimer?.cancel();
-          await _cameraRemoteService.stopLiveView(cameraHandle);
+          await _camera.stopLiveView(cameraHandle);
           emit(state.copyWith(isLoading: false, isLiveViewActive: false));
         }
       },
@@ -68,9 +68,7 @@ class LiveViewCubit extends Cubit<LiveViewState> {
 
       _cameraConnectionCubit.withConnectedCamera(
         (cameraHandle) async {
-          _cameraRemoteService
-              .getLiveViewImage(cameraHandle)
-              .then((imageBytes) {
+          _camera.getLiveViewImage(cameraHandle).then((imageBytes) {
             _getLiveViewImageCompleter?.complete();
             emit(state.copyWith(imageBytes: imageBytes));
           }).catchError((error) {

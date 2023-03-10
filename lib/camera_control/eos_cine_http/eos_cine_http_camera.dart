@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 
-import '../interface/camera_remote_client.dart';
+import '../interface/camera.dart';
 import '../interface/exceptions/camera_connection_exception.dart';
 import '../interface/models/auto_focus_mode.dart';
 import '../interface/models/camera_update_event.dart';
@@ -14,11 +14,10 @@ import 'models/camera_info.dart';
 import 'models/eos_cine_http_camera_handle.dart';
 import 'services/http_adapter.dart';
 
-class EosCineHttpRemoteClient
-    extends CameraRemoteClient<EosCineHttpCameraHandle> {
+class EosCineHttpCamera extends Camera<EosCineHttpCameraHandle> {
   final HttpAdapter httpAdapter;
 
-  EosCineHttpRemoteClient(this.httpAdapter);
+  EosCineHttpCamera([this.httpAdapter = const HttpAdapter()]);
   final String _authority = '192.168.0.80';
 
   @override

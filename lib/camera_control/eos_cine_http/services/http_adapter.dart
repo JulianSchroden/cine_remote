@@ -7,7 +7,7 @@ import '../models/eos_cine_http_camera_handle.dart';
 class HttpAdapter {
   final String _authority = '192.168.0.80';
 
-  HttpAdapter();
+  const HttpAdapter();
 
   Future<HttpAdapterResponse> get(
     EosCineHttpCameraHandle? handle,
