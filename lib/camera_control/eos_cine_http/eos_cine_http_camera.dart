@@ -8,6 +8,7 @@ import '../interface/models/camera_update_response.dart';
 import '../interface/models/control_prop.dart';
 import '../interface/models/control_prop_type.dart';
 import 'communication/http_adapter.dart';
+import 'constants/api_endpoint_path.dart';
 import 'extensions/control_prop_type_extensions.dart';
 import 'models/camera_info.dart';
 
@@ -38,10 +39,9 @@ class EosCineHttpCamera extends Camera {
   Future<ControlProp?> getProp(
     ControlPropType propType,
   ) async {
-    const getPropPath = '/api/cam/getprop';
     final propKey = propType.toKey();
     final response = await httpAdapter.get(
-      getPropPath,
+      ApiEndpointPath.getProp,
       {'r': propKey},
     );
 
@@ -58,33 +58,38 @@ class EosCineHttpCamera extends Camera {
     ControlPropType propType,
     String value,
   ) async {
-    const setPropPath = '/api/cam/setprop';
-    final response =
-        await httpAdapter.get(setPropPath, {propType.toKey(): value});
+    final response = await httpAdapter.get(
+      ApiEndpointPath.setProp,
+      {propType.toKey(): value},
+    );
     print(response.jsonBody);
   }
 
   @override
   Future<void> triggerRecord() async {
-    const triggerRecordPath = '/api/cam/rec';
-    final response = await httpAdapter.get(triggerRecordPath, {'cmd': 'trig'});
+    final response = await httpAdapter.get(
+      ApiEndpointPath.triggerRecord,
+      {'cmd': 'trig'},
+    );
 
     print(response.jsonBody);
   }
 
   @override
   Future<void> toggleAfLock() async {
-    const toggleAfLockPath = '/api/cam/drivelens';
-    final response =
-        await httpAdapter.get(toggleAfLockPath, {'af': 'togglelock'});
+    final response = await httpAdapter.get(
+      ApiEndpointPath.toggleAfLock,
+      {'af': 'togglelock'},
+    );
     print(response.jsonBody);
   }
 
   @override
   Future<CameraUpdateResponse> getUpdate() async {
-    const getUpdatePath = '/api/cam/getcurprop';
-    final response = await httpAdapter
-        .get(getUpdatePath, {'seq': _nextUpdateSequence.toString()});
+    final response = await httpAdapter.get(
+      ApiEndpointPath.getUpdate,
+      {'seq': _nextUpdateSequence.toString()},
+    );
 
     if (!response.isOkay()) {
       throw CameraConnectionException('Failed to get updates');
@@ -143,8 +148,7 @@ class EosCineHttpCamera extends Camera {
   }
 
   Future<CameraInfo> getInfo() async {
-    const getInfoPath = '/api/sys/getdevinfo';
-    final response = await httpAdapter.get(getInfoPath);
+    final response = await httpAdapter.get(ApiEndpointPath.getInfo);
     if (!response.isOkay()) {
       throw CameraConnectionException('Failed to get info');
     }
@@ -214,27 +218,30 @@ class EosCineHttpCamera extends Camera {
 
   @override
   Future<void> startLiveView() async {
-    const liveViewControlPath = 'api/cam/lv';
-    final response =
-        await httpAdapter.get(liveViewControlPath, {'cmd': 'start', 'sz': 'l'});
+    final response = await httpAdapter.get(
+      ApiEndpointPath.liveViewControl,
+      {'cmd': 'start', 'sz': 'l'},
+    );
     print(response.jsonBody);
   }
 
   @override
   Future<void> stopLiveView() async {
-    const liveViewControlPath = 'api/cam/lv';
-    final response =
-        await httpAdapter.get(liveViewControlPath, {'cmd': 'stop'});
+    final response = await httpAdapter.get(
+      ApiEndpointPath.liveViewControl,
+      {'cmd': 'stop'},
+    );
     print(response.jsonBody);
   }
 
   @override
   Future<Uint8List> getLiveViewImage() async {
-    const liveViewGetImagePath = 'api/cam/lvgetimg';
     final timeStamp = DateTime.now().toIso8601String();
 
-    final response =
-        await httpAdapter.getRaw(liveViewGetImagePath, {'d': timeStamp});
+    final response = await httpAdapter.getRaw(
+      ApiEndpointPath.liveViewGetImage,
+      {'d': timeStamp},
+    );
     return await consolidateHttpClientResponseBytes(response);
   }
 }
