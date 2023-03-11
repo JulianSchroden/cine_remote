@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import '../adapter/http_client_factory.dart';
+import '../constants/api_endpoint_path.dart';
 import '../extensions/client_response_extensions.dart';
 import '../models/http_adapter_response.dart';
 
@@ -11,12 +13,12 @@ class HttpAdapter {
 
   const HttpAdapter(this._client, this._cookies);
 
-  static Future<HttpAdapter> connect() async {
-    const loginPath = '/api/acnt/login';
-
-    final client = HttpClient();
-    final response =
-        await (await _getInternal(client, loginPath)).toAdapterResponse();
+  static Future<HttpAdapter> connect([
+    HttpClientFactory clientFactory = const DefaultHttpClientFactory(),
+  ]) async {
+    final client = await clientFactory.create();
+    final response = await (await _getInternal(client, ApiEndpointPath.login))
+        .toAdapterResponse();
 
     return HttpAdapter(client, response.cookies);
   }
