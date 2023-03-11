@@ -22,7 +22,7 @@ class CineRemote extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => CameraConnectionCubit(get<DependencyHelper>()),
+          create: (_) => CameraConnectionCubit(),
         ),
         BlocProvider(
           create: (_) => ScreenOrientationCubit()..setForcedOrientation(null),

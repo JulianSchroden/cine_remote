@@ -4,7 +4,6 @@ import 'dart:typed_data';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../camera_control/interface/camera.dart';
 import '../../camera_connection/bloc/camera_connection_cubit.dart';
 
 part 'live_view_cubit.freezed.dart';
@@ -21,13 +20,11 @@ class LiveViewState with _$LiveViewState {
 
 class LiveViewCubit extends Cubit<LiveViewState> {
   final CameraConnectionCubit _cameraConnectionCubit;
-  final Camera _camera;
   Timer? _pollImageTimer;
   Completer? _getLiveViewImageCompleter;
 
   LiveViewCubit(
     this._cameraConnectionCubit,
-    this._camera,
   ) : super(const LiveViewState(isLiveViewActive: false));
 
   @override
@@ -38,16 +35,16 @@ class LiveViewCubit extends Cubit<LiveViewState> {
 
   Future<void> toggleLiveView() async {
     await _cameraConnectionCubit.withConnectedCamera(
-      (cameraHandle) async {
+      (camera) async {
         emit(state.copyWith(hasError: false, isLoading: true));
 
         if (!state.isLiveViewActive) {
-          await _camera.startLiveView(cameraHandle);
+          await camera.startLiveView();
           _startPollImageTimer();
           emit(state.copyWith(isLoading: false, isLiveViewActive: true));
         } else {
           _pollImageTimer?.cancel();
-          await _camera.stopLiveView(cameraHandle);
+          await camera.stopLiveView();
           emit(state.copyWith(isLoading: false, isLiveViewActive: false));
         }
       },
@@ -67,8 +64,8 @@ class LiveViewCubit extends Cubit<LiveViewState> {
       _getLiveViewImageCompleter = Completer<void>();
 
       _cameraConnectionCubit.withConnectedCamera(
-        (cameraHandle) async {
-          _camera.getLiveViewImage(cameraHandle).then((imageBytes) {
+        (camera) async {
+          camera.getLiveViewImage().then((imageBytes) {
             _getLiveViewImageCompleter?.complete();
             emit(state.copyWith(imageBytes: imageBytes));
           }).catchError((error) {

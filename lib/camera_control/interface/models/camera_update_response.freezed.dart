@@ -16,7 +16,6 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$CameraUpdateResponse {
-  CameraHandle get cameraHandle => throw _privateConstructorUsedError;
   List<CameraUpdateEvent> get cameraEvents =>
       throw _privateConstructorUsedError;
 
@@ -31,7 +30,7 @@ abstract class $CameraUpdateResponseCopyWith<$Res> {
           $Res Function(CameraUpdateResponse) then) =
       _$CameraUpdateResponseCopyWithImpl<$Res, CameraUpdateResponse>;
   @useResult
-  $Res call({CameraHandle cameraHandle, List<CameraUpdateEvent> cameraEvents});
+  $Res call({List<CameraUpdateEvent> cameraEvents});
 }
 
 /// @nodoc
@@ -48,14 +47,9 @@ class _$CameraUpdateResponseCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? cameraHandle = null,
     Object? cameraEvents = null,
   }) {
     return _then(_value.copyWith(
-      cameraHandle: null == cameraHandle
-          ? _value.cameraHandle
-          : cameraHandle // ignore: cast_nullable_to_non_nullable
-              as CameraHandle,
       cameraEvents: null == cameraEvents
           ? _value.cameraEvents
           : cameraEvents // ignore: cast_nullable_to_non_nullable
@@ -72,7 +66,7 @@ abstract class _$$_CameraUpdateResponseCopyWith<$Res>
       __$$_CameraUpdateResponseCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({CameraHandle cameraHandle, List<CameraUpdateEvent> cameraEvents});
+  $Res call({List<CameraUpdateEvent> cameraEvents});
 }
 
 /// @nodoc
@@ -86,14 +80,9 @@ class __$$_CameraUpdateResponseCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? cameraHandle = null,
     Object? cameraEvents = null,
   }) {
     return _then(_$_CameraUpdateResponse(
-      cameraHandle: null == cameraHandle
-          ? _value.cameraHandle
-          : cameraHandle // ignore: cast_nullable_to_non_nullable
-              as CameraHandle,
       cameraEvents: null == cameraEvents
           ? _value._cameraEvents
           : cameraEvents // ignore: cast_nullable_to_non_nullable
@@ -106,12 +95,9 @@ class __$$_CameraUpdateResponseCopyWithImpl<$Res>
 
 class _$_CameraUpdateResponse implements _CameraUpdateResponse {
   const _$_CameraUpdateResponse(
-      {required this.cameraHandle,
-      required final List<CameraUpdateEvent> cameraEvents})
+      {required final List<CameraUpdateEvent> cameraEvents})
       : _cameraEvents = cameraEvents;
 
-  @override
-  final CameraHandle cameraHandle;
   final List<CameraUpdateEvent> _cameraEvents;
   @override
   List<CameraUpdateEvent> get cameraEvents {
@@ -121,7 +107,7 @@ class _$_CameraUpdateResponse implements _CameraUpdateResponse {
 
   @override
   String toString() {
-    return 'CameraUpdateResponse(cameraHandle: $cameraHandle, cameraEvents: $cameraEvents)';
+    return 'CameraUpdateResponse(cameraEvents: $cameraEvents)';
   }
 
   @override
@@ -129,15 +115,13 @@ class _$_CameraUpdateResponse implements _CameraUpdateResponse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_CameraUpdateResponse &&
-            (identical(other.cameraHandle, cameraHandle) ||
-                other.cameraHandle == cameraHandle) &&
             const DeepCollectionEquality()
                 .equals(other._cameraEvents, _cameraEvents));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, cameraHandle,
-      const DeepCollectionEquality().hash(_cameraEvents));
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_cameraEvents));
 
   @JsonKey(ignore: true)
   @override
@@ -149,12 +133,9 @@ class _$_CameraUpdateResponse implements _CameraUpdateResponse {
 
 abstract class _CameraUpdateResponse implements CameraUpdateResponse {
   const factory _CameraUpdateResponse(
-          {required final CameraHandle cameraHandle,
-          required final List<CameraUpdateEvent> cameraEvents}) =
+          {required final List<CameraUpdateEvent> cameraEvents}) =
       _$_CameraUpdateResponse;
 
-  @override
-  CameraHandle get cameraHandle;
   @override
   List<CameraUpdateEvent> get cameraEvents;
   @override

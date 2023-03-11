@@ -1,22 +1,24 @@
 import 'package:flutter/foundation.dart';
 
-import 'models/camera_handle.dart';
 import 'models/camera_update_response.dart';
 import 'models/control_prop.dart';
 import 'models/control_prop_type.dart';
 
-abstract class Camera<H extends CameraHandle> {
-  Future<CameraHandle> connect();
+abstract class Camera {
+  const Camera();
 
-  Future<ControlProp?> getProp(H handle, ControlPropType propType);
-  Future<void> setProp(H handle, ControlPropType propType, String value);
+  Future<List<ControlPropType>> getSupportedProps();
+  Future<ControlProp?> getProp(ControlPropType propType);
+  Future<void> setProp(ControlPropType propType, String value);
 
-  Future<void> triggerRecord(H handle);
-  Future<void> toggleAfLock(H handle);
+  Future<void> triggerRecord();
+  Future<void> toggleAfLock();
 
-  Future<CameraUpdateResponse> getUpdate(H handle);
+  Future<CameraUpdateResponse> getUpdate();
 
-  Future<void> startLiveView(H handle);
-  Future<void> stopLiveView(H handle);
-  Future<Uint8List> getLiveViewImage(H handle);
+  // Stream für LiveView: onSubscribe -> connect, ...
+  // Stream für EventData:
+  Future<void> startLiveView();
+  Future<void> stopLiveView();
+  Future<Uint8List> getLiveViewImage();
 }

@@ -2,13 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 
-import '../eos_cine_http/models/eos_cine_http_camera_handle.dart';
-import '../interface/models/camera_handle.dart';
+import '../interface/camera.dart';
 import '../interface/models/camera_update_event.dart';
 import '../interface/models/camera_update_response.dart';
 import '../interface/models/control_prop.dart';
 import '../interface/models/control_prop_type.dart';
-import '../interface/camera.dart';
 
 class DemoCamera extends Camera {
   final List<ControlProp> _dummyControlProps = [
@@ -38,25 +36,18 @@ class DemoCamera extends Camera {
   final List<CameraUpdateEvent> _pendingUpdateEvents = [];
 
   @override
-  Future<CameraHandle> connect() async {
-    await Future.delayed(const Duration(seconds: 1));
-
-    return EosCineHttpCameraHandle(
-      cookies: const [],
-      supportedProps: _dummyControlProps.map((prop) => prop.type).toList(),
-    );
+  Future<List<ControlPropType>> getSupportedProps() async {
+    return _dummyControlProps.map((prop) => prop.type).toList();
   }
 
   @override
-  Future<ControlProp?> getProp(
-      CameraHandle handle, ControlPropType propType) async {
+  Future<ControlProp?> getProp(ControlPropType propType) async {
     return _dummyControlProps.firstWhere((prop) => prop.type == propType);
   }
 
   @override
-  Future<CameraUpdateResponse> getUpdate(CameraHandle handle) async {
+  Future<CameraUpdateResponse> getUpdate() async {
     final response = CameraUpdateResponse(
-      cameraHandle: handle,
       cameraEvents: [..._pendingUpdateEvents],
     );
     _pendingUpdateEvents.clear();
@@ -65,8 +56,7 @@ class DemoCamera extends Camera {
   }
 
   @override
-  Future<void> setProp(
-      CameraHandle handle, ControlPropType propType, String value) async {
+  Future<void> setProp(ControlPropType propType, String value) async {
     await Future.delayed(const Duration(milliseconds: 200));
     final propIndex =
         _dummyControlProps.indexWhere((prop) => prop.type == propType);
@@ -76,23 +66,23 @@ class DemoCamera extends Camera {
   }
 
   @override
-  Future<void> toggleAfLock(CameraHandle handle) async {}
+  Future<void> toggleAfLock() async {}
 
   @override
-  Future<void> triggerRecord(CameraHandle handle) async {
+  Future<void> triggerRecord() async {
     await Future.delayed(const Duration(milliseconds: 200));
     _reordState = !_reordState;
     _pendingUpdateEvents.add(CameraUpdateEvent.recordState(_reordState));
   }
 
   @override
-  Future<void> startLiveView(CameraHandle handle) async {}
+  Future<void> startLiveView() async {}
 
   @override
-  Future<void> stopLiveView(CameraHandle handle) async {}
+  Future<void> stopLiveView() async {}
 
   @override
-  Future<Uint8List> getLiveViewImage(CameraHandle handle) async {
+  Future<Uint8List> getLiveViewImage() async {
     ByteData byteData =
         await rootBundle.load('assets/images/dummy_live_view_image.jpg');
 

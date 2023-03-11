@@ -22,15 +22,12 @@ class CameraControlPage extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => PropsControlCubit(
-              context.read<CameraConnectionCubit>(),
-              get<Camera>(),
-              get<DateTimeAdapter>())
+              context.read<CameraConnectionCubit>(), get<DateTimeAdapter>())
             ..init(),
         ),
         BlocProvider(
           create: (context) => ActionsControlCubit(
             context.read<CameraConnectionCubit>(),
-            get<Camera>(),
           )..init(),
         ),
         BlocProvider(
@@ -39,7 +36,6 @@ class CameraControlPage extends StatelessWidget {
         BlocProvider(
           create: (context) => LiveViewCubit(
             context.read<CameraConnectionCubit>(),
-            get<Camera>(),
           ),
         )
       ],

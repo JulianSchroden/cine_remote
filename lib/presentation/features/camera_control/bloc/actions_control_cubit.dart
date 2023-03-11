@@ -30,12 +30,10 @@ class ActionsControlState with _$ActionsControlState {
 
 class ActionsControlCubit extends Cubit<ActionsControlState> {
   final CameraConnectionCubit _cameraConnectionCubit;
-  final Camera _camera;
   StreamSubscription<CameraUpdateEvent>? _updateStreamSubscription;
 
   ActionsControlCubit(
     this._cameraConnectionCubit,
-    this._camera,
   ) : super(ActionsControlState.init(
             ActionsState(isRecording: false, focusMode: AutoFocusMode.off)));
 
@@ -64,10 +62,10 @@ class ActionsControlCubit extends Cubit<ActionsControlState> {
   }
 
   Future<void> triggerRecord() async {
-    await _cameraConnectionCubit.withConnectedCamera((cameraHandle) async {
+    await _cameraConnectionCubit.withConnectedCamera((camera) async {
       try {
         emit(ActionsControlState.updating(state.actionsState));
-        await _camera.triggerRecord(cameraHandle);
+        await camera.triggerRecord();
       } catch (e) {
         emit(ActionsControlState.updateFailed(state.actionsState));
       }

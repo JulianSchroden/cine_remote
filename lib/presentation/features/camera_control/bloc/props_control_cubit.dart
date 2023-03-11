@@ -38,13 +38,11 @@ class PropsControlState with _$PropsControlState {
 class PropsControlCubit extends Cubit<PropsControlState> {
   static const pendingDuration = Duration(seconds: 2);
   final CameraConnectionCubit _cameraConnectionCubit;
-  final Camera _camera;
   final DateTimeAdapter _dateTimeAdapter;
   StreamSubscription<CameraUpdateEvent>? _updateStreamSubscription;
 
   PropsControlCubit(
     this._cameraConnectionCubit,
-    this._camera,
     this._dateTimeAdapter,
   ) : super(const PropsControlState.init());
 
@@ -55,13 +53,14 @@ class PropsControlCubit extends Cubit<PropsControlState> {
   }
 
   Future<void> init() async {
-    await _cameraConnectionCubit.withConnectedCamera((cameraHandle) async {
+    await _cameraConnectionCubit.withConnectedCamera((camera) async {
       emit(const PropsControlState.updating([]));
 
       try {
+        final supportedProps = await camera.getSupportedProps();
         final controlProps = <ControlProp>[];
-        for (final propType in cameraHandle.supportedProps) {
-          final controlProp = await _camera.getProp(cameraHandle, propType);
+        for (final propType in supportedProps) {
+          final controlProp = await camera.getProp(propType);
           if (controlProp != null) {
             controlProps.add(controlProp);
           }
@@ -80,7 +79,7 @@ class PropsControlCubit extends Cubit<PropsControlState> {
 
   Future<void> setProp(ControlPropType propType, String value) async {
     await _cameraConnectionCubit.withConnectedCamera(
-      (cameraHandle) async {
+      (camera) async {
         final previousProps = state.controlProps;
         try {
           final updatedProps = state.controlProps.copyWith(
@@ -93,7 +92,7 @@ class PropsControlCubit extends Cubit<PropsControlState> {
 
           emit(PropsControlState.updating(updatedProps));
 
-          await _camera.setProp(cameraHandle, propType, value);
+          await camera.setProp(propType, value);
         } catch (e) {
           emit(PropsControlState.updateFailed(previousProps));
         }
