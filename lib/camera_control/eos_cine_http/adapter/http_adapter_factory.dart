@@ -2,13 +2,13 @@ import 'dart:io';
 
 import 'http_adapter.dart';
 
-abstract class HttpAdaperFactory {
-  const HttpAdaperFactory();
+abstract class HttpAdapterFactory {
+  const HttpAdapterFactory();
 
   Future<HttpAdapter> create(HttpClient client, String authority);
 }
 
-class DefaultHttpAdapterFactory extends HttpAdaperFactory {
+class DefaultHttpAdapterFactory extends HttpAdapterFactory {
   const DefaultHttpAdapterFactory();
 
   @override

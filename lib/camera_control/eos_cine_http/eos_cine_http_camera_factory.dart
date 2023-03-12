@@ -13,7 +13,7 @@ class EosCineHttpCameraFactory
   static const String _authority = '192.168.0.80';
 
   final HttpClientFactory clientFactory;
-  final HttpAdaperFactory adaperFactory;
+  final HttpAdapterFactory adaperFactory;
   final ActionFactory actionFactory;
 
   EosCineHttpCameraFactory([
