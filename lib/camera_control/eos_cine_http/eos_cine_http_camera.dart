@@ -7,23 +7,16 @@ import '../interface/models/camera_update_event.dart';
 import '../interface/models/camera_update_response.dart';
 import '../interface/models/control_prop.dart';
 import '../interface/models/control_prop_type.dart';
-import 'communication/http_adapter.dart';
+import 'adapter/http_adapter.dart';
 import 'constants/api_endpoint_path.dart';
 import 'extensions/control_prop_type_extensions.dart';
 import 'models/camera_info.dart';
 
 class EosCineHttpCamera extends Camera {
   final HttpAdapter httpAdapter;
-  int _updateCounter = 0;
+  int _nextUpdateSequence = 0;
 
   EosCineHttpCamera(this.httpAdapter);
-
-  int get _nextUpdateSequence {
-    final currentValue = _updateCounter;
-    _updateCounter++;
-
-    return currentValue;
-  }
 
   @override
   Future<List<ControlPropType>> getSupportedProps() async {
@@ -142,6 +135,7 @@ class EosCineHttpCamera extends Camera {
       }
     }
 
+    _nextUpdateSequence = response.jsonBody['seq'];
     return CameraUpdateResponse(
       cameraEvents: updateEvents,
     );

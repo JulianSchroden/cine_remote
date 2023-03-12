@@ -1,4 +1,4 @@
-import 'http_adapter.dart';
+import '../adapter/http_adapter.dart';
 
 abstract class GetAction<T> {
   final HttpAdapter httpAdapter;
