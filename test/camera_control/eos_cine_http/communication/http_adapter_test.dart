@@ -44,15 +44,24 @@ void main() {
   });
 
   group('connect', () {
-    final cookies = [Cookie('acn', 'e3d4')];
+    final authCookie = Cookie('acid', 'e3d4');
     const okResponseBody = '{"res":"ok"}';
+    const getInfoResponseBody =
+        '{"res":"ok","modelName":"","manufacturer":"","serialNum":"","lang":0,"mode":1,"productId":"VKIX00"}';
 
     setUp(() {
       mockHttpClient.setUpHttpGet(
         ApiEndpointPath.login,
         200,
         okResponseBody,
-        cookies,
+        [authCookie],
+      );
+
+      mockHttpClient.setUpHttpGet(
+        ApiEndpointPath.getInfo,
+        200,
+        getInfoResponseBody,
+        [],
       );
     });
 
@@ -74,7 +83,7 @@ void main() {
       expect(result, isA<HttpAdapter>());
     });
 
-    test('uses cookies from login request for subsequent requests', () async {
+    test('uses cookies from initialization for subsequent requests', () async {
       const dummyPath = '/api/dummy/path';
       final mockSetup =
           mockHttpClient.setUpHttpGet(dummyPath, 200, okResponseBody, []);
@@ -82,7 +91,15 @@ void main() {
       final result = await HttpAdapter.connect(mockHttpClientFactory);
       await result.get(dummyPath);
 
-      expect(mockSetup.request.cookies, cookies);
+      expect(
+        mockSetup.request.cookies,
+        containsAll([
+          predicate<Cookie>((c) => c.name == 'acid' && c.value == 'e3d4'),
+          predicate<Cookie>(
+              (c) => c.name == 'productId' && c.value == 'VKIX00'),
+          predicate<Cookie>((c) => c.name == 'brlang' && c.value == '0'),
+        ]),
+      );
     });
   });
 }

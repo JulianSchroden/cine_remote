@@ -1,26 +1,37 @@
 import 'dart:io';
 
 import '../adapter/http_client_factory.dart';
-import '../constants/api_endpoint_path.dart';
 import '../extensions/client_response_extensions.dart';
 import '../models/http_adapter_response.dart';
+import 'action_factory.dart';
 
 class HttpAdapter {
   final HttpClient _client;
 
   static const String _authority = '192.168.0.80';
-  final List<Cookie> _cookies;
+  final List<Cookie> _cookies = [];
 
-  const HttpAdapter(this._client, this._cookies);
+  HttpAdapter(this._client);
 
   static Future<HttpAdapter> connect([
     HttpClientFactory clientFactory = const DefaultHttpClientFactory(),
+    ActionFactory actionFactory = const ActionFactory(),
   ]) async {
     final client = await clientFactory.create();
-    final response = await (await _getInternal(client, ApiEndpointPath.login))
-        .toAdapterResponse();
+    final httpAdapter = HttpAdapter(client);
 
-    return HttpAdapter(client, response.cookies);
+    final loginAction = actionFactory.createLoginAction(httpAdapter);
+    final loginResponse = await loginAction();
+    httpAdapter.addCookies(loginResponse.cookies);
+
+    final getInfoAction = actionFactory.createGetInfoAction(httpAdapter);
+    final cameraInfo = await getInfoAction();
+    httpAdapter.addCookies([
+      Cookie('productId', cameraInfo.productId),
+      Cookie('brlang', cameraInfo.language.toString()),
+    ]);
+
+    return httpAdapter;
   }
 
   Future<void> close() async {
@@ -31,27 +42,21 @@ class HttpAdapter {
     String path, [
     Map<String, dynamic>? queryParams,
   ]) async {
-    return (await _getInternal(_client, path, _cookies, queryParams))
-        .toAdapterResponse();
+    return (await getRaw(path, queryParams)).toAdapterResponse();
   }
 
   Future<HttpClientResponse> getRaw(
     String path, [
     Map<String, dynamic>? queryParams,
   ]) async {
-    return _getInternal(_client, path, _cookies, queryParams);
-  }
-
-  static Future<HttpClientResponse> _getInternal(
-    HttpClient client,
-    String path, [
-    List<Cookie> cookies = const [],
-    Map<String, dynamic>? queryParams,
-  ]) async {
     final url = Uri.http(_authority, path, queryParams);
-    final request = await client.getUrl(url);
-    request.cookies.addAll(cookies);
+    final request = await _client.getUrl(url);
+    request.cookies.addAll(_cookies);
 
     return await request.close();
+  }
+
+  void addCookies(List<Cookie> cookies) {
+    _cookies.addAll(cookies);
   }
 }
