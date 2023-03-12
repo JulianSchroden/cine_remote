@@ -16,8 +16,8 @@ abstract class Camera {
 
   Future<CameraUpdateResponse> getUpdate();
 
-  // Stream für LiveView: onSubscribe -> connect, ...
-  // Stream für EventData:
+  // TODO: refactor liveView feature to stream of images
+  // TODO: refactor getUpdate to stream of updates
   Future<void> startLiveView();
   Future<void> stopLiveView();
   Future<Uint8List> getLiveViewImage();
