@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cine_remote/camera_control/eos_cine_http/adapter/http_adapter_factory.dart';
@@ -7,6 +8,7 @@ import 'package:cine_remote/camera_control/eos_cine_http/eos_cine_http_camera_de
 import 'package:cine_remote/camera_control/eos_cine_http/eos_cine_http_camera_factory.dart';
 import 'package:cine_remote/camera_control/eos_cine_http/models/camera_info.dart';
 import 'package:cine_remote/camera_control/eos_cine_http/models/http_adapter_response.dart';
+import 'package:cine_remote/camera_control/interface/exceptions/camera_communication_exception.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -25,6 +27,7 @@ void main() {
   late MockHttpAdapter mockHttpAdapter;
   late MockHttpAdapterFactory mockHttpAdapterFactory;
   late MockActionFactory mockActionFactory;
+  late MockLoginAction mockLoginAction;
 
   late EosCineHttpCameraFactory sut;
 
@@ -42,10 +45,12 @@ void main() {
     when(() => mockHttpAdapterFactory.create(any(), any()))
         .thenAnswer((_) async => mockHttpAdapter);
 
-    final mockLoginAction = MockLoginAction();
+    mockLoginAction = MockLoginAction();
     when(() => mockLoginAction.call()).thenAnswer((_) async =>
         HttpAdapterResponse(
-            statusCode: 200, jsonBody: okResponseBody, cookies: [authCookie]));
+            statusCode: 200,
+            jsonBody: json.decode(okResponseBody),
+            cookies: [authCookie]));
     final mockGetInfo = MockGetInfoAction();
     when(() => mockGetInfo.call()).thenAnswer(
         (_) async => const CameraInfo(language: 0, productId: 'VKIX00'));
@@ -86,6 +91,28 @@ void main() {
             ),
           ),
         ));
+  });
+
+  test('throws when login response statusCode is not okay', () async {
+    when(() => mockLoginAction.call()).thenAnswer((_) async =>
+        HttpAdapterResponse(
+            statusCode: 404,
+            jsonBody: json.decode(okResponseBody),
+            cookies: []));
+
+    expect(sut.connect(EosCineHttpCameraDescriptor()),
+        throwsA(isA<CameraCommunicationException>()));
+  });
+
+  test('throws when res field is not okay', () async {
+    when(() => mockLoginAction.call()).thenAnswer((_) async =>
+        HttpAdapterResponse(
+            statusCode: 200,
+            jsonBody: json.decode('{"res":"busy"}'),
+            cookies: []));
+
+    expect(sut.connect(EosCineHttpCameraDescriptor()),
+        throwsA(isA<CameraCommunicationException>()));
   });
 
   test('calls getInfo action to get productId and brlang cookie values',

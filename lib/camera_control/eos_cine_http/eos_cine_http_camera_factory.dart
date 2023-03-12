@@ -2,6 +2,7 @@ import 'dart:io';
 
 import '../interface/camera.dart';
 import '../interface/camera_factory.dart';
+import '../interface/exceptions/camera_communication_exception.dart';
 import 'adapter/http_adapter_factory.dart';
 import 'adapter/http_client_factory.dart';
 import 'communication/action_factory.dart';
@@ -29,6 +30,10 @@ class EosCineHttpCameraFactory
 
     final loginAction = actionFactory.createLoginAction(httpAdapter);
     final loginResponse = await loginAction();
+    if (!loginResponse.isOkay()) {
+      throw CameraCommunicationException('Failed to acquire auth cookie');
+    }
+
     httpAdapter.addCookies(loginResponse.cookies);
 
     final getInfoAction = actionFactory.createGetInfoAction(httpAdapter);
