@@ -1,6 +1,3 @@
-import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:logging/logging.dart';
 
 import '../interface/camera.dart';
@@ -20,16 +17,13 @@ class EosPtpIpCameraFactory extends CameraFactory<EosPtpIpCameraDescriptor> {
 
   @override
   Future<Camera> connect(EosPtpIpCameraDescriptor descriptor) async {
-    final guid = Uint8List.fromList(List.generate(16, (index) => 0x00));
-    final address = InternetAddress.tryParse('192.168.178.43')!;
-    const clientName = 'Cine Remote';
-
     logger.info('Attempting to open command channel');
-    final commandChannel = await PtpIpChannel.connect(address, ptpIpPort);
+    final commandChannel =
+        await PtpIpChannel.connect(descriptor.address, ptpIpPort);
 
     logger.info('Sending initCommand request');
-    await commandChannel.write(PtpRequestFactory()
-        .createInitCommandRequest(name: clientName, guid: guid));
+    await commandChannel.write(PtpRequestFactory().createInitCommandRequest(
+        name: descriptor.clientName, guid: descriptor.guid));
 
     final initCommandResponse = await commandChannel.onResponse
         .firstWhereType<PtpInitCommandResponse>()
@@ -39,7 +33,8 @@ class EosPtpIpCameraFactory extends CameraFactory<EosPtpIpCameraDescriptor> {
         'Received initCommand response with connectionNumber: ${initCommandResponse.connectionNumber}');
 
     logger.info('Attempting to open event channel');
-    final eventChannel = await PtpIpChannel.connect(address, ptpIpPort);
+    final eventChannel =
+        await PtpIpChannel.connect(descriptor.address, ptpIpPort);
 
     logger.info("Sending initEvent request");
     await eventChannel.write(PtpRequestFactory().createInitEventRequest(

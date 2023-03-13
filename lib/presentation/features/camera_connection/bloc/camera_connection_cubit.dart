@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../camera_control/demo/demo_camera_descriptor.dart';
 import '../../../../camera_control/interface/camera.dart';
 import '../../../../camera_control/interface/camera_factory.dart';
 import '../../../../camera_control/interface/models/camera_model.dart';
 import '../../../../camera_control/interface/models/camera_update_event.dart';
+import '../../../core/extensions/camera_model_to_descriptor_extension.dart';
 
 part 'camera_connection_cubit.freezed.dart';
 
@@ -46,8 +46,7 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
       print('cubit connect');
 
       emit(const CameraConnectionState.connecting());
-      // TODO: map model to descriptor
-      final camera = await _cameraFactory.connect(DemoCameraDescriptor());
+      final camera = await _cameraFactory.connect(cameraModel.toDescriptor());
 
       print('connection success');
       emit(CameraConnectionState.connected(camera));
