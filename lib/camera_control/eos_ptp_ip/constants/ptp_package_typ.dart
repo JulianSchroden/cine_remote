@@ -5,4 +5,6 @@ abstract class PtpPacketTyp {
   static const initCommandAck = 0x0002;
   static const initEventRequest = 0x0003;
   static const initEventAck = 0x0004;
+  static const operationRequest = 0x0006;
+  static const operationResponse = 0x0007;
 }

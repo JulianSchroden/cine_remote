@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:typed_data';
 
 import '../interface/camera.dart';
@@ -13,6 +12,11 @@ class EosPtpIpCamera extends Camera {
   const EosPtpIpCamera(this.client);
 
   @override
+  Future<List<ControlPropType>> getSupportedProps() async {
+    return [];
+  }
+
+  @override
   Future<Uint8List> getLiveViewImage() {
     // TODO: implement getLiveViewImage
     throw UnimplementedError();
@@ -25,9 +29,8 @@ class EosPtpIpCamera extends Camera {
   }
 
   @override
-  Future<CameraUpdateResponse> getUpdate() {
-    // TODO: implement getUpdate
-    throw UnimplementedError();
+  Future<CameraUpdateResponse> getUpdate() async {
+    return const CameraUpdateResponse(cameraEvents: []);
   }
 
   @override
@@ -57,12 +60,6 @@ class EosPtpIpCamera extends Camera {
   @override
   Future<void> triggerRecord() {
     // TODO: implement triggerRecord
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<List<ControlPropType>> getSupportedProps() {
-    // TODO: implement getSupportedProps
     throw UnimplementedError();
   }
 }

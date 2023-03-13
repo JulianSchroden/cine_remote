@@ -1,3 +1,5 @@
 import 'package:equatable/equatable.dart';
 
-abstract class PtpResponse extends Equatable {}
+abstract class PtpResponse extends Equatable {
+  const PtpResponse();
+}

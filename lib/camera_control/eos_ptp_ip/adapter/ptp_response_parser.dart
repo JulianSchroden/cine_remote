@@ -2,6 +2,7 @@ import '../constants/ptp_package_typ.dart';
 import '../models/ptp_packet.dart';
 import '../responses/ptp_init_command_response.dart';
 import '../responses/ptp_init_event_response.dart';
+import '../responses/ptp_operation_response.dart';
 import '../responses/ptp_response.dart';
 import 'ptp_packet_reader.dart';
 
@@ -27,6 +28,9 @@ class PtpResponseParser {
 
       case PtpPacketTyp.initEventAck:
         return PtpInitEventResponse();
+
+      case PtpPacketTyp.operationResponse:
+        return parseOperationResponse(reader);
     }
 
     return null;
@@ -45,5 +49,12 @@ class PtpResponseParser {
       cameraName: cameraName,
       version: '$versionMayor.$versionMinor',
     );
+  }
+
+  PtpOperationResponse parseOperationResponse(PtpPacketReader reader) {
+    final responseCode = reader.getUint16();
+    final transactionId = reader.getUint32();
+
+    return PtpOperationResponse(responseCode, transactionId);
   }
 }
