@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:logging/logging.dart';
 
@@ -27,6 +28,8 @@ class PtpIpClient {
   }
 
   Stream<PtpResponse> get onCommandResponse => _commandChannel.onResponse;
+
+  Stream<Uint8List> get onCommandData => _commandChannel.onData;
 
   Stream<PtpResponse> get onEventResponse => _eventChannel.onResponse;
 }

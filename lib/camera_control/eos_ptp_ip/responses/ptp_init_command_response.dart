@@ -8,7 +8,7 @@ class PtpInitCommandResponse extends PtpResponse {
   final String cameraName;
   final String version;
 
-  PtpInitCommandResponse({
+  const PtpInitCommandResponse({
     required this.connectionNumber,
     required this.cameraGuid,
     required this.cameraName,
