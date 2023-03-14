@@ -58,9 +58,14 @@ class EosPtpIpCameraFactory extends CameraFactory<EosPtpIpCameraDescriptor> {
     final client = PtpIpClient(commandChannel, eventChannel);
     final actionQueue = PtpActionQueue(client, const PtpResponseParser());
 
-    final openSessionAction =
-        _actionFactory.createOpenSesionAction(sessionId: 0x1);
-    await openSessionAction.run(actionQueue);
+    final openSession = _actionFactory.createOpenSesionAction(sessionId: 0x1);
+    await openSession.run(actionQueue);
+
+    final setRemoteMode = _actionFactory.createSetRemoteModeAction();
+    await setRemoteMode.run(actionQueue);
+
+    final setEventMode = _actionFactory.createSetEventModeAction();
+    await setEventMode.run(actionQueue);
 
     logger.info('Initialization finished');
     return EosPtpIpCamera(client);
