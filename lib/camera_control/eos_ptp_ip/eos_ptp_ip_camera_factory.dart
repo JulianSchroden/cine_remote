@@ -67,6 +67,9 @@ class EosPtpIpCameraFactory extends CameraFactory<EosPtpIpCameraDescriptor> {
     final setEventMode = _actionFactory.createSetEventModeAction();
     await setEventMode.run(actionQueue);
 
+    final getEventData = _actionFactory.createGetEventDataAction();
+    await getEventData.run(actionQueue);
+
     logger.info('Initialization finished');
     return EosPtpIpCamera(client);
   }

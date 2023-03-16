@@ -35,7 +35,7 @@ abstract class PtpAction<T> {
     return builder.build();
   }
 
-  FutureOr<void> preparePayload(PtpPacketBuilder builder);
+  FutureOr<void> preparePayload(PtpPacketBuilder builder) {}
 
   FutureOr<T> mapResponse(PtpResponse response);
 }

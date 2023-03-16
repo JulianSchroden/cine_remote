@@ -4,4 +4,5 @@ abstract class PtpOperationCode {
   static const openSession = 0x1002;
   static const setRemoteMode = 0x9114;
   static const setEventMode = 0x9115;
+  static const getEventData = 0x9116;
 }
