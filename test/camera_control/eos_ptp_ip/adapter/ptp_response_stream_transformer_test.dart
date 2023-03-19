@@ -13,8 +13,11 @@ void main() {
     sut = const PtpResponseStreamTransformer();
   });
 
+  Uint8List preparePacket(List<List<int>> structuredBytes) =>
+      Uint8List.fromList(structuredBytes.expand((byte) => byte).toList());
+
   test('maps initCommandAck bytes to response', () {
-    final initCommandAckBytes = Uint8List.fromList([
+    final initCommandAckBytes = preparePacket([
       [0x28, 0x00, 0x00, 0x00], // 0x28: length = 40
       [0x02, 0x00, 0x00, 0x00], // 0x02: init command ack package
       [0x01, 0x00, 0x00, 0x00], // 0x01: connection number = 1
@@ -38,7 +41,7 @@ void main() {
       ], // camera guid
       [0x37, 0x00, 0x30, 0x00, 0x44, 0x00, 0x00, 0x00], // camera name
       [0x00, 0x00, 0x01, 0x00] // ptp version = 1.0
-    ].expand((byte) => byte).toList());
+    ]);
 
     final inputStream = Stream.fromIterable([initCommandAckBytes]);
     final transformedStream = inputStream.transform<PtpResponse>(sut);
@@ -76,10 +79,10 @@ void main() {
   });
 
   test('maps initEventAck bytes to response', () {
-    final initEventAckBytes = Uint8List.fromList([
+    final initEventAckBytes = preparePacket([
       [0x08, 0x00, 0x00, 0x00], // length = 8
       [0x04, 0x00, 0x00, 0x00], // init event ack packet
-    ].expand((byte) => byte).toList());
+    ]);
     final inputStream = Stream.fromIterable([initEventAckBytes]);
 
     final transformedStream = inputStream.transform(sut);
@@ -95,13 +98,14 @@ void main() {
   });
 
   test('maps operation response bytes to response', () {
-    final operationResponseBytes = Uint8List.fromList([
+    final operationResponseBytes = preparePacket([
       [0x0e, 0x00, 0x00, 0x00], // length = 14
       [0x07, 0x00, 0x00, 0x00], // operation response packet
       [0x01, 0x20], // 0x2001 = OK
       [0x06, 0x00, 0x00, 0x00] // transactionId = 0x06
-    ].expand((byte) => byte).toList());
+    ]);
     final inputStream = Stream.fromIterable([operationResponseBytes]);
+
     final transformedStream = inputStream.transform(sut);
 
     expect(
@@ -112,6 +116,92 @@ void main() {
             0x2001,
             0x06,
             Uint8List(0),
+          ),
+        ],
+      ),
+    );
+  });
+
+  test('maps data packet to response', () {
+    final startDataPacketResponseBytes = preparePacket([
+      [0x14, 0x00, 0x00, 0x00], // length = 20
+      [0x09, 0x00, 0x00, 0x00], // start data packet
+      [0x09, 0x00, 0x00, 0x00], // transactionId = 0x09
+      [
+        0x24,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00
+      ], // total data length = 36
+      [0x30, 0x00, 0x00, 0x00, 0x0c, 0x00, 0x00, 0x00], // unknown bytes
+      [0x09, 0x00, 0x00, 0x00] // seems to be transactionId = 0x09
+    ]);
+
+    final dataPacketBytes = Uint8List.fromList([
+      0x04,
+      0x00,
+      0x03,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x1a,
+      0x6d,
+      0x07,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x80,
+      0x5c,
+      0xf0,
+      0x04,
+      0x00,
+      0x00,
+      0x00,
+      0xff,
+      0xff,
+      0xff,
+      0xff,
+      0x03,
+      0x53,
+      0x00,
+      0x44,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+    ]);
+
+    final operationResponseBytes = preparePacket([
+      [0x0e, 0x00, 0x00, 0x00], // length = 14
+      [0x07, 0x00, 0x00, 0x00], // operation response packet
+      [0x01, 0x20], // 0x2001 = OK
+      [0x09, 0x00, 0x00, 0x00] // transactionId = 0x09
+    ]);
+
+    final inputStream = Stream.fromIterable([
+      startDataPacketResponseBytes,
+      dataPacketBytes,
+      operationResponseBytes
+    ]);
+    final transformedStream = inputStream.transform(sut);
+
+    expect(
+      transformedStream,
+      emitsInOrder(
+        [
+          PtpOperationResponse(
+            0x2001,
+            0x09,
+            dataPacketBytes,
           ),
         ],
       ),

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import '../responses/ptp_operation_response.dart';
+import '../responses/ptp_start_data_response.dart';
 import 'ptp_packet_reader.dart';
 import 'package:logging/logging.dart';
 
@@ -10,21 +11,16 @@ import '../models/ptp_packet.dart';
 import '../responses/ptp_init_command_response.dart';
 import '../responses/ptp_init_event_response.dart';
 import '../responses/ptp_response.dart';
-import 'ptp_response_parser.dart';
 
 class PtpResponseStreamTransformer
     extends StreamTransformerBase<Uint8List, PtpResponse> {
-  final PtpResponseParser _responseParser;
-
-  const PtpResponseStreamTransformer([
-    this._responseParser = const PtpResponseParser(),
-  ]);
+  const PtpResponseStreamTransformer();
 
   @override
   Stream<PtpResponse> bind(Stream<Uint8List> stream) {
     final controller = StreamController<PtpResponse>();
-    final BytesBuilder bufferBuilder = BytesBuilder();
-    final dataMode = PtpDataMode();
+    final bufferBuilder = BytesBuilder();
+    final dataPacketMode = PtpDataPacketMode();
 
     controller.onListen = () {
       var subscription = stream.listen(null);
@@ -34,7 +30,7 @@ class PtpResponseStreamTransformer
 
           final buffer = bufferBuilder.takeBytes();
 
-          final parserResult = parseResponseData(buffer, dataMode);
+          final parserResult = parseResponseData(buffer, dataPacketMode);
           for (final response in parserResult.responses) {
             controller.add(response);
           }
@@ -64,16 +60,26 @@ class PtpResponseStreamTransformer
     return controller.stream;
   }
 
-  ParserResult parseResponseData(Uint8List data, PtpDataMode dataMode) {
+  ParserResult parseResponseData(
+    Uint8List data,
+    PtpDataPacketMode dataPacketMode,
+  ) {
     final logger = Logger('PtpResponseTransformer');
     final reader = PtpPacketReader(PtpPacket(data));
 
     final responses = <PtpResponse>[];
     while (reader.unconsumedBytes >= 8) {
-      // if waitsForEventData()
-      // if event mode
-      // check if reader.unconsumedBytes >= totalBytes
-      //
+      var dataPacketBytes = Uint8List(0);
+
+      if (dataPacketMode.isActive) {
+        if (reader.unconsumedBytes < dataPacketMode.totalLength) {
+          break;
+        }
+
+        dataPacketBytes = reader.getBytes(dataPacketMode.totalLength);
+        dataPacketMode.finish();
+        continue;
+      }
 
       final payloadLength = reader.getUint32();
       if (payloadLength > reader.length) {
@@ -93,7 +99,11 @@ class PtpResponseStreamTransformer
           responses.add(PtpInitEventResponse());
           break;
         case PtpPacketTyp.operationResponse:
-          responses.add(parseOperationResponse(reader));
+          responses.add(parseOperationResponse(reader, dataPacketBytes));
+          break;
+        case PtpPacketTyp.startDataPacket:
+          final startDataPacket = parseStartDataResponse(reader);
+          dataPacketMode.start(startDataPacket.totalLength);
           break;
       }
     }
@@ -116,11 +126,34 @@ class PtpResponseStreamTransformer
     );
   }
 
-  PtpOperationResponse parseOperationResponse(PtpPacketReader reader) {
+  PtpOperationResponse parseOperationResponse(
+    PtpPacketReader reader,
+    Uint8List dataPacketBytes,
+  ) {
     final responseCode = reader.getUint16();
     final transactionId = reader.getUint32();
 
-    return PtpOperationResponse(responseCode, transactionId, Uint8List(0));
+    return PtpOperationResponse(responseCode, transactionId, dataPacketBytes);
+  }
+
+  PtpStartDataResponse parseStartDataResponse(PtpPacketReader reader) {
+    final transactionId = reader.getUint32();
+    final dataLengthRaw = reader.getUint64();
+    if (!dataLengthRaw.isValidInt) {
+      throw RangeError('Did not expect to receive a length exceeding maxInt');
+    }
+    final dataLength = dataLengthRaw.toInt();
+
+    // Although the start data packet response signals a length of 20 bytes,
+    // it has a length of 32. Therefore we need to drain the remaining
+    // 12 bytes of unknown meaning.
+    reader.getBytes(12);
+
+    final logger = Logger('PtpResponseParser');
+    logger.info(
+        'parseStartDataResponse: transactionId: $transactionId, dataLength: $dataLength');
+
+    return PtpStartDataResponse(transactionId, dataLength);
   }
 }
 
@@ -131,7 +164,20 @@ class ParserResult {
   const ParserResult(this.consumedBytes, this.responses);
 }
 
-class PtpDataMode {
-  bool isActive = false;
-  int totalLength = 0;
+class PtpDataPacketMode {
+  bool _isActive = false;
+  int _totalLength = 0;
+
+  bool get isActive => _isActive;
+  int get totalLength => _totalLength;
+
+  void start(int totalLength) {
+    _isActive = true;
+    _totalLength = totalLength;
+  }
+
+  void finish() {
+    _isActive = false;
+    _totalLength = 0;
+  }
 }
