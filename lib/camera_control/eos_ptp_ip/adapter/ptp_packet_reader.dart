@@ -11,6 +11,9 @@ class PtpPacketReader {
 
   int get length => _packet.data.length;
 
+  int get consumedBytes => offset;
+  int get unconsumedBytes => length - offset;
+
   int getUint32() {
     final result = _bytes.getUint32(offset, Endian.little);
     offset += 4;
