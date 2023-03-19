@@ -9,6 +9,25 @@ void main() {
     return PtpPacket(Uint8List.fromList(data));
   }
 
+  group('getUint64', () {
+    test('returns correct uint32 value', () {
+      final packet =
+          buildPacket([0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08]);
+      final reader = PtpPacketReader(packet);
+
+      final result = reader.getUint64();
+
+      expect(result, BigInt.from(0x0807060504030201));
+    });
+
+    test('throws RangeError when trying to read out of bounds bytes', () {
+      final packet = buildPacket([0x01, 0x02, 0x03, 0x04]);
+      final reader = PtpPacketReader(packet);
+
+      expect(() => reader.getUint64(), throwsA(isA<RangeError>()));
+    });
+  });
+
   group('getUint32', () {
     test('returns correct uint32 value', () {
       final packet = buildPacket([0x01, 0x02, 0x03, 0x04]);

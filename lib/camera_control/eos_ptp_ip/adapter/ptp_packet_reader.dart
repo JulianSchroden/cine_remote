@@ -14,6 +14,14 @@ class PtpPacketReader {
   int get consumedBytes => offset;
   int get unconsumedBytes => length - offset;
 
+  BigInt getUint64() {
+    final lowBytesHex = _getUint32AsHex();
+    final highBytesHex = _getUint32AsHex();
+    final bytesAsHex = highBytesHex + lowBytesHex;
+
+    return BigInt.parse(bytesAsHex, radix: 16);
+  }
+
   int getUint32() {
     final result = _bytes.getUint32(offset, Endian.little);
     offset += 4;
@@ -45,4 +53,6 @@ class PtpPacketReader {
 
     throw RangeError('Sequence was not null terminated');
   }
+
+  String _getUint32AsHex() => getUint32().toRadixString(16).padLeft(8, '0');
 }
