@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 
+import '../responses/ptp_operation_response.dart';
 import 'ptp_packet_reader.dart';
 import 'package:logging/logging.dart';
 
@@ -91,6 +92,9 @@ class PtpResponseStreamTransformer
         case PtpPacketTyp.initEventAck:
           responses.add(PtpInitEventResponse());
           break;
+        case PtpPacketTyp.operationResponse:
+          responses.add(parseOperationResponse(reader));
+          break;
       }
     }
 
@@ -110,6 +114,13 @@ class PtpResponseStreamTransformer
       cameraName: cameraName,
       version: '$versionMayor.$versionMinor',
     );
+  }
+
+  PtpOperationResponse parseOperationResponse(PtpPacketReader reader) {
+    final responseCode = reader.getUint16();
+    final transactionId = reader.getUint32();
+
+    return PtpOperationResponse(responseCode, transactionId, Uint8List(0));
   }
 }
 

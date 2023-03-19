@@ -1,6 +1,7 @@
 import 'package:cine_remote/camera_control/eos_ptp_ip/adapter/ptp_response_stream_transformer.dart';
 import 'package:cine_remote/camera_control/eos_ptp_ip/responses/ptp_init_command_response.dart';
 import 'package:cine_remote/camera_control/eos_ptp_ip/responses/ptp_init_event_response.dart';
+import 'package:cine_remote/camera_control/eos_ptp_ip/responses/ptp_operation_response.dart';
 import 'package:cine_remote/camera_control/eos_ptp_ip/responses/ptp_response.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -88,6 +89,30 @@ void main() {
       emitsInOrder(
         [
           isA<PtpInitEventResponse>(),
+        ],
+      ),
+    );
+  });
+
+  test('maps operation response bytes to response', () {
+    final operationResponseBytes = Uint8List.fromList([
+      [0x0e, 0x00, 0x00, 0x00], // length = 14
+      [0x07, 0x00, 0x00, 0x00], // operation response packet
+      [0x01, 0x20], // 0x2001 = OK
+      [0x06, 0x00, 0x00, 0x00] // transactionId = 0x06
+    ].expand((byte) => byte).toList());
+    final inputStream = Stream.fromIterable([operationResponseBytes]);
+    final transformedStream = inputStream.transform(sut);
+
+    expect(
+      transformedStream,
+      emitsInOrder(
+        [
+          PtpOperationResponse(
+            0x2001,
+            0x06,
+            Uint8List(0),
+          ),
         ],
       ),
     );
