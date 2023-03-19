@@ -1,16 +1,14 @@
 import 'dart:async';
 import 'dart:typed_data';
 
-import '../responses/ptp_operation_response.dart';
-import '../responses/ptp_start_data_response.dart';
-import 'ptp_packet_reader.dart';
-import 'package:logging/logging.dart';
-
 import '../constants/ptp_package_typ.dart';
 import '../models/ptp_packet.dart';
 import '../responses/ptp_init_command_response.dart';
 import '../responses/ptp_init_event_response.dart';
+import '../responses/ptp_operation_response.dart';
 import '../responses/ptp_response.dart';
+import '../responses/ptp_start_data_response.dart';
+import 'ptp_packet_reader.dart';
 
 class PtpResponseStreamTransformer
     extends StreamTransformerBase<Uint8List, PtpResponse> {
@@ -64,7 +62,6 @@ class PtpResponseStreamTransformer
     Uint8List data,
     PtpDataPacketMode dataPacketMode,
   ) {
-    final logger = Logger('PtpResponseTransformer');
     final reader = PtpPacketReader(PtpPacket(data));
 
     final responses = <PtpResponse>[];
@@ -83,16 +80,13 @@ class PtpResponseStreamTransformer
 
       final payloadLength = reader.getUint32();
       if (payloadLength > reader.length) {
-        logger.warning(
-            'payloadLength $payloadLength is smaller than data.length ${reader.length}');
         break;
       }
 
       final packetType = reader.getUint32();
-      logger.info('Packet type is: $packetType');
-
       switch (packetType) {
         case PtpPacketTyp.initCommandAck:
+          // InitAckCommandResponse.fromBytes(reader)
           responses.add(parseInitAckReponse(reader));
           break;
         case PtpPacketTyp.initEventAck:
@@ -148,11 +142,6 @@ class PtpResponseStreamTransformer
     // it has a length of 32. Therefore we need to drain the remaining
     // 12 bytes of unknown meaning.
     reader.getBytes(12);
-
-    final logger = Logger('PtpResponseParser');
-    logger.info(
-        'parseStartDataResponse: transactionId: $transactionId, dataLength: $dataLength');
-
     return PtpStartDataResponse(transactionId, dataLength);
   }
 }

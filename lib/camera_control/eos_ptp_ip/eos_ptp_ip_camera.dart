@@ -4,12 +4,14 @@ import '../interface/camera.dart';
 import '../interface/models/camera_update_response.dart';
 import '../interface/models/control_prop.dart';
 import '../interface/models/control_prop_type.dart';
-import 'communication/ptp_ip_client.dart';
+import 'communication/ptp_action_factory.dart';
+import 'communication/ptp_action_queue.dart';
 
 class EosPtpIpCamera extends Camera {
-  final PtpIpClient client;
+  final PtpActionQueue _actionQueue;
+  final PtpActionFactory _ptpActionFactory;
 
-  const EosPtpIpCamera(this.client);
+  const EosPtpIpCamera(this._actionQueue, this._ptpActionFactory);
 
   @override
   Future<List<ControlPropType>> getSupportedProps() async {
@@ -30,6 +32,9 @@ class EosPtpIpCamera extends Camera {
 
   @override
   Future<CameraUpdateResponse> getUpdate() async {
+    final getEventData = _ptpActionFactory.createGetEventDataAction();
+    final eventData = await getEventData.run(_actionQueue);
+
     return const CameraUpdateResponse(cameraEvents: []);
   }
 

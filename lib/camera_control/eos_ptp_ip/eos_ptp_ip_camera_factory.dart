@@ -3,7 +3,6 @@ import 'package:logging/logging.dart';
 import '../interface/camera.dart';
 import '../interface/camera_factory.dart';
 import 'adapter/ptp_request_factory.dart';
-import 'adapter/ptp_response_parser.dart';
 import 'communication/ptp_action_factory.dart';
 import 'communication/ptp_action_queue.dart';
 import 'communication/ptp_ip_channel.dart';
@@ -56,7 +55,7 @@ class EosPtpIpCameraFactory extends CameraFactory<EosPtpIpCameraDescriptor> {
     logger.info('Received initEvent response');
 
     final client = PtpIpClient(commandChannel, eventChannel);
-    final actionQueue = PtpActionQueue(client, const PtpResponseParser());
+    final actionQueue = PtpActionQueue(client);
 
     final openSession = _actionFactory.createOpenSesionAction(sessionId: 0x1);
     await openSession.run(actionQueue);
@@ -68,9 +67,9 @@ class EosPtpIpCameraFactory extends CameraFactory<EosPtpIpCameraDescriptor> {
     await setEventMode.run(actionQueue);
 
     final getEventData = _actionFactory.createGetEventDataAction();
-    await getEventData.run(actionQueue);
+    final eventData = await getEventData.run(actionQueue);
 
     logger.info('Initialization finished');
-    return EosPtpIpCamera(client);
+    return EosPtpIpCamera(actionQueue, _actionFactory);
   }
 }
