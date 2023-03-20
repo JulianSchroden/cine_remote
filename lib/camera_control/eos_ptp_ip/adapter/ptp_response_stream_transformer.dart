@@ -66,15 +66,13 @@ class PtpResponseStreamTransformer
 
     final responses = <PtpResponse>[];
     while (reader.unconsumedBytes >= 8) {
-      var dataPacketBytes = Uint8List(0);
-
       if (dataPacketMode.isActive) {
         if (reader.unconsumedBytes < dataPacketMode.totalLength) {
           break;
         }
 
-        dataPacketBytes = reader.getBytes(dataPacketMode.totalLength);
-        dataPacketMode.finish();
+        final dataPacketBytes = reader.getBytes(dataPacketMode.totalLength);
+        dataPacketMode.finish(dataPacketBytes);
         continue;
       }
 
@@ -93,7 +91,8 @@ class PtpResponseStreamTransformer
           responses.add(PtpInitEventResponse());
           break;
         case PtpPacketTyp.operationResponse:
-          responses.add(parseOperationResponse(reader, dataPacketBytes));
+          responses
+              .add(parseOperationResponse(reader, dataPacketMode.byteData));
           break;
         case PtpPacketTyp.startDataPacket:
           final startDataPacket = parseStartDataResponse(reader);
@@ -156,17 +155,22 @@ class ParserResult {
 class PtpDataPacketMode {
   bool _isActive = false;
   int _totalLength = 0;
+  Uint8List _data = Uint8List(0);
 
   bool get isActive => _isActive;
   int get totalLength => _totalLength;
 
+  Uint8List get byteData => _data;
+
   void start(int totalLength) {
     _isActive = true;
+    _data = Uint8List(0);
     _totalLength = totalLength;
   }
 
-  void finish() {
+  void finish(Uint8List data) {
     _isActive = false;
+    _data = data;
     _totalLength = 0;
   }
 }
