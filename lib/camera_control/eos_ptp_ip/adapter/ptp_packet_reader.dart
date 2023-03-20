@@ -54,5 +54,9 @@ class PtpPacketReader {
     throw RangeError('Sequence was not null terminated');
   }
 
+  void skipBytes(int bytesToSkip) {
+    offset += bytesToSkip;
+  }
+
   String _getUint32AsHex() => getUint32().toRadixString(16).padLeft(8, '0');
 }
