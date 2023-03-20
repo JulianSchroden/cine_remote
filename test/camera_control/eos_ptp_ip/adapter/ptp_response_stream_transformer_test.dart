@@ -6,15 +6,14 @@ import 'package:cine_remote/camera_control/eos_ptp_ip/responses/ptp_response.dar
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../packet_helper.dart';
+
 void main() {
   late PtpResponseStreamTransformer sut;
 
   setUp(() {
     sut = const PtpResponseStreamTransformer();
   });
-
-  Uint8List preparePacket(List<List<int>> structuredBytes) =>
-      Uint8List.fromList(structuredBytes.expand((byte) => byte).toList());
 
   test('maps initCommandAck bytes to response', () {
     final initCommandAckBytes = preparePacket([
