@@ -1,11 +1,30 @@
+import '../../common/list_extensions.dart';
 import '../../interface/models/control_prop_type.dart';
 
-class MappedValue<NT, MT> {
-  final NT native;
-  final MT mapped;
+class PropValue {
+  final ControlPropType type;
+  final String value;
 
-  const MappedValue(this.native, this.mapped);
+  const PropValue(this.type, this.value);
+
+  @override
+  String toString() => value;
 }
+
+class PtpPropValue extends PropValue {
+  final int nativeValue;
+
+  PtpPropValue(super.type, super.value, this.nativeValue);
+}
+
+class MappedValue<NT, CT> {
+  final NT native;
+  final CT common;
+
+  const MappedValue(this.native, this.common);
+}
+
+typedef PtpMappedValue = MappedValue<int, String>;
 
 abstract class PtpPropertyType {
   PtpPropertyType._();
@@ -20,37 +39,42 @@ abstract class PtpPropertyType {
     ControlPropType.shutterAngle,
   );
 
+  static const iso = MappedValue(
+    0xd103,
+    ControlPropType.iso,
+  );
+
   static const List<MappedValue<int, ControlPropType>> values = [
     aperture,
     shutterSpeed,
+    iso,
   ];
-
-  static MappedValue<int, ControlPropType>? tryMap(int value) {}
 }
 
-MappedValue<int, String> mapValue(ControlPropType propType, int value) {
-  List<MappedValue<int, String>> mappedValues = [];
-  switch (propType) {
-    case ControlPropType.iso:
-      // TODO: Handle this case.
-      break;
-    case ControlPropType.aperture:
-      mappedValues = PtpApertureValues;
-      // TODO: Handle this case.
-      break;
-    case ControlPropType.shutterAngle:
-      mappedValues = PtpShutterSpeedValues;
-      // TODO: Handle this case.
-      break;
-    case ControlPropType.whiteBalance:
-      // TODO: Handle this case.
-      break;
-  }
-
-  return mappedValues.firstWhere((propValue) => propValue.native == value);
+ControlPropType? mapPropType(int propertyCode) {
+  return PtpPropertyType.values
+      .firstWhereOrNull((propTyp) => propTyp.native == propertyCode)
+      ?.common;
 }
 
-const List<MappedValue<int, String>> PtpApertureValues = [
+PtpPropValue mapPtpValue(ControlPropType propType, int value) {
+  final knownPropValues = knownPropValuesMap[propType];
+  final fallbackValue = '0x${value.toRadixString(16).padLeft(2, '0')}';
+  final mappedValue = knownPropValues
+          ?.firstWhereOrNull((propValue) => propValue.native == value)
+          ?.common ??
+      fallbackValue;
+
+  return PtpPropValue(propType, mappedValue, value);
+}
+
+const Map<ControlPropType, List<PtpMappedValue>> knownPropValuesMap = {
+  ControlPropType.aperture: ptpApertureValues,
+  ControlPropType.shutterAngle: ptpShutterSpeedValues,
+  ControlPropType.iso: ptpIsoValues,
+};
+
+const List<PtpMappedValue> ptpApertureValues = [
   MappedValue(0x15, '1.8'),
   MappedValue(0x18, '2.0'),
   MappedValue(0x1b, '2.2'),
@@ -74,7 +98,7 @@ const List<MappedValue<int, String>> PtpApertureValues = [
   MappedValue(0x48, '16.0'),
 ];
 
-const List<MappedValue<int, String>> PtpShutterSpeedValues = [
+const List<PtpMappedValue> ptpShutterSpeedValues = [
   MappedValue(0x10, '30'),
   MappedValue(0x13, '25'),
   MappedValue(0x15, '20'),
@@ -130,4 +154,30 @@ const List<MappedValue<int, String>> PtpShutterSpeedValues = [
   MappedValue(0x9b, '1/5000'),
   MappedValue(0x9d, '1/6400'),
   MappedValue(0xa0, '1/8000'),
+];
+
+const List<PtpMappedValue> ptpIsoValues = [
+  MappedValue(0x00, 'Auto'),
+  MappedValue(0x48, '100'),
+  MappedValue(0x4b, '125'),
+  MappedValue(0x4d, '160'),
+  MappedValue(0x50, '200'),
+  MappedValue(0x53, '250'),
+  MappedValue(0x55, '320'),
+  MappedValue(0x58, '400'),
+  MappedValue(0x5b, '500'),
+  MappedValue(0x5d, '640'),
+  MappedValue(0x60, '800'),
+  MappedValue(0x63, '1000'),
+  MappedValue(0x65, '1250'),
+  MappedValue(0x68, '1600'),
+  MappedValue(0x6b, '2000'),
+  MappedValue(0x6d, '2500'),
+  MappedValue(0x70, '3200'),
+  MappedValue(0x73, '4000'),
+  MappedValue(0x75, '5000'),
+  MappedValue(0x78, '6400'),
+  MappedValue(0x7b, '8000'),
+  MappedValue(0x7d, '10000'),
+  MappedValue(0x80, '12800'),
 ];

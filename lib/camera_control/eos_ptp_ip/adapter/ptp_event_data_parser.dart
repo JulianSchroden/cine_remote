@@ -38,19 +38,14 @@ class PtpEventDataParser {
       switch (eventCode) {
         case PtpEventCode.propertyChanged:
           {
-            try {
-              final propertyCode = packetReader.getUint32();
-              final propType = PtpPropertyType.values
-                  .firstWhere((propTyp) => propTyp.native == propertyCode);
-              final propertyValue = packetReader.getUint32();
-              final mappedValue = mapValue(propType.mapped, propertyValue);
-              logger.info(
-                  'property ${propType.mapped} changed to ${mappedValue.mapped}');
-            } catch (e) {
-              //logger.info('Failed to map propertyCode');
-              //logger.info(e);
-            }
+            final propertyCode = packetReader.getUint32();
 
+            final propType = mapPropType(propertyCode);
+            if (propType == null) break;
+
+            final propertyValue = packetReader.getUint32();
+            final propValue = mapPtpValue(propType, propertyValue);
+            logger.info('property $propType changed to $propValue');
             break;
           }
       }
