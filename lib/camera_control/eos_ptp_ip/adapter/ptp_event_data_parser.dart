@@ -48,6 +48,25 @@ class PtpEventDataParser {
             logger.info('property $propType changed to $propValue');
             break;
           }
+        case PtpEventCode.allowedValuesChanged:
+          {
+            final propertyCode = packetReader.getUint32();
+            final propType = mapPropType(propertyCode);
+            if (propType == null) break;
+
+            packetReader.getUint32(); // unknown value
+
+            final totalAllowedValues = packetReader.getUint32();
+            final List allowedValues = [];
+            for (int i = 0; i < totalAllowedValues; i++) {
+              final value = packetReader.getUint32();
+              final propValue = mapPtpValue(propType, value);
+              allowedValues.add(propValue);
+            }
+
+            logger.info(allowedValues);
+            break;
+          }
       }
 
       final remainingBytes = (oldOffset + eventLength) - packetReader.offset;
