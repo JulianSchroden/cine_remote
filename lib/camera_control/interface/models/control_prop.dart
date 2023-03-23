@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'control_prop_type.dart';
+import 'control_prop_value.dart';
 
 part 'control_prop.freezed.dart';
 
@@ -10,8 +11,8 @@ class ControlProp with _$ControlProp {
 
   const factory ControlProp({
     required ControlPropType type,
-    required String currentValue,
-    required List<String> allowedValues,
+    required ControlPropValue currentValue,
+    required List<ControlPropValue> allowedValues,
     DateTime? pendingSince,
   }) = _ControlProp;
 

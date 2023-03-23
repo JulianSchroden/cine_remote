@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../camera_control/common/date_time_adapter.dart';
-import '../../../../camera_control/interface/camera.dart';
 import '../../../../camera_control/interface/models/camera_update_event.dart';
 import '../../../../camera_control/interface/models/control_prop.dart';
 import '../../../../camera_control/interface/models/control_prop_type.dart';
+import '../../../../camera_control/interface/models/control_prop_value.dart';
 import '../../../core/extensions/control_prop_extension.dart';
 import '../../../core/extensions/list_copy_with.dart';
 import '../../camera_connection/bloc/camera_connection_cubit.dart';
@@ -77,7 +77,7 @@ class PropsControlCubit extends Cubit<PropsControlState> {
     });
   }
 
-  Future<void> setProp(ControlPropType propType, String value) async {
+  Future<void> setProp(ControlPropType propType, ControlPropValue value) async {
     await _cameraConnectionCubit.withConnectedCamera(
       (camera) async {
         final previousProps = state.controlProps;

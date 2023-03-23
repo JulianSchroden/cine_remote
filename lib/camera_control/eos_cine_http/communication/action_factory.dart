@@ -1,5 +1,6 @@
 import '../../interface/models/control_prop_type.dart';
 import '../adapter/http_adapter.dart';
+import '../models/eos_cine_prop_value.dart';
 import 'actions/get_info_action.dart';
 import 'actions/get_live_view_image_action.dart';
 import 'actions/get_prop_action.dart';
@@ -26,7 +27,7 @@ class ActionFactory {
   SetPropAction createSetPropAction(
     HttpAdapter httpAdapter,
     ControlPropType propType,
-    String value,
+    EosCinePropValue value,
   ) =>
       SetPropAction(httpAdapter, propType, value);
 

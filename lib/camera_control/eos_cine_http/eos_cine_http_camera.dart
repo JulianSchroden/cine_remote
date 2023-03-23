@@ -4,9 +4,11 @@ import '../interface/camera.dart';
 import '../interface/models/camera_update_response.dart';
 import '../interface/models/control_prop.dart';
 import '../interface/models/control_prop_type.dart';
+import '../interface/models/control_prop_value.dart';
 import 'adapter/http_adapter.dart';
 import 'communication/action_factory.dart';
 import 'models/camera_info.dart';
+import 'models/eos_cine_prop_value.dart';
 
 class EosCineHttpCamera extends Camera {
   final HttpAdapter httpAdapter;
@@ -40,10 +42,13 @@ class EosCineHttpCamera extends Camera {
   @override
   Future<void> setProp(
     ControlPropType propType,
-    String value,
+    ControlPropValue value,
   ) async {
-    final setPropAction =
-        actionFactory.createSetPropAction(httpAdapter, propType, value);
+    final setPropAction = actionFactory.createSetPropAction(
+      httpAdapter,
+      propType,
+      value as EosCinePropValue,
+    );
     await setPropAction();
   }
 

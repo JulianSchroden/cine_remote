@@ -18,7 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$CameraUpdateEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ControlPropType propType, String value) prop,
+    required TResult Function(ControlPropType propType, ControlPropValue value)
+        prop,
     required TResult Function(bool isRecording) recordState,
     required TResult Function(AutoFocusMode focusMode) focusMode,
     required TResult Function(int ndValue) ndFilter,
@@ -26,7 +27,7 @@ mixin _$CameraUpdateEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ControlPropType propType, String value)? prop,
+    TResult? Function(ControlPropType propType, ControlPropValue value)? prop,
     TResult? Function(bool isRecording)? recordState,
     TResult? Function(AutoFocusMode focusMode)? focusMode,
     TResult? Function(int ndValue)? ndFilter,
@@ -34,7 +35,7 @@ mixin _$CameraUpdateEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ControlPropType propType, String value)? prop,
+    TResult Function(ControlPropType propType, ControlPropValue value)? prop,
     TResult Function(bool isRecording)? recordState,
     TResult Function(AutoFocusMode focusMode)? focusMode,
     TResult Function(int ndValue)? ndFilter,
@@ -92,7 +93,7 @@ abstract class _$$_PropUpdateCopyWith<$Res> {
           _$_PropUpdate value, $Res Function(_$_PropUpdate) then) =
       __$$_PropUpdateCopyWithImpl<$Res>;
   @useResult
-  $Res call({ControlPropType propType, String value});
+  $Res call({ControlPropType propType, ControlPropValue value});
 }
 
 /// @nodoc
@@ -117,7 +118,7 @@ class __$$_PropUpdateCopyWithImpl<$Res>
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
-              as String,
+              as ControlPropValue,
     ));
   }
 }
@@ -130,7 +131,7 @@ class _$_PropUpdate implements _PropUpdate {
   @override
   final ControlPropType propType;
   @override
-  final String value;
+  final ControlPropValue value;
 
   @override
   String toString() {
@@ -159,7 +160,8 @@ class _$_PropUpdate implements _PropUpdate {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ControlPropType propType, String value) prop,
+    required TResult Function(ControlPropType propType, ControlPropValue value)
+        prop,
     required TResult Function(bool isRecording) recordState,
     required TResult Function(AutoFocusMode focusMode) focusMode,
     required TResult Function(int ndValue) ndFilter,
@@ -170,7 +172,7 @@ class _$_PropUpdate implements _PropUpdate {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ControlPropType propType, String value)? prop,
+    TResult? Function(ControlPropType propType, ControlPropValue value)? prop,
     TResult? Function(bool isRecording)? recordState,
     TResult? Function(AutoFocusMode focusMode)? focusMode,
     TResult? Function(int ndValue)? ndFilter,
@@ -181,7 +183,7 @@ class _$_PropUpdate implements _PropUpdate {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ControlPropType propType, String value)? prop,
+    TResult Function(ControlPropType propType, ControlPropValue value)? prop,
     TResult Function(bool isRecording)? recordState,
     TResult Function(AutoFocusMode focusMode)? focusMode,
     TResult Function(int ndValue)? ndFilter,
@@ -233,10 +235,11 @@ class _$_PropUpdate implements _PropUpdate {
 
 abstract class _PropUpdate implements CameraUpdateEvent {
   const factory _PropUpdate(
-      final ControlPropType propType, final String value) = _$_PropUpdate;
+          final ControlPropType propType, final ControlPropValue value) =
+      _$_PropUpdate;
 
   ControlPropType get propType;
-  String get value;
+  ControlPropValue get value;
   @JsonKey(ignore: true)
   _$$_PropUpdateCopyWith<_$_PropUpdate> get copyWith =>
       throw _privateConstructorUsedError;
@@ -308,7 +311,8 @@ class _$_RecordStateUpdate implements _RecordStateUpdate {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ControlPropType propType, String value) prop,
+    required TResult Function(ControlPropType propType, ControlPropValue value)
+        prop,
     required TResult Function(bool isRecording) recordState,
     required TResult Function(AutoFocusMode focusMode) focusMode,
     required TResult Function(int ndValue) ndFilter,
@@ -319,7 +323,7 @@ class _$_RecordStateUpdate implements _RecordStateUpdate {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ControlPropType propType, String value)? prop,
+    TResult? Function(ControlPropType propType, ControlPropValue value)? prop,
     TResult? Function(bool isRecording)? recordState,
     TResult? Function(AutoFocusMode focusMode)? focusMode,
     TResult? Function(int ndValue)? ndFilter,
@@ -330,7 +334,7 @@ class _$_RecordStateUpdate implements _RecordStateUpdate {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ControlPropType propType, String value)? prop,
+    TResult Function(ControlPropType propType, ControlPropValue value)? prop,
     TResult Function(bool isRecording)? recordState,
     TResult Function(AutoFocusMode focusMode)? focusMode,
     TResult Function(int ndValue)? ndFilter,
@@ -455,7 +459,8 @@ class _$_FocusModeUpdate implements _FocusModeUpdate {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ControlPropType propType, String value) prop,
+    required TResult Function(ControlPropType propType, ControlPropValue value)
+        prop,
     required TResult Function(bool isRecording) recordState,
     required TResult Function(AutoFocusMode focusMode) focusMode,
     required TResult Function(int ndValue) ndFilter,
@@ -466,7 +471,7 @@ class _$_FocusModeUpdate implements _FocusModeUpdate {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ControlPropType propType, String value)? prop,
+    TResult? Function(ControlPropType propType, ControlPropValue value)? prop,
     TResult? Function(bool isRecording)? recordState,
     TResult? Function(AutoFocusMode focusMode)? focusMode,
     TResult? Function(int ndValue)? ndFilter,
@@ -477,7 +482,7 @@ class _$_FocusModeUpdate implements _FocusModeUpdate {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ControlPropType propType, String value)? prop,
+    TResult Function(ControlPropType propType, ControlPropValue value)? prop,
     TResult Function(bool isRecording)? recordState,
     TResult Function(AutoFocusMode focusMode)? focusMode,
     TResult Function(int ndValue)? ndFilter,
@@ -601,7 +606,8 @@ class _$_NdFilterUpdate implements _NdFilterUpdate {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ControlPropType propType, String value) prop,
+    required TResult Function(ControlPropType propType, ControlPropValue value)
+        prop,
     required TResult Function(bool isRecording) recordState,
     required TResult Function(AutoFocusMode focusMode) focusMode,
     required TResult Function(int ndValue) ndFilter,
@@ -612,7 +618,7 @@ class _$_NdFilterUpdate implements _NdFilterUpdate {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ControlPropType propType, String value)? prop,
+    TResult? Function(ControlPropType propType, ControlPropValue value)? prop,
     TResult? Function(bool isRecording)? recordState,
     TResult? Function(AutoFocusMode focusMode)? focusMode,
     TResult? Function(int ndValue)? ndFilter,
@@ -623,7 +629,7 @@ class _$_NdFilterUpdate implements _NdFilterUpdate {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ControlPropType propType, String value)? prop,
+    TResult Function(ControlPropType propType, ControlPropValue value)? prop,
     TResult Function(bool isRecording)? recordState,
     TResult Function(AutoFocusMode focusMode)? focusMode,
     TResult Function(int ndValue)? ndFilter,

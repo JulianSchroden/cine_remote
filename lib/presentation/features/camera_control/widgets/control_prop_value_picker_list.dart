@@ -88,7 +88,7 @@ class _ControlPropValuePickerListState
                         .setProp(widget.controlProp.type, value);
                   },
             child: Text(
-              value,
+              value.toString(),
               style: const TextStyle(color: Colors.white),
             ),
           ),

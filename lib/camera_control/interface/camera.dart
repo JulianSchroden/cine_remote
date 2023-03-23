@@ -3,13 +3,14 @@ import 'package:flutter/foundation.dart';
 import 'models/camera_update_response.dart';
 import 'models/control_prop.dart';
 import 'models/control_prop_type.dart';
+import 'models/control_prop_value.dart';
 
 abstract class Camera {
   const Camera();
 
   Future<List<ControlPropType>> getSupportedProps();
   Future<ControlProp?> getProp(ControlPropType propType);
-  Future<void> setProp(ControlPropType propType, String value);
+  Future<void> setProp(ControlPropType propType, ControlPropValue value);
 
   Future<void> triggerRecord();
   Future<void> toggleAfLock();

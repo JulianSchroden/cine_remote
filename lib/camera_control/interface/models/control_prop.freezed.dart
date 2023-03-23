@@ -17,8 +17,9 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ControlProp {
   ControlPropType get type => throw _privateConstructorUsedError;
-  String get currentValue => throw _privateConstructorUsedError;
-  List<String> get allowedValues => throw _privateConstructorUsedError;
+  ControlPropValue get currentValue => throw _privateConstructorUsedError;
+  List<ControlPropValue> get allowedValues =>
+      throw _privateConstructorUsedError;
   DateTime? get pendingSince => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -34,8 +35,8 @@ abstract class $ControlPropCopyWith<$Res> {
   @useResult
   $Res call(
       {ControlPropType type,
-      String currentValue,
-      List<String> allowedValues,
+      ControlPropValue currentValue,
+      List<ControlPropValue> allowedValues,
       DateTime? pendingSince});
 }
 
@@ -65,11 +66,11 @@ class _$ControlPropCopyWithImpl<$Res, $Val extends ControlProp>
       currentValue: null == currentValue
           ? _value.currentValue
           : currentValue // ignore: cast_nullable_to_non_nullable
-              as String,
+              as ControlPropValue,
       allowedValues: null == allowedValues
           ? _value.allowedValues
           : allowedValues // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<ControlPropValue>,
       pendingSince: freezed == pendingSince
           ? _value.pendingSince
           : pendingSince // ignore: cast_nullable_to_non_nullable
@@ -88,8 +89,8 @@ abstract class _$$_ControlPropCopyWith<$Res>
   @useResult
   $Res call(
       {ControlPropType type,
-      String currentValue,
-      List<String> allowedValues,
+      ControlPropValue currentValue,
+      List<ControlPropValue> allowedValues,
       DateTime? pendingSince});
 }
 
@@ -117,11 +118,11 @@ class __$$_ControlPropCopyWithImpl<$Res>
       currentValue: null == currentValue
           ? _value.currentValue
           : currentValue // ignore: cast_nullable_to_non_nullable
-              as String,
+              as ControlPropValue,
       allowedValues: null == allowedValues
           ? _value._allowedValues
           : allowedValues // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<ControlPropValue>,
       pendingSince: freezed == pendingSince
           ? _value.pendingSince
           : pendingSince // ignore: cast_nullable_to_non_nullable
@@ -136,7 +137,7 @@ class _$_ControlProp extends _ControlProp {
   const _$_ControlProp(
       {required this.type,
       required this.currentValue,
-      required final List<String> allowedValues,
+      required final List<ControlPropValue> allowedValues,
       this.pendingSince})
       : _allowedValues = allowedValues,
         super._();
@@ -144,10 +145,10 @@ class _$_ControlProp extends _ControlProp {
   @override
   final ControlPropType type;
   @override
-  final String currentValue;
-  final List<String> _allowedValues;
+  final ControlPropValue currentValue;
+  final List<ControlPropValue> _allowedValues;
   @override
-  List<String> get allowedValues {
+  List<ControlPropValue> get allowedValues {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_allowedValues);
   }
@@ -188,17 +189,17 @@ class _$_ControlProp extends _ControlProp {
 abstract class _ControlProp extends ControlProp {
   const factory _ControlProp(
       {required final ControlPropType type,
-      required final String currentValue,
-      required final List<String> allowedValues,
+      required final ControlPropValue currentValue,
+      required final List<ControlPropValue> allowedValues,
       final DateTime? pendingSince}) = _$_ControlProp;
   const _ControlProp._() : super._();
 
   @override
   ControlPropType get type;
   @override
-  String get currentValue;
+  ControlPropValue get currentValue;
   @override
-  List<String> get allowedValues;
+  List<ControlPropValue> get allowedValues;
   @override
   DateTime? get pendingSince;
   @override

@@ -7,29 +7,36 @@ import '../interface/models/camera_update_event.dart';
 import '../interface/models/camera_update_response.dart';
 import '../interface/models/control_prop.dart';
 import '../interface/models/control_prop_type.dart';
+import '../interface/models/control_prop_value.dart';
 
 class DemoCamera extends Camera {
   final List<ControlProp> _dummyControlProps = [
-    const ControlProp(
+    ControlProp(
       type: ControlPropType.iso,
-      currentValue: '100',
-      allowedValues: ['100', '200', '400'],
+      currentValue: const ControlPropValue('100'),
+      allowedValues: ['100', '200', '400']
+          .map((value) => ControlPropValue(value))
+          .toList(),
     ),
-    const ControlProp(
+    ControlProp(
       type: ControlPropType.aperture,
-      currentValue: '2.8',
-      allowedValues: ['2.8', '4.0', '5.6'],
+      currentValue: const ControlPropValue('2.8'),
+      allowedValues: ['2.8', '4.0', '5.6']
+          .map((value) => ControlPropValue(value))
+          .toList(),
     ),
-    const ControlProp(
+    ControlProp(
       type: ControlPropType.shutterAngle,
-      currentValue: '180',
-      allowedValues: ['90', '180', '270', '360'],
+      currentValue: const ControlPropValue('180'),
+      allowedValues: ['90', '180', '270', '360']
+          .map((value) => ControlPropValue(value))
+          .toList(),
     ),
     ControlProp(
       type: ControlPropType.whiteBalance,
-      currentValue: '5600',
-      allowedValues:
-          List.generate(50, (index) => (2000 + index * 100).toString()),
+      currentValue: const ControlPropValue('5600'),
+      allowedValues: List.generate(
+          50, (index) => ControlPropValue((2000 + index * 100).toString())),
     )
   ];
   bool _reordState = false;
@@ -56,7 +63,7 @@ class DemoCamera extends Camera {
   }
 
   @override
-  Future<void> setProp(ControlPropType propType, String value) async {
+  Future<void> setProp(ControlPropType propType, ControlPropValue value) async {
     await Future.delayed(const Duration(milliseconds: 200));
     final propIndex =
         _dummyControlProps.indexWhere((prop) => prop.type == propType);

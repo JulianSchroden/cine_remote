@@ -2,6 +2,7 @@ import '../../../interface/models/control_prop.dart';
 import '../../../interface/models/control_prop_type.dart';
 import '../../constants/api_endpoint_path.dart';
 import '../../extensions/control_prop_type_extensions.dart';
+import '../../models/eos_cine_prop_value.dart';
 import '../get_acion.dart';
 
 class GetPropAction extends GetAction<ControlProp?> {
@@ -20,8 +21,10 @@ class GetPropAction extends GetAction<ControlProp?> {
     final propContent = response.jsonBody['O$propKey'];
     return ControlProp(
       type: propType,
-      currentValue: propContent['pv'],
-      allowedValues: List<String>.from(propContent['rv']),
+      currentValue: EosCinePropValue(propContent['pv']),
+      allowedValues: List<String>.from(propContent['rv'])
+          .map((value) => EosCinePropValue(value))
+          .toList(),
     );
   }
 }

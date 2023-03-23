@@ -6,6 +6,7 @@ import '../../../interface/models/camera_update_event.dart';
 import '../../../interface/models/control_prop_type.dart';
 import '../../constants/api_endpoint_path.dart';
 import '../../extensions/control_prop_type_extensions.dart';
+import '../../models/eos_cine_prop_value.dart';
 import '../../models/get_update_response.dart';
 import '../get_acion.dart';
 
@@ -48,7 +49,8 @@ class GetUpdateAction extends GetAction<GetUpdateResponse> {
       if (propContent != null) {
         final propValue = propContent['pv'];
         if (propValue != null) {
-          updateEvents.add(CameraUpdateEvent.prop(propType, propValue));
+          updateEvents.add(
+              CameraUpdateEvent.prop(propType, EosCinePropValue(propValue)));
         }
       }
     }

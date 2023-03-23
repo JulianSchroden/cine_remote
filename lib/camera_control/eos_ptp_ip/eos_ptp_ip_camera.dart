@@ -4,6 +4,7 @@ import '../interface/camera.dart';
 import '../interface/models/camera_update_response.dart';
 import '../interface/models/control_prop.dart';
 import '../interface/models/control_prop_type.dart';
+import '../interface/models/control_prop_value.dart';
 import 'communication/ptp_action_factory.dart';
 import 'communication/ptp_action_queue.dart';
 
@@ -39,7 +40,7 @@ class EosPtpIpCamera extends Camera {
   }
 
   @override
-  Future<void> setProp(ControlPropType propType, String value) {
+  Future<void> setProp(ControlPropType propType, ControlPropValue value) {
     // TODO: implement setProp
     throw UnimplementedError();
   }

@@ -1,21 +1,6 @@
 import '../../common/list_extensions.dart';
 import '../../interface/models/control_prop_type.dart';
-
-class PropValue {
-  final ControlPropType type;
-  final String value;
-
-  const PropValue(this.type, this.value);
-
-  @override
-  String toString() => value;
-}
-
-class PtpPropValue extends PropValue {
-  final int nativeValue;
-
-  PtpPropValue(super.type, super.value, this.nativeValue);
-}
+import '../models/eos_ptp_prop_value.dart';
 
 class MappedValue<NT, CT> {
   final NT native;
@@ -57,7 +42,7 @@ ControlPropType? mapPropType(int propertyCode) {
       ?.common;
 }
 
-PtpPropValue mapPtpValue(ControlPropType propType, int value) {
+EosPtpPropValue mapPtpValue(ControlPropType propType, int value) {
   final knownPropValues = knownPropValuesMap[propType];
   final fallbackValue = '0x${value.toRadixString(16).padLeft(2, '0')}';
   final mappedValue = knownPropValues
@@ -65,7 +50,7 @@ PtpPropValue mapPtpValue(ControlPropType propType, int value) {
           ?.common ??
       fallbackValue;
 
-  return PtpPropValue(propType, mappedValue, value);
+  return EosPtpPropValue(mappedValue, value);
 }
 
 const Map<ControlPropType, List<PtpMappedValue>> knownPropValuesMap = {

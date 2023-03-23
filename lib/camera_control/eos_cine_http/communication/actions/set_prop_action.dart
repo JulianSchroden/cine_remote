@@ -3,11 +3,12 @@ import 'package:logging/logging.dart';
 import '../../../interface/models/control_prop_type.dart';
 import '../../constants/api_endpoint_path.dart';
 import '../../extensions/control_prop_type_extensions.dart';
+import '../../models/eos_cine_prop_value.dart';
 import '../get_acion.dart';
 
 class SetPropAction extends GetAction<void> {
   final ControlPropType propType;
-  final String value;
+  final EosCinePropValue value;
 
   const SetPropAction(super.httpAdapter, this.propType, this.value);
 
@@ -17,7 +18,7 @@ class SetPropAction extends GetAction<void> {
 
     final response = await httpAdapter.get(
       ApiEndpointPath.setProp,
-      {propType.toKey(): value},
+      {propType.toKey(): value.nativeValue},
     );
     logger.info(
         'SetPropAction responded with statusCode: ${response.statusCode}');

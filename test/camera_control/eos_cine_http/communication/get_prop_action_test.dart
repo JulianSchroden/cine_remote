@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cine_remote/camera_control/eos_cine_http/communication/actions/get_prop_action.dart';
 import 'package:cine_remote/camera_control/eos_cine_http/constants/api_endpoint_path.dart';
+import 'package:cine_remote/camera_control/eos_cine_http/models/eos_cine_prop_value.dart';
 import 'package:cine_remote/camera_control/eos_cine_http/models/http_adapter_response.dart';
 import 'package:cine_remote/camera_control/interface/models/control_prop.dart';
 import 'package:cine_remote/camera_control/interface/models/control_prop_type.dart';
@@ -32,11 +33,14 @@ void main() {
     final result =
         await GetPropAction(mockHttpAdapter, ControlPropType.iso).call();
     expect(
-        result,
-        const ControlProp(
-            type: ControlPropType.iso,
-            currentValue: '[850]',
-            allowedValues: ['640', '800', '[850]', '1000', '1250']));
+      result,
+      ControlProp(
+          type: ControlPropType.iso,
+          currentValue: const EosCinePropValue('[850]'),
+          allowedValues: ['640', '800', '[850]', '1000', '1250']
+              .map((value) => EosCinePropValue(value))
+              .toList()),
+    );
   });
 
   test('should get aperture prop', () async {
@@ -54,11 +58,14 @@ void main() {
     final result =
         await GetPropAction(mockHttpAdapter, ControlPropType.aperture).call();
     expect(
-        result,
-        const ControlProp(
-            type: ControlPropType.aperture,
-            currentValue: '2.8',
-            allowedValues: ['2.8', '3.2', '3.5', '4.0', '4.5', '5.0']));
+      result,
+      ControlProp(
+          type: ControlPropType.aperture,
+          currentValue: const EosCinePropValue('2.8'),
+          allowedValues: ['2.8', '3.2', '3.5', '4.0', '4.5', '5.0']
+              .map((value) => EosCinePropValue(value))
+              .toList()),
+    );
   });
 
   test('should get shutter angle prop', () async {
@@ -78,10 +85,12 @@ void main() {
             .call();
     expect(
         result,
-        const ControlProp(
+        ControlProp(
             type: ControlPropType.shutterAngle,
-            currentValue: '180.00',
-            allowedValues: ['360.00', '300.00', '240.00', '180.00']));
+            currentValue: const EosCinePropValue('180.00'),
+            allowedValues: ['360.00', '300.00', '240.00', '180.00']
+                .map((value) => EosCinePropValue(value))
+                .toList()));
   });
 
   test('should get white balance prop', () async {
@@ -100,10 +109,13 @@ void main() {
         await GetPropAction(mockHttpAdapter, ControlPropType.whiteBalance)
             .call();
     expect(
-        result,
-        const ControlProp(
-            type: ControlPropType.whiteBalance,
-            currentValue: '5600',
-            allowedValues: ['5400', '5500', '5600', '5700', '5800', '5900']));
+      result,
+      ControlProp(
+          type: ControlPropType.whiteBalance,
+          currentValue: const EosCinePropValue('5600'),
+          allowedValues: ['5400', '5500', '5600', '5700', '5800', '5900']
+              .map((value) => EosCinePropValue(value))
+              .toList()),
+    );
   });
 }

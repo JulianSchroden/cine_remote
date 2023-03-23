@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cine_remote/camera_control/eos_cine_http/communication/actions/get_update_action.dart';
 import 'package:cine_remote/camera_control/eos_cine_http/constants/api_endpoint_path.dart';
+import 'package:cine_remote/camera_control/eos_cine_http/models/eos_cine_prop_value.dart';
 import 'package:cine_remote/camera_control/eos_cine_http/models/http_adapter_response.dart';
 import 'package:cine_remote/camera_control/interface/exceptions/camera_communication_exception.dart';
 import 'package:cine_remote/camera_control/interface/models/auto_focus_mode.dart';
@@ -116,7 +117,8 @@ void main() {
       final response = await GetUpdateAction(mockHttpAdapter, 7).call();
       expect(
         response.cameraEvents,
-        contains(const CameraUpdateEvent.prop(ControlPropType.iso, '4000')),
+        contains(const CameraUpdateEvent.prop(
+            ControlPropType.iso, EosCinePropValue('4000'))),
       );
     });
 
@@ -128,7 +130,8 @@ void main() {
       final response = await GetUpdateAction(mockHttpAdapter, 5).call();
       expect(
         response.cameraEvents,
-        contains(const CameraUpdateEvent.prop(ControlPropType.aperture, '2.2')),
+        contains(const CameraUpdateEvent.prop(
+            ControlPropType.aperture, EosCinePropValue('2.2'))),
       );
     });
 
@@ -141,7 +144,7 @@ void main() {
       expect(
         response.cameraEvents,
         contains(const CameraUpdateEvent.prop(
-            ControlPropType.shutterAngle, '240.00')),
+            ControlPropType.shutterAngle, EosCinePropValue('240.00'))),
       );
     });
 
@@ -153,8 +156,8 @@ void main() {
       final response = await GetUpdateAction(mockHttpAdapter, 26).call();
       expect(
         response.cameraEvents,
-        contains(
-            const CameraUpdateEvent.prop(ControlPropType.whiteBalance, '4100')),
+        contains(const CameraUpdateEvent.prop(
+            ControlPropType.whiteBalance, EosCinePropValue('4100'))),
       );
     });
   });

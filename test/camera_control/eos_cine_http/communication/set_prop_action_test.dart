@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cine_remote/camera_control/eos_cine_http/communication/actions/set_prop_action.dart';
 import 'package:cine_remote/camera_control/eos_cine_http/constants/api_endpoint_path.dart';
+import 'package:cine_remote/camera_control/eos_cine_http/models/eos_cine_prop_value.dart';
 import 'package:cine_remote/camera_control/eos_cine_http/models/http_adapter_response.dart';
 import 'package:cine_remote/camera_control/interface/models/control_prop_type.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -25,6 +26,8 @@ void main() {
           cookies: [],
         ));
 
-    await SetPropAction(mockHttpAdapter, ControlPropType.iso, '1250').call();
+    await SetPropAction(mockHttpAdapter, ControlPropType.iso,
+            const EosCinePropValue('1250'))
+        .call();
   });
 }

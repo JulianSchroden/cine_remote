@@ -112,7 +112,7 @@ class _ControlPropValuePickerGridState
                     MaterialStateProperty.all<Color>(Colors.grey[700]!),
               ),
               child: Text(
-                value,
+                value.toString(),
                 style: TextStyle(
                   color: isCurrentValue ? Colors.white : Colors.grey[300],
                   fontWeight:
