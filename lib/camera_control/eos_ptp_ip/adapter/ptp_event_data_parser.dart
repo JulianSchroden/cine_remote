@@ -4,7 +4,6 @@ import 'package:logging/logging.dart';
 import '../../interface/models/camera_update_event.dart';
 import '../constants/ptp_event_code.dart';
 import '../constants/ptp_property.dart';
-import '../models/ptp_packet.dart';
 import 'ptp_packet_reader.dart';
 
 class PtpEventDataParser {
@@ -29,50 +28,56 @@ class PtpEventDataParser {
   List<CameraUpdateEvent> parseEvents(Uint8List eventData) {
     final logger = Logger('parseEvents');
     final packetReader = PtpPacketReader.fromBytes(eventData);
+    final updateEvents = <CameraUpdateEvent>[];
 
     while (packetReader.unconsumedBytes > 8) {
-      final oldOffset = packetReader.offset;
-      final eventLength = packetReader.getUint32();
-      final eventCode = packetReader.getUint32();
+      packetReader.processSegment((reader) {
+        final eventCode = packetReader.getUint32();
 
-      switch (eventCode) {
-        case PtpEventCode.propertyChanged:
-          {
-            final propertyCode = packetReader.getUint32();
-
-            final propType = mapPropType(propertyCode);
-            if (propType == null) break;
-
-            final propertyValue = packetReader.getUint32();
-            final propValue = mapPtpValue(propType, propertyValue);
-            logger.info('property $propType changed to $propValue');
-            break;
-          }
-        case PtpEventCode.allowedValuesChanged:
-          {
-            final propertyCode = packetReader.getUint32();
-            final propType = mapPropType(propertyCode);
-            if (propType == null) break;
-
-            packetReader.getUint32(); // unknown value
-
-            final totalAllowedValues = packetReader.getUint32();
-            final List allowedValues = [];
-            for (int i = 0; i < totalAllowedValues; i++) {
-              final value = packetReader.getUint32();
-              final propValue = mapPtpValue(propType, value);
-              allowedValues.add(propValue);
+        switch (eventCode) {
+          case PtpEventCode.propertyChanged:
+            {
+              final propChangedEvent = parsePropertyChangedEvent(packetReader);
+              if (propChangedEvent != null) {
+                updateEvents.add(propChangedEvent);
+              }
+              break;
             }
+          case PtpEventCode.allowedValuesChanged:
+            {
+              final propertyCode = packetReader.getUint32();
+              final propType = mapPropCodeToType(propertyCode);
+              if (propType == null) break;
 
-            logger.info(allowedValues);
-            break;
-          }
-      }
+              packetReader.getUint32(); // unknown value
 
-      final remainingBytes = (oldOffset + eventLength) - packetReader.offset;
-      packetReader.skipBytes(remainingBytes);
+              final totalAllowedValues = packetReader.getUint32();
+              final List allowedValues = [];
+              for (int i = 0; i < totalAllowedValues; i++) {
+                final value = packetReader.getUint32();
+                final propValue = mapPtpValue(propType, value);
+                allowedValues.add(propValue);
+              }
+
+              logger.info(allowedValues);
+              break;
+            }
+        }
+      });
     }
 
-    return [];
+    return updateEvents;
+  }
+
+  CameraUpdateEvent? parsePropertyChangedEvent(PtpPacketReader packetReader) {
+    final propertyCode = packetReader.getUint32();
+
+    final propType = mapPropCodeToType(propertyCode);
+    if (propType == null) return null;
+
+    final propertyValue = packetReader.getUint32();
+    final mappedValue = mapPtpValue(propType, propertyValue);
+
+    return CameraUpdateEvent.prop(propType, mappedValue);
   }
 }

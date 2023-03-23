@@ -4,7 +4,7 @@ import '../models/ptp_packet.dart';
 
 class PtpPacketReader {
   final ByteData _bytes;
-  int offset = 0;
+  int _offset = 0;
 
   PtpPacketReader(this._bytes);
 
@@ -18,8 +18,8 @@ class PtpPacketReader {
 
   int get length => _bytes.lengthInBytes;
 
-  int get consumedBytes => offset;
-  int get unconsumedBytes => length - offset;
+  int get consumedBytes => _offset;
+  int get unconsumedBytes => length - _offset;
 
   void processSegment(void Function(PtpPacketReader reader) callback) {
     final segmentDataLength = getUint32() - 4;
@@ -30,7 +30,7 @@ class PtpPacketReader {
     }
 
     final segmentReader =
-        PtpPacketReader(_bytes.buffer.asByteData(offset, segmentDataLength));
+        PtpPacketReader(_bytes.buffer.asByteData(_offset, segmentDataLength));
     callback(segmentReader);
 
     skipBytes(segmentDataLength);
@@ -45,27 +45,27 @@ class PtpPacketReader {
   }
 
   int getUint32() {
-    final result = _bytes.getUint32(offset, Endian.little);
-    offset += 4;
+    final result = _bytes.getUint32(_offset, Endian.little);
+    _offset += 4;
     return result;
   }
 
   int getUint16() {
-    final result = _bytes.getUint16(offset, Endian.little);
-    offset += 2;
+    final result = _bytes.getUint16(_offset, Endian.little);
+    _offset += 2;
     return result;
   }
 
   Uint8List getBytes(int count) {
-    final bytes = _bytes.buffer.asUint8List(offset, count);
-    offset += count;
+    final bytes = _bytes.buffer.asUint8List(_offset, count);
+    _offset += count;
     return Uint8List.fromList(bytes);
   }
 
   String getString() {
     final charCodes = <int>[];
 
-    while (offset < length) {
+    while (_offset < length) {
       var char = getUint16();
       if (char == 0) {
         return String.fromCharCodes(charCodes);
@@ -81,7 +81,7 @@ class PtpPacketReader {
       throw RangeError(
           'Cannot skip $bytesToSkip bytes. There are only $unconsumedBytes bytes left.');
     }
-    offset += bytesToSkip;
+    _offset += bytesToSkip;
   }
 
   String _getUint32AsHex() => getUint32().toRadixString(16).padLeft(8, '0');

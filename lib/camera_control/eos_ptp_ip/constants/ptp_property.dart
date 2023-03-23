@@ -36,10 +36,16 @@ abstract class PtpPropertyType {
   ];
 }
 
-ControlPropType? mapPropType(int propertyCode) {
+ControlPropType? mapPropCodeToType(int propertyCode) {
   return PtpPropertyType.values
       .firstWhereOrNull((propTyp) => propTyp.native == propertyCode)
       ?.common;
+}
+
+int? mapPropTypeToCode(ControlPropType propType) {
+  return PtpPropertyType.values
+      .firstWhereOrNull((propTyp) => propTyp.common == propType)
+      ?.native;
 }
 
 EosPtpPropValue mapPtpValue(ControlPropType propType, int value) {
