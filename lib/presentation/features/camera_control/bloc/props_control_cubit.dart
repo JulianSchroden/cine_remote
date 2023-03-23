@@ -8,8 +8,8 @@ import '../../../../camera_control/interface/models/camera_update_event.dart';
 import '../../../../camera_control/interface/models/control_prop.dart';
 import '../../../../camera_control/interface/models/control_prop_type.dart';
 import '../../../../camera_control/interface/models/control_prop_value.dart';
+import '../../../../shared/extensions/list_extensions.dart';
 import '../../../core/extensions/control_prop_extension.dart';
-import '../../../core/extensions/list_copy_with.dart';
 import '../../camera_connection/bloc/camera_connection_cubit.dart';
 
 part 'props_control_cubit.freezed.dart';
