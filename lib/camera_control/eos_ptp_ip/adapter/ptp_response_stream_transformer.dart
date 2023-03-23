@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import '../constants/ptp_package_typ.dart';
-import '../models/ptp_packet.dart';
 import '../responses/ptp_init_command_response.dart';
 import '../responses/ptp_init_event_response.dart';
 import '../responses/ptp_operation_response.dart';
@@ -26,7 +25,7 @@ class PtpResponseStreamTransformer
         ..onData((data) {
           bufferBuilder.add(data);
 
-          final buffer = bufferBuilder.takeBytes();
+          final buffer = Uint8List.fromList(bufferBuilder.takeBytes());
 
           final parserResult = parseResponseData(buffer, dataPacketMode);
           for (final response in parserResult.responses) {
