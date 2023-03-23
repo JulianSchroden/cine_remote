@@ -92,7 +92,7 @@ class PtpResponseStreamTransformer
           break;
         case PtpPacketTyp.operationResponse:
           responses
-              .add(parseOperationResponse(reader, dataPacketMode.byteData));
+              .add(parseOperationResponse(reader, dataPacketMode.takeBytes()));
           break;
         case PtpPacketTyp.startDataPacket:
           final startDataPacket = parseStartDataResponse(reader);
@@ -160,7 +160,11 @@ class PtpDataPacketMode {
   bool get isActive => _isActive;
   int get totalLength => _totalLength;
 
-  Uint8List get byteData => _data;
+  Uint8List takeBytes() {
+    final tempData = Uint8List.fromList(_data);
+    _data = Uint8List(0);
+    return tempData;
+  }
 
   void start(int totalLength) {
     _isActive = true;
