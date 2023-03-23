@@ -62,7 +62,7 @@ class PtpResponseStreamTransformer
     Uint8List data,
     PtpDataPacketMode dataPacketMode,
   ) {
-    final reader = PtpPacketReader(PtpPacket(data));
+    final reader = PtpPacketReader.fromBytes(data);
 
     final responses = <PtpResponse>[];
     while (reader.unconsumedBytes >= 8) {

@@ -3,16 +3,38 @@ import 'package:flutter/foundation.dart';
 import '../models/ptp_packet.dart';
 
 class PtpPacketReader {
-  final PtpPacket _packet;
   final ByteData _bytes;
   int offset = 0;
 
-  PtpPacketReader(this._packet) : _bytes = ByteData.view(_packet.data.buffer);
+  PtpPacketReader(this._bytes);
 
-  int get length => _packet.data.length;
+  factory PtpPacketReader.fromPacket(PtpPacket packet) {
+    return PtpPacketReader.fromBytes(packet.data);
+  }
+
+  factory PtpPacketReader.fromBytes(Uint8List bytes) {
+    return PtpPacketReader(ByteData.view(bytes.buffer));
+  }
+
+  int get length => _bytes.lengthInBytes;
 
   int get consumedBytes => offset;
   int get unconsumedBytes => length - offset;
+
+  void processSegment(void Function(PtpPacketReader reader) callback) {
+    final segmentDataLength = getUint32() - 4;
+
+    if (segmentDataLength > unconsumedBytes) {
+      throw RangeError(
+          'Cannot process segment: Segment length exceeds buffer length');
+    }
+
+    final segmentReader =
+        PtpPacketReader(_bytes.buffer.asByteData(offset, segmentDataLength));
+    callback(segmentReader);
+
+    skipBytes(segmentDataLength);
+  }
 
   BigInt getUint64() {
     final lowBytesHex = _getUint32AsHex();
@@ -35,9 +57,9 @@ class PtpPacketReader {
   }
 
   Uint8List getBytes(int count) {
-    final bytes = _packet.data.sublist(offset, offset + count);
+    final bytes = _bytes.buffer.asUint8List(offset, count);
     offset += count;
-    return bytes;
+    return Uint8List.fromList(bytes);
   }
 
   String getString() {
@@ -55,6 +77,10 @@ class PtpPacketReader {
   }
 
   void skipBytes(int bytesToSkip) {
+    if (bytesToSkip > unconsumedBytes) {
+      throw RangeError(
+          'Cannot skip $bytesToSkip bytes. There are only $unconsumedBytes bytes left.');
+    }
     offset += bytesToSkip;
   }
 

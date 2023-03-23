@@ -28,7 +28,7 @@ class PtpEventDataParser {
 
   List<CameraUpdateEvent> parseEvents(Uint8List eventData) {
     final logger = Logger('parseEvents');
-    final packetReader = PtpPacketReader(PtpPacket(eventData));
+    final packetReader = PtpPacketReader.fromBytes(eventData);
 
     while (packetReader.unconsumedBytes > 8) {
       final oldOffset = packetReader.offset;
