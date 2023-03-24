@@ -7,8 +7,8 @@ import '../../responses/ptp_response.dart';
 import '../events/ptp_event.dart';
 import '../ptp_action.dart';
 
-class GetEventDataAction extends PtpAction<List<PtpEvent>> {
-  GetEventDataAction() : super(operationCode: PtpOperationCode.getEventData);
+class GetEventsAction extends PtpAction<List<PtpEvent>> {
+  GetEventsAction() : super(operationCode: PtpOperationCode.getEventData);
 
   @override
   FutureOr<List<PtpEvent>> mapResponse(PtpResponse response) async {

@@ -5,43 +5,56 @@ import '../interface/models/camera_update_response.dart';
 import '../interface/models/control_prop.dart';
 import '../interface/models/control_prop_type.dart';
 import '../interface/models/control_prop_value.dart';
+import 'cache/ptp_property_cache.dart';
 import 'communication/ptp_action_factory.dart';
 import 'communication/ptp_action_queue.dart';
 
 class EosPtpIpCamera extends Camera {
   final PtpActionQueue _actionQueue;
-  final PtpActionFactory _ptpActionFactory;
+  final PtpActionFactory _actionFactory;
+  final PtpPropertyCache _propertyCache;
 
-  const EosPtpIpCamera(this._actionQueue, this._ptpActionFactory);
+  const EosPtpIpCamera(
+    this._actionQueue,
+    this._actionFactory,
+    this._propertyCache,
+  );
 
   @override
   Future<List<ControlPropType>> getSupportedProps() async {
-    return [];
+    return _propertyCache.supportedProps();
   }
 
   @override
-  Future<Uint8List> getLiveViewImage() {
-    // TODO: implement getLiveViewImage
-    throw UnimplementedError();
+  Future<ControlProp?> getProp(ControlPropType propType) async {
+    return _propertyCache.getProp(propType);
   }
 
   @override
-  Future<ControlProp?> getProp(ControlPropType propType) {
-    // TODO: implement getProp
+  Future<void> setProp(ControlPropType propType, ControlPropValue value) {
+    // TODO: implement setProp action
     throw UnimplementedError();
   }
 
   @override
   Future<CameraUpdateResponse> getUpdate() async {
-    final getEventData = _ptpActionFactory.createGetEventDataAction();
-    final eventData = await getEventData.run(_actionQueue);
+    final getEvents = _actionFactory.createGetEventsAction();
+    final events = await getEvents.run(_actionQueue);
 
-    return const CameraUpdateResponse(cameraEvents: []);
+    _propertyCache.update(events);
+
+    return CameraUpdateResponse(cameraEvents: []);
   }
 
   @override
-  Future<void> setProp(ControlPropType propType, ControlPropValue value) {
-    // TODO: implement setProp
+  Future<void> triggerRecord() {
+    // TODO: implement triggerRecord
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> toggleAfLock() {
+    // TODO: implement toggleAfLock
     throw UnimplementedError();
   }
 
@@ -58,14 +71,8 @@ class EosPtpIpCamera extends Camera {
   }
 
   @override
-  Future<void> toggleAfLock() {
-    // TODO: implement toggleAfLock
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> triggerRecord() {
-    // TODO: implement triggerRecord
+  Future<Uint8List> getLiveViewImage() {
+    // TODO: implement getLiveViewImage
     throw UnimplementedError();
   }
 }
