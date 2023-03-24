@@ -26,7 +26,7 @@ class PtpPacketReader {
 
     if (segmentDataLength > unconsumedBytes) {
       throw RangeError(
-          'Cannot process segment: Segment length exceeds buffer length');
+          'Cannot process segment: Segment length $segmentDataLength exceeds unconsumedBytes $unconsumedBytes');
     }
 
     final segmentReader =

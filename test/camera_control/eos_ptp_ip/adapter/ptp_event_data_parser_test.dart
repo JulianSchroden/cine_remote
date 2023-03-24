@@ -1,7 +1,12 @@
 import 'package:cine_remote/camera_control/eos_ptp_ip/adapter/ptp_event_data_parser.dart';
+import 'package:cine_remote/camera_control/eos_ptp_ip/communication/events/allowed_values_changed.dart';
+import 'package:cine_remote/camera_control/eos_ptp_ip/communication/events/prop_value_changed.dart';
+import 'package:cine_remote/camera_control/eos_ptp_ip/models/eos_ptp_prop_value.dart';
+import 'package:cine_remote/camera_control/interface/models/control_prop_type.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../packet_helper.dart';
+part 'ptp_event_data_parser_test.data.dart';
 
 void main() {
   late PtpEventDataParser sut;
@@ -10,53 +15,48 @@ void main() {
     sut = PtpEventDataParser();
   });
 
-  group('groupData', () {
-    test('should parse data to grouped event data', () {
-      final structuredBytes = [
-        [
-          0x10,
-          0x00,
-          0x00,
-          0x00,
-          0x89,
-          0xc1,
-          0x00,
-          0x00,
-          0x02,
-          0xd1,
-          0x00,
-          0x00,
-          0x5b,
-          0x00,
-          0x00,
-          0x00
-        ], // shutter speed changed to 1/20s
-        [
-          0x10,
-          0x00,
-          0x00,
-          0x00,
-          0x89,
-          0xc1,
-          0x00,
-          0x00,
-          0x01,
-          0xd1,
-          0x00,
-          0x00,
-          0x18,
-          0x00,
-          0x00,
-          0x00
-        ], // aperture changed to f2.0
-        [0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00], // end event data
-      ];
+  group('parseEvents', () {
+    test('should parse value changed events', () {
+      final result = sut.parseEvents(propChangedEventData);
 
-      final eventData = preparePacket(structuredBytes);
+      expect(result.length, 2);
+      expect(
+        result,
+        containsAll([
+          const PropValueChanged(
+            ControlPropType.shutterAngle,
+            EosPtpPropValue('1/20', 0x5b),
+          ),
+          const PropValueChanged(
+            ControlPropType.aperture,
+            EosPtpPropValue('2.0', 0x18),
+          )
+        ]),
+      );
+    });
 
-      final result = sut.groupData(eventData);
+    test('should parse allowed values changed events', () {
+      final result = sut.parseEvents(allowedValuesChangedEventData);
 
-      expect(result, structuredBytes);
+      expect(result.length, 2);
+      expect(
+        result,
+        containsAll(
+          [
+            const AllowedValuesChanged(ControlPropType.aperture, [
+              EosPtpPropValue('1.8', 0x15),
+              EosPtpPropValue('2.0', 0x18),
+              EosPtpPropValue('2.2', 0x1b),
+            ]),
+            const AllowedValuesChanged(ControlPropType.shutterAngle, [
+              EosPtpPropValue('30', 0x10),
+              EosPtpPropValue('25', 0x13),
+              EosPtpPropValue('20', 0x15),
+              EosPtpPropValue('15', 0x18),
+            ])
+          ],
+        ),
+      );
     });
   });
 }

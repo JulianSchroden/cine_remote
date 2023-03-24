@@ -20,7 +20,7 @@ void main() {
     });
 
     test('throws RangeError when segment length exceeds data length', () {
-      final packetBytes = preparePacket([
+      final packetBytes = flattenBytes([
         [0x10, 0x00, 0x00, 0x00], // segment 1: 16 bytes
         [0x01, 0x00, 0x02, 0x00],
         [0x03, 0x04, 0x00, 0x00],
@@ -35,7 +35,7 @@ void main() {
     });
 
     test('throws RangeError when operation would exceed segment length', () {
-      final packetBytes = preparePacket([
+      final packetBytes = flattenBytes([
         [0x08, 0x00, 0x00, 0x00], // segment 1: 8 bytes
         [0x01, 0x00, 0x02, 0x00],
         [0x08, 0x00, 0x00, 0x00], // segment 2: 12 bytes
@@ -55,7 +55,7 @@ void main() {
     });
 
     test('skips onconsumed bytes', () {
-      final packetBytes = PtpPacket(preparePacket([
+      final packetBytes = PtpPacket(flattenBytes([
         [0x08, 0x00, 0x00, 0x00], // segment 1: 8 bytes
         [0x01, 0x00, 0x02, 0x00],
         [0x08, 0x00, 0x00, 0x00], // segment 2: 12 bytes
@@ -75,7 +75,7 @@ void main() {
 
   group('getUint64', () {
     test('returns correct uint64 value', () {
-      final packetBytes = preparePacket([
+      final packetBytes = flattenBytes([
         [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08],
       ]);
       final reader = PtpPacketReader.fromBytes(packetBytes);
@@ -86,7 +86,7 @@ void main() {
     });
 
     test('throws RangeError when trying to read out of bounds bytes', () {
-      final packetBytes = preparePacket([
+      final packetBytes = flattenBytes([
         [0x01, 0x02, 0x03, 0x04],
       ]);
       final reader = PtpPacketReader.fromBytes(packetBytes);
@@ -97,7 +97,7 @@ void main() {
 
   group('getUint32', () {
     test('returns correct uint32 value', () {
-      final packetBytes = preparePacket([
+      final packetBytes = flattenBytes([
         [0x01, 0x02, 0x03, 0x04]
       ]);
       final reader = PtpPacketReader.fromBytes(packetBytes);
@@ -108,7 +108,7 @@ void main() {
     });
 
     test('returns correct value when called in sequence', () {
-      final packetBytes = preparePacket([
+      final packetBytes = flattenBytes([
         [0x09, 0x08, 0x07, 0x06],
         [0x01, 0x02, 0x03, 0x04],
       ]);
@@ -122,7 +122,7 @@ void main() {
     });
 
     test('throws RangeError when trying to read out of bounds bytes', () {
-      final packetBytes = preparePacket([]);
+      final packetBytes = flattenBytes([]);
       final reader = PtpPacketReader.fromBytes(packetBytes);
 
       expect(() => reader.getUint32(), throwsA(isA<RangeError>()));
@@ -131,7 +131,7 @@ void main() {
 
   group('getUint16', () {
     test('should return correct uint16 value', () {
-      final packetBytes = preparePacket([
+      final packetBytes = flattenBytes([
         [0x01, 0x02],
       ]);
       final reader = PtpPacketReader.fromBytes(packetBytes);
@@ -142,7 +142,7 @@ void main() {
     });
 
     test('returns correct value when called in sequence', () {
-      final packetBytes = preparePacket([
+      final packetBytes = flattenBytes([
         [0x09, 0x08],
         [0x03, 0x04],
       ]);

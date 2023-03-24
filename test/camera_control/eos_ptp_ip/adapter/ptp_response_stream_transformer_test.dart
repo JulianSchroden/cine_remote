@@ -16,7 +16,7 @@ void main() {
   });
 
   test('maps initCommandAck bytes to response', () {
-    final initCommandAckBytes = preparePacket([
+    final initCommandAckBytes = flattenBytes([
       [0x28, 0x00, 0x00, 0x00], // 0x28: length = 40
       [0x02, 0x00, 0x00, 0x00], // 0x02: init command ack package
       [0x01, 0x00, 0x00, 0x00], // 0x01: connection number = 1
@@ -78,7 +78,7 @@ void main() {
   });
 
   test('maps initEventAck bytes to response', () {
-    final initEventAckBytes = preparePacket([
+    final initEventAckBytes = flattenBytes([
       [0x08, 0x00, 0x00, 0x00], // length = 8
       [0x04, 0x00, 0x00, 0x00], // init event ack packet
     ]);
@@ -97,7 +97,7 @@ void main() {
   });
 
   test('maps operation response bytes to response', () {
-    final operationResponseBytes = preparePacket([
+    final operationResponseBytes = flattenBytes([
       [0x0e, 0x00, 0x00, 0x00], // length = 14
       [0x07, 0x00, 0x00, 0x00], // operation response packet
       [0x01, 0x20], // 0x2001 = OK
@@ -122,7 +122,7 @@ void main() {
   });
 
   test('maps data packet to response', () {
-    final startDataPacketResponseBytes = preparePacket([
+    final startDataPacketResponseBytes = flattenBytes([
       [0x14, 0x00, 0x00, 0x00], // length = 20
       [0x09, 0x00, 0x00, 0x00], // start data packet
       [0x09, 0x00, 0x00, 0x00], // transactionId = 0x09
@@ -179,7 +179,7 @@ void main() {
       0x00,
     ]);
 
-    final operationResponseBytes = preparePacket([
+    final operationResponseBytes = flattenBytes([
       [0x0e, 0x00, 0x00, 0x00], // length = 14
       [0x07, 0x00, 0x00, 0x00], // operation response packet
       [0x01, 0x20], // 0x2001 = OK

@@ -1,4 +1,10 @@
 import 'dart:typed_data';
 
-Uint8List preparePacket(List<List<int>> structuredBytes) =>
-    Uint8List.fromList(structuredBytes.expand((byte) => byte).toList());
+Iterable flatten(Iterable iterable) =>
+    iterable.expand((e) => e is List ? flatten(e) : [e]);
+
+Uint8List flattenBytes(Iterable structuredBytes) {
+  final flattenedBytes = flatten(structuredBytes);
+
+  return Uint8List.fromList(List.from(flattenedBytes));
+}
