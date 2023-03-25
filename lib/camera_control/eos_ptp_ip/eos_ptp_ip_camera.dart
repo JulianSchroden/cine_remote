@@ -5,6 +5,7 @@ import '../interface/models/camera_update_response.dart';
 import '../interface/models/control_prop.dart';
 import '../interface/models/control_prop_type.dart';
 import '../interface/models/control_prop_value.dart';
+import 'adapter/ptp_event_mapper.dart';
 import 'cache/ptp_property_cache.dart';
 import 'communication/ptp_action_factory.dart';
 import 'communication/ptp_action_queue.dart';
@@ -13,12 +14,11 @@ class EosPtpIpCamera extends Camera {
   final PtpActionQueue _actionQueue;
   final PtpActionFactory _actionFactory;
   final PtpPropertyCache _propertyCache;
+  final PtpEventMapper _eventMapper;
 
   const EosPtpIpCamera(
-    this._actionQueue,
-    this._actionFactory,
-    this._propertyCache,
-  );
+      this._actionQueue, this._actionFactory, this._propertyCache,
+      [this._eventMapper = const PtpEventMapper()]);
 
   @override
   Future<List<ControlPropType>> getSupportedProps() async {
@@ -39,11 +39,12 @@ class EosPtpIpCamera extends Camera {
   @override
   Future<CameraUpdateResponse> getUpdate() async {
     final getEvents = _actionFactory.createGetEventsAction();
-    final events = await getEvents.run(_actionQueue);
+    final ptpEvents = await getEvents.run(_actionQueue);
 
-    _propertyCache.update(events);
+    _propertyCache.update(ptpEvents);
 
-    return CameraUpdateResponse(cameraEvents: []);
+    final mappedEvents = _eventMapper.mapToCommon(ptpEvents);
+    return CameraUpdateResponse(cameraEvents: mappedEvents);
   }
 
   @override
