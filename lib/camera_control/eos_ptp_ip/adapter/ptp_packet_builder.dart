@@ -13,6 +13,17 @@ class PtpPacketBuilder {
     return this;
   }
 
+  PtpPacketBuilder addUInt64(BigInt value) {
+    final hexString = value.toRadixString(16).padLeft(8, '0');
+    final lowBytesHex = hexString.substring(hexString.length - 4);
+    final highBytesHex =
+        hexString.substring(hexString.length - 8, hexString.length - 4);
+
+    addUInt32(int.parse(lowBytesHex, radix: 16));
+    addUInt32(int.parse(highBytesHex, radix: 16));
+    return this;
+  }
+
   PtpPacketBuilder addUInt32(int value) {
     _builder.add(value.asUint32Bytes());
     return this;
