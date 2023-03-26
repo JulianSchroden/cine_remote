@@ -14,6 +14,7 @@ class PtpOperationResponse extends PtpResponse {
   List<Object?> get props => [responseCode, transactionId];
 
   bool get isOkay => responseCode == PtpResponseCode.okay;
+  bool get isNotOkay => !isOkay;
 
   PtpOperationResponse copyWith({
     int? responseCode,

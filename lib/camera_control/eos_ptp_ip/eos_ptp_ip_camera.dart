@@ -7,18 +7,21 @@ import '../interface/models/control_prop_type.dart';
 import '../interface/models/control_prop_value.dart';
 import 'adapter/ptp_event_mapper.dart';
 import 'cache/ptp_property_cache.dart';
-import 'communication/ptp_action_factory.dart';
-import 'communication/ptp_action_queue.dart';
+import 'actions/action_factory.dart';
+import 'communication/ptp_transaction_queue.dart';
 
 class EosPtpIpCamera extends Camera {
-  final PtpActionQueue _actionQueue;
-  final PtpActionFactory _actionFactory;
+  final PtpTransactionQueue _transactionQueue;
+  final ActionFactory _actionFactory;
   final PtpPropertyCache _propertyCache;
   final PtpEventMapper _eventMapper;
 
   const EosPtpIpCamera(
-      this._actionQueue, this._actionFactory, this._propertyCache,
-      [this._eventMapper = const PtpEventMapper()]);
+    this._transactionQueue,
+    this._actionFactory,
+    this._propertyCache, [
+    this._eventMapper = const PtpEventMapper(),
+  ]);
 
   @override
   Future<List<ControlPropType>> getSupportedProps() async {
@@ -39,7 +42,7 @@ class EosPtpIpCamera extends Camera {
   @override
   Future<CameraUpdateResponse> getUpdate() async {
     final getEvents = _actionFactory.createGetEventsAction();
-    final ptpEvents = await getEvents.run(_actionQueue);
+    final ptpEvents = await getEvents.run(_transactionQueue);
 
     _propertyCache.update(ptpEvents);
 

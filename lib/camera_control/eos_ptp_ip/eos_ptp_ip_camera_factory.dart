@@ -4,8 +4,8 @@ import '../interface/camera.dart';
 import '../interface/camera_factory.dart';
 import 'adapter/ptp_request_factory.dart';
 import 'cache/ptp_property_cache.dart';
-import 'communication/ptp_action_factory.dart';
-import 'communication/ptp_action_queue.dart';
+import 'actions/action_factory.dart';
+import 'communication/ptp_transaction_queue.dart';
 import 'communication/ptp_ip_channel.dart';
 import 'communication/ptp_ip_client.dart';
 import 'eos_ptp_ip_camera.dart';
@@ -17,11 +17,11 @@ import 'responses/ptp_init_event_response.dart';
 class EosPtpIpCameraFactory extends CameraFactory<EosPtpIpCameraDescriptor> {
   static const ptpIpPort = 15740;
 
-  final PtpActionFactory _actionFactory;
+  final ActionFactory _actionFactory;
   final Logger logger = Logger('EosPtpIpCameraFactory');
 
   EosPtpIpCameraFactory([
-    this._actionFactory = const PtpActionFactory(),
+    this._actionFactory = const ActionFactory(),
   ]);
 
   @override
@@ -56,24 +56,18 @@ class EosPtpIpCameraFactory extends CameraFactory<EosPtpIpCameraDescriptor> {
     logger.info('Received initEvent response');
 
     final client = PtpIpClient(commandChannel, eventChannel);
-    final actionQueue = PtpActionQueue(client);
+    final transactionQueue = PtpTransactionQueue(client);
 
-    final openSession = _actionFactory.createOpenSesionAction(sessionId: 0x1);
-    await openSession.run(actionQueue);
-
-    final setRemoteMode = _actionFactory.createSetRemoteModeAction();
-    await setRemoteMode.run(actionQueue);
-
-    final setEventMode = _actionFactory.createSetEventModeAction();
-    await setEventMode.run(actionQueue);
+    final initSession = _actionFactory.createInitSessionAction();
+    await initSession.run(transactionQueue);
 
     final getEventData = _actionFactory.createGetEventsAction();
-    final updateEvents = await getEventData.run(actionQueue);
+    final updateEvents = await getEventData.run(transactionQueue);
 
     final propertyCache = PtpPropertyCache();
     propertyCache.update(updateEvents);
 
     logger.info('Initialization finished');
-    return EosPtpIpCamera(actionQueue, _actionFactory, propertyCache);
+    return EosPtpIpCamera(transactionQueue, _actionFactory, propertyCache);
   }
 }
