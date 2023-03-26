@@ -42,12 +42,12 @@ class EosCineHttpCamera extends Camera {
   @override
   Future<void> setProp(
     ControlPropType propType,
-    ControlPropValue value,
+    ControlPropValue propValue,
   ) async {
     final setPropAction = actionFactory.createSetPropAction(
       httpAdapter,
       propType,
-      value as EosCinePropValue,
+      propValue as EosCinePropValue,
     );
     await setPropAction();
   }

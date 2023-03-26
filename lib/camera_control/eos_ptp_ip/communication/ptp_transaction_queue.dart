@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:collection';
 
-import 'package:cine_remote/camera_control/eos_ptp_ip/responses/ptp_operation_response.dart';
-
 import '../responses/ptp_response.dart';
 import 'operations/ptp_operation.dart';
 import 'ptp_ip_client.dart';
@@ -40,9 +38,21 @@ class PtpTransactionQueue {
     _currentTransaction = _transactionQueue.removeFirst();
 
     final operation = _currentTransaction!.ptpOperation;
+    final transactionId = _nextTransactionId;
     if (operation is PtpRequestOperation) {
-      final ptpPacket = operation.buildRequest(_nextTransactionId);
-      await _ptpIpClient.sendCommand(ptpPacket);
+      final requestPacket = operation.buildRequest(transactionId);
+      await _ptpIpClient.sendCommand(requestPacket);
+
+      if (operation is PtpDataOperation) {
+        final dataPacket = operation.buildData();
+
+        final dataStartPacket =
+            operation.buildDataStart(transactionId, dataPacket.length);
+        await _ptpIpClient.sendCommand(dataStartPacket);
+
+        final dataEndPacket = operation.buildDataEnd(transactionId, dataPacket);
+        await _ptpIpClient.sendCommand(dataEndPacket);
+      }
     }
   }
 }

@@ -4,18 +4,22 @@ import '../../constants/ptp_package_typ.dart';
 import '../../models/ptp_packet.dart';
 
 abstract class PtpOperation {
-  final int operationCode;
-
-  const PtpOperation(this.operationCode);
+  const PtpOperation();
 }
 
 abstract class PtpRequestOperation extends PtpOperation {
-  const PtpRequestOperation(super.operationCode);
+  final int operationCode;
+  final int dataMode;
+
+  const PtpRequestOperation(
+    this.operationCode, [
+    this.dataMode = PtpDataMode.noData,
+  ]);
 
   PtpPacket buildRequest(int transactionId) {
     final builder = PtpPacketBuilder();
     builder.addUInt32(PtpPacketTyp.operationRequest);
-    builder.addUInt32(PtpDataMode.noData);
+    builder.addUInt32(dataMode);
     builder.addUInt16(operationCode);
     builder.addUInt32(transactionId);
 
@@ -25,4 +29,28 @@ abstract class PtpRequestOperation extends PtpOperation {
   }
 
   void preparePayload(PtpPacketBuilder builder) {}
+}
+
+abstract class PtpDataOperation extends PtpRequestOperation {
+  const PtpDataOperation(int operationCode)
+      : super(operationCode, PtpDataMode.withData);
+
+  PtpPacket buildDataStart(int transactionId, int totalBytes) {
+    final builder = PtpPacketBuilder();
+    builder.addUInt32(PtpPacketTyp.startDataPacket);
+    builder.addUInt32(transactionId);
+    builder.addUInt64(BigInt.from(totalBytes));
+    return builder.build();
+  }
+
+  PtpPacket buildData();
+
+  PtpPacket buildDataEnd(int transactionId, PtpPacket dataPacket) {
+    final builder = PtpPacketBuilder();
+    builder.addUInt32(PtpPacketTyp.endDataPacket);
+    builder.addUInt32(transactionId);
+    builder.add(dataPacket.data);
+
+    return builder.build();
+  }
 }

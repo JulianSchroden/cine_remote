@@ -5,10 +5,11 @@ import '../interface/models/camera_update_response.dart';
 import '../interface/models/control_prop.dart';
 import '../interface/models/control_prop_type.dart';
 import '../interface/models/control_prop_value.dart';
+import 'actions/action_factory.dart';
 import 'adapter/ptp_event_mapper.dart';
 import 'cache/ptp_property_cache.dart';
-import 'actions/action_factory.dart';
 import 'communication/ptp_transaction_queue.dart';
+import 'models/eos_ptp_prop_value.dart';
 
 class EosPtpIpCamera extends Camera {
   final PtpTransactionQueue _transactionQueue;
@@ -34,9 +35,15 @@ class EosPtpIpCamera extends Camera {
   }
 
   @override
-  Future<void> setProp(ControlPropType propType, ControlPropValue value) {
-    // TODO: implement setProp action
-    throw UnimplementedError();
+  Future<void> setProp(
+    ControlPropType propType,
+    ControlPropValue propValue,
+  ) async {
+    final setPropAction = _actionFactory.createSetPropAction(
+      propType,
+      propValue as EosPtpPropValue,
+    );
+    await setPropAction.run(_transactionQueue);
   }
 
   @override

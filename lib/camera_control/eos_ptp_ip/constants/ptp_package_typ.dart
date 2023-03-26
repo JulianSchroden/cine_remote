@@ -8,4 +8,5 @@ abstract class PtpPacketTyp {
   static const operationRequest = 0x0006;
   static const operationResponse = 0x0007;
   static const startDataPacket = 0x0009;
+  static const endDataPacket = 0x000c;
 }
