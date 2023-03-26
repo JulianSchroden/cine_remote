@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'dart:typed_data';
 
 import '../../interface/models/control_prop_value.dart';
 import '../communication/events/allowed_values_changed.dart';
@@ -62,11 +62,11 @@ class PtpEventDataParser {
 
   PropValueChanged? parsePropertyChangedEvent(PtpPacketReader packetReader) {
     final propertyCode = packetReader.getUint32();
+    final propertyValue = packetReader.getUint32();
 
     final propType = mapPropCodeToType(propertyCode);
     if (propType == null) return null;
 
-    final propertyValue = packetReader.getUint32();
     final mappedValue = mapPtpValue(propType, propertyValue);
 
     return PropValueChanged(propType, mappedValue);

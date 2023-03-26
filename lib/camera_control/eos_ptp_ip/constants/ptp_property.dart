@@ -30,6 +30,11 @@ abstract class PtpPropertyType {
     ControlPropType.iso,
   );
 
+  static const whiteBalance = MappedValue(
+    0xd10a,
+    ControlPropType.whiteBalance,
+  );
+
   static const List<MappedValue<int, ControlPropType>> values = [
     aperture,
     shutterSpeed,
@@ -50,6 +55,10 @@ int? mapPropTypeToCode(ControlPropType propType) {
 }
 
 EosPtpPropValue mapPtpValue(ControlPropType propType, int value) {
+  if (propType == ControlPropType.whiteBalance) {
+    return EosPtpPropValue('$value', value);
+  }
+
   final knownPropValues = knownPropValuesMap[propType];
   final fallbackValue = value.asHex(padLeft: 2);
   final mappedValue = knownPropValues
