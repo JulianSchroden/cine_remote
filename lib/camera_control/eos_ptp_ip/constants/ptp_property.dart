@@ -1,5 +1,6 @@
 import '../../../shared/extensions/list_extensions.dart';
 import '../../interface/models/control_prop_type.dart';
+import '../extensions/int_as_hex_string_extension.dart';
 import '../models/eos_ptp_prop_value.dart';
 
 class MappedValue<NT, CT> {
@@ -50,7 +51,7 @@ int? mapPropTypeToCode(ControlPropType propType) {
 
 EosPtpPropValue mapPtpValue(ControlPropType propType, int value) {
   final knownPropValues = knownPropValuesMap[propType];
-  final fallbackValue = '0x${value.toRadixString(16).padLeft(2, '0')}';
+  final fallbackValue = value.asHex(padLeft: 2);
   final mappedValue = knownPropValues
           ?.firstWhereOrNull((propValue) => propValue.native == value)
           ?.common ??

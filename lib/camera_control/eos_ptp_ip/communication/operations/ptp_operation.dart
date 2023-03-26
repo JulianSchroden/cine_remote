@@ -1,6 +1,7 @@
 import '../../adapter/ptp_packet_builder.dart';
 import '../../constants/ptp_data_mode.dart';
 import '../../constants/ptp_package_typ.dart';
+import '../../extensions/int_as_hex_string_extension.dart';
 import '../../models/ptp_packet.dart';
 
 abstract class PtpOperation {
@@ -29,6 +30,11 @@ abstract class PtpRequestOperation extends PtpOperation {
   }
 
   void preparePayload(PtpPacketBuilder builder) {}
+
+  @override
+  String toString() {
+    return 'PtpRequestOperation: {operationCode: ${operationCode.asHex()}}';
+  }
 }
 
 abstract class PtpDataOperation extends PtpRequestOperation {
@@ -52,5 +58,10 @@ abstract class PtpDataOperation extends PtpRequestOperation {
     builder.add(dataPacket.data);
 
     return builder.build();
+  }
+
+  @override
+  String toString() {
+    return 'PtpDataOperation: {operationCode: ${operationCode.asHex()}}';
   }
 }
