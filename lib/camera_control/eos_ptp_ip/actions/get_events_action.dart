@@ -2,6 +2,7 @@ import 'dart:async';
 
 import '../adapter/ptp_event_data_parser.dart';
 import '../communication/events/ptp_event.dart';
+import '../communication/operations/ptp_operation.dart';
 import '../communication/ptp_transaction_queue.dart';
 import '../responses/ptp_operation_response.dart';
 import '../responses/ptp_response.dart';
@@ -13,7 +14,15 @@ class GetEventsAction extends Action<List<PtpEvent>> {
   @override
   Future<List<PtpEvent>> run(PtpTransactionQueue transactionQueue) async {
     final getEventData = operationFactory.createGetEventData();
-    final response = await transactionQueue.handle(getEventData);
+    final response = await transactionQueue.handleIfNotQueued(
+        getEventData,
+        (operation) =>
+            operation is PtpRequestOperation &&
+            operation.operationCode == getEventData.operationCode);
+
+    if (response == null) {
+      return [];
+    }
 
     return mapResponse(response);
   }

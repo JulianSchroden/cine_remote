@@ -29,6 +29,21 @@ class PtpTransactionQueue {
     return completer.future;
   }
 
+  Future<PtpResponse?> handleIfNotQueued(
+    PtpOperation operation,
+    bool Function(PtpOperation operation) isEquivalentOperation,
+  ) async {
+    final hasEquivalentOperationInQueue = _transactionQueue
+        .any((transaction) => isEquivalentOperation(transaction.ptpOperation));
+
+    if (hasEquivalentOperationInQueue) {
+      await _startNextTransaction();
+      return Future.value(null);
+    }
+
+    return handle(operation);
+  }
+
   int get _nextTransactionId => _transactionId++;
 
   Future<void> _startNextTransaction() async {
