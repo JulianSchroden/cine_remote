@@ -1,6 +1,4 @@
 import '../communication/ptp_transaction_queue.dart';
-import '../responses/ptp_operation_response.dart';
-import '../responses/ptp_response.dart';
 import 'action.dart';
 
 class InitFailedException implements Exception {
@@ -14,28 +12,28 @@ class InitSessionAction extends Action<void> {
 
   @override
   Future<void> run(PtpTransactionQueue transactionQueue) async {
-    final openSession = operationFactory.createOpenSession(sessionId: 0x1);
-    final openSessionResult = await transactionQueue.handle(openSession);
-    verifyResponse(openSessionResult, 'openSession');
+    await _openSession(transactionQueue);
 
-    final setRemoteMode = operationFactory.createSetRemoteMode();
-    final setRemoteModeResponse = await transactionQueue.handle(setRemoteMode);
-    verifyResponse(setRemoteModeResponse, 'setRemoteMode');
+    await _enableRemoteMode(transactionQueue);
 
-    final setEventMode = operationFactory.createSetEventMode();
-    final setEventModeResponse = await transactionQueue.handle(setEventMode);
-    verifyResponse(setEventModeResponse, 'setEventMode');
+    await _enableEventMode(transactionQueue);
   }
 
-  void verifyResponse(PtpResponse response, String operatioName) {
-    if (response is! PtpOperationResponse) {
-      throw InitFailedException(
-          'Operation $operatioName failed. Received invalid response.');
-    }
+  Future<void> _openSession(PtpTransactionQueue transactionQueue) async {
+    final openSession = operationFactory.createOpenSession(sessionId: 0x1);
+    final response = await transactionQueue.handle(openSession);
+    verifyOperationResponse(response, 'openSession');
+  }
 
-    if (response.isNotOkay) {
-      throw InitFailedException(
-          'Operation $operatioName failed with responseCode ${response.responseCode}.');
-    }
+  Future<void> _enableRemoteMode(PtpTransactionQueue transactionQueue) async {
+    final setRemoteMode = operationFactory.createSetRemoteMode();
+    final response = await transactionQueue.handle(setRemoteMode);
+    verifyOperationResponse(response, 'setRemoteMode');
+  }
+
+  Future<void> _enableEventMode(PtpTransactionQueue transactionQueue) async {
+    final setEventMode = operationFactory.createSetEventMode();
+    final response = await transactionQueue.handle(setEventMode);
+    verifyOperationResponse(response, 'setEventMode');
   }
 }
