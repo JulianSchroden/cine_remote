@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import '../constants/ptp_package_typ.dart';
+import '../responses/ptp_end_data_response.dart';
 import '../responses/ptp_init_command_response.dart';
 import '../responses/ptp_init_event_response.dart';
 import '../responses/ptp_operation_response.dart';
@@ -27,13 +28,19 @@ class PtpResponseStreamTransformer
 
           final buffer = Uint8List.fromList(bufferBuilder.takeBytes());
 
-          final parserResult = parseResponseData(buffer, dataPacketMode);
+          final parserResult = parseResponseData(
+            buffer,
+            dataPacketMode,
+          );
+
           for (final response in parserResult.responses) {
             controller.add(response);
           }
 
-          final remainingBytes = buffer.sublist(parserResult.consumedBytes);
-          bufferBuilder.add(remainingBytes);
+          if (buffer.length > parserResult.consumedBytes) {
+            final remainingBytes = buffer.sublist(parserResult.consumedBytes);
+            bufferBuilder.add(remainingBytes);
+          }
         })
         ..onError((Object error, StackTrace stackTrace) {
           controller.addError(error, stackTrace);
@@ -65,39 +72,35 @@ class PtpResponseStreamTransformer
 
     final responses = <PtpResponse>[];
     while (reader.unconsumedBytes >= 8) {
-      if (dataPacketMode.isActive) {
-        if (reader.unconsumedBytes < dataPacketMode.totalLength) {
-          break;
-        }
-
-        final dataPacketBytes = reader.getBytes(dataPacketMode.totalLength);
-        dataPacketMode.finish(dataPacketBytes);
-        continue;
-      }
-
-      final payloadLength = reader.getUint32();
-      if (payloadLength > reader.length) {
+      if (!reader.hasValidSegment()) {
         break;
       }
 
-      final packetType = reader.getUint32();
-      switch (packetType) {
-        case PtpPacketTyp.initCommandAck:
-          // InitAckCommandResponse.fromBytes(reader)
-          responses.add(parseInitAckReponse(reader));
-          break;
-        case PtpPacketTyp.initEventAck:
-          responses.add(PtpInitEventResponse());
-          break;
-        case PtpPacketTyp.operationResponse:
-          responses
-              .add(parseOperationResponse(reader, dataPacketMode.takeBytes()));
-          break;
-        case PtpPacketTyp.startDataPacket:
-          final startDataPacket = parseStartDataResponse(reader);
-          dataPacketMode.start(startDataPacket.totalLength);
-          break;
-      }
+      reader.processSegment((segmentReader) {
+        final packetType = segmentReader.getUint32();
+
+        switch (packetType) {
+          case PtpPacketTyp.initCommandAck:
+            responses.add(parseInitAckReponse(segmentReader));
+            break;
+          case PtpPacketTyp.initEventAck:
+            responses.add(PtpInitEventResponse());
+            break;
+          case PtpPacketTyp.operationResponse:
+            responses.add(parseOperationResponse(
+                segmentReader, dataPacketMode.takeBytes()));
+            break;
+          case PtpPacketTyp.startDataPacket:
+            final startDataPacket = parseStartDataResponse(segmentReader);
+            dataPacketMode.start(startDataPacket.totalLength);
+            break;
+          case PtpPacketTyp.endDataPacket:
+            final endDataPacket =
+                parseEndDataResponse(segmentReader, dataPacketMode.totalLength);
+            dataPacketMode.finish(endDataPacket.data);
+            break;
+        }
+      });
     }
 
     return ParserResult(reader.consumedBytes, responses);
@@ -136,11 +139,17 @@ class PtpResponseStreamTransformer
     }
     final dataLength = dataLengthRaw.toInt();
 
-    // Although the start data packet response signals a length of 20 bytes,
-    // it has a length of 32. Therefore we need to drain the remaining
-    // 12 bytes of unknown meaning.
-    reader.getBytes(12);
     return PtpStartDataResponse(transactionId, dataLength);
+  }
+
+  PtpEndDataResponse parseEndDataResponse(
+    PtpPacketReader reader,
+    int dataLength,
+  ) {
+    final transactionId = reader.getUint32();
+    final data = reader.getBytes(dataLength);
+
+    return PtpEndDataResponse(transactionId, data);
   }
 }
 
@@ -152,11 +161,9 @@ class ParserResult {
 }
 
 class PtpDataPacketMode {
-  bool _isActive = false;
   int _totalLength = 0;
   Uint8List _data = Uint8List(0);
 
-  bool get isActive => _isActive;
   int get totalLength => _totalLength;
 
   Uint8List takeBytes() {
@@ -166,13 +173,11 @@ class PtpDataPacketMode {
   }
 
   void start(int totalLength) {
-    _isActive = true;
     _data = Uint8List(0);
     _totalLength = totalLength;
   }
 
   void finish(Uint8List data) {
-    _isActive = false;
     _data = data;
     _totalLength = 0;
   }
