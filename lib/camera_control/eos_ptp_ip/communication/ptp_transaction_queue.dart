@@ -1,11 +1,15 @@
 import 'dart:async';
 import 'dart:collection';
 
+import 'package:logger/logger.dart';
+
 import '../responses/ptp_response.dart';
 import 'operations/ptp_operation.dart';
 import 'ptp_ip_client.dart';
 
 class PtpTransactionQueue {
+  final logger = Logger();
+
   final PtpIpClient _ptpIpClient;
   final _transactionQueue = Queue<_PtpTransaction>();
   _PtpTransaction? _currentTransaction;
@@ -37,6 +41,8 @@ class PtpTransactionQueue {
         .any((transaction) => isEquivalentOperation(transaction.ptpOperation));
 
     if (hasEquivalentOperationInQueue) {
+      logger.i(
+          'Skipping operation since equivalent operation is already queued: $operation');
       await _startNextTransaction();
       return Future.value(null);
     }
@@ -47,8 +53,16 @@ class PtpTransactionQueue {
   int get _nextTransactionId => _transactionId++;
 
   Future<void> _startNextTransaction() async {
-    if (_currentTransaction?.isActive ?? false) return;
-    if (_transactionQueue.isEmpty) return;
+    final hasPendingTransaction = _currentTransaction?.isActive ?? false;
+    if (hasPendingTransaction) {
+      logger.i(
+          'Cannot start next transaction: Current transaction still pending');
+      return;
+    }
+    if (_transactionQueue.isEmpty) {
+      logger.i('Cannot start next transaction: TransactionQueue is empty');
+      return;
+    }
 
     _currentTransaction = _transactionQueue.removeFirst();
 
