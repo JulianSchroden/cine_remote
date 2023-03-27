@@ -1,9 +1,11 @@
 import '../../interface/models/control_prop_type.dart';
 import '../actions/get_events_action.dart';
+import '../constants/live_view_output.dart';
 import '../models/eos_ptp_prop_value.dart';
 import 'capture_image_action.dart';
 import 'deinit_session_action.dart';
 import 'init_session_action.dart';
+import 'set_live_view_output_action.dart';
 import 'set_prop_action.dart';
 
 class ActionFactory {
@@ -22,4 +24,9 @@ class ActionFactory {
       SetPropAction(propType, propValue);
 
   CaptureImageAction createCaptureImageAction() => CaptureImageAction();
+
+  SetLiveViewOutputAction createSetLiveViewOutputAction(
+    LiveViewOutput liveViewOutput,
+  ) =>
+      SetLiveViewOutputAction(liveViewOutput);
 }

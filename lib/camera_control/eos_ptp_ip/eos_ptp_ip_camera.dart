@@ -9,6 +9,7 @@ import 'actions/action_factory.dart';
 import 'adapter/ptp_event_mapper.dart';
 import 'cache/ptp_property_cache.dart';
 import 'communication/ptp_transaction_queue.dart';
+import 'constants/live_view_output.dart';
 import 'models/eos_ptp_prop_value.dart';
 
 class EosPtpIpCamera extends Camera {
@@ -80,15 +81,17 @@ class EosPtpIpCamera extends Camera {
   }
 
   @override
-  Future<void> startLiveView() {
-    // TODO: implement startLiveView
-    throw UnimplementedError();
+  Future<void> startLiveView() async {
+    final startLiveView = _actionFactory
+        .createSetLiveViewOutputAction(LiveViewOutput.cameraAndHost);
+    await startLiveView.run(_transactionQueue);
   }
 
   @override
-  Future<void> stopLiveView() {
-    // TODO: implement stopLiveView
-    throw UnimplementedError();
+  Future<void> stopLiveView() async {
+    final stopLiveView =
+        _actionFactory.createSetLiveViewOutputAction(LiveViewOutput.none);
+    await stopLiveView.run(_transactionQueue);
   }
 
   @override

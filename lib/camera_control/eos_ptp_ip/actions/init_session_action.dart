@@ -1,6 +1,7 @@
 import '../communication/ptp_transaction_queue.dart';
 import '../constants/capture_destination.dart';
 import '../constants/event_mode.dart';
+import '../constants/ptp_property.dart';
 import '../constants/remote_mode.dart';
 import '../extensions/to_byte_extensions.dart';
 import 'action.dart';
@@ -43,7 +44,7 @@ class InitSessionAction extends Action<void> {
     CaptureDestination captureDestination,
   ) async {
     final setCaptureDestination = operationFactory.createSetPropValue(
-      0xd11c, // capture destination
+      PtpPropertyCode.captureDestination,
       captureDestination.value.asUint32Bytes(),
     );
     final response = await transactionQueue.handle(setCaptureDestination);

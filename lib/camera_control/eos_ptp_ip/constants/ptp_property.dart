@@ -12,26 +12,38 @@ class MappedValue<NT, CT> {
 
 typedef PtpMappedValue = MappedValue<int, String>;
 
+abstract class PtpPropertyCode {
+  const PtpPropertyCode._();
+
+  static const int aperture = 0xd101;
+  static const int shutterSpeed = 0xd102;
+  static const int iso = 0xd103;
+  static const int whiteBalance = 0xd10a;
+
+  static const int captureDestination = 0xd11c;
+  static const int liveViewOutput = 0xd1b0;
+}
+
 abstract class PtpPropertyType {
   PtpPropertyType._();
 
   static const aperture = MappedValue(
-    0xd101,
+    PtpPropertyCode.aperture,
     ControlPropType.aperture,
   );
 
   static const shutterSpeed = MappedValue(
-    0xd102,
+    PtpPropertyCode.shutterSpeed,
     ControlPropType.shutterAngle,
   );
 
   static const iso = MappedValue(
-    0xd103,
+    PtpPropertyCode.iso,
     ControlPropType.iso,
   );
 
   static const whiteBalance = MappedValue(
-    0xd10a,
+    PtpPropertyCode.whiteBalance,
     ControlPropType.whiteBalance,
   );
 
