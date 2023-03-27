@@ -39,6 +39,7 @@ abstract class PtpPropertyType {
     aperture,
     shutterSpeed,
     iso,
+    whiteBalance
   ];
 }
 
