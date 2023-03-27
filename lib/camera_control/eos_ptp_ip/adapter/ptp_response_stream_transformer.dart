@@ -88,15 +88,19 @@ class PtpResponseStreamTransformer
             break;
           case PtpPacketTyp.operationResponse:
             responses.add(parseOperationResponse(
-                segmentReader, dataPacketMode.takeBytes()));
+              segmentReader,
+              dataPacketMode.takeBytes(),
+            ));
             break;
           case PtpPacketTyp.startDataPacket:
             final startDataPacket = parseStartDataResponse(segmentReader);
             dataPacketMode.start(startDataPacket.totalLength);
             break;
           case PtpPacketTyp.endDataPacket:
-            final endDataPacket =
-                parseEndDataResponse(segmentReader, dataPacketMode.totalLength);
+            final endDataPacket = parseEndDataResponse(
+              segmentReader,
+              dataPacketMode.totalLength,
+            );
             dataPacketMode.finish(endDataPacket.data);
             break;
         }
