@@ -58,9 +58,12 @@ class EosPtpIpCamera extends Camera {
   }
 
   @override
-  Future<void> triggerRecord() {
-    // TODO: implement triggerRecord
-    throw UnimplementedError();
+  Future<void> triggerRecord() async {
+    print('start of triggerRecord');
+    final captureImage = _actionFactory.createCaptureImageAction();
+
+    await captureImage.run(_transactionQueue);
+    print('stop of triggerReord');
   }
 
   @override

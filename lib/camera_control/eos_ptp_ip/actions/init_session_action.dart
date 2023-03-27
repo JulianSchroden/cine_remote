@@ -1,4 +1,6 @@
 import '../communication/ptp_transaction_queue.dart';
+import '../constants/capture_destination.dart';
+import '../extensions/to_byte_extensions.dart';
 import 'action.dart';
 
 class InitFailedException implements Exception {
@@ -17,6 +19,8 @@ class InitSessionAction extends Action<void> {
     await _enableRemoteMode(transactionQueue);
 
     await _enableEventMode(transactionQueue);
+
+    await _setCaptureDestination(transactionQueue, CaptureDestination.storage2);
   }
 
   Future<void> _openSession(PtpTransactionQueue transactionQueue) async {
@@ -35,5 +39,17 @@ class InitSessionAction extends Action<void> {
     final setEventMode = operationFactory.createSetEventMode();
     final response = await transactionQueue.handle(setEventMode);
     verifyOperationResponse(response, 'setEventMode');
+  }
+
+  Future<void> _setCaptureDestination(
+    PtpTransactionQueue transactionQueue,
+    CaptureDestination captureDestination,
+  ) async {
+    final setCaptureDestination = operationFactory.createSetPropValue(
+      0xd11c, // capture destination
+      captureDestination.value.asUint32Bytes(),
+    );
+    final response = await transactionQueue.handle(setCaptureDestination);
+    verifyOperationResponse(response, 'setCaptureDestination');
   }
 }

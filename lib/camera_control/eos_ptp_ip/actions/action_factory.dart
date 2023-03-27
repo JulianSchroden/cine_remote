@@ -1,6 +1,7 @@
 import '../../interface/models/control_prop_type.dart';
 import '../actions/get_events_action.dart';
 import '../models/eos_ptp_prop_value.dart';
+import 'capture_image_action.dart';
 import 'init_session_action.dart';
 import 'set_prop_action.dart';
 
@@ -16,4 +17,6 @@ class ActionFactory {
     EosPtpPropValue propValue,
   ) =>
       SetPropAction(propType, propValue);
+
+  CaptureImageAction createCaptureImageAction() => CaptureImageAction();
 }

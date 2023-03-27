@@ -7,4 +7,8 @@ abstract class PtpOperationCode {
   static const setRemoteMode = 0x9114;
   static const setEventMode = 0x9115;
   static const getEventData = 0x9116;
+
+  static const startImageCapture = 0x9128;
+  static const stopImageCapture = 0x9129;
+
 }

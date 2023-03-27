@@ -7,6 +7,6 @@ class SetRemoteMode extends PtpRequestOperation {
 
   @override
   void preparePayload(PtpPacketBuilder builder) {
-    builder.addUInt32(0x05);
+    builder.addUInt32(0x01);
   }
 }
