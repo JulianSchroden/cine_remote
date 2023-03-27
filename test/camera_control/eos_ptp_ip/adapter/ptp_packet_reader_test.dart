@@ -7,6 +7,40 @@ import 'package:flutter_test/flutter_test.dart';
 import '../packet_helper.dart';
 
 void main() {
+  group('hasValidSegment', () {
+    test('throws RangeError when trying to read out of bounds bytes', () {
+      final packetBytes = Uint8List(0);
+
+      final reader = PtpPacketReader.fromBytes(packetBytes);
+
+      expect(
+        () => reader.hasValidSegment(),
+        throwsA(isA<RangeError>()),
+      );
+    });
+
+    test('returns true when segment bytes are available', () {
+      final packetBytes = flattenBytes([
+        [0x08, 0x00, 0x00, 0x00],
+        [0x01, 0x02, 0x03, 0x04],
+      ]);
+
+      final reader = PtpPacketReader.fromBytes(packetBytes);
+
+      expect(reader.hasValidSegment(), isTrue);
+    });
+
+    test('returns false when segment bytes not available', () {
+      final packetBytes = flattenBytes([
+        [0x08, 0x00, 0x00, 0x00],
+      ]);
+
+      final reader = PtpPacketReader.fromBytes(packetBytes);
+
+      expect(reader.hasValidSegment(), isFalse);
+    });
+  });
+
   group('processSegment', () {
     test('throws RangeError when less then 4 bytes onconsumed', () {
       final packetBytes = Uint8List(0);

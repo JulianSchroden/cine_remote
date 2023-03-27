@@ -21,6 +21,11 @@ class PtpPacketReader {
   int get consumedBytes => _offset;
   int get unconsumedBytes => length - _offset;
 
+  bool hasValidSegment() {
+    final segmentLength = _bytes.getUint32(_offset, Endian.little);
+    return segmentLength <= unconsumedBytes;
+  }
+
   void processSegment(void Function(PtpPacketReader reader) callback) {
     final segmentDataLength = getUint32() - 4;
 
