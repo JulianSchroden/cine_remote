@@ -55,21 +55,48 @@ void main() {
     });
 
     test('skips onconsumed bytes', () {
-      final packetBytes = PtpPacket(flattenBytes([
+      final packet = PtpPacket(flattenBytes([
         [0x08, 0x00, 0x00, 0x00], // segment 1: 8 bytes
         [0x01, 0x00, 0x02, 0x00],
-        [0x08, 0x00, 0x00, 0x00], // segment 2: 12 bytes
+        [0x0c, 0x00, 0x00, 0x00], // segment 2: 12 bytes
         [0x03, 0x04, 0x00, 0x00],
         [0x05, 0x06, 0x00, 0x00],
       ]));
 
-      final reader = PtpPacketReader.fromPacket(packetBytes);
+      final reader = PtpPacketReader.fromPacket(packet);
       var segmentValue = -1;
       reader.processSegment((reader) {
         segmentValue = reader.getUint16();
       });
       expect(segmentValue, 0x01);
       expect(reader.consumedBytes, 8);
+    });
+
+    test('getBytes returns correct bytes when processing subsequent segment',
+        () {
+      final packet = PtpPacket(flattenBytes([
+        [0x08, 0x00, 0x00, 0x00], // segment 1: 8 bytes
+        [0x01, 0x00, 0x02, 0x00],
+        [0x0c, 0x00, 0x00, 0x00], // segment 2: 12 bytes
+        [0x03, 0x04, 0x00, 0x00],
+        [0x05, 0x06, 0x00, 0x00],
+        [0x08, 0x00, 0x00, 0x00], // segment 3: 8 bytes
+        [0x03, 0x00, 0x00, 0x00],
+      ]));
+
+      final reader = PtpPacketReader.fromPacket(packet);
+      reader.processSegment((reader) {});
+      expect(reader.consumedBytes, 8);
+
+      late int segmentTwoValue;
+      late Uint8List segmentTwoBytes;
+      reader.processSegment((reader) {
+        segmentTwoValue = reader.getUint32();
+        segmentTwoBytes = reader.getBytes(4);
+      });
+
+      expect(segmentTwoValue, 0x0403);
+      expect(segmentTwoBytes, [0x05, 0x06, 0x00, 0x00]);
     });
   });
 

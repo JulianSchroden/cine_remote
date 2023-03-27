@@ -29,8 +29,9 @@ class PtpPacketReader {
           'Cannot process segment: Segment length $segmentDataLength exceeds unconsumedBytes $unconsumedBytes');
     }
 
-    final segmentReader =
-        PtpPacketReader(_bytes.buffer.asByteData(_offset, segmentDataLength));
+    final segmentBytes = _bytes.buffer.asByteData(_offset, segmentDataLength);
+    final segmentReader = PtpPacketReader(segmentBytes);
+
     callback(segmentReader);
 
     skipBytes(segmentDataLength);
@@ -57,9 +58,14 @@ class PtpPacketReader {
   }
 
   Uint8List getBytes(int count) {
-    final bytes = _bytes.buffer.asUint8List(_offset, count);
+    final currentOffset = _bytes.offsetInBytes + _offset;
     _offset += count;
-    return Uint8List.fromList(bytes);
+
+    return Uint8List.view(
+      _bytes.buffer,
+      currentOffset,
+      count,
+    );
   }
 
   String getString() {
