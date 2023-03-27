@@ -23,6 +23,10 @@ class PtpTransactionQueue {
     });
   }
 
+  Future<void> close() async {
+    await _ptpIpClient.disconnect();
+  }
+
   Future<PtpResponse> handle(PtpOperation operation) async {
     final completer = Completer<PtpResponse>();
 

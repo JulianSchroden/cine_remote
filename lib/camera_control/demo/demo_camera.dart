@@ -43,6 +43,9 @@ class DemoCamera extends Camera {
   final List<CameraUpdateEvent> _pendingUpdateEvents = [];
 
   @override
+  Future<void> disconnect() async {}
+
+  @override
   Future<List<ControlPropType>> getSupportedProps() async {
     return _dummyControlProps.map((prop) => prop.type).toList();
   }

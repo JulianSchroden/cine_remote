@@ -30,7 +30,7 @@ class CameraControlBaseLayout extends StatelessWidget {
               backgroundColor: const Color.fromARGB(200, 0, 0, 0),
               overlayMessage: 'Disconnecting',
               showOverlay: state.maybeWhen(
-                disconnecting: () => true,
+                disconnecting: (_) => true,
                 orElse: () => false,
               ),
               child: builder(context, layoutState)),

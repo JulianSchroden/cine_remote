@@ -1,5 +1,5 @@
 class CameraConnectionException implements Exception {
-  String message;
+  final String message;
 
-  CameraConnectionException(this.message);
+  const CameraConnectionException(this.message);
 }

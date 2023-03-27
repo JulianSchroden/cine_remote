@@ -1,6 +1,15 @@
-abstract class PtpDataMode {
-  PtpDataMode._();
+enum PtpDataMode {
+  noData,
+  withData,
+}
 
-  static const noData = 0x0001; // no_data
-  static const withData = 0x0002; // with_data
+extension PtpDataModeValueExtension on PtpDataMode {
+  int get value {
+    switch (this) {
+      case PtpDataMode.noData:
+        return 0x01;
+      case PtpDataMode.withData:
+        return 0x02;
+    }
+  }
 }

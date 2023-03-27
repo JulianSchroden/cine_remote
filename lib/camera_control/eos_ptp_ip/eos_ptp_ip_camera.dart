@@ -25,6 +25,13 @@ class EosPtpIpCamera extends Camera {
   ]);
 
   @override
+  Future<void> disconnect() async {
+    final deinitSession = _actionFactory.createDeinitSessionAction();
+    await deinitSession.run(_transactionQueue);
+    await _transactionQueue.close();
+  }
+
+  @override
   Future<List<ControlPropType>> getSupportedProps() async {
     return _propertyCache.supportedProps();
   }

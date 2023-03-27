@@ -1,6 +1,9 @@
 import 'dart:typed_data';
 
 import '../../constants/capture_phase.dart';
+import '../../constants/event_mode.dart';
+import '../../constants/remote_mode.dart';
+import 'close_session.dart';
 import 'get_event_data.dart';
 import 'open_session.dart';
 import 'set_event_mode.dart';
@@ -15,9 +18,13 @@ class PtpOperationFactory {
   OpenSession createOpenSession({required int sessionId}) =>
       OpenSession(sessionId);
 
-  SetRemoteMode createSetRemoteMode() => const SetRemoteMode();
+  CloseSession createCloseSession() => CloseSession();
 
-  SetEventMode createSetEventMode() => const SetEventMode();
+  SetRemoteMode createSetRemoteMode(RemoteMode remoteMode) =>
+      SetRemoteMode(remoteMode);
+
+  SetEventMode createSetEventMode(EventMode eventMode) =>
+      SetEventMode(eventMode);
 
   GetEventData createGetEventData() => const GetEventData();
 

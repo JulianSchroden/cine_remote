@@ -19,11 +19,12 @@ class CameraConnectionState with _$CameraConnectionState {
   const factory CameraConnectionState.connectingFailed() = _ConnectingFailed;
   const factory CameraConnectionState.connected(Camera camera) =
       _ConnectionEstablished;
-  const factory CameraConnectionState.disconnecting() = _Disconnecting;
+  const factory CameraConnectionState.disconnecting(Camera camera) =
+      _Disconnecting;
   const factory CameraConnectionState.disconnected() = _Disconnected;
 
   bool get isLoading => maybeWhen(
-      connecting: () => true, disconnecting: () => true, orElse: () => false);
+      connecting: () => true, disconnecting: (_) => true, orElse: () => false);
 }
 
 class CameraConnectionCubit extends Cubit<CameraConnectionState> {
@@ -57,11 +58,17 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
   }
 
   Future<void> disconnect() async {
-    emit(const CameraConnectionState.disconnecting());
+    await withConnectedCamera((camera) async {
+      emit(CameraConnectionState.disconnecting(camera));
+      await camera.disconnect();
+    });
+
     _updateTimer?.cancel();
     _updateTimer = null;
+
     await _cameraUpdateStreamController?.close();
     _cameraUpdateStreamController = null;
+
     await Future.delayed(const Duration(seconds: 1));
     emit(const CameraConnectionState.disconnected());
   }
@@ -71,7 +78,8 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
     FutureOr Function()? orElse,
   }) async {
     await state.maybeWhen(
-      connected: (cameraHandle) => callback(cameraHandle),
+      connected: (camera) => callback(camera),
+      disconnecting: (camera) => callback(camera),
       orElse: () => orElse?.call(),
     );
   }

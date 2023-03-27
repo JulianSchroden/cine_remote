@@ -21,6 +21,11 @@ class EosCineHttpCamera extends Camera {
   ]);
 
   @override
+  Future<void> disconnect() async {
+    httpAdapter.close();
+  }
+
+  @override
   Future<List<ControlPropType>> getSupportedProps() async {
     return [
       ControlPropType.aperture,

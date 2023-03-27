@@ -21,7 +21,7 @@ mixin _$CameraConnectionState {
     required TResult Function() connecting,
     required TResult Function() connectingFailed,
     required TResult Function(Camera camera) connected,
-    required TResult Function() disconnecting,
+    required TResult Function(Camera camera) disconnecting,
     required TResult Function() disconnected,
   }) =>
       throw _privateConstructorUsedError;
@@ -30,7 +30,7 @@ mixin _$CameraConnectionState {
     TResult? Function()? connecting,
     TResult? Function()? connectingFailed,
     TResult? Function(Camera camera)? connected,
-    TResult? Function()? disconnecting,
+    TResult? Function(Camera camera)? disconnecting,
     TResult? Function()? disconnected,
   }) =>
       throw _privateConstructorUsedError;
@@ -39,7 +39,7 @@ mixin _$CameraConnectionState {
     TResult Function()? connecting,
     TResult Function()? connectingFailed,
     TResult Function(Camera camera)? connected,
-    TResult Function()? disconnecting,
+    TResult Function(Camera camera)? disconnecting,
     TResult Function()? disconnected,
     required TResult orElse(),
   }) =>
@@ -134,7 +134,7 @@ class _$_InitConnection extends _InitConnection {
     required TResult Function() connecting,
     required TResult Function() connectingFailed,
     required TResult Function(Camera camera) connected,
-    required TResult Function() disconnecting,
+    required TResult Function(Camera camera) disconnecting,
     required TResult Function() disconnected,
   }) {
     return connecting();
@@ -146,7 +146,7 @@ class _$_InitConnection extends _InitConnection {
     TResult? Function()? connecting,
     TResult? Function()? connectingFailed,
     TResult? Function(Camera camera)? connected,
-    TResult? Function()? disconnecting,
+    TResult? Function(Camera camera)? disconnecting,
     TResult? Function()? disconnected,
   }) {
     return connecting?.call();
@@ -158,7 +158,7 @@ class _$_InitConnection extends _InitConnection {
     TResult Function()? connecting,
     TResult Function()? connectingFailed,
     TResult Function(Camera camera)? connected,
-    TResult Function()? disconnecting,
+    TResult Function(Camera camera)? disconnecting,
     TResult Function()? disconnected,
     required TResult orElse(),
   }) {
@@ -255,7 +255,7 @@ class _$_ConnectingFailed extends _ConnectingFailed {
     required TResult Function() connecting,
     required TResult Function() connectingFailed,
     required TResult Function(Camera camera) connected,
-    required TResult Function() disconnecting,
+    required TResult Function(Camera camera) disconnecting,
     required TResult Function() disconnected,
   }) {
     return connectingFailed();
@@ -267,7 +267,7 @@ class _$_ConnectingFailed extends _ConnectingFailed {
     TResult? Function()? connecting,
     TResult? Function()? connectingFailed,
     TResult? Function(Camera camera)? connected,
-    TResult? Function()? disconnecting,
+    TResult? Function(Camera camera)? disconnecting,
     TResult? Function()? disconnected,
   }) {
     return connectingFailed?.call();
@@ -279,7 +279,7 @@ class _$_ConnectingFailed extends _ConnectingFailed {
     TResult Function()? connecting,
     TResult Function()? connectingFailed,
     TResult Function(Camera camera)? connected,
-    TResult Function()? disconnecting,
+    TResult Function(Camera camera)? disconnecting,
     TResult Function()? disconnected,
     required TResult orElse(),
   }) {
@@ -403,7 +403,7 @@ class _$_ConnectionEstablished extends _ConnectionEstablished {
     required TResult Function() connecting,
     required TResult Function() connectingFailed,
     required TResult Function(Camera camera) connected,
-    required TResult Function() disconnecting,
+    required TResult Function(Camera camera) disconnecting,
     required TResult Function() disconnected,
   }) {
     return connected(camera);
@@ -415,7 +415,7 @@ class _$_ConnectionEstablished extends _ConnectionEstablished {
     TResult? Function()? connecting,
     TResult? Function()? connectingFailed,
     TResult? Function(Camera camera)? connected,
-    TResult? Function()? disconnecting,
+    TResult? Function(Camera camera)? disconnecting,
     TResult? Function()? disconnected,
   }) {
     return connected?.call(camera);
@@ -427,7 +427,7 @@ class _$_ConnectionEstablished extends _ConnectionEstablished {
     TResult Function()? connecting,
     TResult Function()? connectingFailed,
     TResult Function(Camera camera)? connected,
-    TResult Function()? disconnecting,
+    TResult Function(Camera camera)? disconnecting,
     TResult Function()? disconnected,
     required TResult orElse(),
   }) {
@@ -494,6 +494,8 @@ abstract class _$$_DisconnectingCopyWith<$Res> {
   factory _$$_DisconnectingCopyWith(
           _$_Disconnecting value, $Res Function(_$_Disconnecting) then) =
       __$$_DisconnectingCopyWithImpl<$Res>;
+  @useResult
+  $Res call({Camera camera});
 }
 
 /// @nodoc
@@ -503,26 +505,50 @@ class __$$_DisconnectingCopyWithImpl<$Res>
   __$$_DisconnectingCopyWithImpl(
       _$_Disconnecting _value, $Res Function(_$_Disconnecting) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? camera = null,
+  }) {
+    return _then(_$_Disconnecting(
+      null == camera
+          ? _value.camera
+          : camera // ignore: cast_nullable_to_non_nullable
+              as Camera,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$_Disconnecting extends _Disconnecting {
-  const _$_Disconnecting() : super._();
+  const _$_Disconnecting(this.camera) : super._();
+
+  @override
+  final Camera camera;
 
   @override
   String toString() {
-    return 'CameraConnectionState.disconnecting()';
+    return 'CameraConnectionState.disconnecting(camera: $camera)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_Disconnecting);
+        (other.runtimeType == runtimeType &&
+            other is _$_Disconnecting &&
+            (identical(other.camera, camera) || other.camera == camera));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, camera);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_DisconnectingCopyWith<_$_Disconnecting> get copyWith =>
+      __$$_DisconnectingCopyWithImpl<_$_Disconnecting>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -530,10 +556,10 @@ class _$_Disconnecting extends _Disconnecting {
     required TResult Function() connecting,
     required TResult Function() connectingFailed,
     required TResult Function(Camera camera) connected,
-    required TResult Function() disconnecting,
+    required TResult Function(Camera camera) disconnecting,
     required TResult Function() disconnected,
   }) {
-    return disconnecting();
+    return disconnecting(camera);
   }
 
   @override
@@ -542,10 +568,10 @@ class _$_Disconnecting extends _Disconnecting {
     TResult? Function()? connecting,
     TResult? Function()? connectingFailed,
     TResult? Function(Camera camera)? connected,
-    TResult? Function()? disconnecting,
+    TResult? Function(Camera camera)? disconnecting,
     TResult? Function()? disconnected,
   }) {
-    return disconnecting?.call();
+    return disconnecting?.call(camera);
   }
 
   @override
@@ -554,12 +580,12 @@ class _$_Disconnecting extends _Disconnecting {
     TResult Function()? connecting,
     TResult Function()? connectingFailed,
     TResult Function(Camera camera)? connected,
-    TResult Function()? disconnecting,
+    TResult Function(Camera camera)? disconnecting,
     TResult Function()? disconnected,
     required TResult orElse(),
   }) {
     if (disconnecting != null) {
-      return disconnecting();
+      return disconnecting(camera);
     }
     return orElse();
   }
@@ -606,8 +632,13 @@ class _$_Disconnecting extends _Disconnecting {
 }
 
 abstract class _Disconnecting extends CameraConnectionState {
-  const factory _Disconnecting() = _$_Disconnecting;
+  const factory _Disconnecting(final Camera camera) = _$_Disconnecting;
   const _Disconnecting._() : super._();
+
+  Camera get camera;
+  @JsonKey(ignore: true)
+  _$$_DisconnectingCopyWith<_$_Disconnecting> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -651,7 +682,7 @@ class _$_Disconnected extends _Disconnected {
     required TResult Function() connecting,
     required TResult Function() connectingFailed,
     required TResult Function(Camera camera) connected,
-    required TResult Function() disconnecting,
+    required TResult Function(Camera camera) disconnecting,
     required TResult Function() disconnected,
   }) {
     return disconnected();
@@ -663,7 +694,7 @@ class _$_Disconnected extends _Disconnected {
     TResult? Function()? connecting,
     TResult? Function()? connectingFailed,
     TResult? Function(Camera camera)? connected,
-    TResult? Function()? disconnecting,
+    TResult? Function(Camera camera)? disconnecting,
     TResult? Function()? disconnected,
   }) {
     return disconnected?.call();
@@ -675,7 +706,7 @@ class _$_Disconnected extends _Disconnected {
     TResult Function()? connecting,
     TResult Function()? connectingFailed,
     TResult Function(Camera camera)? connected,
-    TResult Function()? disconnecting,
+    TResult Function(Camera camera)? disconnecting,
     TResult Function()? disconnected,
     required TResult orElse(),
   }) {

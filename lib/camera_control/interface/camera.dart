@@ -8,6 +8,8 @@ import 'models/control_prop_value.dart';
 abstract class Camera {
   const Camera();
 
+  Future<void> disconnect();
+
   Future<List<ControlPropType>> getSupportedProps();
   Future<ControlProp?> getProp(ControlPropType propType);
   Future<void> setProp(ControlPropType propType, ControlPropValue propValue);

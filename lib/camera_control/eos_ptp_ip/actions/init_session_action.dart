@@ -1,13 +1,9 @@
 import '../communication/ptp_transaction_queue.dart';
 import '../constants/capture_destination.dart';
+import '../constants/event_mode.dart';
+import '../constants/remote_mode.dart';
 import '../extensions/to_byte_extensions.dart';
 import 'action.dart';
-
-class InitFailedException implements Exception {
-  final String message;
-
-  const InitFailedException(this.message);
-}
 
 class InitSessionAction extends Action<void> {
   InitSessionAction([super.operationFactory]);
@@ -30,13 +26,14 @@ class InitSessionAction extends Action<void> {
   }
 
   Future<void> _enableRemoteMode(PtpTransactionQueue transactionQueue) async {
-    final setRemoteMode = operationFactory.createSetRemoteMode();
+    final setRemoteMode =
+        operationFactory.createSetRemoteMode(RemoteMode.enabled);
     final response = await transactionQueue.handle(setRemoteMode);
     verifyOperationResponse(response, 'setRemoteMode');
   }
 
   Future<void> _enableEventMode(PtpTransactionQueue transactionQueue) async {
-    final setEventMode = operationFactory.createSetEventMode();
+    final setEventMode = operationFactory.createSetEventMode(EventMode.enabled);
     final response = await transactionQueue.handle(setEventMode);
     verifyOperationResponse(response, 'setEventMode');
   }

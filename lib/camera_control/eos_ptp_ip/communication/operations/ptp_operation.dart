@@ -10,7 +10,7 @@ abstract class PtpOperation {
 
 abstract class PtpRequestOperation extends PtpOperation {
   final int operationCode;
-  final int dataMode;
+  final PtpDataMode dataMode;
 
   const PtpRequestOperation(
     this.operationCode, [
@@ -20,7 +20,7 @@ abstract class PtpRequestOperation extends PtpOperation {
   PtpPacket buildRequest(int transactionId) {
     final builder = PtpPacketBuilder();
     builder.addUInt32(PtpPacketTyp.operationRequest);
-    builder.addUInt32(dataMode);
+    builder.addUInt32(dataMode.value);
     builder.addUInt16(operationCode);
     builder.addUInt32(transactionId);
 

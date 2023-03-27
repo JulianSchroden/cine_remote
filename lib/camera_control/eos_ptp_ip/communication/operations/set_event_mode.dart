@@ -1,12 +1,15 @@
 import '../../adapter/ptp_packet_builder.dart';
+import '../../constants/event_mode.dart';
 import '../../constants/ptp_operation_code.dart';
 import 'ptp_operation.dart';
 
 class SetEventMode extends PtpRequestOperation {
-  const SetEventMode() : super(PtpOperationCode.setEventMode);
+  final EventMode eventMode;
+
+  const SetEventMode(this.eventMode) : super(PtpOperationCode.setEventMode);
 
   @override
   void preparePayload(PtpPacketBuilder builder) {
-    builder.addUInt32(0x01);
+    builder.addUInt32(eventMode.value);
   }
 }
