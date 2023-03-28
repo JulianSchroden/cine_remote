@@ -1,6 +1,6 @@
 import '../../adapter/ptp_packet_builder.dart';
 import '../../constants/ptp_data_mode.dart';
-import '../../constants/ptp_package_typ.dart';
+import '../../constants/ptp_package_type.dart';
 import '../../extensions/int_as_hex_string_extension.dart';
 import '../../models/ptp_packet.dart';
 
@@ -19,7 +19,7 @@ abstract class PtpRequestOperation extends PtpOperation {
 
   PtpPacket buildRequest(int transactionId) {
     final builder = PtpPacketBuilder();
-    builder.addUInt32(PtpPacketTyp.operationRequest);
+    builder.addUInt32(PtpPacketType.operationRequest);
     builder.addUInt32(dataMode.value);
     builder.addUInt16(operationCode);
     builder.addUInt32(transactionId);
@@ -43,7 +43,7 @@ abstract class PtpDataOperation extends PtpRequestOperation {
 
   PtpPacket buildDataStart(int transactionId, int totalBytes) {
     final builder = PtpPacketBuilder();
-    builder.addUInt32(PtpPacketTyp.startDataPacket);
+    builder.addUInt32(PtpPacketType.startDataPacket);
     builder.addUInt32(transactionId);
     builder.addUInt64(BigInt.from(totalBytes));
     return builder.build();
@@ -53,7 +53,7 @@ abstract class PtpDataOperation extends PtpRequestOperation {
 
   PtpPacket buildDataEnd(int transactionId, PtpPacket dataPacket) {
     final builder = PtpPacketBuilder();
-    builder.addUInt32(PtpPacketTyp.endDataPacket);
+    builder.addUInt32(PtpPacketType.endDataPacket);
     builder.addUInt32(transactionId);
     builder.add(dataPacket.data);
 

@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import '../adapter/ptp_packet_builder.dart';
-import '../constants/ptp_package_typ.dart';
+import '../constants/ptp_package_type.dart';
 import '../models/ptp_packet.dart';
 
 class PtpRequestFactory {
@@ -11,7 +11,7 @@ class PtpRequestFactory {
     int version = 1,
   }) {
     final builder = PtpPacketBuilder();
-    builder.addUInt32(PtpPacketTyp.initCommandRequest);
+    builder.addUInt32(PtpPacketType.initCommandRequest);
     builder.add(guid);
     builder.addString(name);
     builder.addUInt32(version);
@@ -20,7 +20,7 @@ class PtpRequestFactory {
 
   PtpPacket createInitEventRequest({required int connectionNumber}) {
     final builder = PtpPacketBuilder();
-    builder.addUInt32(PtpPacketTyp.initEventRequest);
+    builder.addUInt32(PtpPacketType.initEventRequest);
     builder.addUInt32(connectionNumber);
     return builder.build();
   }

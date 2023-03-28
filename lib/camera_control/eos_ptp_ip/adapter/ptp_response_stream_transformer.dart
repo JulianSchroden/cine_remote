@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 
-import '../constants/ptp_package_typ.dart';
+import '../constants/ptp_package_type.dart';
 import '../responses/ptp_data_response.dart';
 import '../responses/ptp_end_data_response.dart';
 import '../responses/ptp_init_command_response.dart';
@@ -81,27 +81,27 @@ class PtpResponseStreamTransformer
         final packetType = segmentReader.getUint32();
 
         switch (packetType) {
-          case PtpPacketTyp.initCommandAck:
+          case PtpPacketType.initCommandAck:
             responses.add(parseInitAckReponse(segmentReader));
             break;
-          case PtpPacketTyp.initEventAck:
+          case PtpPacketType.initEventAck:
             responses.add(PtpInitEventResponse());
             break;
-          case PtpPacketTyp.operationResponse:
+          case PtpPacketType.operationResponse:
             responses.add(parseOperationResponse(
               segmentReader,
               dataPacketMode.takeBytes(),
             ));
             break;
-          case PtpPacketTyp.startDataPacket:
+          case PtpPacketType.startDataPacket:
             final startDataPacket = parseStartDataResponse(segmentReader);
             dataPacketMode.start(startDataPacket.totalLength);
             break;
-          case PtpPacketTyp.dataPacket:
+          case PtpPacketType.dataPacket:
             final dataPacket = parseDataResponse(segmentReader);
             dataPacketMode.addBytes(dataPacket.data);
             break;
-          case PtpPacketTyp.endDataPacket:
+          case PtpPacketType.endDataPacket:
             final endDataPacket = parseEndDataResponse(segmentReader);
 
             dataPacketMode.finish(endDataPacket.data);

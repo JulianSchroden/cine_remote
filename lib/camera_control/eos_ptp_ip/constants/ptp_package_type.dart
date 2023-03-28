@@ -1,5 +1,5 @@
-abstract class PtpPacketTyp {
-  PtpPacketTyp._();
+abstract class PtpPacketType {
+  PtpPacketType._();
 
   static const initCommandRequest = 0x0001;
   static const initCommandAck = 0x0002;
