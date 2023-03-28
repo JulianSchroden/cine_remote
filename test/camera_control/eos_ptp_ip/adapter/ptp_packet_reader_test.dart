@@ -132,6 +132,40 @@ void main() {
       expect(segmentTwoValue, 0x0403);
       expect(segmentTwoBytes, [0x05, 0x06, 0x00, 0x00]);
     });
+
+    test('getRemainingBytes should respect bounds of current segment', () {
+      final packet = PtpPacket(flattenBytes([
+        [0x08, 0x00, 0x00, 0x00], // segment 1: 8 bytes
+        [0x01, 0x00, 0x02, 0x00],
+        [0x0c, 0x00, 0x00, 0x00], // segment 2: 12 bytes
+        [0x03, 0x04],
+        [0x33, 0x34],
+        [0x05, 0x06, 0x00, 0x00],
+        [0x08, 0x00, 0x00, 0x00], // segment 3: 8 bytes
+        [0x03, 0x00, 0x00, 0x00],
+      ]));
+
+      final reader = PtpPacketReader.fromPacket(packet);
+      reader.processSegment((reader) {});
+      expect(reader.consumedBytes, 8);
+
+      late Uint8List result;
+      reader.processSegment((reader) {
+        reader.getUint16();
+        result = reader.getRemainingBytes();
+      });
+
+      expect(result.length, 6);
+      expect(
+        result,
+        flattenBytes(
+          [
+            [0x33, 0x34],
+            [0x05, 0x06, 0x00, 0x00],
+          ],
+        ),
+      );
+    });
   });
 
   group('getUint64', () {
@@ -250,6 +284,49 @@ void main() {
       final reader = PtpPacketReader.fromBytes(packetBytes);
 
       expect(() => reader.getBytes(5), throwsA(isA<RangeError>()));
+    });
+  });
+
+  group('getRemainingBytes', () {
+    test('should return all bytes when none have been consumed', () {
+      final packetBytes = flattenBytes([
+        [0x01, 0x11],
+        [0x02, 0x22],
+        [0x03, 0x33],
+        [0x04, 0x44],
+      ]);
+
+      final reader = PtpPacketReader.fromBytes(packetBytes);
+
+      final result = reader.getRemainingBytes();
+      expect(
+        result,
+        packetBytes,
+      );
+    });
+
+    test('should return remaining bytes after reading value', () {
+      final packetBytes = flattenBytes([
+        [0x01, 0x11],
+        [0x02, 0x22],
+        [0x03, 0x33],
+        [0x04, 0x44],
+      ]);
+
+      final reader = PtpPacketReader.fromBytes(packetBytes);
+      reader.getUint16();
+
+      final result = reader.getRemainingBytes();
+      expect(
+        result,
+        flattenBytes(
+          [
+            [0x02, 0x22],
+            [0x03, 0x33],
+            [0x04, 0x44],
+          ],
+        ),
+      );
     });
   });
 

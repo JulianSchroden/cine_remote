@@ -73,6 +73,12 @@ class PtpPacketReader {
     );
   }
 
+  Uint8List getRemainingBytes() {
+    final currentOffset = _bytes.offsetInBytes + _offset;
+
+    return Uint8List.view(_bytes.buffer, currentOffset, unconsumedBytes);
+  }
+
   String getString() {
     final charCodes = <int>[];
 
