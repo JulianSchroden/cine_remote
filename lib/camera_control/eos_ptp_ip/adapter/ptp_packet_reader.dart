@@ -27,7 +27,8 @@ class PtpPacketReader {
   }
 
   void processSegment(void Function(PtpPacketReader reader) callback) {
-    final segmentDataLength = getUint32() - 4;
+    final segmentLength = getUint32();
+    final segmentDataLength = segmentLength - 4;
 
     if (segmentDataLength > unconsumedBytes) {
       throw RangeError(

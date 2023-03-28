@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import '../constants/ptp_package_typ.dart';
+import '../responses/ptp_data_response.dart';
 import '../responses/ptp_end_data_response.dart';
 import '../responses/ptp_init_command_response.dart';
 import '../responses/ptp_init_event_response.dart';
@@ -96,11 +97,13 @@ class PtpResponseStreamTransformer
             final startDataPacket = parseStartDataResponse(segmentReader);
             dataPacketMode.start(startDataPacket.totalLength);
             break;
+          case PtpPacketTyp.dataPacket:
+            final dataPacket = parseDataResponse(segmentReader);
+            dataPacketMode.addBytes(dataPacket.data);
+            break;
           case PtpPacketTyp.endDataPacket:
-            final endDataPacket = parseEndDataResponse(
-              segmentReader,
-              dataPacketMode.totalLength,
-            );
+            final endDataPacket = parseEndDataResponse(segmentReader);
+
             dataPacketMode.finish(endDataPacket.data);
             break;
         }
@@ -146,12 +149,16 @@ class PtpResponseStreamTransformer
     return PtpStartDataResponse(transactionId, dataLength);
   }
 
-  PtpEndDataResponse parseEndDataResponse(
-    PtpPacketReader reader,
-    int dataLength,
-  ) {
+  PtpDataResponse parseDataResponse(PtpPacketReader reader) {
     final transactionId = reader.getUint32();
-    final data = reader.getBytes(dataLength);
+    final data = reader.getRemainingBytes();
+
+    return PtpDataResponse(transactionId, data);
+  }
+
+  PtpEndDataResponse parseEndDataResponse(PtpPacketReader reader) {
+    final transactionId = reader.getUint32();
+    final data = reader.getRemainingBytes();
 
     return PtpEndDataResponse(transactionId, data);
   }
@@ -166,23 +173,27 @@ class ParserResult {
 
 class PtpDataPacketMode {
   int _totalLength = 0;
-  Uint8List _data = Uint8List(0);
+  final _dataBuilder = BytesBuilder();
 
   int get totalLength => _totalLength;
 
+  int get receivedBytes => _dataBuilder.length;
+
+  void addBytes(Uint8List data) {
+    _dataBuilder.add(data);
+  }
+
   Uint8List takeBytes() {
-    final tempData = Uint8List.fromList(_data);
-    _data = Uint8List(0);
-    return tempData;
+    _totalLength = 0;
+    return Uint8List.fromList(_dataBuilder.takeBytes());
   }
 
   void start(int totalLength) {
-    _data = Uint8List(0);
+    _dataBuilder.clear();
     _totalLength = totalLength;
   }
 
   void finish(Uint8List data) {
-    _data = data;
-    _totalLength = 0;
+    addBytes(data);
   }
 }
