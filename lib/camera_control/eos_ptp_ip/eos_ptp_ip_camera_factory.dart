@@ -61,9 +61,11 @@ class EosPtpIpCameraFactory extends CameraFactory<EosPtpIpCameraDescriptor> {
     final initSession = _actionFactory.createInitSessionAction();
     await initSession.run(transactionQueue);
 
+    logger.info('Requesting initial event data');
     final getEventData = _actionFactory.createGetEventsAction();
     final updateEvents = await getEventData.run(transactionQueue);
 
+    logger.info('Init property cache with event data');
     final propertyCache = PtpPropertyCache();
     propertyCache.update(updateEvents);
 

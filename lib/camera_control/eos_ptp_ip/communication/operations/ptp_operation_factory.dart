@@ -5,6 +5,7 @@ import '../../constants/event_mode.dart';
 import '../../constants/remote_mode.dart';
 import 'close_session.dart';
 import 'get_event_data.dart';
+import 'get_live_view_image.dart';
 import 'open_session.dart';
 import 'set_event_mode.dart';
 import 'set_prop_value.dart';
@@ -36,4 +37,6 @@ class PtpOperationFactory {
 
   StopImageCapture createStopImageCapture(CapturePhase capturePhase) =>
       StopImageCapture(capturePhase);
+
+  GetLiveViewImage createGetLiveViewImage() => const GetLiveViewImage();
 }

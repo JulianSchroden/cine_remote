@@ -95,8 +95,8 @@ class EosPtpIpCamera extends Camera {
   }
 
   @override
-  Future<Uint8List> getLiveViewImage() {
-    // TODO: implement getLiveViewImage
-    throw UnimplementedError();
+  Future<Uint8List> getLiveViewImage() async {
+    final getLiveViewImage = _actionFactory.createGetLiveViewImageAction();
+    return await getLiveViewImage.run(_transactionQueue);
   }
 }

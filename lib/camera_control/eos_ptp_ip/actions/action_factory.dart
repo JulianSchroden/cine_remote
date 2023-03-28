@@ -4,6 +4,7 @@ import '../constants/live_view_output.dart';
 import '../models/eos_ptp_prop_value.dart';
 import 'capture_image_action.dart';
 import 'deinit_session_action.dart';
+import 'get_live_view_image_action.dart';
 import 'init_session_action.dart';
 import 'set_live_view_output_action.dart';
 import 'set_prop_action.dart';
@@ -29,4 +30,7 @@ class ActionFactory {
     LiveViewOutput liveViewOutput,
   ) =>
       SetLiveViewOutputAction(liveViewOutput);
+
+  GetLiveViewImageAction createGetLiveViewImageAction() =>
+      GetLiveViewImageAction();
 }
