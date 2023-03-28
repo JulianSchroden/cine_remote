@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'dart:typed_data';
 
 extension DumpHexDataExtension on Uint8List {
   String dumpAsHex() {

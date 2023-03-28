@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'dart:typed_data';
 
 import 'models/camera_update_response.dart';
 import 'models/control_prop.dart';

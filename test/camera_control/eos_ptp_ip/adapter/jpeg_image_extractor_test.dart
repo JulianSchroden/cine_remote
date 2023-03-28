@@ -1,5 +1,6 @@
+import 'dart:typed_data';
+
 import 'package:cine_remote/camera_control/eos_ptp_ip/adapter/jpeg_image_extractor.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../packet_helper.dart';
