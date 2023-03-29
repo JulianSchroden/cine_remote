@@ -1,5 +1,7 @@
 extension IntAsHexStringExtension on int {
-  String asHex({int padLeft = 0}) {
-    return '0x${toRadixString(16).padLeft(padLeft, '0')}';
+  String asHex({bool withPrefix = true, int padLeft = 0}) {
+    final prefix = withPrefix ? '0x' : '';
+
+    return '$prefix${toRadixString(16).padLeft(padLeft, '0')}';
   }
 }
