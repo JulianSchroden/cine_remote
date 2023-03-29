@@ -2,11 +2,10 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:logging/logging.dart';
-
 import '../../interface/exceptions/camera_connection_exception.dart';
 import '../adapter/ptp_response_stream_transformer.dart';
 import '../adapter/socket_factory.dart';
+import '../logging/eos_ptp_ip_logger.dart';
 import '../models/ptp_packet.dart';
 import '../responses/ptp_response.dart';
 
@@ -16,7 +15,7 @@ class PtpIpChannel {
   final PtpResponseStreamTransformer _ptpResponseStreamTransformer;
   bool _isOpen = true;
 
-  final Logger _logger = Logger('PtpIpChannel');
+  final EosPtpIpLogger _logger = EosPtpIpLogger();
 
   static Future<PtpIpChannel> connect(
     InternetAddress address,

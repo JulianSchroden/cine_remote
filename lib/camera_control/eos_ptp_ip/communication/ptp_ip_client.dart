@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 
-import 'package:logging/logging.dart';
-
+import '../logging/eos_ptp_ip_logger.dart';
 import '../models/ptp_packet.dart';
 import '../responses/ptp_response.dart';
 import 'ptp_ip_channel.dart';
@@ -10,7 +9,7 @@ import 'ptp_ip_channel.dart';
 class PtpIpClient {
   final PtpIpChannel _commandChannel;
   final PtpIpChannel _eventChannel;
-  final Logger logger = Logger('PtpIpClient');
+  final EosPtpIpLogger logger = EosPtpIpLogger();
 
   PtpIpClient(this._commandChannel, this._eventChannel);
 
