@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import '../extensions/dump_bytes_extensions.dart';
 import '../extensions/int_as_hex_string_extension.dart';
 
-import '../../interface/camera_control_logger.dart';
+import '../../interface/logging/camera_control_logger.dart';
 import 'eos_ptp_ip_logger_topics.dart';
 
 class EosPtpIpLogger extends CameraControlLogger {
@@ -12,7 +12,7 @@ class EosPtpIpLogger extends CameraControlLogger {
     if (topic != null) {
       log(
         topic.level,
-        'event ${eventCode.asHex()} occured with data:${data.dumpAsHex()}',
+        'event ${eventCode.asHex()} occured with data:${data.dumpAsHex(asValidList: topic.formatDataAsValidList)}',
       );
     }
   }
@@ -31,7 +31,7 @@ class EosPtpIpLogger extends CameraControlLogger {
 
       log(
         topic.level,
-        'propertyChanged: prop ${propertyCode.asHex()} changed to:${data.dumpAsHex()}',
+        'propertyChanged: ${propertyCode.asHex()} changed to:${data.dumpAsHex()}',
       );
     }
   }

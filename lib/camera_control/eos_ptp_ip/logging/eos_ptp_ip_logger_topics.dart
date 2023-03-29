@@ -1,7 +1,12 @@
-import '../../interface/camera_control_logger.dart';
+import '../../interface/logging/camera_control_logger.dart';
 
 class RawEventLoggerTopic extends LoggerTopic {
-  const RawEventLoggerTopic({required super.level});
+  final bool formatDataAsValidList;
+
+  const RawEventLoggerTopic({
+    required super.level,
+    required this.formatDataAsValidList,
+  });
 }
 
 class PropertyChangedLoggerTopic extends LoggerTopic {
@@ -16,8 +21,14 @@ class PropertyChangedLoggerTopic extends LoggerTopic {
 }
 
 class EosPtpIpLoggerTopics {
-  static RawEventLoggerTopic rawEvents({LogLevel level = LogLevel.info}) =>
-      RawEventLoggerTopic(level: level);
+  static RawEventLoggerTopic rawEvents({
+    LogLevel level = LogLevel.info,
+    bool formatDataAsValidList = false,
+  }) =>
+      RawEventLoggerTopic(
+        level: level,
+        formatDataAsValidList: formatDataAsValidList,
+      );
 
   static PropertyChangedLoggerTopic propertyChangedEvents({
     LogLevel level = LogLevel.info,
