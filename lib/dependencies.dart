@@ -7,7 +7,7 @@ import 'camera_control/common/date_time_adapter.dart';
 import 'config.dart';
 
 void registerDependencies() {
-  factory<DateTimeAdapter>(() => DateTimeAdapterImpl());
+  factory<DateTimeAdapter>(() => const DateTimeAdapterImpl());
   singleton<Config>(() => Config());
 
   setupLogging();

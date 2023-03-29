@@ -31,7 +31,7 @@ class EosCineHttpCameraFactory
     final loginAction = actionFactory.createLoginAction(httpAdapter);
     final loginResponse = await loginAction();
     if (!loginResponse.isOkay()) {
-      throw CameraCommunicationException('Failed to acquire auth cookie');
+      throw const CameraCommunicationException('Failed to acquire auth cookie');
     }
 
     httpAdapter.addCookies(loginResponse.cookies);

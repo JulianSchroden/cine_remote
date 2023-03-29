@@ -45,7 +45,8 @@ class PtpIpChannel {
 
   Future<void> write(PtpPacket packet) async {
     if (!_isOpen) {
-      throw CameraConnectionException('Cannot write packet. Channel is closed');
+      throw const CameraConnectionException(
+          'Cannot write packet. Channel is closed');
     }
     _socket.add(packet.data);
     await _socket.flush();

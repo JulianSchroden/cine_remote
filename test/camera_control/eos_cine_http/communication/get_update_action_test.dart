@@ -46,7 +46,6 @@ void main() {
     setupGetProp(0, 200, getUpdateResponse);
 
     final response = await GetUpdateAction(mockHttpAdapter, 0).call();
-    ;
     expect(response.updateSequnce, 3);
     expect(response.cameraEvents, []);
   });

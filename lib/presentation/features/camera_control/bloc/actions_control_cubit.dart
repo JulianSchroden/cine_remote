@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../camera_control/interface/camera.dart';
 import '../../../../camera_control/interface/models/auto_focus_mode.dart';
 import '../../../../camera_control/interface/models/camera_update_event.dart';
 import '../../camera_connection/bloc/camera_connection_cubit.dart';

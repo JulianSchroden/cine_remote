@@ -66,13 +66,14 @@ class DemoCamera extends Camera {
   }
 
   @override
-  Future<void> setProp(ControlPropType propType, ControlPropValue value) async {
+  Future<void> setProp(
+      ControlPropType propType, ControlPropValue propValue) async {
     await Future.delayed(const Duration(milliseconds: 200));
     final propIndex =
         _dummyControlProps.indexWhere((prop) => prop.type == propType);
     _dummyControlProps[propIndex] =
-        _dummyControlProps[propIndex].copyWith(currentValue: value);
-    _pendingUpdateEvents.add(CameraUpdateEvent.prop(propType, value));
+        _dummyControlProps[propIndex].copyWith(currentValue: propValue);
+    _pendingUpdateEvents.add(CameraUpdateEvent.prop(propType, propValue));
   }
 
   @override

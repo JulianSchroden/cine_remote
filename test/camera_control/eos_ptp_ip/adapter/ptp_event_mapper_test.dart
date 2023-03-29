@@ -11,7 +11,7 @@ void main() {
   late PtpEventMapper sut;
 
   setUp(() {
-    sut = PtpEventMapper();
+    sut = const PtpEventMapper();
   });
 
   test('returns empty list when source events is empty list', () {

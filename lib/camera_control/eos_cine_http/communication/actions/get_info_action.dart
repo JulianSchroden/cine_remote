@@ -10,7 +10,7 @@ class GetInfoAction extends GetAction<CameraInfo> {
   Future<CameraInfo> call() async {
     final response = await httpAdapter.get(ApiEndpointPath.getInfo);
     if (!response.isOkay()) {
-      throw CameraCommunicationException('Failed to get info');
+      throw const CameraCommunicationException('Failed to get info');
     }
 
     return CameraInfo.fromJson(response.jsonBody);

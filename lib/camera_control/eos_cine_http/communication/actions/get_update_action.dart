@@ -25,7 +25,7 @@ class GetUpdateAction extends GetAction<GetUpdateResponse> {
     );
 
     if (!response.isOkay()) {
-      throw CameraCommunicationException('Failed to get updates');
+      throw const CameraCommunicationException('Failed to get updates');
     }
 
     logger.info(
