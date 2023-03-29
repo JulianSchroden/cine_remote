@@ -6,9 +6,12 @@ import '../communication/events/prop_value_changed.dart';
 import '../communication/events/ptp_event.dart';
 import '../constants/ptp_event_code.dart';
 import '../constants/ptp_property.dart';
+import '../logging/eos_ptp_ip_logger.dart';
 import 'ptp_packet_reader.dart';
 
 class PtpEventDataParser {
+  final EosPtpIpLogger logger = EosPtpIpLogger();
+
   List<Uint8List> groupData(Uint8List eventData) {
     final byteData = ByteData.view(eventData.buffer);
 
@@ -34,6 +37,8 @@ class PtpEventDataParser {
     while (packetReader.unconsumedBytes > 8) {
       packetReader.processSegment((packetReader) {
         final eventCode = packetReader.getUint32();
+
+        logger.logRawEvent(eventCode, packetReader.peekRemainingBytes());
 
         switch (eventCode) {
           case PtpEventCode.propertyChanged:
@@ -62,8 +67,10 @@ class PtpEventDataParser {
 
   PropValueChanged? parsePropertyChangedEvent(PtpPacketReader packetReader) {
     final propertyCode = packetReader.getUint32();
-    final propertyValue = packetReader.getUint32();
+    logger.logPropertyChangedEvent(
+        propertyCode, packetReader.peekRemainingBytes());
 
+    final propertyValue = packetReader.getUint32();
     final propType = mapPropCodeToType(propertyCode);
     if (propType == null) return null;
 

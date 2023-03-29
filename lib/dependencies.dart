@@ -4,6 +4,9 @@ import 'package:get_it/get_it.dart';
 import 'package:logging/logging.dart';
 
 import 'camera_control/common/date_time_adapter.dart';
+import 'camera_control/eos_ptp_ip/constants/ptp_property.dart';
+import 'camera_control/eos_ptp_ip/logging/eos_ptp_ip_logger_topics.dart';
+import 'camera_control/interface/camera_control_logger.dart';
 import 'config.dart';
 
 void registerDependencies() {
@@ -14,6 +17,13 @@ void registerDependencies() {
 }
 
 void setupLogging() {
+  CameraControlLogger.instance.enabledTopics = [
+    EosPtpIpLoggerTopics.propertyChangedEvents(
+      propsBlackList: [0xd1d5, 0xd1d9],
+      propsWhitelist: [PtpPropertyCode.iso],
+    ),
+  ];
+
   Logger.root.onRecord.listen((record) {
     print('${record.level.name}: ${record.time}: ${record.message}');
   });

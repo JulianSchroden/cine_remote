@@ -1,16 +1,15 @@
-import 'package:logging/logging.dart';
-
 import '../interface/camera.dart';
 import '../interface/camera_factory.dart';
+import 'actions/action_factory.dart';
 import 'adapter/ptp_request_factory.dart';
 import 'cache/ptp_property_cache.dart';
-import 'actions/action_factory.dart';
-import 'communication/ptp_transaction_queue.dart';
 import 'communication/ptp_ip_channel.dart';
 import 'communication/ptp_ip_client.dart';
+import 'communication/ptp_transaction_queue.dart';
 import 'eos_ptp_ip_camera.dart';
 import 'eos_ptp_ip_camera_descriptor.dart';
 import 'extensions/stream_extensions.dart';
+import 'logging/eos_ptp_ip_logger.dart';
 import 'responses/ptp_init_command_response.dart';
 import 'responses/ptp_init_event_response.dart';
 
@@ -18,7 +17,7 @@ class EosPtpIpCameraFactory extends CameraFactory<EosPtpIpCameraDescriptor> {
   static const ptpIpPort = 15740;
 
   final ActionFactory _actionFactory;
-  final Logger logger = Logger('EosPtpIpCameraFactory');
+  final EosPtpIpLogger logger = EosPtpIpLogger();
 
   EosPtpIpCameraFactory([
     this._actionFactory = const ActionFactory(),
