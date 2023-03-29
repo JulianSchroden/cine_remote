@@ -153,6 +153,8 @@ void main() {
       reader.processSegment((reader) {
         reader.getUint16();
         result = reader.getRemainingBytes();
+
+        expect(reader.consumedBytes, 8);
       });
 
       expect(result.length, 6);
@@ -165,6 +167,7 @@ void main() {
           ],
         ),
       );
+      expect(reader.consumedBytes, 20);
     });
   });
 
@@ -225,7 +228,7 @@ void main() {
   });
 
   group('getUint16', () {
-    test('should return correct uint16 value', () {
+    test('returns correct uint16 value', () {
       final packetBytes = flattenBytes([
         [0x01, 0x02],
       ]);
@@ -288,7 +291,7 @@ void main() {
   });
 
   group('getRemainingBytes', () {
-    test('should return all bytes when none have been consumed', () {
+    test('returns all bytes when none have been consumed', () {
       final packetBytes = flattenBytes([
         [0x01, 0x11],
         [0x02, 0x22],
@@ -305,7 +308,7 @@ void main() {
       );
     });
 
-    test('should return remaining bytes after reading value', () {
+    test('returns remaining bytes after reading value', () {
       final packetBytes = flattenBytes([
         [0x01, 0x11],
         [0x02, 0x22],
@@ -330,8 +333,55 @@ void main() {
     });
   });
 
+  group('peekRemainingBytes', () {
+    test('returns all bytes and does not change offset', () {
+      final packetBytes = flattenBytes([
+        [0x01, 0x11],
+        [0x02, 0x22],
+        [0x03, 0x33],
+        [0x04, 0x44],
+      ]);
+
+      final reader = PtpPacketReader.fromBytes(packetBytes);
+
+      final result = reader.peekRemainingBytes();
+      expect(
+        result,
+        packetBytes,
+      );
+      expect(reader.consumedBytes, 0);
+    });
+
+    test(
+        'returns remaining bytes after reading value and does not change offset',
+        () {
+      final packetBytes = flattenBytes([
+        [0x01, 0x11],
+        [0x02, 0x22],
+        [0x03, 0x33],
+        [0x04, 0x44],
+      ]);
+
+      final reader = PtpPacketReader.fromBytes(packetBytes);
+      reader.getUint16();
+
+      final result = reader.peekRemainingBytes();
+      expect(
+        result,
+        flattenBytes(
+          [
+            [0x02, 0x22],
+            [0x03, 0x33],
+            [0x04, 0x44],
+          ],
+        ),
+      );
+      expect(reader.consumedBytes, 2);
+    });
+  });
+
   group('getString', () {
-    test('should return correct string', () {
+    test('returns correct string', () {
       final packetBytes = Uint8List.fromList([
         0x48,
         0x000,

@@ -77,6 +77,15 @@ class PtpPacketReader {
   Uint8List getRemainingBytes() {
     final currentOffset = _bytes.offsetInBytes + _offset;
 
+    final bytes = Uint8List.view(_bytes.buffer, currentOffset, unconsumedBytes);
+    _offset += unconsumedBytes;
+
+    return bytes;
+  }
+
+  Uint8List peekRemainingBytes() {
+    final currentOffset = _bytes.offsetInBytes + _offset;
+
     return Uint8List.view(_bytes.buffer, currentOffset, unconsumedBytes);
   }
 
