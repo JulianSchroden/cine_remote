@@ -12,24 +12,6 @@ import 'ptp_packet_reader.dart';
 class PtpEventDataParser {
   final EosPtpIpLogger logger = EosPtpIpLogger();
 
-  List<Uint8List> groupData(Uint8List eventData) {
-    final byteData = ByteData.view(eventData.buffer);
-
-    final groupedEvents = <Uint8List>[];
-    var offset = 0;
-    while (offset < byteData.lengthInBytes) {
-      if (byteData.lengthInBytes - offset < 8) {
-        break;
-      }
-
-      final eventLength = byteData.getUint32(offset, Endian.little);
-      final eventBytes = eventData.sublist(offset, offset + eventLength);
-      groupedEvents.add(eventBytes);
-      offset += eventLength;
-    }
-    return groupedEvents;
-  }
-
   List<PtpEvent> parseEvents(Uint8List eventData) {
     final packetReader = PtpPacketReader.fromBytes(eventData);
     final updateEvents = <PtpEvent>[];
@@ -71,12 +53,10 @@ class PtpEventDataParser {
         propertyCode, packetReader.peekRemainingBytes());
 
     final propertyValue = packetReader.getUint32();
+    final mappedValue = mapPtpValue(propertyCode, propertyValue);
     final propType = mapPropCodeToType(propertyCode);
-    if (propType == null) return null;
 
-    final mappedValue = mapPtpValue(propType, propertyValue);
-
-    return PropValueChanged(propType, mappedValue);
+    return PropValueChanged(propType, propertyCode, mappedValue);
   }
 
   AllowedValuesChanged? parseAllowedValuesChangedEvent(
@@ -92,7 +72,7 @@ class PtpEventDataParser {
     final allowedValues = <ControlPropValue>[];
     for (int i = 0; i < totalAllowedValues; i++) {
       final value = packetReader.getUint32();
-      final propValue = mapPtpValue(propType, value);
+      final propValue = mapPtpValue(propertyCode, value);
       allowedValues.add(propValue);
     }
 

@@ -11,13 +11,18 @@ class PtpPropertyCache {
   void update(List<PtpEvent> events) {
     for (final event in events) {
       if (event is PropValueChanged) {
+        if (event.propType == null) {
+          continue;
+        }
+
         if (_cachedProps.containsKey(event.propType)) {
-          _cachedProps[event.propType] = _cachedProps[event.propType]!.copyWith(
+          _cachedProps[event.propType!] =
+              _cachedProps[event.propType]!.copyWith(
             currentValue: event.propValue,
           );
         } else {
-          _cachedProps[event.propType] = CachedProperty(
-            type: event.propType,
+          _cachedProps[event.propType!] = CachedProperty(
+            type: event.propType!,
             currentValue: event.propValue,
           );
         }

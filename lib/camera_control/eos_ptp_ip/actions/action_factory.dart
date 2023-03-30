@@ -1,6 +1,6 @@
 import '../../interface/models/control_prop_type.dart';
 import '../actions/get_events_action.dart';
-import '../constants/live_view_output.dart';
+import '../constants/properties/live_view_output.dart';
 import '../models/eos_ptp_prop_value.dart';
 import 'capture_image_action.dart';
 import 'deinit_session_action.dart';

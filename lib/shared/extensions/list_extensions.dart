@@ -25,7 +25,7 @@ extension UpdateWhereExtension<Type> on List<Type> {
   }
 }
 
-extension FirstWhereOrNullExtension<T> on List<T> {
+extension FirstWhereOrNullExtension<T> on Iterable<T> {
   T? firstWhereOrNull(bool Function(T) test) {
     try {
       return firstWhere(test);

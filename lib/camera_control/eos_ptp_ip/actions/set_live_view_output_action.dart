@@ -1,5 +1,5 @@
 import '../communication/ptp_transaction_queue.dart';
-import '../constants/live_view_output.dart';
+import '../constants/properties/live_view_output.dart';
 import '../constants/ptp_property.dart';
 import '../extensions/to_byte_extensions.dart';
 import 'action.dart';

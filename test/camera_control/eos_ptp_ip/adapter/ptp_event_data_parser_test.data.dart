@@ -21,6 +21,16 @@ final propChangedEventData = flattenBytes([
   endEventMarker
 ]);
 
+final liveViewOutputChangedEventData = flattenBytes([
+  [
+    [0x10, 0x00, 0x00, 0x00], // length: 16 bytes
+    [0x89, 0xc1, 0x00, 0x00], // eventCode: propertyChanged
+    [0xb0, 0xd1, 0x00, 0x00], // propCode: live view output
+    [0x03, 0x00, 0x00, 0x00], // value: cameraAndHost
+  ],
+  endEventMarker
+]);
+
 final allowedValuesChangedEventData = flattenBytes([
   [
     [0x20, 0x00, 0x00, 0x00], // length: 32 bytes

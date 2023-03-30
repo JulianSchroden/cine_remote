@@ -10,7 +10,7 @@ import 'actions/action_factory.dart';
 import 'adapter/ptp_event_mapper.dart';
 import 'cache/ptp_property_cache.dart';
 import 'communication/ptp_transaction_queue.dart';
-import 'constants/live_view_output.dart';
+import 'constants/properties/live_view_output.dart';
 import 'models/eos_ptp_prop_value.dart';
 
 class EosPtpIpCamera extends BaseCamera {

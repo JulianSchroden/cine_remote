@@ -9,9 +9,9 @@ class PtpEventMapper {
     final cameraUpdateEvents = <CameraUpdateEvent>[];
 
     for (final event in ptpEvents) {
-      if (event is PropValueChanged) {
+      if (event is PropValueChanged && event.propType != null) {
         cameraUpdateEvents
-            .add(CameraUpdateEvent.prop(event.propType, event.propValue));
+            .add(CameraUpdateEvent.prop(event.propType!, event.propValue));
       }
     }
 
