@@ -1,6 +1,7 @@
+import 'dart:async';
 import 'dart:typed_data';
 
-import '../interface/camera.dart';
+import '../common/base_camera.dart';
 import '../interface/models/camera_update_response.dart';
 import '../interface/models/control_prop.dart';
 import '../interface/models/control_prop_type.dart';
@@ -12,7 +13,7 @@ import 'communication/ptp_transaction_queue.dart';
 import 'constants/live_view_output.dart';
 import 'models/eos_ptp_prop_value.dart';
 
-class EosPtpIpCamera extends Camera {
+class EosPtpIpCamera extends BaseCamera {
   final PtpTransactionQueue _transactionQueue;
   final ActionFactory _actionFactory;
   final PtpPropertyCache _propertyCache;
@@ -85,6 +86,8 @@ class EosPtpIpCamera extends Camera {
     final startLiveView = _actionFactory
         .createSetLiveViewOutputAction(LiveViewOutput.cameraAndHost);
     await startLiveView.run(_transactionQueue);
+    await Future.delayed(const Duration(seconds: 3));
+    // TODO: wait for propertyChangedEvent with value cameraAndHost
   }
 
   @override

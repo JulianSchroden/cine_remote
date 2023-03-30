@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import '../interface/camera.dart';
+import '../common/base_camera.dart';
 import '../interface/models/camera_update_response.dart';
 import '../interface/models/control_prop.dart';
 import '../interface/models/control_prop_type.dart';
@@ -10,7 +10,7 @@ import 'communication/action_factory.dart';
 import 'models/camera_info.dart';
 import 'models/eos_cine_prop_value.dart';
 
-class EosCineHttpCamera extends Camera {
+class EosCineHttpCamera extends BaseCamera {
   final HttpAdapter httpAdapter;
   final ActionFactory actionFactory;
   int _nextUpdateSequence = 0;

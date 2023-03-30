@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:get_it/get_it.dart';
 import 'package:logging/logging.dart';
 
-import 'camera_control/common/date_time_adapter.dart';
+import 'camera_control/common/adapter/date_time_adapter.dart';
 import 'camera_control/eos_ptp_ip/constants/ptp_property.dart';
 import 'camera_control/eos_ptp_ip/logging/eos_ptp_ip_logger_topics.dart';
 import 'camera_control/interface/logging/camera_control_logger.dart';

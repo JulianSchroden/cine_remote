@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../camera_control/common/date_time_adapter.dart';
+import '../../../../camera_control/common/adapter/date_time_adapter.dart';
 import '../../../../camera_control/interface/models/camera_update_event.dart';
 import '../../../../camera_control/interface/models/control_prop.dart';
 import '../../../../camera_control/interface/models/control_prop_type.dart';

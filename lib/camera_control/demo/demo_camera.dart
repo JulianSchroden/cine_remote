@@ -2,14 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 
-import '../interface/camera.dart';
+import '../common/base_camera.dart';
 import '../interface/models/camera_update_event.dart';
 import '../interface/models/camera_update_response.dart';
 import '../interface/models/control_prop.dart';
 import '../interface/models/control_prop_type.dart';
 import '../interface/models/control_prop_value.dart';
 
-class DemoCamera extends Camera {
+class DemoCamera extends BaseCamera {
   final List<ControlProp> _dummyControlProps = [
     ControlProp(
       type: ControlPropType.iso,

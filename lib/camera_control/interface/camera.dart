@@ -21,7 +21,8 @@ abstract class Camera {
 
   // TODO: refactor liveView feature to stream of images
   // TODO: refactor getUpdate to stream of updates
-  Future<void> startLiveView();
-  Future<void> stopLiveView();
-  Future<Uint8List> getLiveViewImage();
+
+  Stream<Uint8List> liveView({
+    Duration pollInterval = const Duration(milliseconds: 200),
+  });
 }

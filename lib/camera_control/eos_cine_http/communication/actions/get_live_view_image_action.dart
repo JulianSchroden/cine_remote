@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import '../../../common/date_time_adapter.dart';
+import '../../../common/adapter/date_time_adapter.dart';
 import '../../constants/api_endpoint_path.dart';
 import '../get_acion.dart';
 

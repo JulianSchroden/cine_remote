@@ -20,8 +20,7 @@ class LiveViewState with _$LiveViewState {
 
 class LiveViewCubit extends Cubit<LiveViewState> {
   final CameraConnectionCubit _cameraConnectionCubit;
-  Timer? _pollImageTimer;
-  Completer? _getLiveViewImageCompleter;
+  StreamSubscription<Uint8List>? _liveViewStreamSubscription;
 
   LiveViewCubit(
     this._cameraConnectionCubit,
@@ -29,54 +28,47 @@ class LiveViewCubit extends Cubit<LiveViewState> {
 
   @override
   Future<void> close() async {
-    _pollImageTimer?.cancel();
+    await _liveViewStreamSubscription?.cancel();
     return super.close();
   }
 
   Future<void> toggleLiveView() async {
-    await _cameraConnectionCubit.withConnectedCamera(
-      (camera) async {
-        emit(state.copyWith(hasError: false, isLoading: true));
+    emit(state.copyWith(isLoading: true));
 
-        if (!state.isLiveViewActive) {
-          await camera.startLiveView();
-          _startPollImageTimer();
-          emit(state.copyWith(isLoading: false, isLiveViewActive: true));
-        } else {
-          _pollImageTimer?.cancel();
-          await camera.stopLiveView();
-          emit(state.copyWith(isLoading: false, isLiveViewActive: false));
-        }
+    if (_liveViewStreamSubscription != null) {
+      print('cancel previous subscription');
+      await _liveViewStreamSubscription!.cancel();
+      _liveViewStreamSubscription = null;
+      emit(state.copyWith(isLoading: false, isLiveViewActive: false));
+      return;
+    }
+
+    _cameraConnectionCubit.withConnectedCamera(
+      (camera) {
+        print('start listening again');
+        _liveViewStreamSubscription = camera.liveView().listen((imageBytes) {
+          emit(state.copyWith(
+            isLiveViewActive: true,
+            isLoading: false,
+            imageBytes: imageBytes,
+          ));
+        }, onError: (e, s) {
+          emit(state.copyWith(
+            isLiveViewActive: false,
+            isLoading: false,
+            hasError: true,
+          ));
+        });
       },
-      orElse: () => emit(state.copyWith(isLoading: false, hasError: true)),
+      orElse: () {
+        emit(
+          state.copyWith(
+            isLoading: false,
+            isLiveViewActive: false,
+            hasError: true,
+          ),
+        );
+      },
     );
-  }
-
-  void _startPollImageTimer() {
-    _pollImageTimer?.cancel();
-    _pollImageTimer =
-        Timer.periodic(const Duration(milliseconds: 200), (timer) {
-      if (!(_getLiveViewImageCompleter?.isCompleted ?? true)) {
-        print('!! skipping frame !!');
-        return;
-      }
-
-      _getLiveViewImageCompleter = Completer<void>();
-
-      _cameraConnectionCubit.withConnectedCamera(
-        (camera) async {
-          camera.getLiveViewImage().then((imageBytes) {
-            _getLiveViewImageCompleter?.complete();
-            emit(state.copyWith(imageBytes: imageBytes));
-          }).catchError((error) {
-            _getLiveViewImageCompleter?.completeError(error);
-          });
-        },
-        orElse: () {
-          timer.cancel;
-          emit(state.copyWith(hasError: true));
-        },
-      );
-    });
   }
 }

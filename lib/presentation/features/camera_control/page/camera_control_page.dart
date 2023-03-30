@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../camera_control/common/date_time_adapter.dart';
+import '../../../../camera_control/common/adapter/date_time_adapter.dart';
 import '../../../../dependencies.dart';
 import '../../camera_connection/bloc/camera_connection_cubit.dart';
 import '../../live_view/bloc/live_view_cubit.dart';
