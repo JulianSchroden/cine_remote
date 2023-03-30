@@ -34,7 +34,7 @@ abstract class PtpPropertyType {
 
   static const shutterSpeed = MappedValue(
     PtpPropertyCode.shutterSpeed,
-    ControlPropType.shutterAngle,
+    ControlPropType.shutterSpeed,
   );
 
   static const iso = MappedValue(
@@ -84,7 +84,7 @@ EosPtpPropValue mapPtpValue(ControlPropType propType, int value) {
 
 const Map<ControlPropType, List<PtpMappedValue>> knownPropValuesMap = {
   ControlPropType.aperture: ptpApertureValues,
-  ControlPropType.shutterAngle: ptpShutterSpeedValues,
+  ControlPropType.shutterSpeed: ptpShutterSpeedValues,
   ControlPropType.iso: ptpIsoValues,
 };
 

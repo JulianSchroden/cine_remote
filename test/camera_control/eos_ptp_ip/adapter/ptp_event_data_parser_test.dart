@@ -24,7 +24,7 @@ void main() {
         result,
         containsAll([
           const PropValueChanged(
-            ControlPropType.shutterAngle,
+            ControlPropType.shutterSpeed,
             EosPtpPropValue('1/20', 0x5b),
           ),
           const PropValueChanged(
@@ -48,7 +48,7 @@ void main() {
               EosPtpPropValue('2.0', 0x18),
               EosPtpPropValue('2.2', 0x1b),
             ]),
-            const AllowedValuesChanged(ControlPropType.shutterAngle, [
+            const AllowedValuesChanged(ControlPropType.shutterSpeed, [
               EosPtpPropValue('30', 0x10),
               EosPtpPropValue('25', 0x13),
               EosPtpPropValue('20', 0x15),

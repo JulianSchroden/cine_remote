@@ -1,1 +1,7 @@
-enum ControlPropType { iso, aperture, shutterAngle, whiteBalance }
+enum ControlPropType {
+  iso,
+  aperture,
+  shutterAngle,
+  shutterSpeed,
+  whiteBalance,
+}

@@ -1,3 +1,4 @@
+import '../../../interface/exceptions/unsupported_prop_exception.dart';
 import '../../../interface/models/control_prop.dart';
 import '../../../interface/models/control_prop_type.dart';
 import '../../constants/api_endpoint_path.dart';
@@ -13,6 +14,10 @@ class GetPropAction extends GetAction<ControlProp?> {
   @override
   Future<ControlProp?> call() async {
     final propKey = propType.toKey();
+    if (propKey == null) {
+      throw UnsupportedPropException('Cannot get property $propType');
+    }
+
     final response = await httpAdapter.get(
       ApiEndpointPath.getProp,
       {'r': propKey},

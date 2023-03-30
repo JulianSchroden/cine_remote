@@ -10,6 +10,8 @@ extension FormatControlPropExtension on ControlProp {
         return 'F$currentValue';
       case ControlPropType.shutterAngle:
         return '$currentValue°';
+      case ControlPropType.shutterSpeed:
+        return '$currentValue';
       case ControlPropType.whiteBalance:
         return '${currentValue}K';
     }

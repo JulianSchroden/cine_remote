@@ -28,7 +28,7 @@ void main() {
           ControlPropType.aperture, EosPtpPropValue('16', 0x48)),
       const PropValueChanged(
           ControlPropType.iso, EosPtpPropValue('Auto', 0x00)),
-      const AllowedValuesChanged(ControlPropType.shutterAngle, [])
+      const AllowedValuesChanged(ControlPropType.shutterSpeed, [])
     ];
 
     final result = sut.mapToCommon(ptpEvents);

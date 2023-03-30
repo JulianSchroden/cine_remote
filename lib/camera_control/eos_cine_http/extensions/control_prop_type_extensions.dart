@@ -1,7 +1,7 @@
 import '../../interface/models/control_prop_type.dart';
 
 extension ControlPropTypeToPropKeyExtension on ControlPropType {
-  String toKey() {
+  String? toKey() {
     switch (this) {
       case ControlPropType.iso:
         return 'gcv';
@@ -11,6 +11,8 @@ extension ControlPropTypeToPropKeyExtension on ControlPropType {
         return 'ssv';
       case ControlPropType.whiteBalance:
         return 'wbv';
+      default:
+        return null;
     }
   }
 }

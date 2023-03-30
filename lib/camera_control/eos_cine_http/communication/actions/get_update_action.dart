@@ -45,6 +45,10 @@ class GetUpdateAction extends GetAction<GetUpdateResponse> {
 
     for (final propType in ControlPropType.values) {
       final propKey = propType.toKey();
+      if (propKey == null) {
+        continue;
+      }
+
       final propContent = response.jsonBody['O$propKey'];
       if (propContent != null) {
         final propValue = propContent['pv'];

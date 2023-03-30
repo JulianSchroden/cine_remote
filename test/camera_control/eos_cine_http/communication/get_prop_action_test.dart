@@ -4,6 +4,7 @@ import 'package:cine_remote/camera_control/eos_cine_http/communication/actions/g
 import 'package:cine_remote/camera_control/eos_cine_http/constants/api_endpoint_path.dart';
 import 'package:cine_remote/camera_control/eos_cine_http/models/eos_cine_prop_value.dart';
 import 'package:cine_remote/camera_control/eos_cine_http/models/http_adapter_response.dart';
+import 'package:cine_remote/camera_control/interface/exceptions/unsupported_prop_exception.dart';
 import 'package:cine_remote/camera_control/interface/models/control_prop.dart';
 import 'package:cine_remote/camera_control/interface/models/control_prop_type.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -117,5 +118,12 @@ void main() {
               .map((value) => EosCinePropValue(value))
               .toList()),
     );
+  });
+
+  test('throws when trying to get unsupported prop', () {
+    act() =>
+        GetPropAction(mockHttpAdapter, ControlPropType.shutterSpeed).call();
+
+    expect(act, throwsA(isA<UnsupportedPropException>()));
   });
 }
