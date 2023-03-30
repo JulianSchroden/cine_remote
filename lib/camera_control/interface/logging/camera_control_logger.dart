@@ -24,6 +24,7 @@ abstract class CameraControlLogger {
 
   T? getTopic<T>();
   bool isTopicEnabled<T>();
+  void whenTopicEnabled<T>(void Function(T topic) callback);
 }
 
 /// The global config for the CameraControlLogger.

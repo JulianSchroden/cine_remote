@@ -18,7 +18,9 @@ class PtpTransactionQueue {
     _ptpIpClient.onCommandResponse.listen((response) async {
       if (_currentTransaction == null) return;
 
+      logger.logCompleteTransaction(response);
       _currentTransaction!.complete(response);
+      await _startNextTransaction();
     });
   }
 
@@ -44,7 +46,7 @@ class PtpTransactionQueue {
         .any((transaction) => isEquivalentOperation(transaction.ptpOperation));
 
     if (hasEquivalentOperationInQueue) {
-      logger.info(
+      logger.logTransactionQueueInfo(
           'Skipping operation since equivalent operation is already queued: $operation');
       await _startNextTransaction();
       return Future.value(null);
@@ -58,12 +60,13 @@ class PtpTransactionQueue {
   Future<void> _startNextTransaction() async {
     final hasPendingTransaction = _currentTransaction?.isActive ?? false;
     if (hasPendingTransaction) {
-      logger.info(
+      logger.logTransactionQueueInfo(
           'Cannot start next transaction: Current transaction still pending');
       return;
     }
     if (_transactionQueue.isEmpty) {
-      logger.info('Cannot start next transaction: TransactionQueue is empty');
+      logger.logTransactionQueueInfo(
+          'Cannot start next transaction: TransactionQueue is empty');
       return;
     }
 
@@ -73,6 +76,7 @@ class PtpTransactionQueue {
     final transactionId = _nextTransactionId;
     if (operation is PtpRequestOperation) {
       final requestPacket = operation.buildRequest(transactionId);
+      logger.logNextRequest(operation.operationCode, requestPacket);
       await _ptpIpClient.sendCommand(requestPacket);
 
       if (operation is PtpDataOperation) {
@@ -80,9 +84,11 @@ class PtpTransactionQueue {
 
         final dataStartPacket =
             operation.buildDataStart(transactionId, dataPacket.length);
+        logger.logDataStart(dataStartPacket);
         await _ptpIpClient.sendCommand(dataStartPacket);
 
         final dataEndPacket = operation.buildDataEnd(transactionId, dataPacket);
+        logger.logDataEnd(dataEndPacket);
         await _ptpIpClient.sendCommand(dataEndPacket);
       }
     }

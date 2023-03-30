@@ -18,14 +18,7 @@ void registerDependencies() {
 
 void setupLogging() {
   CameraControlLoggerConfig.init(enabledTopics: [
-    EosPtpIpLoggerTopics.rawEvents(
-      dumpDataAsValidList: true,
-      dumpDataWithLineNumbers: true,
-    ),
-    EosPtpIpLoggerTopics.propertyChangedEvents(
-      propsBlackList: [0xd1d5, 0xd1d9],
-      propsWhitelist: [PtpPropertyCode.iso],
-    ),
+    const EosPtpTransactionQueueTopic(),
   ]);
 
   Logger.root.onRecord.listen((record) {

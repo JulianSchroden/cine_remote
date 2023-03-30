@@ -36,7 +36,6 @@ class LiveViewCubit extends Cubit<LiveViewState> {
     emit(state.copyWith(isLoading: true));
 
     if (_liveViewStreamSubscription != null) {
-      print('cancel previous subscription');
       await _liveViewStreamSubscription!.cancel();
       _liveViewStreamSubscription = null;
       emit(state.copyWith(isLoading: false, isLiveViewActive: false));
@@ -45,7 +44,6 @@ class LiveViewCubit extends Cubit<LiveViewState> {
 
     _cameraConnectionCubit.withConnectedCamera(
       (camera) {
-        print('start listening again');
         _liveViewStreamSubscription = camera.liveView().listen((imageBytes) {
           emit(state.copyWith(
             isLiveViewActive: true,

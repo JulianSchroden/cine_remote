@@ -18,7 +18,7 @@ abstract class Camera {
   Future<void> toggleAfLock();
 
   Stream<CameraUpdateResponse> events({
-    Duration pollInterval = const Duration(milliseconds: 200),
+    Duration pollInterval = const Duration(milliseconds: 500),
   });
 
   Stream<Uint8List> liveView({

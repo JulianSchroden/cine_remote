@@ -9,7 +9,7 @@ abstract class BaseCamera extends Camera {
 
   @override
   Stream<CameraUpdateResponse> events({
-    Duration pollInterval = const Duration(milliseconds: 200),
+    Duration pollInterval = const Duration(milliseconds: 500),
   }) {
     _eventController ??=
         PolledDataStreamController<CameraUpdateResponse>(broadcast: true);

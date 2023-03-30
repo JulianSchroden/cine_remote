@@ -49,6 +49,14 @@ class BaseCameraControlLogger extends CameraControlLogger {
     }
   }
 
+  @override
+  void whenTopicEnabled<T>(void Function(T topic) callback) {
+    final topic = getTopic<T>();
+    if (topic != null) {
+      callback(topic);
+    }
+  }
+
   CameraControlLoggerConfig? get _config => CameraControlLoggerConfig.instance;
 }
 
