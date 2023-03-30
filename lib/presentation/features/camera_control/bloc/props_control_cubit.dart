@@ -109,26 +109,24 @@ class PropsControlCubit extends Cubit<PropsControlState> {
         _cameraConnectionCubit.updateEvents.listen((event) {
       event.maybeWhen(
         prop: (propType, value) {
-          try {
-            final prop = state.getProp(propType);
-            final isWithinPendingTime = prop.isWithinPendingTime(
-                _dateTimeAdapter.now(), pendingDuration);
-            final isWaitingForPendingValue =
-                isWithinPendingTime && prop.currentValue != value;
-            if (isWaitingForPendingValue) {
-              return;
-            }
+          final prop = state.getProp(propType);
+          final isWithinPendingTime =
+              prop.isWithinPendingTime(_dateTimeAdapter.now(), pendingDuration);
+          final isWaitingForPendingValue =
+              isWithinPendingTime && prop.currentValue != value;
+          if (isWaitingForPendingValue) {
+            return;
+          }
 
-            final updatedProps = state.controlProps.copyWith(
-              predecate: (prop) => prop.type == propType,
-              transform: (prop) => prop.copyWith(
-                currentValue: value,
-                pendingSince: null,
-              ),
-            );
+          final updatedProps = state.controlProps.copyWith(
+            predecate: (prop) => prop.type == propType,
+            transform: (prop) => prop.copyWith(
+              currentValue: value,
+              pendingSince: null,
+            ),
+          );
 
-            emit(PropsControlState.updateSuccess(updatedProps));
-          } catch (e) {}
+          emit(PropsControlState.updateSuccess(updatedProps));
         },
         orElse: () {},
       );

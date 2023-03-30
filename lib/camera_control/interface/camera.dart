@@ -17,10 +17,9 @@ abstract class Camera {
   Future<void> triggerRecord();
   Future<void> toggleAfLock();
 
-  Future<CameraUpdateResponse> getUpdate();
-
-  // TODO: refactor liveView feature to stream of images
-  // TODO: refactor getUpdate to stream of updates
+  Stream<CameraUpdateResponse> events({
+    Duration pollInterval = const Duration(milliseconds: 200),
+  });
 
   Stream<Uint8List> liveView({
     Duration pollInterval = const Duration(milliseconds: 200),

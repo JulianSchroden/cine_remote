@@ -1,38 +1,47 @@
 import 'dart:async';
 
 class PolledDataStreamController<T> {
+  final bool broadcast;
+
+  PolledDataStreamController({this.broadcast = false});
+
+  StreamController<T>? _controller;
+  Timer? _timer;
+  Completer<void>? _pollDataCompleter;
+
   Stream<T> pollData({
     required Duration pollInterval,
     required Future<T> Function() pollData,
     FutureOr<void> Function()? onListen,
     FutureOr<void> Function()? onCancel,
   }) {
-    Timer? timer;
-    Completer<void>? pollDataCompleter;
+    if (_controller != null) {
+      return _controller!.stream;
+    }
 
-    final controller = StreamController<T>();
-
-    controller.onListen = () async {
+    _controller ??=
+        broadcast ? StreamController<T>.broadcast() : StreamController<T>();
+    _controller!.onListen = () async {
       await onListen?.call();
 
-      timer = Timer.periodic(pollInterval, (timer) async {
-        if (!(pollDataCompleter?.isCompleted ?? true)) {
+      _timer = Timer.periodic(pollInterval, (timer) async {
+        if (!(_pollDataCompleter?.isCompleted ?? true)) {
           return;
         }
 
-        pollDataCompleter = Completer<void>();
+        _pollDataCompleter = Completer<void>();
 
         pollData().then((event) {
-          pollDataCompleter?.complete();
-          controller.add(event);
+          _pollDataCompleter?.complete();
+          _controller?.add(event);
         });
       });
     };
-    controller.onCancel = () async {
-      timer?.cancel();
+    _controller!.onCancel = () async {
+      _timer?.cancel();
       await onCancel?.call();
     };
 
-    return controller.stream;
+    return _controller!.stream;
   }
 }

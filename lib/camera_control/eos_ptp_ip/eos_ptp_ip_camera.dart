@@ -19,7 +19,7 @@ class EosPtpIpCamera extends BaseCamera {
   final PtpPropertyCache _propertyCache;
   final PtpEventMapper _eventMapper;
 
-  const EosPtpIpCamera(
+  EosPtpIpCamera(
     this._transactionQueue,
     this._actionFactory,
     this._propertyCache, [

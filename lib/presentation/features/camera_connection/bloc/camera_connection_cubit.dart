@@ -7,6 +7,7 @@ import '../../../../camera_control/interface/camera.dart';
 import '../../../../camera_control/interface/camera_factory.dart';
 import '../../../../camera_control/interface/models/camera_model.dart';
 import '../../../../camera_control/interface/models/camera_update_event.dart';
+import '../../../../camera_control/interface/models/camera_update_response.dart';
 import '../../../core/extensions/camera_model_to_descriptor_extension.dart';
 
 part 'camera_connection_cubit.freezed.dart';
@@ -29,16 +30,12 @@ class CameraConnectionState with _$CameraConnectionState {
 
 class CameraConnectionCubit extends Cubit<CameraConnectionState> {
   final CameraFactory _cameraFactory;
-  StreamController<CameraUpdateEvent>? _cameraUpdateStreamController;
-  Timer? _updateTimer;
 
   CameraConnectionCubit([this._cameraFactory = const DefaultCameraFactory()])
       : super(const CameraConnectionState.disconnected());
 
   @override
   Future<void> close() async {
-    _updateTimer?.cancel();
-    await _cameraUpdateStreamController?.close();
     return super.close();
   }
 
@@ -58,57 +55,31 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
   }
 
   Future<void> disconnect() async {
-    await withConnectedCamera((camera) async {
-      emit(CameraConnectionState.disconnecting(camera));
-      await camera.disconnect();
-    });
-
-    _updateTimer?.cancel();
-    _updateTimer = null;
-
-    await _cameraUpdateStreamController?.close();
-    _cameraUpdateStreamController = null;
+    await withConnectedCamera(
+      (camera) async {
+        emit(CameraConnectionState.disconnecting(camera));
+        await camera.disconnect();
+      },
+      orElse: () {},
+    );
 
     await Future.delayed(const Duration(seconds: 1));
     emit(const CameraConnectionState.disconnected());
   }
 
-  Future<void> withConnectedCamera(
-    FutureOr Function(Camera camera) callback, {
-    FutureOr Function()? orElse,
-  }) async {
-    await state.maybeWhen(
-      connected: (camera) => callback(camera),
-      disconnecting: (camera) => callback(camera),
-      orElse: () => orElse?.call(),
-    );
-  }
-
-  Stream<CameraUpdateEvent> get updateEvents {
-    if (_cameraUpdateStreamController?.isClosed ?? true) {
-      _cameraUpdateStreamController =
-          StreamController<CameraUpdateEvent>.broadcast(
-        onListen: () {
-          _updateTimer =
-              Timer.periodic(const Duration(milliseconds: 500), (timer) {
-            if (_cameraUpdateStreamController?.isClosed ?? true) return;
-
-            withConnectedCamera((camera) async {
-              final updateResponse = await camera.getUpdate();
-
-              await _cameraUpdateStreamController
-                  ?.addStream(Stream.fromIterable(updateResponse.cameraEvents));
-            }, orElse: () {
-              timer.cancel();
-            });
-          });
-        },
-        onCancel: () {
-          _updateTimer?.cancel();
-        },
+  T withConnectedCamera<T>(
+    T Function(Camera camera) callback, {
+    required T Function() orElse,
+  }) =>
+      state.maybeWhen(
+        connected: (camera) => callback(camera),
+        disconnecting: (camera) => callback(camera),
+        orElse: () => orElse(),
       );
-    }
 
-    return _cameraUpdateStreamController!.stream;
-  }
+  Stream<CameraUpdateEvent> get updateEvents => withConnectedCamera(
+      (camera) => camera
+          .events()
+          .asyncExpand((event) => Stream.fromIterable(event.cameraEvents)),
+      orElse: () => Stream.fromIterable([]));
 }
