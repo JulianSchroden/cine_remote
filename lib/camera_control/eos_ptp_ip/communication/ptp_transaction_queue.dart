@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:collection';
 
 import '../logging/eos_ptp_ip_logger.dart';
+import '../logging/topics/transaction_queue_topics.dart';
 import '../responses/ptp_response.dart';
 import 'operations/ptp_operation.dart';
 import 'ptp_ip_client.dart';
@@ -31,6 +32,8 @@ class PtpTransactionQueue {
   Future<PtpResponse> handle(PtpOperation operation) async {
     final completer = Completer<PtpResponse>();
 
+    logger.info<TransactionQueueChannel>(
+        'Adding new operation to queue: $operation');
     _transactionQueue.add(_PtpTransaction(operation, completer));
 
     await _startNextTransaction();
@@ -46,7 +49,7 @@ class PtpTransactionQueue {
         .any((transaction) => isEquivalentOperation(transaction.ptpOperation));
 
     if (hasEquivalentOperationInQueue) {
-      logger.logTransactionQueueInfo(
+      logger.info<TransactionQueueChannel>(
           'Skipping operation since equivalent operation is already queued: $operation');
       await _startNextTransaction();
       return Future.value(null);
@@ -60,12 +63,12 @@ class PtpTransactionQueue {
   Future<void> _startNextTransaction() async {
     final hasPendingTransaction = _currentTransaction?.isActive ?? false;
     if (hasPendingTransaction) {
-      logger.logTransactionQueueInfo(
+      logger.info<TransactionQueueChannel>(
           'Cannot start next transaction: Current transaction still pending');
       return;
     }
     if (_transactionQueue.isEmpty) {
-      logger.logTransactionQueueInfo(
+      logger.info<TransactionQueueChannel>(
           'Cannot start next transaction: TransactionQueue is empty');
       return;
     }

@@ -5,20 +5,18 @@ import '../../extensions/int_as_hex_string_extension.dart';
 import '../../models/ptp_packet.dart';
 import '../../responses/ptp_response.dart';
 
-class EosPtpTransactionQueueTopic extends LoggerTopic {
+class TransactionQueueChannel extends LoggerChannel {
+  const TransactionQueueChannel();
+}
+
+class EosPtpTransactionQueueTopic extends LoggerTopic<TransactionQueueChannel> {
   const EosPtpTransactionQueueTopic({super.level = LogLevel.info});
 }
 
 mixin EosTransactionQueueLogger on BaseCameraControlLogger {
-  void logTransactionQueueInfo(dynamic message) {
-    whenTopicEnabled<EosPtpTransactionQueueTopic>((topic) {
-      info(message);
-    });
-  }
-
   void logNextRequest(int operationCode, PtpPacket packet) {
     whenTopicEnabled<EosPtpTransactionQueueTopic>((topic) {
-      info(
+      info<TransactionQueueChannel>(
         'Sending request ${operationCode.asHex(padLeft: 4)} with data: ${packet.data.dumpAsHex()}',
       );
     });
@@ -26,19 +24,22 @@ mixin EosTransactionQueueLogger on BaseCameraControlLogger {
 
   void logDataStart(PtpPacket packet) {
     whenTopicEnabled<EosPtpTransactionQueueTopic>((topic) {
-      info('Sending dataStart packet with payload: ${packet.data.dumpAsHex()}');
+      info<TransactionQueueChannel>(
+          'Sending dataStart packet with payload: ${packet.data.dumpAsHex()}');
     });
   }
 
   void logDataEnd(PtpPacket packet) {
     whenTopicEnabled<EosPtpTransactionQueueTopic>((topic) {
-      info('Sending dataEnd packet with paylaod: ${packet.data.dumpAsHex()}');
+      info<TransactionQueueChannel>(
+          'Sending dataEnd packet with paylaod: ${packet.data.dumpAsHex()}');
     });
   }
 
   void logCompleteTransaction(PtpResponse response) {
     whenTopicEnabled<EosPtpTransactionQueueTopic>((topic) {
-      info('Completing transaction with response: $response');
+      info<TransactionQueueChannel>(
+          'Completing transaction with response: $response');
     });
   }
 }

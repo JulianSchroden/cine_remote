@@ -5,7 +5,11 @@ import '../../../interface/logging/camera_control_logger.dart';
 import '../../extensions/dump_bytes_extensions.dart';
 import '../../extensions/int_as_hex_string_extension.dart';
 
-class EosPtpRawEventLoggerTopic extends LoggerTopic {
+class RawEventChannel extends LoggerChannel {
+  const RawEventChannel();
+}
+
+class EosPtpRawEventLoggerTopic extends LoggerTopic<RawEventChannel> {
   final bool dumpDataAsValidList;
   final bool dumpDataWithLineNumbers;
 
@@ -16,7 +20,12 @@ class EosPtpRawEventLoggerTopic extends LoggerTopic {
   });
 }
 
-class EosPtpPropertyChangedLoggerTopic extends LoggerTopic {
+class PropertyChangedChannel extends LoggerChannel {
+  const PropertyChangedChannel();
+}
+
+class EosPtpPropertyChangedLoggerTopic
+    extends LoggerTopic<PropertyChangedChannel> {
   final List<int> propsWhitelist;
   final List<int> propsBlackList;
 
@@ -29,32 +38,32 @@ class EosPtpPropertyChangedLoggerTopic extends LoggerTopic {
 
 mixin EosEventLogger on BaseCameraControlLogger {
   void logRawEvent(int eventCode, Uint8List data) {
-    final topic = getTopic<EosPtpRawEventLoggerTopic>();
-    if (topic != null) {
-      log(
-        topic.level,
+    final config = getTopic<EosPtpRawEventLoggerTopic>();
+    if (config != null) {
+      log<RawEventChannel>(
+        config.level,
         'event ${eventCode.asHex()} occured with data:${data.dumpAsHex(
-          asValidList: topic.dumpDataAsValidList,
-          withLineNumbers: topic.dumpDataWithLineNumbers,
+          asValidList: config.dumpDataAsValidList,
+          withLineNumbers: config.dumpDataWithLineNumbers,
         )}',
       );
     }
   }
 
   void logPropertyChangedEvent(int propertyCode, Uint8List data) {
-    final topic = getTopic<EosPtpPropertyChangedLoggerTopic>();
-    if (topic != null) {
-      if (topic.propsBlackList.contains(propertyCode)) {
+    final config = getTopic<EosPtpPropertyChangedLoggerTopic>();
+    if (config != null) {
+      if (config.propsBlackList.contains(propertyCode)) {
         return;
       }
 
-      if (topic.propsWhitelist.isNotEmpty &&
-          !topic.propsWhitelist.contains(propertyCode)) {
+      if (config.propsWhitelist.isNotEmpty &&
+          !config.propsWhitelist.contains(propertyCode)) {
         return;
       }
 
-      log(
-        topic.level,
+      log<PropertyChangedChannel>(
+        config.level,
         'propertyChanged: ${propertyCode.asHex()} changed to:${data.dumpAsHex()}',
       );
     }

@@ -9,23 +9,37 @@ class BaseCameraControlLogger extends CameraControlLogger {
   BaseCameraControlLogger() : logger = Logger(printer: StructuredLogPrinter());
 
   @override
-  void log(
+  void log<C extends LoggerChannel>(
     LogLevel level,
     dynamic message, [
     dynamic error,
     StackTrace? stackTrace,
   ]) {
-    logger.log(level.toImpl(), message, error, stackTrace);
+    if (isChannelEnabled<C>()) {
+      logger.log(level.toImpl(), message, error, stackTrace);
+    }
   }
 
   @override
-  void info(dynamic message, [dynamic error, StackTrace? stackTrace]) {
-    logger.i(message, error, stackTrace);
+  void info<C extends LoggerChannel>(
+    dynamic message, [
+    dynamic error,
+    StackTrace? stackTrace,
+  ]) {
+    if (isChannelEnabled<C>()) {
+      logger.i(message, error, stackTrace);
+    }
   }
 
   @override
-  void warning(dynamic message, [dynamic error, StackTrace? stackTrace]) {
-    logger.w(message, error, stackTrace);
+  void warning<C extends LoggerChannel>(
+    dynamic message, [
+    dynamic error,
+    StackTrace? stackTrace,
+  ]) {
+    if (isChannelEnabled<C>()) {
+      logger.w(message, error, stackTrace);
+    }
   }
 
   @override
@@ -54,6 +68,18 @@ class BaseCameraControlLogger extends CameraControlLogger {
     final topic = getTopic<T>();
     if (topic != null) {
       callback(topic);
+    }
+  }
+
+  @override
+  bool isChannelEnabled<C extends LoggerChannel>() {
+    try {
+      final topicOfChannel = _config?.enabledTopics.firstWhere(
+        (topic) => topic is LoggerTopic<C>,
+      );
+      return topicOfChannel != null;
+    } catch (e) {
+      return false;
     }
   }
 
