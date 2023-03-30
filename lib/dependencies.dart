@@ -17,13 +17,16 @@ void registerDependencies() {
 }
 
 void setupLogging() {
-  CameraControlLogger.instance.enabledTopics = [
-    EosPtpIpLoggerTopics.rawEvents(formatDataAsValidList: true),
+  CameraControlLoggerConfig.init(enabledTopics: [
+    EosPtpIpLoggerTopics.rawEvents(
+      dumpDataAsValidList: true,
+      dumpDataWithLineNumbers: true,
+    ),
     EosPtpIpLoggerTopics.propertyChangedEvents(
       propsBlackList: [0xd1d5, 0xd1d9],
       propsWhitelist: [PtpPropertyCode.iso],
     ),
-  ];
+  ]);
 
   Logger.root.onRecord.listen((record) {
     print('${record.level.name}: ${record.time}: ${record.message}');

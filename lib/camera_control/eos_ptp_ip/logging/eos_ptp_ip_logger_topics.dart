@@ -1,11 +1,13 @@
 import '../../interface/logging/camera_control_logger.dart';
 
 class RawEventLoggerTopic extends LoggerTopic {
-  final bool formatDataAsValidList;
+  final bool dumpDataAsValidList;
+  final bool dumpDataWithLineNumbers;
 
   const RawEventLoggerTopic({
     required super.level,
-    required this.formatDataAsValidList,
+    required this.dumpDataAsValidList,
+    required this.dumpDataWithLineNumbers,
   });
 }
 
@@ -23,11 +25,13 @@ class PropertyChangedLoggerTopic extends LoggerTopic {
 class EosPtpIpLoggerTopics {
   static RawEventLoggerTopic rawEvents({
     LogLevel level = LogLevel.info,
-    bool formatDataAsValidList = false,
+    bool dumpDataAsValidList = false,
+    bool dumpDataWithLineNumbers = false,
   }) =>
       RawEventLoggerTopic(
         level: level,
-        formatDataAsValidList: formatDataAsValidList,
+        dumpDataAsValidList: dumpDataAsValidList,
+        dumpDataWithLineNumbers: dumpDataWithLineNumbers,
       );
 
   static PropertyChangedLoggerTopic propertyChangedEvents({
