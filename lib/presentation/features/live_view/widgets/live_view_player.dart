@@ -20,7 +20,7 @@ class LiveViewPlayer extends StatelessWidget {
                 state.imageBytes!,
                 gaplessPlayback: true,
               ),
-            LiveViewPlayerOverlay(isLiveViewActive: state.isLiveViewActive),
+            const LiveViewPlayerOverlay(),
             ...children,
           ],
         ),

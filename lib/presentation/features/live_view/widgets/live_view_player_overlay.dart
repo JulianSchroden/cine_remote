@@ -6,11 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/live_view_cubit.dart';
 
 class LiveViewPlayerOverlay extends StatefulWidget {
-  final bool isLiveViewActive;
   final Duration autoHideDuration;
 
   const LiveViewPlayerOverlay({
-    required this.isLiveViewActive,
     this.autoHideDuration = const Duration(seconds: 2),
     super.key,
   });
@@ -21,16 +19,10 @@ class LiveViewPlayerOverlay extends StatefulWidget {
 
 class _LiveViewPlayerOverlayState extends State<LiveViewPlayerOverlay> {
   Timer? overlayTimer;
-  bool isVisible = true;
+  bool isTemporarayVisible = false;
 
-  void showPlayerOverlay() => setState(() => isVisible = true);
-  void hidePlayerOverlay() => setState(() => isVisible = false);
-
-  @override
-  void initState() {
-    isVisible = !widget.isLiveViewActive;
-    super.initState();
-  }
+  void showPlayerOverlay() => setState(() => isTemporarayVisible = true);
+  void hidePlayerOverlay() => setState(() => isTemporarayVisible = false);
 
   @override
   void dispose() {
@@ -39,7 +31,7 @@ class _LiveViewPlayerOverlayState extends State<LiveViewPlayerOverlay> {
   }
 
   void handleOverlayTap() {
-    if (isVisible) {
+    if (isTemporarayVisible) {
       hidePlayerOverlay();
       return;
     }
@@ -52,11 +44,11 @@ class _LiveViewPlayerOverlayState extends State<LiveViewPlayerOverlay> {
     });
   }
 
-  Future<void> toggleLiveView(bool isLiveViewActive) async {
+  Future<void> toggleLiveView(bool wasLiveViewActive) async {
     context.read<LiveViewCubit>().toggleLiveView();
     overlayTimer?.cancel();
 
-    if (isLiveViewActive) {
+    if (wasLiveViewActive) {
       showPlayerOverlay();
     } else {
       overlayTimer = Timer.periodic(widget.autoHideDuration, (timer) {
@@ -68,33 +60,43 @@ class _LiveViewPlayerOverlayState extends State<LiveViewPlayerOverlay> {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedOpacity(
-      opacity: isVisible ? 1.0 : 0,
-      duration: const Duration(milliseconds: 200),
-      child: InkWell(
-        onTap: widget.isLiveViewActive ? handleOverlayTap : null,
-        child: Center(
-          child: IgnorePointer(
-            ignoring: !isVisible,
-            child: MaterialButton(
-              onPressed: () => toggleLiveView(widget.isLiveViewActive),
-              color: Colors.white.withOpacity(0.5),
-              shape: const CircleBorder(),
-              child: SizedBox(
-                width: 96,
-                height: 96,
-                child: Icon(
-                  widget.isLiveViewActive
-                      ? Icons.pause
-                      : Icons.play_arrow_outlined,
-                  color: Colors.white,
-                  size: 48,
+    return BlocBuilder<LiveViewCubit, LiveViewState>(builder: (context, state) {
+      final isVisible = !state.isLiveViewActive || isTemporarayVisible;
+      final ignorePlayButtonPresss =
+          state.isLiveViewActive && !isTemporarayVisible;
+
+      return AnimatedOpacity(
+        opacity: isVisible ? 1.0 : 0,
+        duration: const Duration(milliseconds: 200),
+        child: InkWell(
+          onTap: () {
+            if (state.isLiveViewActive) {
+              handleOverlayTap();
+            }
+          },
+          child: Center(
+            child: IgnorePointer(
+              ignoring: ignorePlayButtonPresss,
+              child: MaterialButton(
+                onPressed: () => toggleLiveView(state.isLiveViewActive),
+                color: Colors.white.withOpacity(0.5),
+                shape: const CircleBorder(),
+                child: SizedBox(
+                  width: 96,
+                  height: 96,
+                  child: Icon(
+                    state.isLiveViewActive
+                        ? Icons.pause
+                        : Icons.play_arrow_outlined,
+                    color: Colors.white,
+                    size: 48,
+                  ),
                 ),
               ),
             ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

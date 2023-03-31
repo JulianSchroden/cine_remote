@@ -49,13 +49,15 @@ class LiveViewCubit extends Cubit<LiveViewState> {
             isLiveViewActive: true,
             isLoading: false,
             imageBytes: imageBytes,
+            hasError: false,
           ));
         }, onError: (e, s) {
           emit(state.copyWith(
-            isLiveViewActive: false,
             isLoading: false,
             hasError: true,
           ));
+        }, onDone: () {
+          emit(state.copyWith(isLiveViewActive: false));
         });
       },
       orElse: () {
