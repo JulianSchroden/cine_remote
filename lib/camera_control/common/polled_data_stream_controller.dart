@@ -28,7 +28,13 @@ class PolledDataStreamController<T> {
     _controller ??=
         broadcast ? StreamController<T>.broadcast() : StreamController<T>();
     _controller!.onListen = () async {
-      await onListen?.call();
+      try {
+        await onListen?.call();
+      } catch (e, s) {
+        _controller?.addError(e, s);
+        _controller?.close();
+        return;
+      }
 
       _timer = Timer.periodic(pollInterval, (timer) async {
         if (!(_pollDataCompleter?.isCompleted ?? true)) {
