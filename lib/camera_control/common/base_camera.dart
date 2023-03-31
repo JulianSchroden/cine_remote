@@ -11,7 +11,14 @@ abstract class BaseCamera extends Camera {
     final controller = PolledDataStreamController<Uint8List>(
       pollInterval: pollInterval,
       onListen: () => startLiveView(),
-      pollData: (sink) => sink.addStream(Stream.fromFuture(getLiveViewImage())),
+      pollData: (sink) async {
+        try {
+          final imageBytes = await getLiveViewImage();
+          sink.add(imageBytes);
+        } catch (e, s) {
+          sink.addError(e, s);
+        }
+      },
       onCancel: () => stopLiveView(),
     );
 
