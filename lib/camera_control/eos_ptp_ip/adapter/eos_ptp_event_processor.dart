@@ -3,25 +3,22 @@ import 'dart:async';
 import '../../common/polled_data_stream_controller.dart';
 import '../../interface/exceptions/camera_communication_exception.dart';
 import '../../interface/models/camera_update_event.dart';
-import '../actions/action_factory.dart';
 import '../cache/ptp_property_cache.dart';
 import '../communication/events/prop_value_changed.dart';
 import '../communication/events/ptp_event.dart';
-import '../communication/ptp_transaction_queue.dart';
 import '../extensions/int_as_hex_string_extension.dart';
+import 'get_eos_events_delegate.dart';
 import 'ptp_event_mapper.dart';
 
 class EosPtpEventProcessor {
-  final PtpTransactionQueue _transactionQueue;
-  final ActionFactory _actionFactory;
+  final GetEosEventsDelegate _getEosEventsDelegate;
   final PtpEventMapper _eventMapper;
-
   final PtpPropertyCache _propertyCache;
+
   PolledDataStreamController<PtpEvent>? _eventController;
 
   EosPtpEventProcessor(
-    this._transactionQueue,
-    this._actionFactory,
+    this._getEosEventsDelegate,
     this._propertyCache, [
     this._eventMapper = const PtpEventMapper(),
   ]);
@@ -73,8 +70,5 @@ class EosPtpEventProcessor {
     }
   }
 
-  Future<List<PtpEvent>> _getUpdate() {
-    final getEvents = _actionFactory.createGetEventsAction();
-    return getEvents.run(_transactionQueue);
-  }
+  Future<List<PtpEvent>> _getUpdate() => _getEosEventsDelegate.getEvents();
 }

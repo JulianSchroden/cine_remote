@@ -2,6 +2,7 @@ import '../interface/camera.dart';
 import '../interface/camera_factory.dart';
 import 'actions/action_factory.dart';
 import 'adapter/eos_ptp_event_processor.dart';
+import 'adapter/get_eos_events_delegate.dart';
 import 'adapter/ptp_request_factory.dart';
 import 'cache/ptp_property_cache.dart';
 import 'communication/ptp_ip_channel.dart';
@@ -70,8 +71,10 @@ class EosPtpIpCameraFactory extends CameraFactory<EosPtpIpCameraDescriptor> {
     propertyCache.update(updateEvents);
 
     final eventProcessor = EosPtpEventProcessor(
-      transactionQueue,
-      _actionFactory,
+      GetEosEventsDelegate(
+        transactionQueue,
+        _actionFactory,
+      ),
       propertyCache,
     );
 
