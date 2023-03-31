@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 
 import '../common/base_camera.dart';
 import '../interface/models/camera_update_event.dart';
-import '../interface/models/camera_update_response.dart';
 import '../interface/models/control_prop.dart';
 import '../interface/models/control_prop_type.dart';
 import '../interface/models/control_prop_value.dart';
@@ -40,7 +39,8 @@ class DemoCamera extends BaseCamera {
     )
   ];
   bool _reordState = false;
-  final List<CameraUpdateEvent> _pendingUpdateEvents = [];
+  final _updateStreamController =
+      StreamController<CameraUpdateEvent>.broadcast();
 
   @override
   Future<void> disconnect() async {}
@@ -56,14 +56,7 @@ class DemoCamera extends BaseCamera {
   }
 
   @override
-  Future<CameraUpdateResponse> getUpdate() async {
-    final response = CameraUpdateResponse(
-      cameraEvents: [..._pendingUpdateEvents],
-    );
-    _pendingUpdateEvents.clear();
-
-    return response;
-  }
+  Stream<CameraUpdateEvent> events() => _updateStreamController.stream;
 
   @override
   Future<void> setProp(
@@ -73,7 +66,8 @@ class DemoCamera extends BaseCamera {
         _dummyControlProps.indexWhere((prop) => prop.type == propType);
     _dummyControlProps[propIndex] =
         _dummyControlProps[propIndex].copyWith(currentValue: propValue);
-    _pendingUpdateEvents.add(CameraUpdateEvent.prop(propType, propValue));
+
+    _updateStreamController.add(CameraUpdateEvent.prop(propType, propValue));
   }
 
   @override
@@ -83,7 +77,8 @@ class DemoCamera extends BaseCamera {
   Future<void> triggerRecord() async {
     await Future.delayed(const Duration(milliseconds: 200));
     _reordState = !_reordState;
-    _pendingUpdateEvents.add(CameraUpdateEvent.recordState(_reordState));
+
+    _updateStreamController.add(CameraUpdateEvent.recordState(_reordState));
   }
 
   @override

@@ -5,16 +5,11 @@ import '../communication/events/ptp_event.dart';
 class PtpEventMapper {
   const PtpEventMapper();
 
-  List<CameraUpdateEvent> mapToCommon(List<PtpEvent> ptpEvents) {
-    final cameraUpdateEvents = <CameraUpdateEvent>[];
-
-    for (final event in ptpEvents) {
-      if (event is PropValueChanged && event.propType != null) {
-        cameraUpdateEvents
-            .add(CameraUpdateEvent.prop(event.propType!, event.propValue));
-      }
+  CameraUpdateEvent? mapToCommon(PtpEvent ptpEvents) {
+    if (ptpEvents is PropValueChanged && ptpEvents.propType != null) {
+      return CameraUpdateEvent.prop(ptpEvents.propType!, ptpEvents.propValue);
     }
 
-    return cameraUpdateEvents;
+    return null;
   }
 }

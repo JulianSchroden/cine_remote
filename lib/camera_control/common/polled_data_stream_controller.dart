@@ -1,20 +1,26 @@
 import 'dart:async';
 
 class PolledDataStreamController<T> {
+  final Duration pollInterval;
   final bool broadcast;
 
-  PolledDataStreamController({this.broadcast = false});
+  Future<void> Function(StreamSink<T>) pollData;
+  FutureOr<void> Function()? onListen;
+  FutureOr<void> Function()? onCancel;
+
+  PolledDataStreamController({
+    required this.pollInterval,
+    required this.pollData,
+    this.onListen,
+    this.onCancel,
+    this.broadcast = false,
+  });
 
   StreamController<T>? _controller;
   Timer? _timer;
   Completer<void>? _pollDataCompleter;
 
-  Stream<T> pollData({
-    required Duration pollInterval,
-    required Future<T> Function() pollData,
-    FutureOr<void> Function()? onListen,
-    FutureOr<void> Function()? onCancel,
-  }) {
+  Stream<T> get stream {
     if (_controller != null) {
       return _controller!.stream;
     }
@@ -31,9 +37,8 @@ class PolledDataStreamController<T> {
 
         _pollDataCompleter = Completer<void>();
 
-        pollData().then((event) {
+        pollData(_controller!.sink).then((_) {
           _pollDataCompleter?.complete();
-          _controller?.add(event);
         });
       });
     };

@@ -27,7 +27,7 @@ class GetEventsAction extends Action<List<PtpEvent>> {
     return mapResponse(response);
   }
 
-  FutureOr<List<PtpEvent>> mapResponse(PtpResponse response) async {
+  List<PtpEvent> mapResponse(PtpResponse response) {
     if (response is PtpOperationResponse) {
       if (response.data.isEmpty) {
         logger.warning('Received empty event data response');

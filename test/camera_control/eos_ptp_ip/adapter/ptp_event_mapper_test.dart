@@ -1,5 +1,4 @@
 import 'package:cine_remote/camera_control/eos_ptp_ip/adapter/ptp_event_mapper.dart';
-import 'package:cine_remote/camera_control/eos_ptp_ip/communication/events/allowed_values_changed.dart';
 import 'package:cine_remote/camera_control/eos_ptp_ip/communication/events/prop_value_changed.dart';
 import 'package:cine_remote/camera_control/eos_ptp_ip/communication/events/ptp_event.dart';
 import 'package:cine_remote/camera_control/eos_ptp_ip/constants/ptp_property.dart';
@@ -8,6 +7,8 @@ import 'package:cine_remote/camera_control/interface/models/camera_update_event.
 import 'package:cine_remote/camera_control/interface/models/control_prop_type.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+class FakePtpEvent extends Fake implements PtpEvent {}
+
 void main() {
   late PtpEventMapper sut;
 
@@ -15,42 +16,47 @@ void main() {
     sut = const PtpEventMapper();
   });
 
-  test('returns empty list when source events is empty list', () {
-    final ptpEvents = <PtpEvent>[];
+  test('returns null when source events has unknown type', () {
+    final result = sut.mapToCommon(FakePtpEvent());
 
-    final result = sut.mapToCommon(ptpEvents);
-
-    expect(result, isEmpty);
+    expect(result, null);
   });
 
-  test('maps propValueChanged event', () {
-    final ptpEvents = [
-      const PropValueChanged(
+  group('on propValueChanged event', () {
+    test('maps aperture changed event', () {
+      const apertureChanged = PropValueChanged(
         ControlPropType.aperture,
         PtpPropertyCode.aperture,
         EosPtpPropValue('16', 0x48),
-      ),
-      const PropValueChanged(
+      );
+
+      final result = sut.mapToCommon(apertureChanged);
+
+      expect(
+        result,
+        const CameraUpdateEvent.prop(
+          ControlPropType.aperture,
+          EosPtpPropValue('16', 0x48),
+        ),
+      );
+    });
+
+    test('maps iso changed event', () {
+      const isoChanged = PropValueChanged(
         ControlPropType.iso,
         PtpPropertyCode.iso,
         EosPtpPropValue('Auto', 0x00),
-      ),
-      const AllowedValuesChanged(ControlPropType.shutterSpeed, [])
-    ];
+      );
 
-    final result = sut.mapToCommon(ptpEvents);
+      final result = sut.mapToCommon(isoChanged);
 
-    expect(result.length, 2);
-    expect(
-      result,
-      containsAll(
-        [
-          const CameraUpdateEvent.prop(
-              ControlPropType.aperture, EosPtpPropValue('16', 0x48)),
-          const CameraUpdateEvent.prop(
-              ControlPropType.iso, EosPtpPropValue('Auto', 0x00)),
-        ],
-      ),
-    );
+      expect(
+        result,
+        const CameraUpdateEvent.prop(
+          ControlPropType.iso,
+          EosPtpPropValue('Auto', 0x00),
+        ),
+      );
+    });
   });
 }

@@ -7,7 +7,6 @@ import '../../../../camera_control/interface/camera.dart';
 import '../../../../camera_control/interface/camera_factory.dart';
 import '../../../../camera_control/interface/models/camera_model.dart';
 import '../../../../camera_control/interface/models/camera_update_event.dart';
-import '../../../../camera_control/interface/models/camera_update_response.dart';
 import '../../../core/extensions/camera_model_to_descriptor_extension.dart';
 
 part 'camera_connection_cubit.freezed.dart';
@@ -78,8 +77,7 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
       );
 
   Stream<CameraUpdateEvent> get updateEvents => withConnectedCamera(
-      (camera) => camera
-          .events()
-          .asyncExpand((event) => Stream.fromIterable(event.cameraEvents)),
-      orElse: () => Stream.fromIterable([]));
+        (camera) => camera.events(),
+        orElse: () => Stream.fromIterable([]),
+      );
 }

@@ -2,15 +2,19 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import '../common/base_camera.dart';
-import '../interface/models/camera_update_response.dart';
+import '../common/polled_data_stream_controller.dart';
+import '../interface/models/camera_update_event.dart';
 import '../interface/models/control_prop.dart';
 import '../interface/models/control_prop_type.dart';
 import '../interface/models/control_prop_value.dart';
 import 'actions/action_factory.dart';
 import 'adapter/ptp_event_mapper.dart';
 import 'cache/ptp_property_cache.dart';
+import 'communication/events/prop_value_changed.dart';
+import 'communication/events/ptp_event.dart';
 import 'communication/ptp_transaction_queue.dart';
 import 'constants/properties/live_view_output.dart';
+import 'constants/ptp_property.dart';
 import 'models/eos_ptp_prop_value.dart';
 
 class EosPtpIpCamera extends BaseCamera {
@@ -18,6 +22,8 @@ class EosPtpIpCamera extends BaseCamera {
   final ActionFactory _actionFactory;
   final PtpPropertyCache _propertyCache;
   final PtpEventMapper _eventMapper;
+
+  PolledDataStreamController<PtpEvent>? _eventController;
 
   EosPtpIpCamera(
     this._transactionQueue,
@@ -56,14 +62,40 @@ class EosPtpIpCamera extends BaseCamera {
   }
 
   @override
-  Future<CameraUpdateResponse> getUpdate() async {
+  Stream<CameraUpdateEvent> events() {
+    return eosEvents().transform(
+      StreamTransformer.fromHandlers(
+        handleData: (eosEvent, sink) {
+          final mappedEvent = _eventMapper.mapToCommon(eosEvent);
+
+          if (mappedEvent != null) {
+            sink.add(mappedEvent);
+          }
+        },
+      ),
+    );
+  }
+
+  Stream<PtpEvent> eosEvents() {
+    _eventController ??= PolledDataStreamController<PtpEvent>(
+      pollInterval: const Duration(milliseconds: 500),
+      pollData: (sink) async {
+        final events = await _getUpdate();
+        await sink.addStream(Stream.fromIterable(events));
+      },
+      broadcast: true,
+    );
+
+    return _eventController!.stream;
+  }
+
+  Future<List<PtpEvent>> _getUpdate() async {
     final getEvents = _actionFactory.createGetEventsAction();
     final ptpEvents = await getEvents.run(_transactionQueue);
 
     _propertyCache.update(ptpEvents);
 
-    final mappedEvents = _eventMapper.mapToCommon(ptpEvents);
-    return CameraUpdateResponse(cameraEvents: mappedEvents);
+    return ptpEvents;
   }
 
   @override
@@ -83,9 +115,14 @@ class EosPtpIpCamera extends BaseCamera {
 
   @override
   Future<void> startLiveView() async {
+    print('startLiveView');
     final startLiveView = _actionFactory
         .createSetLiveViewOutputAction(LiveViewOutput.cameraAndHost);
     await startLiveView.run(_transactionQueue);
+
+    await eosEvents().firstWhere((e) =>
+        e is PropValueChanged && e.propCode == PtpPropertyCode.liveViewOutput);
+
     await Future.delayed(const Duration(seconds: 3));
     // TODO: wait for propertyChangedEvent with value cameraAndHost
   }

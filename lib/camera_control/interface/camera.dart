@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'models/camera_update_response.dart';
+import 'models/camera_update_event.dart';
 import 'models/control_prop.dart';
 import 'models/control_prop_type.dart';
 import 'models/control_prop_value.dart';
@@ -17,9 +17,7 @@ abstract class Camera {
   Future<void> triggerRecord();
   Future<void> toggleAfLock();
 
-  Stream<CameraUpdateResponse> events({
-    Duration pollInterval = const Duration(milliseconds: 500),
-  });
+  Stream<CameraUpdateEvent> events();
 
   Stream<Uint8List> liveView({
     Duration pollInterval = const Duration(milliseconds: 200),
