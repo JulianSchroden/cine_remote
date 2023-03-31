@@ -2,35 +2,27 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import '../common/base_camera.dart';
-import '../common/polled_data_stream_controller.dart';
 import '../interface/models/camera_update_event.dart';
 import '../interface/models/control_prop.dart';
 import '../interface/models/control_prop_type.dart';
 import '../interface/models/control_prop_value.dart';
 import 'actions/action_factory.dart';
-import 'adapter/ptp_event_mapper.dart';
-import 'cache/ptp_property_cache.dart';
-import 'communication/events/prop_value_changed.dart';
+import 'adapter/eos_ptp_event_processor.dart';
 import 'communication/events/ptp_event.dart';
 import 'communication/ptp_transaction_queue.dart';
 import 'constants/properties/live_view_output.dart';
-import 'constants/ptp_property.dart';
 import 'models/eos_ptp_prop_value.dart';
 
 class EosPtpIpCamera extends BaseCamera {
   final PtpTransactionQueue _transactionQueue;
   final ActionFactory _actionFactory;
-  final PtpPropertyCache _propertyCache;
-  final PtpEventMapper _eventMapper;
+  final EosPtpEventProcessor _eventProcessor;
 
-  PolledDataStreamController<PtpEvent>? _eventController;
-
-  EosPtpIpCamera(
+  const EosPtpIpCamera(
     this._transactionQueue,
     this._actionFactory,
-    this._propertyCache, [
-    this._eventMapper = const PtpEventMapper(),
-  ]);
+    this._eventProcessor,
+  );
 
   @override
   Future<void> disconnect() async {
@@ -41,12 +33,12 @@ class EosPtpIpCamera extends BaseCamera {
 
   @override
   Future<List<ControlPropType>> getSupportedProps() async {
-    return _propertyCache.supportedProps();
+    return _eventProcessor.propertyCache.supportedProps();
   }
 
   @override
   Future<ControlProp?> getProp(ControlPropType propType) async {
-    return _propertyCache.getProp(propType);
+    return _eventProcessor.propertyCache.getProp(propType);
   }
 
   @override
@@ -62,49 +54,14 @@ class EosPtpIpCamera extends BaseCamera {
   }
 
   @override
-  Stream<CameraUpdateEvent> events() {
-    return eosEvents().transform(
-      StreamTransformer.fromHandlers(
-        handleData: (eosEvent, sink) {
-          final mappedEvent = _eventMapper.mapToCommon(eosEvent);
+  Stream<CameraUpdateEvent> events() => _eventProcessor.events;
 
-          if (mappedEvent != null) {
-            sink.add(mappedEvent);
-          }
-        },
-      ),
-    );
-  }
-
-  Stream<PtpEvent> eosEvents() {
-    _eventController ??= PolledDataStreamController<PtpEvent>(
-      pollInterval: const Duration(milliseconds: 500),
-      pollData: (sink) async {
-        final events = await _getUpdate();
-        await sink.addStream(Stream.fromIterable(events));
-      },
-      broadcast: true,
-    );
-
-    return _eventController!.stream;
-  }
-
-  Future<List<PtpEvent>> _getUpdate() async {
-    final getEvents = _actionFactory.createGetEventsAction();
-    final ptpEvents = await getEvents.run(_transactionQueue);
-
-    _propertyCache.update(ptpEvents);
-
-    return ptpEvents;
-  }
+  Stream<PtpEvent> eosEvents() => _eventProcessor.eosEvents;
 
   @override
   Future<void> triggerRecord() async {
-    print('start of triggerRecord');
     final captureImage = _actionFactory.createCaptureImageAction();
-
     await captureImage.run(_transactionQueue);
-    print('stop of triggerReord');
   }
 
   @override
@@ -115,22 +72,19 @@ class EosPtpIpCamera extends BaseCamera {
 
   @override
   Future<void> startLiveView() async {
-    print('startLiveView');
-    final startLiveView = _actionFactory
-        .createSetLiveViewOutputAction(LiveViewOutput.cameraAndHost);
+    final startLiveView = _actionFactory.createSetLiveViewOutputAction(
+      _eventProcessor,
+      LiveViewOutput.cameraAndHost,
+    );
     await startLiveView.run(_transactionQueue);
-
-    await eosEvents().firstWhere((e) =>
-        e is PropValueChanged && e.propCode == PtpPropertyCode.liveViewOutput);
-
-    await Future.delayed(const Duration(seconds: 3));
-    // TODO: wait for propertyChangedEvent with value cameraAndHost
   }
 
   @override
   Future<void> stopLiveView() async {
-    final stopLiveView =
-        _actionFactory.createSetLiveViewOutputAction(LiveViewOutput.none);
+    final stopLiveView = _actionFactory.createSetLiveViewOutputAction(
+      _eventProcessor,
+      LiveViewOutput.none,
+    );
     await stopLiveView.run(_transactionQueue);
   }
 

@@ -1,5 +1,6 @@
 import '../../interface/models/control_prop_type.dart';
 import '../actions/get_events_action.dart';
+import '../adapter/eos_ptp_event_processor.dart';
 import '../constants/properties/live_view_output.dart';
 import '../models/eos_ptp_prop_value.dart';
 import 'capture_image_action.dart';
@@ -27,9 +28,10 @@ class ActionFactory {
   CaptureImageAction createCaptureImageAction() => CaptureImageAction();
 
   SetLiveViewOutputAction createSetLiveViewOutputAction(
+    EosPtpEventProcessor eventProcessor,
     LiveViewOutput liveViewOutput,
   ) =>
-      SetLiveViewOutputAction(liveViewOutput);
+      SetLiveViewOutputAction(eventProcessor, liveViewOutput);
 
   GetLiveViewImageAction createGetLiveViewImageAction() =>
       GetLiveViewImageAction();

@@ -1,11 +1,11 @@
-import 'ptp_event.dart';
 import '../../../interface/models/control_prop_type.dart';
-import '../../../interface/models/control_prop_value.dart';
+import '../../models/eos_ptp_prop_value.dart';
+import 'ptp_event.dart';
 
 class PropValueChanged extends PtpEvent {
   final ControlPropType? propType;
   final int propCode;
-  final ControlPropValue propValue;
+  final EosPtpPropValue propValue;
 
   const PropValueChanged(this.propType, this.propCode, this.propValue);
 
