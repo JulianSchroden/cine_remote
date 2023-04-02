@@ -3,6 +3,7 @@ import 'dart:async';
 import '../../interface/exceptions/camera_communication_exception.dart';
 import '../communication/operations/ptp_operation_factory.dart';
 import '../communication/ptp_transaction_queue.dart';
+import '../extensions/int_as_hex_string_extension.dart';
 import '../logging/eos_ptp_ip_logger.dart';
 import '../responses/ptp_operation_response.dart';
 import '../responses/ptp_response.dart';
@@ -23,7 +24,7 @@ abstract class Action<T> {
 
     if (response.isNotOkay) {
       throw CameraCommunicationException(
-          'Operation $operationName failed with responseCode ${response.responseCode}.');
+          'Operation $operationName failed with responseCode ${response.responseCode.asHex()}.');
     }
   }
 }
