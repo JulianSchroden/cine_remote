@@ -1,6 +1,7 @@
 abstract class PtpOperationCode {
   const PtpOperationCode._();
 
+  static const getDeviceInfo = 0x1001;
   static const openSession = 0x1002;
   static const closeSession = 0x1003;
 
@@ -12,5 +13,4 @@ abstract class PtpOperationCode {
   static const startImageCapture = 0x9128;
   static const stopImageCapture = 0x9129;
   static const getLiveViewImage = 0x9153;
-
 }
