@@ -1,24 +1,25 @@
+import '../adapter/ptp_device_info_parser.dart';
 import '../communication/ptp_transaction_queue.dart';
-import '../extensions/dump_bytes_extensions.dart';
 import '../responses/ptp_operation_response.dart';
 import 'action.dart';
 
 class GetDeviceInfoAction extends Action<void> {
-  GetDeviceInfoAction([super.operationFactory]);
+  final PtpDeviceInfoParser infoParser;
+  GetDeviceInfoAction([
+    super.operationFactory,
+    this.infoParser = const PtpDeviceInfoParser(),
+  ]);
 
   @override
   Future<void> run(PtpTransactionQueue transactionQueue) async {
-    logger.info('running getDeviceInfo request');
     final getDeviceInfo = operationFactory.createGetDeviceInfo();
     final response = await transactionQueue.handle(getDeviceInfo);
-    logger.info('received response');
 
     verifyOperationResponse(response, 'getDeviceInfo');
 
     final operationResponse = response as PtpOperationResponse;
+    final deviceInfo = infoParser.parseData(operationResponse.data);
 
-    print('received response');
-    logger.info(
-        'received getDeviceInfo response with data: \n${response.data.dumpAsHex(withLineNumbers: true, asValidList: true)}');
+    logger.info('received getDeviceInfo response with data: $deviceInfo');
   }
 }
