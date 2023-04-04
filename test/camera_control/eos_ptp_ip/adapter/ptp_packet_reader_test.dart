@@ -261,6 +261,40 @@ void main() {
     });
   });
 
+  group('getUint8', () {
+    test('returns correct uint8 value', () {
+      final packetBytes = flattenBytes([
+        [0x01, 0x02],
+      ]);
+      final reader = PtpPacketReader.fromBytes(packetBytes);
+
+      final result = reader.getUint8();
+
+      expect(result, 0x01);
+    });
+
+    test('returns correct value when called in sequence', () {
+      final packetBytes = flattenBytes([
+        [0x09, 0x08],
+        [0x03, 0x04],
+      ]);
+      final reader = PtpPacketReader.fromBytes(packetBytes);
+
+      final value1 = reader.getUint8();
+      final value2 = reader.getUint8();
+
+      expect(value1, 0x09);
+      expect(value2, 0x08);
+    });
+
+    test('throws RangeError when trying to read out of bounds bytes', () {
+      final packetBytes = Uint8List(0);
+      final reader = PtpPacketReader.fromBytes(packetBytes);
+
+      expect(() => reader.getUint8(), throwsA(isA<RangeError>()));
+    });
+  });
+
   group('getBytes', () {
     test('returns correct list of bytes', () {
       final packetBytes = Uint8List.fromList([0x01, 0x02, 0x03, 0x04, 0x05]);
@@ -381,7 +415,7 @@ void main() {
   });
 
   group('getString', () {
-    test('returns correct string', () {
+    test('returns parsed null terminated string', () {
       final packetBytes = Uint8List.fromList([
         0x48,
         0x000,
@@ -402,7 +436,7 @@ void main() {
       expect(result, 'Hello');
     });
 
-    test('returns correct value when called in sequence', () {
+    test('returns parsed strings when called in sequence', () {
       final packetBytes = Uint8List.fromList([
         0x48,
         0x00,

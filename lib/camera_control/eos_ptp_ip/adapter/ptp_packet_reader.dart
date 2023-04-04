@@ -63,6 +63,12 @@ class PtpPacketReader {
     return result;
   }
 
+  int getUint8() {
+    final result = _bytes.getUint8(_offset);
+    _offset += 1;
+    return result;
+  }
+
   Uint8List getBytes(int count) {
     final currentOffset = _bytes.offsetInBytes + _offset;
     _offset += count;
