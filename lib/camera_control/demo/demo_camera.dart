@@ -3,10 +3,15 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 
 import '../common/base_camera.dart';
+import '../interface/exceptions/camera_communication_exception.dart';
+import '../interface/models/camera_descriptor.dart';
 import '../interface/models/camera_update_event.dart';
+import '../interface/models/capabilities/control_prop_capability.dart';
 import '../interface/models/control_prop.dart';
 import '../interface/models/control_prop_type.dart';
 import '../interface/models/control_prop_value.dart';
+import '../interface/models/properties/camera_mode.dart';
+import '../interface/models/properties/exposure_mode.dart';
 
 class DemoCamera extends BaseCamera {
   final List<ControlProp> _dummyControlProps = [
@@ -46,8 +51,14 @@ class DemoCamera extends BaseCamera {
   Future<void> disconnect() async {}
 
   @override
-  Future<List<ControlPropType>> getSupportedProps() async {
-    return _dummyControlProps.map((prop) => prop.type).toList();
+  Future<CameraDescriptor> getDescriptor() async {
+    return CameraDescriptor(
+      mode: const CameraMode.photo(ExposureMode.manual),
+      capabilities: [
+        ControlPropCapability(
+            _dummyControlProps.map((prop) => prop.type).toList())
+      ],
+    );
   }
 
   @override

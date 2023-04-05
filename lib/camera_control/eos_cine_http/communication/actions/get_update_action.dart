@@ -1,7 +1,7 @@
 import 'package:logging/logging.dart';
 
 import '../../../interface/exceptions/camera_communication_exception.dart';
-import '../../../interface/models/auto_focus_mode.dart';
+import '../../../interface/models/properties/auto_focus_mode.dart';
 import '../../../interface/models/camera_update_event.dart';
 import '../../../interface/models/control_prop_type.dart';
 import '../../constants/api_endpoint_path.dart';

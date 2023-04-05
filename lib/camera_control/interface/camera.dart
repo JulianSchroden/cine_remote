@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'models/camera_descriptor.dart';
 import 'models/camera_update_event.dart';
 import 'models/control_prop.dart';
 import 'models/control_prop_type.dart';
@@ -10,7 +11,7 @@ abstract class Camera {
 
   Future<void> disconnect();
 
-  Future<List<ControlPropType>> getSupportedProps();
+  Future<CameraDescriptor> getDescriptor();
   Future<ControlProp?> getProp(ControlPropType propType);
   Future<void> setProp(ControlPropType propType, ControlPropValue propValue);
 

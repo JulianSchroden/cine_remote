@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'auto_focus_mode.dart';
+import 'properties/auto_focus_mode.dart';
 import 'control_prop_type.dart';
 import 'control_prop_value.dart';
 

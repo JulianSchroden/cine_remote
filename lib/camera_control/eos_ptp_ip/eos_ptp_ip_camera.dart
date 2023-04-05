@@ -2,10 +2,14 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import '../common/base_camera.dart';
+import '../interface/models/camera_descriptor.dart';
 import '../interface/models/camera_update_event.dart';
+import '../interface/models/capabilities/control_prop_capability.dart';
 import '../interface/models/control_prop.dart';
 import '../interface/models/control_prop_type.dart';
 import '../interface/models/control_prop_value.dart';
+import '../interface/models/properties/camera_mode.dart';
+import '../interface/models/properties/exposure_mode.dart';
 import 'actions/action_factory.dart';
 import 'adapter/eos_ptp_event_processor.dart';
 import 'communication/events/ptp_event.dart';
@@ -32,8 +36,15 @@ class EosPtpIpCamera extends BaseCamera {
   }
 
   @override
-  Future<List<ControlPropType>> getSupportedProps() async {
-    return _eventProcessor.propertyCache.supportedProps();
+  Future<CameraDescriptor> getDescriptor() async {
+    return CameraDescriptor(
+      mode: const CameraMode.photo(ExposureMode.manual),
+      capabilities: [
+        ControlPropCapability(
+          _eventProcessor.propertyCache.supportedProps(),
+        ),
+      ],
+    );
   }
 
   @override

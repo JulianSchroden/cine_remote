@@ -5,6 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../camera_control/common/adapter/date_time_adapter.dart';
 import '../../../../camera_control/interface/models/camera_update_event.dart';
+import '../../../../camera_control/interface/models/capabilities/control_prop_capability.dart';
 import '../../../../camera_control/interface/models/control_prop.dart';
 import '../../../../camera_control/interface/models/control_prop_type.dart';
 import '../../../../camera_control/interface/models/control_prop_value.dart';
@@ -57,9 +58,12 @@ class PropsControlCubit extends Cubit<PropsControlState> {
       emit(const PropsControlState.updating([]));
 
       try {
-        final supportedProps = await camera.getSupportedProps();
+        final descriptor = await camera.getDescriptor();
+        final controlPropCapability =
+            descriptor.getCapability<ControlPropCapability>();
+
         final controlProps = <ControlProp>[];
-        for (final propType in supportedProps) {
+        for (final propType in controlPropCapability.supportedProps) {
           final controlProp = await camera.getProp(propType);
           if (controlProp != null) {
             controlProps.add(controlProp);

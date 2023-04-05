@@ -2,11 +2,15 @@ import 'dart:typed_data';
 
 import '../common/base_camera.dart';
 import '../common/polled_data_stream_controller.dart';
+import '../interface/models/camera_descriptor.dart';
 import '../interface/models/camera_update_event.dart';
 import '../interface/models/camera_update_response.dart';
+import '../interface/models/capabilities/control_prop_capability.dart';
 import '../interface/models/control_prop.dart';
 import '../interface/models/control_prop_type.dart';
 import '../interface/models/control_prop_value.dart';
+import '../interface/models/properties/camera_mode.dart';
+import '../interface/models/properties/exposure_mode.dart';
 import 'adapter/http_adapter.dart';
 import 'communication/action_factory.dart';
 import 'models/camera_info.dart';
@@ -29,13 +33,18 @@ class EosCineHttpCamera extends BaseCamera {
   }
 
   @override
-  Future<List<ControlPropType>> getSupportedProps() async {
-    return [
-      ControlPropType.aperture,
-      ControlPropType.iso,
-      ControlPropType.shutterAngle,
-      ControlPropType.whiteBalance,
-    ];
+  Future<CameraDescriptor> getDescriptor() async {
+    return const CameraDescriptor(
+      mode: CameraMode.video(ExposureMode.manual),
+      capabilities: [
+        ControlPropCapability([
+          ControlPropType.aperture,
+          ControlPropType.iso,
+          ControlPropType.shutterAngle,
+          ControlPropType.whiteBalance,
+        ])
+      ],
+    );
   }
 
   @override

@@ -1,0 +1,1 @@
+class UnsupportedCapabilityException implements Exception {}
