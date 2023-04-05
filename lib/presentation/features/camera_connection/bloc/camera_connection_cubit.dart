@@ -7,7 +7,7 @@ import '../../../../camera_control/interface/camera.dart';
 import '../../../../camera_control/interface/camera_factory.dart';
 import '../../../../camera_control/interface/models/camera_model.dart';
 import '../../../../camera_control/interface/models/camera_update_event.dart';
-import '../../../core/extensions/camera_model_to_descriptor_extension.dart';
+import '../../../core/extensions/camera_model_to_handle_extension.dart';
 
 part 'camera_connection_cubit.freezed.dart';
 
@@ -43,7 +43,7 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
       print('cubit connect');
 
       emit(const CameraConnectionState.connecting());
-      final camera = await _cameraFactory.connect(cameraModel.toDescriptor());
+      final camera = await _cameraFactory.connect(cameraModel.toHandle());
 
       print('connection success');
       emit(CameraConnectionState.connected(camera));

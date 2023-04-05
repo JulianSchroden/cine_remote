@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:cine_remote/camera_control/eos_cine_http/adapter/http_adapter_factory.dart';
 import 'package:cine_remote/camera_control/eos_cine_http/adapter/http_client_factory.dart';
 import 'package:cine_remote/camera_control/eos_cine_http/eos_cine_http_camera.dart';
-import 'package:cine_remote/camera_control/eos_cine_http/eos_cine_http_camera_descriptor.dart';
+import 'package:cine_remote/camera_control/eos_cine_http/eos_cine_http_camera_handle.dart';
 import 'package:cine_remote/camera_control/eos_cine_http/eos_cine_http_camera_factory.dart';
 import 'package:cine_remote/camera_control/eos_cine_http/models/camera_info.dart';
 import 'package:cine_remote/camera_control/eos_cine_http/models/http_adapter_response.dart';
@@ -67,20 +67,20 @@ void main() {
   });
 
   test('uses ClientFactory to create new client', () async {
-    await sut.connect(EosCineHttpCameraDescriptor());
+    await sut.connect(EosCineHttpCameraHandle());
 
     verify(() => mockHttpClientFactory.create()).called(1);
   });
 
   test('uses AdapterFactory to create new adapter and passes client along',
       () async {
-    await sut.connect(EosCineHttpCameraDescriptor());
+    await sut.connect(EosCineHttpCameraHandle());
 
     verify(() => mockHttpAdapterFactory.create(mockHttpClient, any()));
   });
 
   test('calls login action to get auth cookie', () async {
-    await sut.connect(EosCineHttpCameraDescriptor());
+    await sut.connect(EosCineHttpCameraHandle());
 
     verify(() => mockActionFactory.createLoginAction(mockHttpAdapter))
         .called(1);
@@ -100,7 +100,7 @@ void main() {
             jsonBody: json.decode(okResponseBody),
             cookies: []));
 
-    expect(sut.connect(EosCineHttpCameraDescriptor()),
+    expect(sut.connect(EosCineHttpCameraHandle()),
         throwsA(isA<CameraCommunicationException>()));
   });
 
@@ -111,13 +111,13 @@ void main() {
             jsonBody: json.decode('{"res":"busy"}'),
             cookies: []));
 
-    expect(sut.connect(EosCineHttpCameraDescriptor()),
+    expect(sut.connect(EosCineHttpCameraHandle()),
         throwsA(isA<CameraCommunicationException>()));
   });
 
   test('calls getInfo action to get productId and brlang cookie values',
       () async {
-    await sut.connect(EosCineHttpCameraDescriptor());
+    await sut.connect(EosCineHttpCameraHandle());
 
     verify(() => mockActionFactory.createGetInfoAction(mockHttpAdapter));
     verify(() => mockHttpAdapter.addCookies(
@@ -132,7 +132,7 @@ void main() {
   });
 
   test('returns EosCineHttpCamera instance', () async {
-    final camera = await sut.connect(EosCineHttpCameraDescriptor());
+    final camera = await sut.connect(EosCineHttpCameraHandle());
 
     expect(camera, isA<EosCineHttpCamera>());
   });

@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-class CameraDescriptor extends Equatable {
-  const CameraDescriptor();
+class CameraHandle extends Equatable {
+  const CameraHandle();
 
   @override
   List<Object?> get props => [];
