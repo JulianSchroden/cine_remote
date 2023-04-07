@@ -7,6 +7,7 @@ import '../interface/exceptions/camera_communication_exception.dart';
 import '../interface/models/camera_descriptor.dart';
 import '../interface/models/camera_update_event.dart';
 import '../interface/models/capabilities/control_prop_capability.dart';
+import '../interface/models/capabilities/live_view_capability.dart';
 import '../interface/models/control_prop.dart';
 import '../interface/models/control_prop_type.dart';
 import '../interface/models/control_prop_value.dart';
@@ -58,6 +59,7 @@ class DemoCamera extends BaseCamera {
         ControlPropCapability(
           supportedProps: _dummyControlProps.map((prop) => prop.type).toList(),
         ),
+        const LiveViewCapability(aspectRatio: 16 / 9),
       ],
     );
   }

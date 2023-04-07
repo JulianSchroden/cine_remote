@@ -6,6 +6,7 @@ import '../interface/models/camera_descriptor.dart';
 import '../interface/models/camera_update_event.dart';
 import '../interface/models/camera_update_response.dart';
 import '../interface/models/capabilities/control_prop_capability.dart';
+import '../interface/models/capabilities/live_view_capability.dart';
 import '../interface/models/control_prop.dart';
 import '../interface/models/control_prop_type.dart';
 import '../interface/models/control_prop_value.dart';
@@ -43,6 +44,7 @@ class EosCineHttpCamera extends BaseCamera {
           ControlPropType.shutterAngle,
           ControlPropType.whiteBalance,
         ]),
+        LiveViewCapability(aspectRatio: 16 / 9),
       ],
     );
   }
