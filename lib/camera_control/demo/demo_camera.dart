@@ -88,6 +88,9 @@ class DemoCamera extends BaseCamera {
   Future<void> toggleAfLock() async {}
 
   @override
+  Future<void> captureImage() async {}
+
+  @override
   Future<void> triggerRecord() async {
     await Future.delayed(const Duration(milliseconds: 200));
     _reordState = !_reordState;

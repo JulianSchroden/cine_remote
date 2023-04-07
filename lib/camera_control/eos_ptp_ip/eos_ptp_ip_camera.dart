@@ -72,10 +72,13 @@ class EosPtpIpCamera extends BaseCamera {
   Stream<PtpEvent> eosEvents() => _eventProcessor.eosEvents;
 
   @override
-  Future<void> triggerRecord() async {
+  Future<void> captureImage() async {
     final captureImage = _actionFactory.createCaptureImageAction();
     await captureImage.run(_transactionQueue);
   }
+
+  @override
+  Future<void> triggerRecord() async {}
 
   @override
   Future<void> toggleAfLock() {

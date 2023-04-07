@@ -15,6 +15,7 @@ abstract class Camera {
   Future<ControlProp?> getProp(ControlPropType propType);
   Future<void> setProp(ControlPropType propType, ControlPropValue propValue);
 
+  Future<void> captureImage();
   Future<void> triggerRecord();
   Future<void> toggleAfLock();
 

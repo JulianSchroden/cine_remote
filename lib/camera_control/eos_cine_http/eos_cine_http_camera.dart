@@ -72,6 +72,9 @@ class EosCineHttpCamera extends BaseCamera {
   }
 
   @override
+  Future<void> captureImage() async {}
+
+  @override
   Future<void> triggerRecord() async {
     final triggerRecordAction =
         actionFactory.createTriggerRecordAction(httpAdapter);
