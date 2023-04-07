@@ -56,7 +56,8 @@ class DemoCamera extends BaseCamera {
       mode: const CameraMode.photo(ExposureMode.manual),
       capabilities: [
         ControlPropCapability(
-            _dummyControlProps.map((prop) => prop.type).toList())
+          supportedProps: _dummyControlProps.map((prop) => prop.type).toList(),
+        ),
       ],
     );
   }

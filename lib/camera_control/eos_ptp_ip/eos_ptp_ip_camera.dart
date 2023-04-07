@@ -41,7 +41,7 @@ class EosPtpIpCamera extends BaseCamera {
       mode: const CameraMode.photo(ExposureMode.manual),
       capabilities: [
         ControlPropCapability(
-          _eventProcessor.propertyCache.supportedProps(),
+          supportedProps: _eventProcessor.propertyCache.supportedProps(),
         ),
       ],
     );

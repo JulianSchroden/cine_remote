@@ -4,7 +4,7 @@ import '../control_prop_type.dart';
 class ControlPropCapability extends CameraCapability {
   final List<ControlPropType> supportedProps;
 
-  const ControlPropCapability(this.supportedProps);
+  const ControlPropCapability({required this.supportedProps});
 
   @override
   List<Object?> get props => [supportedProps];

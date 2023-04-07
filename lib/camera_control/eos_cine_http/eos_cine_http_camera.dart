@@ -37,12 +37,12 @@ class EosCineHttpCamera extends BaseCamera {
     return const CameraDescriptor(
       mode: CameraMode.video(ExposureMode.manual),
       capabilities: [
-        ControlPropCapability([
+        ControlPropCapability(supportedProps: [
           ControlPropType.aperture,
           ControlPropType.iso,
           ControlPropType.shutterAngle,
           ControlPropType.whiteBalance,
-        ])
+        ]),
       ],
     );
   }
