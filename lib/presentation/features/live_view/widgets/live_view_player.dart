@@ -12,7 +12,7 @@ class LiveViewPlayer extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<LiveViewCubit, LiveViewState>(
       builder: (context, state) => AspectRatio(
-        aspectRatio: 16 / 9,
+        aspectRatio: state.aspectRatio,
         child: Stack(
           children: [
             if (state.imageBytes != null)

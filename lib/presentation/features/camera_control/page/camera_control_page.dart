@@ -35,7 +35,7 @@ class CameraControlPage extends StatelessWidget {
         BlocProvider(
           create: (context) => LiveViewCubit(
             context.read<CameraConnectionCubit>(),
-          ),
+          )..init(),
         )
       ],
       child: BlocListener<CameraConnectionCubit, CameraConnectionState>(

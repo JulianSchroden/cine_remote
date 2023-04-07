@@ -16,10 +16,9 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$LiveViewState {
-  bool get isLiveViewActive => throw _privateConstructorUsedError;
+  LiveViewStatus get status => throw _privateConstructorUsedError;
   Uint8List? get imageBytes => throw _privateConstructorUsedError;
-  bool get isLoading => throw _privateConstructorUsedError;
-  bool get hasError => throw _privateConstructorUsedError;
+  double get aspectRatio => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $LiveViewStateCopyWith<LiveViewState> get copyWith =>
@@ -32,11 +31,7 @@ abstract class $LiveViewStateCopyWith<$Res> {
           LiveViewState value, $Res Function(LiveViewState) then) =
       _$LiveViewStateCopyWithImpl<$Res, LiveViewState>;
   @useResult
-  $Res call(
-      {bool isLiveViewActive,
-      Uint8List? imageBytes,
-      bool isLoading,
-      bool hasError});
+  $Res call({LiveViewStatus status, Uint8List? imageBytes, double aspectRatio});
 }
 
 /// @nodoc
@@ -52,28 +47,23 @@ class _$LiveViewStateCopyWithImpl<$Res, $Val extends LiveViewState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLiveViewActive = null,
+    Object? status = null,
     Object? imageBytes = freezed,
-    Object? isLoading = null,
-    Object? hasError = null,
+    Object? aspectRatio = null,
   }) {
     return _then(_value.copyWith(
-      isLiveViewActive: null == isLiveViewActive
-          ? _value.isLiveViewActive
-          : isLiveViewActive // ignore: cast_nullable_to_non_nullable
-              as bool,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as LiveViewStatus,
       imageBytes: freezed == imageBytes
           ? _value.imageBytes
           : imageBytes // ignore: cast_nullable_to_non_nullable
               as Uint8List?,
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      hasError: null == hasError
-          ? _value.hasError
-          : hasError // ignore: cast_nullable_to_non_nullable
-              as bool,
+      aspectRatio: null == aspectRatio
+          ? _value.aspectRatio
+          : aspectRatio // ignore: cast_nullable_to_non_nullable
+              as double,
     ) as $Val);
   }
 }
@@ -86,11 +76,7 @@ abstract class _$$_LiveViewStateCopyWith<$Res>
       __$$_LiveViewStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {bool isLiveViewActive,
-      Uint8List? imageBytes,
-      bool isLoading,
-      bool hasError});
+  $Res call({LiveViewStatus status, Uint8List? imageBytes, double aspectRatio});
 }
 
 /// @nodoc
@@ -104,55 +90,46 @@ class __$$_LiveViewStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLiveViewActive = null,
+    Object? status = null,
     Object? imageBytes = freezed,
-    Object? isLoading = null,
-    Object? hasError = null,
+    Object? aspectRatio = null,
   }) {
     return _then(_$_LiveViewState(
-      isLiveViewActive: null == isLiveViewActive
-          ? _value.isLiveViewActive
-          : isLiveViewActive // ignore: cast_nullable_to_non_nullable
-              as bool,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as LiveViewStatus,
       imageBytes: freezed == imageBytes
           ? _value.imageBytes
           : imageBytes // ignore: cast_nullable_to_non_nullable
               as Uint8List?,
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      hasError: null == hasError
-          ? _value.hasError
-          : hasError // ignore: cast_nullable_to_non_nullable
-              as bool,
+      aspectRatio: null == aspectRatio
+          ? _value.aspectRatio
+          : aspectRatio // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
 
 /// @nodoc
 
-class _$_LiveViewState implements _LiveViewState {
+class _$_LiveViewState extends _LiveViewState {
   const _$_LiveViewState(
-      {required this.isLiveViewActive,
-      this.imageBytes,
-      this.isLoading = false,
-      this.hasError = false});
+      {required this.status, this.imageBytes = null, this.aspectRatio = 16 / 9})
+      : super._();
 
   @override
-  final bool isLiveViewActive;
+  final LiveViewStatus status;
   @override
+  @JsonKey()
   final Uint8List? imageBytes;
   @override
   @JsonKey()
-  final bool isLoading;
-  @override
-  @JsonKey()
-  final bool hasError;
+  final double aspectRatio;
 
   @override
   String toString() {
-    return 'LiveViewState(isLiveViewActive: $isLiveViewActive, imageBytes: $imageBytes, isLoading: $isLoading, hasError: $hasError)';
+    return 'LiveViewState(status: $status, imageBytes: $imageBytes, aspectRatio: $aspectRatio)';
   }
 
   @override
@@ -160,19 +137,16 @@ class _$_LiveViewState implements _LiveViewState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_LiveViewState &&
-            (identical(other.isLiveViewActive, isLiveViewActive) ||
-                other.isLiveViewActive == isLiveViewActive) &&
+            (identical(other.status, status) || other.status == status) &&
             const DeepCollectionEquality()
                 .equals(other.imageBytes, imageBytes) &&
-            (identical(other.isLoading, isLoading) ||
-                other.isLoading == isLoading) &&
-            (identical(other.hasError, hasError) ||
-                other.hasError == hasError));
+            (identical(other.aspectRatio, aspectRatio) ||
+                other.aspectRatio == aspectRatio));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLiveViewActive,
-      const DeepCollectionEquality().hash(imageBytes), isLoading, hasError);
+  int get hashCode => Object.hash(runtimeType, status,
+      const DeepCollectionEquality().hash(imageBytes), aspectRatio);
 
   @JsonKey(ignore: true)
   @override
@@ -181,21 +155,19 @@ class _$_LiveViewState implements _LiveViewState {
       __$$_LiveViewStateCopyWithImpl<_$_LiveViewState>(this, _$identity);
 }
 
-abstract class _LiveViewState implements LiveViewState {
+abstract class _LiveViewState extends LiveViewState {
   const factory _LiveViewState(
-      {required final bool isLiveViewActive,
+      {required final LiveViewStatus status,
       final Uint8List? imageBytes,
-      final bool isLoading,
-      final bool hasError}) = _$_LiveViewState;
+      final double aspectRatio}) = _$_LiveViewState;
+  const _LiveViewState._() : super._();
 
   @override
-  bool get isLiveViewActive;
+  LiveViewStatus get status;
   @override
   Uint8List? get imageBytes;
   @override
-  bool get isLoading;
-  @override
-  bool get hasError;
+  double get aspectRatio;
   @override
   @JsonKey(ignore: true)
   _$$_LiveViewStateCopyWith<_$_LiveViewState> get copyWith =>

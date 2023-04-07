@@ -1,11 +1,14 @@
 import 'package:cine_remote/camera_control/common/adapter/date_time_adapter.dart';
 import 'package:cine_remote/camera_control/interface/camera.dart';
+import 'package:cine_remote/camera_control/interface/models/camera_descriptor.dart';
 import 'package:cine_remote/presentation/features/camera_connection/bloc/camera_connection_cubit.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockDateTimeAdapter extends Mock implements DateTimeAdapter {}
 
 class MockCamera extends Mock implements Camera {}
+
+class MockCameraDescriptor extends Mock implements CameraDescriptor {}
 
 class MockCameraConnectionCubit extends Mock implements CameraConnectionCubit {}
 
