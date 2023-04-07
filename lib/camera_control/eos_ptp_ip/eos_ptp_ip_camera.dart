@@ -5,6 +5,7 @@ import '../common/base_camera.dart';
 import '../interface/models/camera_descriptor.dart';
 import '../interface/models/camera_update_event.dart';
 import '../interface/models/capabilities/control_prop_capability.dart';
+import '../interface/models/capabilities/image_capture_capability.dart';
 import '../interface/models/capabilities/live_view_capability.dart';
 import '../interface/models/control_prop.dart';
 import '../interface/models/control_prop_type.dart';
@@ -45,6 +46,7 @@ class EosPtpIpCamera extends BaseCamera {
           supportedProps: _eventProcessor.propertyCache.supportedProps(),
         ),
         const LiveViewCapability(aspectRatio: 3 / 2),
+        const ImageCaptureCapability(),
       ],
     );
   }
