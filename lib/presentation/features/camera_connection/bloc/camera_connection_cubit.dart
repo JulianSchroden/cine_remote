@@ -5,6 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../camera_control/interface/camera.dart';
 import '../../../../camera_control/interface/camera_factory.dart';
+import '../../../../camera_control/interface/exceptions/camera_connection_exception.dart';
 import '../../../../camera_control/interface/models/camera_model.dart';
 import '../../../../camera_control/interface/models/camera_update_event.dart';
 import '../../../core/extensions/camera_model_to_handle_extension.dart';
@@ -54,16 +55,14 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
   }
 
   Future<void> disconnect() async {
-    await withConnectedCamera(
-      (camera) async {
-        emit(CameraConnectionState.disconnecting(camera));
-        await camera.disconnect();
-      },
-      orElse: () {},
-    );
-
-    await Future.delayed(const Duration(seconds: 1));
-    emit(const CameraConnectionState.disconnected());
+    try {
+      emit(CameraConnectionState.disconnecting(camera));
+      await camera.disconnect();
+    } catch (e) {
+      print(e);
+    } finally {
+      emit(const CameraConnectionState.disconnected());
+    }
   }
 
   T withConnectedCamera<T>(
@@ -74,6 +73,15 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
         connected: (camera) => callback(camera),
         disconnecting: (camera) => callback(camera),
         orElse: () => orElse(),
+      );
+
+  Camera get camera => state.maybeWhen(
+        connected: (camera) => camera,
+        disconnecting: (camera) => camera,
+        orElse: () {
+          throw const CameraConnectionException(
+              'Tried to access camera but no camera connected');
+        },
       );
 
   Stream<CameraUpdateEvent> get updateEvents => withConnectedCamera(
