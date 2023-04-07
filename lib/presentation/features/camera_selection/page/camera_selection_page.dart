@@ -18,8 +18,8 @@ class CameraSelectionPage extends StatelessWidget {
     return BlocConsumer<CameraConnectionCubit, CameraConnectionState>(
       listener: (context, state) {
         state.maybeWhen(
-            connected: ((_) =>
-                Navigator.of(context).pushNamed(Routes.cameraControl)),
+            connected: (_) =>
+                Navigator.of(context).pushNamed(Routes.cameraControl),
             orElse: () {});
       },
       builder: (context, state) => Scaffold(
