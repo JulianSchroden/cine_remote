@@ -12,19 +12,27 @@ class LiveViewPlayer extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<LiveViewCubit, LiveViewState>(
       builder: (context, state) => AspectRatio(
-        aspectRatio: state.aspectRatio,
-        child: Stack(
-          children: [
-            if (state.imageBytes != null)
-              Image.memory(
-                state.imageBytes!,
-                gaplessPlayback: true,
-              ),
-            const LiveViewPlayerOverlay(),
-            ...children,
-          ],
-        ),
-      ),
+          aspectRatio: state.aspectRatio,
+          child: Stack(
+            children: [
+              if (state.isLiveViewSupported && state.imageBytes != null)
+                Image.memory(
+                  state.imageBytes!,
+                  gaplessPlayback: true,
+                ),
+              state.isLiveViewSupported
+                  ? const LiveViewPlayerOverlay()
+                  : const Center(
+                      child: Text(
+                        'LiveView not supported :(',
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 137, 137, 137)),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+              ...children,
+            ],
+          )),
     );
   }
 }

@@ -77,6 +77,16 @@ void main() {
   });
 
   group('toggleLiveView', () {
+    blocTest<LiveViewCubit, LiveViewState>(
+      'emits status [error] when liveView unsupported',
+      seed: () => const LiveViewState(status: LiveViewStatus.unsupported),
+      build: () => LiveViewCubit(mockCameraConnectionCubit),
+      act: (bloc) => bloc.toggleLiveView(),
+      expect: () => [
+        const LiveViewState(status: LiveViewStatus.error),
+      ],
+    );
+
     group('start:', () {
       blocTest(
         'emits status [loading, error] when camera not connected',

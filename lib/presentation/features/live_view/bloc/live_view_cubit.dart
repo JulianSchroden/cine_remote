@@ -31,6 +31,9 @@ class LiveViewState with _$LiveViewState {
   }) = _LiveViewState;
 
   bool get isLiveViewActive => status == LiveViewStatus.active;
+
+  bool get isLiveViewSupported => !isLiveViewUnsupported;
+  bool get isLiveViewUnsupported => status == LiveViewStatus.unsupported;
 }
 
 class LiveViewCubit extends Cubit<LiveViewState> {
@@ -64,6 +67,11 @@ class LiveViewCubit extends Cubit<LiveViewState> {
   }
 
   Future<void> toggleLiveView() async {
+    if (state.isLiveViewUnsupported) {
+      emit(const LiveViewState(status: LiveViewStatus.error));
+      return;
+    }
+
     emit(state.copyWith(status: LiveViewStatus.loading));
     if (_liveViewStreamSubscription != null) {
       await _stopLiveView();
