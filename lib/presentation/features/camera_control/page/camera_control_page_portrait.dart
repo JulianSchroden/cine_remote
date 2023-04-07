@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../cine_remote_colors.dart';
 import '../../live_view/widgets/live_view_player.dart';
-import '../../screen_orientation/bloc/screen_orientation_cubit.dart';
+import '../../screen_orientation/widgets/force_orientation_button.dart';
 import '../bloc/camera_control_layout_cubit.dart';
 import '../widgets/camera_control_base_layout.dart';
 import '../widgets/camera_control_menu.dart';
@@ -35,16 +35,10 @@ class CameraControlPagePortrait extends StatelessWidget {
           children: [
             LiveViewPlayer(
               children: [
-                Align(
+                const Align(
                   alignment: Alignment.bottomRight,
-                  child: IconButton(
-                    onPressed: () => context
-                        .read<ScreenOrientationCubit>()
-                        .setForcedOrientation(Orientation.landscape),
-                    icon: const Icon(
-                      Icons.fullscreen,
-                      color: Colors.white,
-                    ),
+                  child: ForceOrientationButton(
+                    forceTo: Orientation.landscape,
                   ),
                 ),
                 if (state.showMenu)
