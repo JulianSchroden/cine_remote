@@ -31,6 +31,7 @@ class LiveViewState with _$LiveViewState {
   }) = _LiveViewState;
 
   bool get isLiveViewActive => status == LiveViewStatus.active;
+  bool get isLoading => status == LiveViewStatus.loading;
 
   bool get isLiveViewSupported => !isLiveViewUnsupported;
   bool get isLiveViewUnsupported => status == LiveViewStatus.unsupported;

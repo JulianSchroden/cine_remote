@@ -18,6 +18,8 @@ class LiveViewPlayerOverlay extends StatefulWidget {
 }
 
 class _LiveViewPlayerOverlayState extends State<LiveViewPlayerOverlay> {
+  static const double buttonSize = 96;
+
   Timer? overlayTimer;
   bool isTemporarayVisible = false;
 
@@ -81,16 +83,29 @@ class _LiveViewPlayerOverlayState extends State<LiveViewPlayerOverlay> {
                 onPressed: () => toggleLiveView(state.isLiveViewActive),
                 color: Colors.white.withOpacity(0.5),
                 shape: const CircleBorder(),
-                child: SizedBox(
-                  width: 96,
-                  height: 96,
-                  child: Icon(
-                    state.isLiveViewActive
-                        ? Icons.pause
-                        : Icons.play_arrow_outlined,
-                    color: Colors.white,
-                    size: 48,
-                  ),
+                child: Stack(
+                  children: [
+                    if (state.isLoading)
+                      const SizedBox(
+                        width: buttonSize,
+                        height: buttonSize,
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                          strokeWidth: 2,
+                        ),
+                      ),
+                    SizedBox(
+                      width: buttonSize,
+                      height: buttonSize,
+                      child: Icon(
+                        state.isLiveViewActive
+                            ? Icons.pause
+                            : Icons.play_arrow_outlined,
+                        color: Colors.white,
+                        size: 48,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
