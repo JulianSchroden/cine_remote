@@ -71,11 +71,7 @@ class _LiveViewPlayerOverlayState extends State<LiveViewPlayerOverlay> {
         opacity: isVisible ? 1.0 : 0,
         duration: const Duration(milliseconds: 200),
         child: InkWell(
-          onTap: () {
-            if (state.isLiveViewActive) {
-              handleOverlayTap();
-            }
-          },
+          onTap: state.isLiveViewActive ? handleOverlayTap : null,
           child: Center(
             child: IgnorePointer(
               ignoring: ignorePlayButtonPresss,
