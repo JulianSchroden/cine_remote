@@ -1,9 +1,7 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../camera_control/interface/camera.dart';
 import '../../../../camera_control/interface/models/capabilities/image_capture_capability.dart';
-import '../../camera_connection/bloc/camera_connection_cubit.dart';
+import 'base_camera_control_cubit.dart';
 
 part 'image_capture_cubit.freezed.dart';
 
@@ -16,14 +14,6 @@ class ImageCaptureState with _$ImageCaptureState {
   const factory ImageCaptureState.inProgress() = _ImageCaptureStateInProgress;
   const factory ImageCaptureState.error() = _ImageCaptureStateError;
   const factory ImageCaptureState.unsupported() = _ImageCaptureStateUnsupported;
-}
-
-abstract class BaseCameraControlCubit<State> extends Cubit<State> {
-  final CameraConnectionCubit cameraConnectionCubit;
-
-  BaseCameraControlCubit(this.cameraConnectionCubit, super.initialState);
-
-  Camera get camera => cameraConnectionCubit.camera;
 }
 
 class ImageCaptureCubit extends BaseCameraControlCubit<ImageCaptureState> {
