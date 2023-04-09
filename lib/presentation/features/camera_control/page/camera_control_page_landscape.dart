@@ -7,10 +7,10 @@ import '../../screen_orientation/widgets/force_orientation_button.dart';
 import '../bloc/camera_control_layout_cubit.dart';
 import '../widgets/camera_control_base_layout.dart';
 import '../widgets/camera_control_menu.dart';
+import '../widgets/control_actions_bar.dart';
 import '../widgets/control_prop_item.dart';
 import '../widgets/control_prop_value_picker.dart';
 import '../widgets/control_props_bar.dart';
-import '../widgets/record_button.dart';
 
 class CameraControlPageLandscape extends StatelessWidget {
   const CameraControlPageLandscape({super.key});
@@ -66,7 +66,7 @@ class CameraControlPageLandscape extends StatelessWidget {
                     child: LiveViewPlayer(children: [
                       Align(
                         alignment: Alignment.centerRight,
-                        child: RecordButton(),
+                        child: ControlActionsBar.landscape(),
                       ),
                       Align(
                         alignment: Alignment.bottomRight,

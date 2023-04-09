@@ -7,41 +7,45 @@ import 'capture_image_button.dart';
 import 'record_button.dart';
 
 class ControlActionsBar extends StatelessWidget {
-  const ControlActionsBar({super.key});
+  final Orientation orientation;
+
+  const ControlActionsBar({
+    required this.orientation,
+    super.key,
+  });
+
+  const ControlActionsBar.portrait({super.key})
+      : orientation = Orientation.portrait;
+
+  const ControlActionsBar.landscape({super.key})
+      : orientation = Orientation.landscape;
+
+  Widget _buildContainer({
+    required BuildContext context,
+    required List<Widget> children,
+  }) {
+    if (orientation == Orientation.portrait) {
+      return Row(
+        children: children,
+      );
+    }
+
+    return Column(
+      children: children,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CameraMetaCubit, CameraMetaState>(
       builder: (context, state) => state.maybeWhen(
-        updateSuccess: (descriptor) => Row(
+        updateSuccess: (descriptor) => _buildContainer(
+          context: context,
           children: [
-            //Expanded(
-            //  child: Center(
-            //    child: TextButton(
-            //      onPressed: () =>
-            //          context.read<ActionsControlCubit>().toggleAfLock(),
-            //      child: Padding(
-            //        padding: const EdgeInsets.all(8.0),
-            //        child: Text(
-            //          'AF-Lock',
-            //          style: TextStyle(
-            //            color: Colors.white,
-            //            decoration: state.actionsState.isAfLocked
-            //                ? TextDecoration.none
-            //                : TextDecoration.lineThrough,
-            //          ),
-            //        ),
-            //      ),
-            //    ),
-            //  ),
-            //),
-
             const Spacer(),
-
             descriptor.mode is PhotoMode
                 ? const CaptureImageButton()
                 : const RecordButton(),
-
             const Spacer(),
           ],
         ),

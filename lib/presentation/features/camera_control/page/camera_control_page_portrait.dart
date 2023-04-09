@@ -68,7 +68,7 @@ class CameraControlPagePortrait extends StatelessWidget {
                   : Container(),
             ),
             const SizedBox(height: 32),
-            const ControlActionsBar(),
+            const ControlActionsBar.portrait(),
             const SizedBox(height: 32),
           ],
         ),
