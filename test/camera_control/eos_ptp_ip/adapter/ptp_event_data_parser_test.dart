@@ -5,7 +5,6 @@ import 'package:cine_remote/camera_control/eos_ptp_ip/constants/properties/live_
 import 'package:cine_remote/camera_control/eos_ptp_ip/constants/ptp_property.dart';
 import 'package:cine_remote/camera_control/eos_ptp_ip/models/eos_ptp_prop_value.dart';
 import 'package:cine_remote/camera_control/interface/models/control_prop_type.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../packet_helper.dart';

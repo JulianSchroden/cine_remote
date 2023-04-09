@@ -14,7 +14,6 @@ import '../interface/models/properties/camera_mode.dart';
 import '../interface/models/properties/exposure_mode.dart';
 import 'actions/action_factory.dart';
 import 'adapter/eos_ptp_event_processor.dart';
-import 'communication/events/ptp_event.dart';
 import 'communication/ptp_transaction_queue.dart';
 import 'constants/properties/live_view_output.dart';
 import 'models/eos_ptp_prop_value.dart';
@@ -71,8 +70,6 @@ class EosPtpIpCamera extends BaseCamera {
   @override
   Stream<CameraUpdateEvent> events() => _eventProcessor.events;
 
-  Stream<PtpEvent> eosEvents() => _eventProcessor.eosEvents;
-
   @override
   Future<void> captureImage() async {
     final captureImage = _actionFactory.createCaptureImageAction();
@@ -83,10 +80,7 @@ class EosPtpIpCamera extends BaseCamera {
   Future<void> triggerRecord() async {}
 
   @override
-  Future<void> toggleAfLock() {
-    // TODO: implement toggleAfLock
-    throw UnimplementedError();
-  }
+  Future<void> toggleAfLock() async {}
 
   @override
   Future<void> startLiveView() async {
