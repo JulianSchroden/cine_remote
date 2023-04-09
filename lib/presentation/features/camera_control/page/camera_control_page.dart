@@ -9,6 +9,7 @@ import '../../screen_orientation/bloc/screen_orientation_cubit.dart';
 import '../bloc/actions_control_cubit.dart';
 import '../bloc/camera_control_layout_cubit.dart';
 import '../bloc/camera_meta_cubit.dart';
+import '../bloc/image_capture_cubit.dart';
 import '../bloc/props_control_cubit.dart';
 import 'camera_control_page_landscape.dart';
 import 'camera_control_page_portrait.dart';
@@ -35,6 +36,11 @@ class CameraControlPage extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => LiveViewCubit(
+            context.read<CameraConnectionCubit>(),
+          )..init(),
+        ),
+        BlocProvider(
+          create: (context) => ImageCaptureCubit(
             context.read<CameraConnectionCubit>(),
           )..init(),
         ),
