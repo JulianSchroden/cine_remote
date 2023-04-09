@@ -1,11 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc_test/bloc_test.dart';
-import 'package:cine_remote/camera_control/interface/models/camera_descriptor.dart';
-import 'package:cine_remote/camera_control/interface/models/capabilities/camera_capability.dart';
 import 'package:cine_remote/camera_control/interface/models/capabilities/live_view_capability.dart';
-import 'package:cine_remote/camera_control/interface/models/properties/camera_mode.dart';
-import 'package:cine_remote/camera_control/interface/models/properties/exposure_mode.dart';
 import 'package:cine_remote/presentation/features/live_view/bloc/live_view_cubit.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -22,21 +18,15 @@ void main() {
     mockCamera = MockCamera();
 
     mockCameraConnectionCubit = MockCameraConnectionCubit();
-    when(() => mockCameraConnectionCubit.camera).thenReturn(mockCamera);
+    mockCameraConnectionCubit.setupCameraConnected(mockCamera);
   });
-
-  void setupDescriptor(List<CameraCapability> capabilities) {
-    when(() => mockCamera.getDescriptor()).thenAnswer((_) => Future.value(
-        CameraDescriptor(
-            mode: const PhotoMode(ExposureMode.manual),
-            capabilities: capabilities)));
-  }
 
   group('init', () {
     blocTest<LiveViewCubit, LiveViewState>(
       'emits status [initInProgress, paused] when liveView supported',
       setUp: () {
-        setupDescriptor(const [LiveViewCapability(aspectRatio: 3 / 2)]);
+        mockCamera.setupDescriptor(
+            capabilities: const [LiveViewCapability(aspectRatio: 3 / 2)]);
       },
       build: () => LiveViewCubit(mockCameraConnectionCubit),
       act: (bloc) => bloc.init(),
@@ -52,7 +42,7 @@ void main() {
     blocTest<LiveViewCubit, LiveViewState>(
       'emits status [initInProgress, unsupported] when liveView not supported',
       setUp: () {
-        setupDescriptor([]);
+        mockCamera.setupDescriptor(capabilities: []);
       },
       build: () => LiveViewCubit(mockCameraConnectionCubit),
       act: (bloc) => bloc.init(),
@@ -65,7 +55,7 @@ void main() {
     blocTest<LiveViewCubit, LiveViewState>(
       'emits status [initInProgress, error] when camera not connected',
       setUp: () {
-        when(() => mockCameraConnectionCubit.camera).thenThrow(Error());
+        mockCameraConnectionCubit.setupCameraDisconnected();
       },
       build: () => LiveViewCubit(mockCameraConnectionCubit),
       act: (bloc) => bloc.init(),
@@ -91,7 +81,7 @@ void main() {
       blocTest(
         'emits status [loading, error] when camera not connected',
         setUp: () {
-          when(() => mockCameraConnectionCubit.camera).thenThrow(Error());
+          mockCameraConnectionCubit.setupCameraDisconnected();
         },
         build: () => LiveViewCubit(mockCameraConnectionCubit),
         act: (bloc) => bloc.toggleLiveView(),
