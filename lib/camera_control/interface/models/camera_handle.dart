@@ -1,10 +1,12 @@
 import 'package:equatable/equatable.dart';
 
-class CameraHandle extends Equatable {
-  final String name;
+import 'camera_model.dart';
 
-  const CameraHandle({required this.name});
+class CameraHandle extends Equatable {
+  final CameraModel model;
+
+  const CameraHandle({required this.model});
 
   @override
-  List<Object?> get props => [name];
+  List<Object?> get props => [model];
 }

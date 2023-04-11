@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'config.dart';
 import 'dependencies.dart';
 import 'presentation/features/camera_connection/bloc/camera_connection_cubit.dart';
 import 'presentation/features/camera_control/page/camera_control_page.dart';
@@ -34,8 +33,7 @@ class CineRemote extends StatelessWidget {
           primarySwatch: Colors.green,
         ),
         routes: {
-          Routes.cameraSelection: (_) =>
-              CameraSelectionPage(config: get<Config>()),
+          Routes.cameraSelection: (_) => const CameraSelectionPage(),
           Routes.cameraControl: (_) => const CameraControlPage(),
         },
         initialRoute: Routes.cameraSelection,

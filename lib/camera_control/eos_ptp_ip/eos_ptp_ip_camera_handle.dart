@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:typed_data';
 
 import '../interface/models/camera_handle.dart';
@@ -9,7 +8,7 @@ class EosPtpIpCameraHandle extends CameraHandle {
   final String clientName;
 
   const EosPtpIpCameraHandle({
-    required super.name,
+    required super.model,
     required this.guid,
     required this.address,
     required this.clientName,

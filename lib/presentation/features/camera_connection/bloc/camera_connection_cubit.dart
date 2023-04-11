@@ -6,9 +6,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../../camera_control/interface/camera.dart';
 import '../../../../camera_control/interface/camera_factory.dart';
 import '../../../../camera_control/interface/exceptions/camera_connection_exception.dart';
-import '../../../../camera_control/interface/models/camera_model.dart';
+import '../../../../camera_control/interface/models/camera_handle.dart';
 import '../../../../camera_control/interface/models/camera_update_event.dart';
-import '../../../core/extensions/camera_model_to_handle_extension.dart';
 
 part 'camera_connection_cubit.freezed.dart';
 
@@ -39,12 +38,12 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
     return super.close();
   }
 
-  Future<void> connect(CameraModel cameraModel) async {
+  Future<void> connect(CameraHandle cameraHandle) async {
     try {
       print('cubit connect');
 
       emit(const CameraConnectionState.connecting());
-      final camera = await _cameraFactory.connect(cameraModel.toHandle());
+      final camera = await _cameraFactory.connect(cameraHandle);
 
       print('connection success');
       emit(CameraConnectionState.connected(camera));
