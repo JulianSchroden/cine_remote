@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 import '../../../../camera_control/interface/models/camera_model.dart';
 import '../../../core/extensions/camera_model_display_extension.dart';
 
-class DiscoveredCameraItem extends StatelessWidget {
+class CameraDiscoveryItem extends StatelessWidget {
   final CameraModel cameraModel;
-  final bool isLoading;
 
-  const DiscoveredCameraItem({
+  const CameraDiscoveryItem({
     required this.cameraModel,
-    required this.isLoading,
     super.key,
   });
 
