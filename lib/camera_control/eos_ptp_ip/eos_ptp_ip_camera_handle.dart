@@ -5,12 +5,21 @@ import '../interface/models/camera_handle.dart';
 
 class EosPtpIpCameraHandle extends CameraHandle {
   final Uint8List guid;
-  final InternetAddress address;
+  final String address;
   final String clientName;
 
   const EosPtpIpCameraHandle({
+    required super.name,
     required this.guid,
     required this.address,
     required this.clientName,
   });
+
+  @override
+  List<Object?> get props => [
+        ...super.props,
+        guid,
+        address,
+        clientName,
+      ];
 }

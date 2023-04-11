@@ -21,6 +21,7 @@ class MockHttpAdapterFactory extends Mock implements HttpAdapterFactory {}
 void main() {
   const okResponseBody = '{"res":"ok"}';
   final authCookie = Cookie('acid', 'e3d4');
+  const cameraHandle = EosCineHttpCameraHandle(name: 'C100 II');
 
   late MockHttpClient mockHttpClient;
   late MockHttpClientFactory mockHttpClientFactory;
@@ -67,20 +68,20 @@ void main() {
   });
 
   test('uses ClientFactory to create new client', () async {
-    await sut.connect(EosCineHttpCameraHandle());
+    await sut.connect(cameraHandle);
 
     verify(() => mockHttpClientFactory.create()).called(1);
   });
 
   test('uses AdapterFactory to create new adapter and passes client along',
       () async {
-    await sut.connect(EosCineHttpCameraHandle());
+    await sut.connect(cameraHandle);
 
     verify(() => mockHttpAdapterFactory.create(mockHttpClient, any()));
   });
 
   test('calls login action to get auth cookie', () async {
-    await sut.connect(EosCineHttpCameraHandle());
+    await sut.connect(cameraHandle);
 
     verify(() => mockActionFactory.createLoginAction(mockHttpAdapter))
         .called(1);
@@ -100,7 +101,7 @@ void main() {
             jsonBody: json.decode(okResponseBody),
             cookies: []));
 
-    expect(sut.connect(EosCineHttpCameraHandle()),
+    expect(sut.connect(cameraHandle),
         throwsA(isA<CameraCommunicationException>()));
   });
 
@@ -111,13 +112,13 @@ void main() {
             jsonBody: json.decode('{"res":"busy"}'),
             cookies: []));
 
-    expect(sut.connect(EosCineHttpCameraHandle()),
+    expect(sut.connect(cameraHandle),
         throwsA(isA<CameraCommunicationException>()));
   });
 
   test('calls getInfo action to get productId and brlang cookie values',
       () async {
-    await sut.connect(EosCineHttpCameraHandle());
+    await sut.connect(cameraHandle);
 
     verify(() => mockActionFactory.createGetInfoAction(mockHttpAdapter));
     verify(() => mockHttpAdapter.addCookies(
@@ -132,7 +133,7 @@ void main() {
   });
 
   test('returns EosCineHttpCamera instance', () async {
-    final camera = await sut.connect(EosCineHttpCameraHandle());
+    final camera = await sut.connect(cameraHandle);
 
     expect(camera, isA<EosCineHttpCamera>());
   });

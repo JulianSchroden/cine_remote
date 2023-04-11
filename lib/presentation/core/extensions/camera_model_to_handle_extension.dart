@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:typed_data';
 
 import '../../../camera_control/demo/demo_camera_handle.dart';
@@ -12,15 +11,16 @@ extension CameraModelToHandleExtension on CameraModel {
   CameraHandle toHandle() {
     switch (identifier) {
       case CameraId.canonC100II:
-        return EosCineHttpCameraHandle();
+        return const EosCineHttpCameraHandle(name: 'C100 II');
       case CameraId.canon70D:
         return EosPtpIpCameraHandle(
+          name: 'Canon 70D',
           guid: Uint8List.fromList(List.generate(16, (index) => 0x00)),
-          address: InternetAddress.tryParse('192.168.178.43')!,
+          address: '192.168.178.43',
           clientName: 'Cine Remote',
         );
       case CameraId.fakeCamera:
-        return DemoCameraHandle();
+        return const DemoCameraHandle();
     }
 
     throw UnimplementedError();

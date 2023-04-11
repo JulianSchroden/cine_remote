@@ -10,8 +10,6 @@ import 'eos_cine_http_camera.dart';
 import 'eos_cine_http_camera_handle.dart';
 
 class EosCineHttpCameraFactory extends CameraFactory<EosCineHttpCameraHandle> {
-  static const String _authority = '192.168.0.80';
-
   final HttpClientFactory clientFactory;
   final HttpAdapterFactory adaperFactory;
   final ActionFactory actionFactory;
@@ -25,7 +23,7 @@ class EosCineHttpCameraFactory extends CameraFactory<EosCineHttpCameraHandle> {
   @override
   Future<Camera> connect(EosCineHttpCameraHandle handle) async {
     final client = await clientFactory.create();
-    final httpAdapter = await adaperFactory.create(client, _authority);
+    final httpAdapter = await adaperFactory.create(client, handle.address);
 
     final loginAction = actionFactory.createLoginAction(httpAdapter);
     final loginResponse = await loginAction();

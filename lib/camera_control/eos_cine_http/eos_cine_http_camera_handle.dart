@@ -1,3 +1,13 @@
 import '../interface/models/camera_handle.dart';
 
-class EosCineHttpCameraHandle extends CameraHandle {}
+class EosCineHttpCameraHandle extends CameraHandle {
+  final String address;
+
+  const EosCineHttpCameraHandle({
+    required super.name,
+    this.address = '192.168.0.80',
+  });
+
+  @override
+  List<Object?> get props => [...super.props, address];
+}

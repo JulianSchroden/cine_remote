@@ -18,11 +18,14 @@ class PtpIpChannel {
   final EosPtpIpLogger _logger = EosPtpIpLogger();
 
   static Future<PtpIpChannel> connect(
-    InternetAddress address,
+    String address,
     int port, {
     SocketFactory socketFactory = const SocketFactory(),
   }) async {
-    final socket = await socketFactory.connect(address: address, port: port);
+    final socket = await socketFactory.connect(
+      address: InternetAddress(address),
+      port: port,
+    );
     final streamController = StreamController<Uint8List>.broadcast();
     streamController.addStream(socket);
 
