@@ -1,7 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../camera_control/interface/camera_factory.dart';
+import '../bloc/camera_discovery_cubit.dart';
 import 'camera_discovery_item.dart';
 
 class CameraDisoveryCard extends StatelessWidget {
@@ -9,51 +11,71 @@ class CameraDisoveryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: RadialGradient(
-          colors: [
-            Color.fromARGB(255, 255, 213, 3),
-            Color.fromARGB(255, 176, 127, 18),
-          ],
-          center: Alignment(0, 0.2),
-          stops: [0.3, 0.8],
-          radius: 0.8,
-        ),
-      ),
-      child: SafeArea(
-        bottom: false,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Padding(
-              padding: EdgeInsets.all(16),
-              child: Text(
-                'Nearby',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
+    return BlocBuilder<CameraDiscoveryCubit, CameraDiscoveryState>(
+      builder: (context, state) {
+        final currentIp = state.currentIp;
+
+        return Container(
+          decoration: const BoxDecoration(
+            gradient: RadialGradient(
+              colors: [
+                Color.fromARGB(255, 255, 213, 3),
+                Color.fromARGB(255, 176, 127, 18),
+              ],
+              center: Alignment(0, 0.2),
+              stops: [0.3, 0.8],
+              radius: 0.8,
+            ),
+          ),
+          child: SafeArea(
+            bottom: false,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Nearby',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                        ),
+                      ),
+                      if (currentIp != null) ...[
+                        const SizedBox(height: 2),
+                        Text(
+                          currentIp,
+                          style: const TextStyle(
+                            color: Color.fromARGB(255, 243, 243, 243),
+                          ),
+                        ),
+                      ]
+                    ],
+                  ),
                 ),
-              ),
+                CarouselSlider(
+                  options: CarouselOptions(
+                    viewportFraction: 0.7,
+                    height: 250,
+                    enableInfiniteScroll: false,
+                  ),
+                  items: CameraModels.supportedCameras
+                      .map(
+                        (cameraModel) => CameraDiscoveryItem(
+                          cameraModel: cameraModel,
+                        ),
+                      )
+                      .toList(),
+                ),
+                const SizedBox(height: 16),
+              ],
             ),
-            CarouselSlider(
-              options: CarouselOptions(
-                viewportFraction: 0.7,
-                height: 250,
-                enableInfiniteScroll: false,
-              ),
-              items: CameraModels.supportedCameras
-                  .map(
-                    (cameraModel) => CameraDiscoveryItem(
-                      cameraModel: cameraModel,
-                    ),
-                  )
-                  .toList(),
-            ),
-            const SizedBox(height: 16),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }
