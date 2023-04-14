@@ -1,23 +1,26 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:cine_remote/camera_control/interface/discovery/camera_discovery_service.dart';
+import 'package:cine_remote/camera_control/interface/discovery/wifi_info.dart';
 import 'package:cine_remote/presentation/features/camera_selection/bloc/camera_discovery_cubit.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:network_info_plus/network_info_plus.dart';
 
-class MockNetworkInfo extends Mock implements NetworkInfo {}
+class MockCameraDiscoveryService extends Mock
+    implements CameraDiscoveryService {}
 
 void main() {
   const currentIp = '192.168.0.65';
+  const gatewayIp = '192.168.0.1';
 
   late CameraDiscoveryCubit sut;
-  late MockNetworkInfo mockNetworkInfo;
+  late MockCameraDiscoveryService mockCameraDiscoveryService;
 
   setUp(() {
-    mockNetworkInfo = MockNetworkInfo();
-    when(() => mockNetworkInfo.getWifiIP())
-        .thenAnswer((_) => Future.value(currentIp));
+    mockCameraDiscoveryService = MockCameraDiscoveryService();
+    when(() => mockCameraDiscoveryService.wifiInfo())
+        .thenAnswer((_) => Future.value(const WifiInfo(currentIp, gatewayIp)));
 
-    sut = CameraDiscoveryCubit(mockNetworkInfo);
+    sut = CameraDiscoveryCubit(mockCameraDiscoveryService);
   });
 
   group('init', () {
@@ -34,7 +37,7 @@ void main() {
     blocTest(
       'emits [initInProgress, error] when init fails',
       setUp: () {
-        when(() => mockNetworkInfo.getWifiIP()).thenThrow(Error());
+        when(() => mockCameraDiscoveryService.wifiInfo()).thenThrow(Error());
       },
       build: () => sut,
       act: (bloc) => bloc.init(),

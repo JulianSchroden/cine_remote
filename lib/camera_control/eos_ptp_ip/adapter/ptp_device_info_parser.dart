@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
-import 'ptp_packet_reader.dart';
 import '../models/ptp_device_info.dart';
+import 'ptp_packet_reader.dart';
 
 class PtpDeviceInfoParser {
   const PtpDeviceInfoParser();

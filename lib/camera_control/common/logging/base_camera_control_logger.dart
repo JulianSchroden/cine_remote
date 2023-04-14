@@ -1,7 +1,7 @@
-import 'structured_log_printer.dart';
 import 'package:logger/logger.dart';
 
 import '../../interface/logging/camera_control_logger.dart';
+import 'structured_log_printer.dart';
 
 class BaseCameraControlLogger extends CameraControlLogger {
   final Logger logger;

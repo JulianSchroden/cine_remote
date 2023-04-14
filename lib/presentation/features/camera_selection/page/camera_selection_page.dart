@@ -1,6 +1,6 @@
+import 'package:cine_remote/camera_control/interface/discovery/camera_discovery_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:network_info_plus/network_info_plus.dart';
 
 import '../../../cine_remote_colors.dart';
 import '../../../core/widgets/laoding_overlay_layout.dart';
@@ -18,7 +18,8 @@ class CameraSelectionPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: CineRemoteColors.background,
       body: BlocProvider(
-        create: (context) => CameraDiscoveryCubit(NetworkInfo())..init(),
+        create: (context) =>
+            CameraDiscoveryCubit(CameraDiscoveryService.create())..init(),
         child: BlocConsumer<CameraConnectionCubit, CameraConnectionState>(
           listener: (context, state) {
             state.maybeWhen(

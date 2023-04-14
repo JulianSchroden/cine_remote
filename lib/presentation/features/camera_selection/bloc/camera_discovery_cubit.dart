@@ -1,6 +1,7 @@
+import '../../../../camera_control/interface/discovery/camera_discovery_service.dart';
+import '../../../../camera_control/interface/models/camera_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:network_info_plus/network_info_plus.dart';
 
 part 'camera_discovery_cubit.freezed.dart';
 
@@ -22,17 +23,20 @@ class CameraDiscoveryState with _$CameraDiscoveryState {
 }
 
 class CameraDiscoveryCubit extends Cubit<CameraDiscoveryState> {
-  final NetworkInfo networkInfo;
-  CameraDiscoveryCubit(this.networkInfo)
+  final CameraDiscoveryService cameraDiscoveryService;
+
+  CameraDiscoveryCubit(this.cameraDiscoveryService)
       : super(const CameraDiscoveryState.init());
 
   Future<void> init() async {
     emit(const CameraDiscoveryState.initInProgress());
 
     try {
-      final ipAddress = await networkInfo.getWifiIP();
+      final wifiInfo = await cameraDiscoveryService.wifiInfo();
 
-      emit(CameraDiscoveryState.paused(ipAddress));
+      print(wifiInfo);
+
+      emit(CameraDiscoveryState.paused(wifiInfo.localIp));
     } catch (e) {
       emit(const CameraDiscoveryState.error());
     }
