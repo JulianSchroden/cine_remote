@@ -1,9 +1,9 @@
-import '../demo/demo_camera_handle.dart';
 import '../demo/demo_camera_factory.dart';
-import '../eos_cine_http/eos_cine_http_camera_handle.dart';
+import '../demo/demo_camera_handle.dart';
 import '../eos_cine_http/eos_cine_http_camera_factory.dart';
-import '../eos_ptp_ip/eos_ptp_ip_camera_handle.dart';
+import '../eos_cine_http/eos_cine_http_camera_handle.dart';
 import '../eos_ptp_ip/eos_ptp_ip_camera_factory.dart';
+import '../eos_ptp_ip/eos_ptp_ip_camera_handle.dart';
 import 'camera.dart';
 import 'models/camera_handle.dart';
 import 'models/camera_model.dart';

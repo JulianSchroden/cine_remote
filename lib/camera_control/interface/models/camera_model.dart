@@ -11,4 +11,9 @@ class CameraModel extends Equatable {
 
   @override
   List<Object?> get props => [identifier, name];
+
+  @override
+  String toString() {
+    return 'CameraModel(identifier: $identifier, name: $name)';
+  }
 }

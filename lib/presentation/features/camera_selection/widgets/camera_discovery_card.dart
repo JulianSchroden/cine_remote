@@ -2,7 +2,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../camera_control/interface/camera_factory.dart';
 import '../bloc/camera_discovery_cubit.dart';
 import 'camera_discovery_item.dart';
 
@@ -56,19 +55,31 @@ class CameraDisoveryCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                CarouselSlider(
-                  options: CarouselOptions(
-                    viewportFraction: 0.7,
-                    height: 250,
-                    enableInfiniteScroll: false,
+                SizedBox(
+                  height: 250,
+                  child: state.maybeWhen(
+                    active: (currentIp, discoveryHandles) => CarouselSlider(
+                      options: CarouselOptions(
+                        viewportFraction: 0.7,
+                        height: 250,
+                        enableInfiniteScroll: false,
+                      ),
+                      items: discoveryHandles
+                          .map(
+                            (discoveredCamera) => CameraDiscoveryItem(
+                              discoveryHandle: discoveredCamera,
+                            ),
+                          )
+                          .toList(),
+                    ),
+                    orElse: () => const Center(
+                      child: SizedBox(
+                        width: 48,
+                        height: 48,
+                        child: CircularProgressIndicator(color: Colors.white),
+                      ),
+                    ),
                   ),
-                  items: CameraModels.supportedCameras
-                      .map(
-                        (cameraModel) => CameraDiscoveryItem(
-                          cameraModel: cameraModel,
-                        ),
-                      )
-                      .toList(),
                 ),
                 const SizedBox(height: 16),
               ],

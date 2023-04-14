@@ -1,4 +1,4 @@
-import 'package:cine_remote/camera_control/interface/discovery/camera_discovery_service.dart';
+import '../../../../camera_control/interface/discovery/camera_discovery_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,8 +23,10 @@ class CameraSelectionPage extends StatelessWidget {
         child: BlocConsumer<CameraConnectionCubit, CameraConnectionState>(
           listener: (context, state) {
             state.maybeWhen(
-                connected: (_) =>
-                    Navigator.of(context).pushNamed(Routes.cameraControl),
+                connected: (_) {
+                  context.read<CameraDiscoveryCubit>().stopDiscovery();
+                  Navigator.of(context).pushNamed(Routes.cameraControl);
+                },
                 connectingFailed: () =>
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(

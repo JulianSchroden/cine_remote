@@ -73,7 +73,3 @@ extension CameraHandleConnectionInfoExtension on CameraHandle {
     return '';
   }
 }
-
-
-// DiscoveredCamera
-// RecentCamera

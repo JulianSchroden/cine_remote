@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 
-import '../../../../camera_control/interface/models/camera_model.dart';
+import '../../../../camera_control/interface/discovery/discovery_handle.dart';
 import '../../../core/extensions/camera_model_display_extension.dart';
 
 class CameraDiscoveryItem extends StatelessWidget {
-  final CameraModel cameraModel;
+  final DiscoveryHandle discoveryHandle;
 
   const CameraDiscoveryItem({
-    required this.cameraModel,
+    required this.discoveryHandle,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
+    final cameraModel = discoveryHandle.model;
     final previewImagePath = cameraModel.productImagePath();
 
     return Padding(

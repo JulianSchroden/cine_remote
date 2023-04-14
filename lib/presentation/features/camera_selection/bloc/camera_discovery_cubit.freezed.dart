@@ -20,7 +20,9 @@ mixin _$CameraDiscoveryState {
   TResult when<TResult extends Object?>({
     required TResult Function() init,
     required TResult Function() initInProgress,
-    required TResult Function(String? currentIp) active,
+    required TResult Function(
+            String? currentIp, List<DiscoveryHandle> discoveryHandles)
+        active,
     required TResult Function(String? currentIp) paused,
     required TResult Function() error,
   }) =>
@@ -29,7 +31,9 @@ mixin _$CameraDiscoveryState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
     TResult? Function()? initInProgress,
-    TResult? Function(String? currentIp)? active,
+    TResult? Function(
+            String? currentIp, List<DiscoveryHandle> discoveryHandles)?
+        active,
     TResult? Function(String? currentIp)? paused,
     TResult? Function()? error,
   }) =>
@@ -38,7 +42,8 @@ mixin _$CameraDiscoveryState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
     TResult Function()? initInProgress,
-    TResult Function(String? currentIp)? active,
+    TResult Function(String? currentIp, List<DiscoveryHandle> discoveryHandles)?
+        active,
     TResult Function(String? currentIp)? paused,
     TResult Function()? error,
     required TResult orElse(),
@@ -131,7 +136,9 @@ class _$_Init extends _Init {
   TResult when<TResult extends Object?>({
     required TResult Function() init,
     required TResult Function() initInProgress,
-    required TResult Function(String? currentIp) active,
+    required TResult Function(
+            String? currentIp, List<DiscoveryHandle> discoveryHandles)
+        active,
     required TResult Function(String? currentIp) paused,
     required TResult Function() error,
   }) {
@@ -143,7 +150,9 @@ class _$_Init extends _Init {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
     TResult? Function()? initInProgress,
-    TResult? Function(String? currentIp)? active,
+    TResult? Function(
+            String? currentIp, List<DiscoveryHandle> discoveryHandles)?
+        active,
     TResult? Function(String? currentIp)? paused,
     TResult? Function()? error,
   }) {
@@ -155,7 +164,8 @@ class _$_Init extends _Init {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
     TResult Function()? initInProgress,
-    TResult Function(String? currentIp)? active,
+    TResult Function(String? currentIp, List<DiscoveryHandle> discoveryHandles)?
+        active,
     TResult Function(String? currentIp)? paused,
     TResult Function()? error,
     required TResult orElse(),
@@ -252,7 +262,9 @@ class _$_InitInProgress extends _InitInProgress {
   TResult when<TResult extends Object?>({
     required TResult Function() init,
     required TResult Function() initInProgress,
-    required TResult Function(String? currentIp) active,
+    required TResult Function(
+            String? currentIp, List<DiscoveryHandle> discoveryHandles)
+        active,
     required TResult Function(String? currentIp) paused,
     required TResult Function() error,
   }) {
@@ -264,7 +276,9 @@ class _$_InitInProgress extends _InitInProgress {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
     TResult? Function()? initInProgress,
-    TResult? Function(String? currentIp)? active,
+    TResult? Function(
+            String? currentIp, List<DiscoveryHandle> discoveryHandles)?
+        active,
     TResult? Function(String? currentIp)? paused,
     TResult? Function()? error,
   }) {
@@ -276,7 +290,8 @@ class _$_InitInProgress extends _InitInProgress {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
     TResult Function()? initInProgress,
-    TResult Function(String? currentIp)? active,
+    TResult Function(String? currentIp, List<DiscoveryHandle> discoveryHandles)?
+        active,
     TResult Function(String? currentIp)? paused,
     TResult Function()? error,
     required TResult orElse(),
@@ -338,7 +353,7 @@ abstract class _$$_ActiveCopyWith<$Res> {
   factory _$$_ActiveCopyWith(_$_Active value, $Res Function(_$_Active) then) =
       __$$_ActiveCopyWithImpl<$Res>;
   @useResult
-  $Res call({String? currentIp});
+  $Res call({String? currentIp, List<DiscoveryHandle> discoveryHandles});
 }
 
 /// @nodoc
@@ -352,12 +367,17 @@ class __$$_ActiveCopyWithImpl<$Res>
   @override
   $Res call({
     Object? currentIp = freezed,
+    Object? discoveryHandles = null,
   }) {
     return _then(_$_Active(
       freezed == currentIp
           ? _value.currentIp
           : currentIp // ignore: cast_nullable_to_non_nullable
               as String?,
+      null == discoveryHandles
+          ? _value._discoveryHandles
+          : discoveryHandles // ignore: cast_nullable_to_non_nullable
+              as List<DiscoveryHandle>,
     ));
   }
 }
@@ -365,14 +385,22 @@ class __$$_ActiveCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Active extends _Active {
-  const _$_Active(this.currentIp) : super._();
+  const _$_Active(this.currentIp, final List<DiscoveryHandle> discoveryHandles)
+      : _discoveryHandles = discoveryHandles,
+        super._();
 
   @override
   final String? currentIp;
+  final List<DiscoveryHandle> _discoveryHandles;
+  @override
+  List<DiscoveryHandle> get discoveryHandles {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_discoveryHandles);
+  }
 
   @override
   String toString() {
-    return 'CameraDiscoveryState.active(currentIp: $currentIp)';
+    return 'CameraDiscoveryState.active(currentIp: $currentIp, discoveryHandles: $discoveryHandles)';
   }
 
   @override
@@ -381,11 +409,14 @@ class _$_Active extends _Active {
         (other.runtimeType == runtimeType &&
             other is _$_Active &&
             (identical(other.currentIp, currentIp) ||
-                other.currentIp == currentIp));
+                other.currentIp == currentIp) &&
+            const DeepCollectionEquality()
+                .equals(other._discoveryHandles, _discoveryHandles));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, currentIp);
+  int get hashCode => Object.hash(runtimeType, currentIp,
+      const DeepCollectionEquality().hash(_discoveryHandles));
 
   @JsonKey(ignore: true)
   @override
@@ -398,11 +429,13 @@ class _$_Active extends _Active {
   TResult when<TResult extends Object?>({
     required TResult Function() init,
     required TResult Function() initInProgress,
-    required TResult Function(String? currentIp) active,
+    required TResult Function(
+            String? currentIp, List<DiscoveryHandle> discoveryHandles)
+        active,
     required TResult Function(String? currentIp) paused,
     required TResult Function() error,
   }) {
-    return active(currentIp);
+    return active(currentIp, discoveryHandles);
   }
 
   @override
@@ -410,11 +443,13 @@ class _$_Active extends _Active {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
     TResult? Function()? initInProgress,
-    TResult? Function(String? currentIp)? active,
+    TResult? Function(
+            String? currentIp, List<DiscoveryHandle> discoveryHandles)?
+        active,
     TResult? Function(String? currentIp)? paused,
     TResult? Function()? error,
   }) {
-    return active?.call(currentIp);
+    return active?.call(currentIp, discoveryHandles);
   }
 
   @override
@@ -422,13 +457,14 @@ class _$_Active extends _Active {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
     TResult Function()? initInProgress,
-    TResult Function(String? currentIp)? active,
+    TResult Function(String? currentIp, List<DiscoveryHandle> discoveryHandles)?
+        active,
     TResult Function(String? currentIp)? paused,
     TResult Function()? error,
     required TResult orElse(),
   }) {
     if (active != null) {
-      return active(currentIp);
+      return active(currentIp, discoveryHandles);
     }
     return orElse();
   }
@@ -475,10 +511,12 @@ class _$_Active extends _Active {
 }
 
 abstract class _Active extends CameraDiscoveryState {
-  const factory _Active(final String? currentIp) = _$_Active;
+  const factory _Active(final String? currentIp,
+      final List<DiscoveryHandle> discoveryHandles) = _$_Active;
   const _Active._() : super._();
 
   String? get currentIp;
+  List<DiscoveryHandle> get discoveryHandles;
   @JsonKey(ignore: true)
   _$$_ActiveCopyWith<_$_Active> get copyWith =>
       throw _privateConstructorUsedError;
@@ -549,7 +587,9 @@ class _$_Paused extends _Paused {
   TResult when<TResult extends Object?>({
     required TResult Function() init,
     required TResult Function() initInProgress,
-    required TResult Function(String? currentIp) active,
+    required TResult Function(
+            String? currentIp, List<DiscoveryHandle> discoveryHandles)
+        active,
     required TResult Function(String? currentIp) paused,
     required TResult Function() error,
   }) {
@@ -561,7 +601,9 @@ class _$_Paused extends _Paused {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
     TResult? Function()? initInProgress,
-    TResult? Function(String? currentIp)? active,
+    TResult? Function(
+            String? currentIp, List<DiscoveryHandle> discoveryHandles)?
+        active,
     TResult? Function(String? currentIp)? paused,
     TResult? Function()? error,
   }) {
@@ -573,7 +615,8 @@ class _$_Paused extends _Paused {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
     TResult Function()? initInProgress,
-    TResult Function(String? currentIp)? active,
+    TResult Function(String? currentIp, List<DiscoveryHandle> discoveryHandles)?
+        active,
     TResult Function(String? currentIp)? paused,
     TResult Function()? error,
     required TResult orElse(),
@@ -673,7 +716,9 @@ class _$_Error extends _Error {
   TResult when<TResult extends Object?>({
     required TResult Function() init,
     required TResult Function() initInProgress,
-    required TResult Function(String? currentIp) active,
+    required TResult Function(
+            String? currentIp, List<DiscoveryHandle> discoveryHandles)
+        active,
     required TResult Function(String? currentIp) paused,
     required TResult Function() error,
   }) {
@@ -685,7 +730,9 @@ class _$_Error extends _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
     TResult? Function()? initInProgress,
-    TResult? Function(String? currentIp)? active,
+    TResult? Function(
+            String? currentIp, List<DiscoveryHandle> discoveryHandles)?
+        active,
     TResult? Function(String? currentIp)? paused,
     TResult? Function()? error,
   }) {
@@ -697,7 +744,8 @@ class _$_Error extends _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
     TResult Function()? initInProgress,
-    TResult Function(String? currentIp)? active,
+    TResult Function(String? currentIp, List<DiscoveryHandle> discoveryHandles)?
+        active,
     TResult Function(String? currentIp)? paused,
     TResult Function()? error,
     required TResult orElse(),
