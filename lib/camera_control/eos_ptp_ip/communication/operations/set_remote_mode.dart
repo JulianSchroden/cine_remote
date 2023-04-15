@@ -1,6 +1,6 @@
 import '../../adapter/ptp_packet_builder.dart';
-import '../../constants/remote_mode.dart';
 import '../../constants/ptp_operation_code.dart';
+import '../../constants/remote_mode.dart';
 import 'ptp_operation.dart';
 
 class SetRemoteMode extends PtpRequestOperation {

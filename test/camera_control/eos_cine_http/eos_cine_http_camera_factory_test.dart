@@ -4,12 +4,13 @@ import 'dart:io';
 import 'package:cine_remote/camera_control/eos_cine_http/adapter/http_adapter_factory.dart';
 import 'package:cine_remote/camera_control/eos_cine_http/adapter/http_client_factory.dart';
 import 'package:cine_remote/camera_control/eos_cine_http/eos_cine_http_camera.dart';
-import 'package:cine_remote/camera_control/eos_cine_http/eos_cine_http_camera_handle.dart';
+import 'package:cine_remote/camera_control/eos_cine_http/eos_cine_http_camera_pairing_data.dart';
 import 'package:cine_remote/camera_control/eos_cine_http/eos_cine_http_camera_factory.dart';
 import 'package:cine_remote/camera_control/eos_cine_http/models/camera_info.dart';
 import 'package:cine_remote/camera_control/eos_cine_http/models/http_adapter_response.dart';
 import 'package:cine_remote/camera_control/interface/camera_factory.dart';
 import 'package:cine_remote/camera_control/interface/exceptions/camera_communication_exception.dart';
+import 'package:cine_remote/camera_control/interface/models/camera_handle.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -22,7 +23,11 @@ class MockHttpAdapterFactory extends Mock implements HttpAdapterFactory {}
 void main() {
   const okResponseBody = '{"res":"ok"}';
   final authCookie = Cookie('acid', 'e3d4');
-  const cameraHandle = EosCineHttpCameraHandle(model: CameraModels.canonC100II);
+  const cameraHandle = CameraHandle(
+    id: '123',
+    model: CameraModels.canonC100II,
+    pairingData: EosCineHttpCameraPairingData(),
+  );
 
   late MockHttpClient mockHttpClient;
   late MockHttpClientFactory mockHttpClientFactory;

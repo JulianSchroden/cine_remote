@@ -4,7 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../camera_control/interface/camera.dart';
-import '../../../../camera_control/interface/camera_factory.dart';
+import '../../../../camera_control/interface/camera_factory_provider.dart';
+import '../../../../camera_control/interface/discovery/discovery_handle.dart';
 import '../../../../camera_control/interface/exceptions/camera_connection_exception.dart';
 import '../../../../camera_control/interface/models/camera_handle.dart';
 import '../../../../camera_control/interface/models/camera_update_event.dart';
@@ -17,6 +18,8 @@ class CameraConnectionState with _$CameraConnectionState {
 
   const factory CameraConnectionState.connecting() = _InitConnection;
   const factory CameraConnectionState.connectingFailed() = _ConnectingFailed;
+  const factory CameraConnectionState.requiresPairing(DiscoveryHandle handle) =
+      _RequiresPairing;
   const factory CameraConnectionState.connected(Camera camera) =
       _ConnectionEstablished;
   const factory CameraConnectionState.disconnecting(Camera camera) =
@@ -28,9 +31,10 @@ class CameraConnectionState with _$CameraConnectionState {
 }
 
 class CameraConnectionCubit extends Cubit<CameraConnectionState> {
-  final CameraFactory _cameraFactory;
+  final CameraFactoryProvider _cameraFactoryProvider;
 
-  CameraConnectionCubit([this._cameraFactory = const DefaultCameraFactory()])
+  CameraConnectionCubit(
+      [this._cameraFactoryProvider = const CameraFactoryProvider()])
       : super(const CameraConnectionState.disconnected());
 
   @override
@@ -38,12 +42,33 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
     return super.close();
   }
 
+  Future<void> connectToDiscoveredCamera(
+    DiscoveryHandle discoveryHandle,
+  ) async {
+    try {
+      emit(const CameraConnectionState.connecting());
+      final factory = _cameraFactoryProvider.provide(discoveryHandle.model);
+      const pairingData = null;
+      final cameraHandle = await factory.prepare(discoveryHandle, pairingData);
+      if (cameraHandle != null) {
+        return connect(cameraHandle);
+      }
+
+      emit(CameraConnectionState.requiresPairing(discoveryHandle));
+    } catch (e) {
+      emit(const CameraConnectionState.connectingFailed());
+    }
+  }
+
   Future<void> connect(CameraHandle cameraHandle) async {
     try {
       print('cubit connect');
 
       emit(const CameraConnectionState.connecting());
-      final camera = await _cameraFactory.connect(cameraHandle);
+
+      final factory = _cameraFactoryProvider.provide(cameraHandle.model);
+
+      final camera = await factory.connect(cameraHandle);
 
       print('connection success');
       emit(CameraConnectionState.connected(camera));

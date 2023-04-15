@@ -1,14 +1,13 @@
 import 'dart:typed_data';
 
-import '../interface/models/camera_handle.dart';
+import '../interface/models/pairing_data.dart';
 
-class EosPtpIpCameraHandle extends CameraHandle {
+class EosPtpIpCameraPairingData extends PairingData {
   final Uint8List guid;
   final String address;
   final String clientName;
 
-  const EosPtpIpCameraHandle({
-    required super.model,
+  const EosPtpIpCameraPairingData({
     required this.guid,
     required this.address,
     required this.clientName,
@@ -16,7 +15,6 @@ class EosPtpIpCameraHandle extends CameraHandle {
 
   @override
   List<Object?> get props => [
-        ...super.props,
         guid,
         address,
         clientName,

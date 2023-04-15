@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../camera_control/interface/discovery/discovery_handle.dart';
 import '../../../core/extensions/camera_model_display_extension.dart';
+import '../../camera_connection/bloc/camera_connection_cubit.dart';
 
 class CameraDiscoveryItem extends StatelessWidget {
   final DiscoveryHandle discoveryHandle;
@@ -20,7 +22,9 @@ class CameraDiscoveryItem extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
         onTap: () {
-          print('try to connect/ pair to device');
+          context
+              .read<CameraConnectionCubit>()
+              .connectToDiscoveredCamera(discoveryHandle);
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

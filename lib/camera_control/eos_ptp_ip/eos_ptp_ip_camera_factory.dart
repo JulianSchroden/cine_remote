@@ -1,5 +1,8 @@
 import '../interface/camera.dart';
 import '../interface/camera_factory.dart';
+import '../interface/discovery/discovery_handle.dart';
+import '../interface/models/camera_handle.dart';
+import '../interface/models/pairing_data.dart';
 import 'actions/action_factory.dart';
 import 'adapter/eos_ptp_event_processor.dart';
 import 'adapter/get_eos_events_delegate.dart';
@@ -9,13 +12,13 @@ import 'communication/ptp_ip_channel.dart';
 import 'communication/ptp_ip_client.dart';
 import 'communication/ptp_transaction_queue.dart';
 import 'eos_ptp_ip_camera.dart';
-import 'eos_ptp_ip_camera_handle.dart';
+import 'eos_ptp_ip_camera_pairing_data.dart';
 import 'extensions/stream_extensions.dart';
 import 'logging/eos_ptp_ip_logger.dart';
 import 'responses/ptp_init_command_response.dart';
 import 'responses/ptp_init_event_response.dart';
 
-class EosPtpIpCameraFactory extends CameraFactory<EosPtpIpCameraHandle> {
+class EosPtpIpCameraFactory extends CameraFactory<EosPtpIpCameraPairingData> {
   static const ptpIpPort = 15740;
 
   final ActionFactory _actionFactory;
@@ -26,14 +29,32 @@ class EosPtpIpCameraFactory extends CameraFactory<EosPtpIpCameraHandle> {
   ]);
 
   @override
-  Future<Camera> connect(EosPtpIpCameraHandle handle) async {
+  Future<CameraHandle<EosPtpIpCameraPairingData>?> prepare(
+    DiscoveryHandle discoveryHandle,
+    PairingData? pairingData,
+  ) async {
+    if (pairingData == null || pairingData is! EosPtpIpCameraPairingData) {
+      return null;
+    }
+
+    return CameraHandle(
+      id: discoveryHandle.id,
+      model: discoveryHandle.model,
+      pairingData: pairingData,
+    );
+  }
+
+  @override
+  Future<Camera> connect(CameraHandle<EosPtpIpCameraPairingData> handle) async {
+    final pairingData = handle.pairingData;
+
     logger.info('Attempting to open command channel');
     final commandChannel =
-        await PtpIpChannel.connect(handle.address, ptpIpPort);
+        await PtpIpChannel.connect(pairingData.address, ptpIpPort);
 
     logger.info('Sending initCommand request');
-    await commandChannel.write(PtpRequestFactory()
-        .createInitCommandRequest(name: handle.clientName, guid: handle.guid));
+    await commandChannel.write(PtpRequestFactory().createInitCommandRequest(
+        name: pairingData.clientName, guid: pairingData.guid));
 
     final initCommandResponse = await commandChannel.onResponse
         .firstWhereType<PtpInitCommandResponse>()
@@ -43,7 +64,8 @@ class EosPtpIpCameraFactory extends CameraFactory<EosPtpIpCameraHandle> {
         'Received initCommand response with connectionNumber: ${initCommandResponse.connectionNumber}');
 
     logger.info('Attempting to open event channel');
-    final eventChannel = await PtpIpChannel.connect(handle.address, ptpIpPort);
+    final eventChannel =
+        await PtpIpChannel.connect(pairingData.address, ptpIpPort);
 
     logger.info("Sending initEvent request");
     await eventChannel.write(PtpRequestFactory().createInitEventRequest(

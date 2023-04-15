@@ -22,7 +22,10 @@ class EosCineHttpCameraDiscoveryAdapter extends CameraDiscoveryAdapter {
 
       if (localIp == EosCineIpConfig.localIp &&
           gatewayIp == EosCineIpConfig.gatewayIp) {
-        return const EosCineHttpDiscoveryHandle(CameraModels.canonC100II);
+        return const EosCineHttpDiscoveryHandle(
+          id: 'canon_c100_ii_1',
+          model: CameraModels.canonC100II,
+        );
       }
     })
         .asyncMap((future) => future)

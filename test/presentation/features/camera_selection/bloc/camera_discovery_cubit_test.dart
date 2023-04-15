@@ -83,13 +83,19 @@ void main() {
           'emits [active] when camera found',
           setUp: () => cameraDiscoveryStreamController,
           act: (_, controller) => controller.add(
-            const EosCineHttpDiscoveryHandle(CameraModels.canonC100II),
+            const EosCineHttpDiscoveryHandle(
+              id: 'c100-ii-1',
+              model: CameraModels.canonC100II,
+            ),
           ),
           expect: () => [
             const CameraDiscoveryState.active(
               currentIp,
               [
-                EosCineHttpDiscoveryHandle(CameraModels.canonC100II),
+                EosCineHttpDiscoveryHandle(
+                  id: 'c100-ii-1',
+                  model: CameraModels.canonC100II,
+                ),
               ],
             )
           ],
@@ -117,13 +123,19 @@ void main() {
         BlocTestStep(
           'emits [active] when camera found',
           act: (_, controller) => controller.add(
-            const EosCineHttpDiscoveryHandle(CameraModels.canonC100II),
+            const EosCineHttpDiscoveryHandle(
+              id: 'c100-ii-1',
+              model: CameraModels.canonC100II,
+            ),
           ),
           expect: () => [
             const CameraDiscoveryState.active(
               currentIp,
               [
-                EosCineHttpDiscoveryHandle(CameraModels.canonC100II),
+                EosCineHttpDiscoveryHandle(
+                  id: 'c100-ii-1',
+                  model: CameraModels.canonC100II,
+                ),
               ],
             )
           ],
@@ -131,14 +143,23 @@ void main() {
         BlocTestStep(
           'emits [active] with new camera added to discoveredCameras list',
           act: (_, controller) => controller.add(
-            const EosPtpIpDiscoveryHandle(CameraModels.canon70D),
+            const EosPtpIpDiscoveryHandle(
+              id: 'canon-70D-123232323',
+              model: CameraModels.canon70D,
+            ),
           ),
           expect: () => [
             const CameraDiscoveryState.active(
               currentIp,
               [
-                EosPtpIpDiscoveryHandle(CameraModels.canon70D),
-                EosCineHttpDiscoveryHandle(CameraModels.canonC100II),
+                EosPtpIpDiscoveryHandle(
+                  id: 'canon-70D-123232323',
+                  model: CameraModels.canon70D,
+                ),
+                EosCineHttpDiscoveryHandle(
+                  id: 'c100-ii-1',
+                  model: CameraModels.canonC100II,
+                ),
               ],
             )
           ],
@@ -146,7 +167,10 @@ void main() {
         BlocTestStep(
           'ignores already discovered camera',
           act: (_, controller) => controller.add(
-            const EosCineHttpDiscoveryHandle(CameraModels.canonC100II),
+            const EosCineHttpDiscoveryHandle(
+              id: 'c100-ii-1',
+              model: CameraModels.canonC100II,
+            ),
           ),
           expect: () => [],
         ),
@@ -157,14 +181,23 @@ void main() {
                 Future.value(const WifiInfo('192.168.0.81', '192.168.0.80')));
           },
           act: (_, controller) => controller.add(
-            const EosCineHttpDiscoveryHandle(CameraModels.canonC100II),
+            const EosCineHttpDiscoveryHandle(
+              id: 'c100-ii-1',
+              model: CameraModels.canonC100II,
+            ),
           ),
           expect: () => [
             const CameraDiscoveryState.active(
               '192.168.0.81',
               [
-                EosPtpIpDiscoveryHandle(CameraModels.canon70D),
-                EosCineHttpDiscoveryHandle(CameraModels.canonC100II),
+                EosPtpIpDiscoveryHandle(
+                  id: 'canon-70D-123232323',
+                  model: CameraModels.canon70D,
+                ),
+                EosCineHttpDiscoveryHandle(
+                  id: 'c100-ii-1',
+                  model: CameraModels.canonC100II,
+                ),
               ],
             )
           ],

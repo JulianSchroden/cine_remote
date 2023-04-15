@@ -2,14 +2,18 @@ import 'dart:io';
 
 import '../interface/camera.dart';
 import '../interface/camera_factory.dart';
+import '../interface/discovery/discovery_handle.dart';
 import '../interface/exceptions/camera_communication_exception.dart';
+import '../interface/models/camera_handle.dart';
+import '../interface/models/pairing_data.dart';
 import 'adapter/http_adapter_factory.dart';
 import 'adapter/http_client_factory.dart';
 import 'communication/action_factory.dart';
 import 'eos_cine_http_camera.dart';
-import 'eos_cine_http_camera_handle.dart';
+import 'eos_cine_http_camera_pairing_data.dart';
 
-class EosCineHttpCameraFactory extends CameraFactory<EosCineHttpCameraHandle> {
+class EosCineHttpCameraFactory
+    extends CameraFactory<EosCineHttpCameraPairingData> {
   final HttpClientFactory clientFactory;
   final HttpAdapterFactory adaperFactory;
   final ActionFactory actionFactory;
@@ -21,9 +25,22 @@ class EosCineHttpCameraFactory extends CameraFactory<EosCineHttpCameraHandle> {
   ]);
 
   @override
-  Future<Camera> connect(EosCineHttpCameraHandle handle) async {
+  Future<CameraHandle<EosCineHttpCameraPairingData>?> prepare(
+      DiscoveryHandle discoveryHandle, PairingData? pairingData) async {
+    return CameraHandle(
+      id: discoveryHandle.id,
+      model: discoveryHandle.model,
+      pairingData: const EosCineHttpCameraPairingData(),
+    );
+  }
+
+  @override
+  Future<Camera> connect(
+      CameraHandle<EosCineHttpCameraPairingData> handle) async {
+    final pairingData = handle.pairingData;
+
     final client = await clientFactory.create();
-    final httpAdapter = await adaperFactory.create(client, handle.address);
+    final httpAdapter = await adaperFactory.create(client, pairingData.address);
 
     final loginAction = actionFactory.createLoginAction(httpAdapter);
     final loginResponse = await loginAction();

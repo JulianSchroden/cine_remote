@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../camera_control/eos_cine_http/eos_cine_http_camera_handle.dart';
-import '../../../../camera_control/eos_ptp_ip/eos_ptp_ip_camera_handle.dart';
+import '../../../../camera_control/eos_cine_http/eos_cine_http_camera_pairing_data.dart';
+import '../../../../camera_control/eos_ptp_ip/eos_ptp_ip_camera_pairing_data.dart';
 import '../../../../camera_control/interface/models/camera_handle.dart';
 import '../../../core/extensions/camera_model_display_extension.dart';
 import '../../camera_connection/bloc/camera_connection_cubit.dart';
@@ -63,11 +63,11 @@ class RecentCameraItem extends StatelessWidget {
 
 extension CameraHandleConnectionInfoExtension on CameraHandle {
   String get connectionInfo {
-    switch (runtimeType) {
-      case EosCineHttpCameraHandle:
-        return (this as EosCineHttpCameraHandle).address;
-      case EosPtpIpCameraHandle:
-        return (this as EosPtpIpCameraHandle).address;
+    switch (pairingData.runtimeType) {
+      case EosCineHttpCameraPairingData:
+        return (pairingData as EosCineHttpCameraPairingData).address;
+      case EosPtpIpCameraPairingData:
+        return (pairingData as EosPtpIpCameraPairingData).address;
     }
 
     return '';

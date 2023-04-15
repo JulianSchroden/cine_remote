@@ -1,7 +1,10 @@
 import '../../interface/discovery/discovery_handle.dart';
 
 class EosCineHttpDiscoveryHandle extends DiscoveryHandle {
-  const EosCineHttpDiscoveryHandle(super.model);
+  const EosCineHttpDiscoveryHandle({
+    required super.id,
+    required super.model,
+  });
 
   @override
   String toString() {

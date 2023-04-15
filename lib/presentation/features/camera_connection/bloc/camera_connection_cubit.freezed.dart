@@ -20,6 +20,7 @@ mixin _$CameraConnectionState {
   TResult when<TResult extends Object?>({
     required TResult Function() connecting,
     required TResult Function() connectingFailed,
+    required TResult Function(DiscoveryHandle handle) requiresPairing,
     required TResult Function(Camera camera) connected,
     required TResult Function(Camera camera) disconnecting,
     required TResult Function() disconnected,
@@ -29,6 +30,7 @@ mixin _$CameraConnectionState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? connecting,
     TResult? Function()? connectingFailed,
+    TResult? Function(DiscoveryHandle handle)? requiresPairing,
     TResult? Function(Camera camera)? connected,
     TResult? Function(Camera camera)? disconnecting,
     TResult? Function()? disconnected,
@@ -38,6 +40,7 @@ mixin _$CameraConnectionState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? connecting,
     TResult Function()? connectingFailed,
+    TResult Function(DiscoveryHandle handle)? requiresPairing,
     TResult Function(Camera camera)? connected,
     TResult Function(Camera camera)? disconnecting,
     TResult Function()? disconnected,
@@ -48,6 +51,7 @@ mixin _$CameraConnectionState {
   TResult map<TResult extends Object?>({
     required TResult Function(_InitConnection value) connecting,
     required TResult Function(_ConnectingFailed value) connectingFailed,
+    required TResult Function(_RequiresPairing value) requiresPairing,
     required TResult Function(_ConnectionEstablished value) connected,
     required TResult Function(_Disconnecting value) disconnecting,
     required TResult Function(_Disconnected value) disconnected,
@@ -57,6 +61,7 @@ mixin _$CameraConnectionState {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_InitConnection value)? connecting,
     TResult? Function(_ConnectingFailed value)? connectingFailed,
+    TResult? Function(_RequiresPairing value)? requiresPairing,
     TResult? Function(_ConnectionEstablished value)? connected,
     TResult? Function(_Disconnecting value)? disconnecting,
     TResult? Function(_Disconnected value)? disconnected,
@@ -66,6 +71,7 @@ mixin _$CameraConnectionState {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_InitConnection value)? connecting,
     TResult Function(_ConnectingFailed value)? connectingFailed,
+    TResult Function(_RequiresPairing value)? requiresPairing,
     TResult Function(_ConnectionEstablished value)? connected,
     TResult Function(_Disconnecting value)? disconnecting,
     TResult Function(_Disconnected value)? disconnected,
@@ -133,6 +139,7 @@ class _$_InitConnection extends _InitConnection {
   TResult when<TResult extends Object?>({
     required TResult Function() connecting,
     required TResult Function() connectingFailed,
+    required TResult Function(DiscoveryHandle handle) requiresPairing,
     required TResult Function(Camera camera) connected,
     required TResult Function(Camera camera) disconnecting,
     required TResult Function() disconnected,
@@ -145,6 +152,7 @@ class _$_InitConnection extends _InitConnection {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? connecting,
     TResult? Function()? connectingFailed,
+    TResult? Function(DiscoveryHandle handle)? requiresPairing,
     TResult? Function(Camera camera)? connected,
     TResult? Function(Camera camera)? disconnecting,
     TResult? Function()? disconnected,
@@ -157,6 +165,7 @@ class _$_InitConnection extends _InitConnection {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? connecting,
     TResult Function()? connectingFailed,
+    TResult Function(DiscoveryHandle handle)? requiresPairing,
     TResult Function(Camera camera)? connected,
     TResult Function(Camera camera)? disconnecting,
     TResult Function()? disconnected,
@@ -173,6 +182,7 @@ class _$_InitConnection extends _InitConnection {
   TResult map<TResult extends Object?>({
     required TResult Function(_InitConnection value) connecting,
     required TResult Function(_ConnectingFailed value) connectingFailed,
+    required TResult Function(_RequiresPairing value) requiresPairing,
     required TResult Function(_ConnectionEstablished value) connected,
     required TResult Function(_Disconnecting value) disconnecting,
     required TResult Function(_Disconnected value) disconnected,
@@ -185,6 +195,7 @@ class _$_InitConnection extends _InitConnection {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_InitConnection value)? connecting,
     TResult? Function(_ConnectingFailed value)? connectingFailed,
+    TResult? Function(_RequiresPairing value)? requiresPairing,
     TResult? Function(_ConnectionEstablished value)? connected,
     TResult? Function(_Disconnecting value)? disconnecting,
     TResult? Function(_Disconnected value)? disconnected,
@@ -197,6 +208,7 @@ class _$_InitConnection extends _InitConnection {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_InitConnection value)? connecting,
     TResult Function(_ConnectingFailed value)? connectingFailed,
+    TResult Function(_RequiresPairing value)? requiresPairing,
     TResult Function(_ConnectionEstablished value)? connected,
     TResult Function(_Disconnecting value)? disconnecting,
     TResult Function(_Disconnected value)? disconnected,
@@ -254,6 +266,7 @@ class _$_ConnectingFailed extends _ConnectingFailed {
   TResult when<TResult extends Object?>({
     required TResult Function() connecting,
     required TResult Function() connectingFailed,
+    required TResult Function(DiscoveryHandle handle) requiresPairing,
     required TResult Function(Camera camera) connected,
     required TResult Function(Camera camera) disconnecting,
     required TResult Function() disconnected,
@@ -266,6 +279,7 @@ class _$_ConnectingFailed extends _ConnectingFailed {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? connecting,
     TResult? Function()? connectingFailed,
+    TResult? Function(DiscoveryHandle handle)? requiresPairing,
     TResult? Function(Camera camera)? connected,
     TResult? Function(Camera camera)? disconnecting,
     TResult? Function()? disconnected,
@@ -278,6 +292,7 @@ class _$_ConnectingFailed extends _ConnectingFailed {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? connecting,
     TResult Function()? connectingFailed,
+    TResult Function(DiscoveryHandle handle)? requiresPairing,
     TResult Function(Camera camera)? connected,
     TResult Function(Camera camera)? disconnecting,
     TResult Function()? disconnected,
@@ -294,6 +309,7 @@ class _$_ConnectingFailed extends _ConnectingFailed {
   TResult map<TResult extends Object?>({
     required TResult Function(_InitConnection value) connecting,
     required TResult Function(_ConnectingFailed value) connectingFailed,
+    required TResult Function(_RequiresPairing value) requiresPairing,
     required TResult Function(_ConnectionEstablished value) connected,
     required TResult Function(_Disconnecting value) disconnecting,
     required TResult Function(_Disconnected value) disconnected,
@@ -306,6 +322,7 @@ class _$_ConnectingFailed extends _ConnectingFailed {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_InitConnection value)? connecting,
     TResult? Function(_ConnectingFailed value)? connectingFailed,
+    TResult? Function(_RequiresPairing value)? requiresPairing,
     TResult? Function(_ConnectionEstablished value)? connected,
     TResult? Function(_Disconnecting value)? disconnecting,
     TResult? Function(_Disconnected value)? disconnected,
@@ -318,6 +335,7 @@ class _$_ConnectingFailed extends _ConnectingFailed {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_InitConnection value)? connecting,
     TResult Function(_ConnectingFailed value)? connectingFailed,
+    TResult Function(_RequiresPairing value)? requiresPairing,
     TResult Function(_ConnectionEstablished value)? connected,
     TResult Function(_Disconnecting value)? disconnecting,
     TResult Function(_Disconnected value)? disconnected,
@@ -333,6 +351,165 @@ class _$_ConnectingFailed extends _ConnectingFailed {
 abstract class _ConnectingFailed extends CameraConnectionState {
   const factory _ConnectingFailed() = _$_ConnectingFailed;
   const _ConnectingFailed._() : super._();
+}
+
+/// @nodoc
+abstract class _$$_RequiresPairingCopyWith<$Res> {
+  factory _$$_RequiresPairingCopyWith(
+          _$_RequiresPairing value, $Res Function(_$_RequiresPairing) then) =
+      __$$_RequiresPairingCopyWithImpl<$Res>;
+  @useResult
+  $Res call({DiscoveryHandle handle});
+}
+
+/// @nodoc
+class __$$_RequiresPairingCopyWithImpl<$Res>
+    extends _$CameraConnectionStateCopyWithImpl<$Res, _$_RequiresPairing>
+    implements _$$_RequiresPairingCopyWith<$Res> {
+  __$$_RequiresPairingCopyWithImpl(
+      _$_RequiresPairing _value, $Res Function(_$_RequiresPairing) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? handle = null,
+  }) {
+    return _then(_$_RequiresPairing(
+      null == handle
+          ? _value.handle
+          : handle // ignore: cast_nullable_to_non_nullable
+              as DiscoveryHandle,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_RequiresPairing extends _RequiresPairing {
+  const _$_RequiresPairing(this.handle) : super._();
+
+  @override
+  final DiscoveryHandle handle;
+
+  @override
+  String toString() {
+    return 'CameraConnectionState.requiresPairing(handle: $handle)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_RequiresPairing &&
+            (identical(other.handle, handle) || other.handle == handle));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, handle);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_RequiresPairingCopyWith<_$_RequiresPairing> get copyWith =>
+      __$$_RequiresPairingCopyWithImpl<_$_RequiresPairing>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() connecting,
+    required TResult Function() connectingFailed,
+    required TResult Function(DiscoveryHandle handle) requiresPairing,
+    required TResult Function(Camera camera) connected,
+    required TResult Function(Camera camera) disconnecting,
+    required TResult Function() disconnected,
+  }) {
+    return requiresPairing(handle);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? connecting,
+    TResult? Function()? connectingFailed,
+    TResult? Function(DiscoveryHandle handle)? requiresPairing,
+    TResult? Function(Camera camera)? connected,
+    TResult? Function(Camera camera)? disconnecting,
+    TResult? Function()? disconnected,
+  }) {
+    return requiresPairing?.call(handle);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? connecting,
+    TResult Function()? connectingFailed,
+    TResult Function(DiscoveryHandle handle)? requiresPairing,
+    TResult Function(Camera camera)? connected,
+    TResult Function(Camera camera)? disconnecting,
+    TResult Function()? disconnected,
+    required TResult orElse(),
+  }) {
+    if (requiresPairing != null) {
+      return requiresPairing(handle);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_InitConnection value) connecting,
+    required TResult Function(_ConnectingFailed value) connectingFailed,
+    required TResult Function(_RequiresPairing value) requiresPairing,
+    required TResult Function(_ConnectionEstablished value) connected,
+    required TResult Function(_Disconnecting value) disconnecting,
+    required TResult Function(_Disconnected value) disconnected,
+  }) {
+    return requiresPairing(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_InitConnection value)? connecting,
+    TResult? Function(_ConnectingFailed value)? connectingFailed,
+    TResult? Function(_RequiresPairing value)? requiresPairing,
+    TResult? Function(_ConnectionEstablished value)? connected,
+    TResult? Function(_Disconnecting value)? disconnecting,
+    TResult? Function(_Disconnected value)? disconnected,
+  }) {
+    return requiresPairing?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_InitConnection value)? connecting,
+    TResult Function(_ConnectingFailed value)? connectingFailed,
+    TResult Function(_RequiresPairing value)? requiresPairing,
+    TResult Function(_ConnectionEstablished value)? connected,
+    TResult Function(_Disconnecting value)? disconnecting,
+    TResult Function(_Disconnected value)? disconnected,
+    required TResult orElse(),
+  }) {
+    if (requiresPairing != null) {
+      return requiresPairing(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _RequiresPairing extends CameraConnectionState {
+  const factory _RequiresPairing(final DiscoveryHandle handle) =
+      _$_RequiresPairing;
+  const _RequiresPairing._() : super._();
+
+  DiscoveryHandle get handle;
+  @JsonKey(ignore: true)
+  _$$_RequiresPairingCopyWith<_$_RequiresPairing> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -402,6 +579,7 @@ class _$_ConnectionEstablished extends _ConnectionEstablished {
   TResult when<TResult extends Object?>({
     required TResult Function() connecting,
     required TResult Function() connectingFailed,
+    required TResult Function(DiscoveryHandle handle) requiresPairing,
     required TResult Function(Camera camera) connected,
     required TResult Function(Camera camera) disconnecting,
     required TResult Function() disconnected,
@@ -414,6 +592,7 @@ class _$_ConnectionEstablished extends _ConnectionEstablished {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? connecting,
     TResult? Function()? connectingFailed,
+    TResult? Function(DiscoveryHandle handle)? requiresPairing,
     TResult? Function(Camera camera)? connected,
     TResult? Function(Camera camera)? disconnecting,
     TResult? Function()? disconnected,
@@ -426,6 +605,7 @@ class _$_ConnectionEstablished extends _ConnectionEstablished {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? connecting,
     TResult Function()? connectingFailed,
+    TResult Function(DiscoveryHandle handle)? requiresPairing,
     TResult Function(Camera camera)? connected,
     TResult Function(Camera camera)? disconnecting,
     TResult Function()? disconnected,
@@ -442,6 +622,7 @@ class _$_ConnectionEstablished extends _ConnectionEstablished {
   TResult map<TResult extends Object?>({
     required TResult Function(_InitConnection value) connecting,
     required TResult Function(_ConnectingFailed value) connectingFailed,
+    required TResult Function(_RequiresPairing value) requiresPairing,
     required TResult Function(_ConnectionEstablished value) connected,
     required TResult Function(_Disconnecting value) disconnecting,
     required TResult Function(_Disconnected value) disconnected,
@@ -454,6 +635,7 @@ class _$_ConnectionEstablished extends _ConnectionEstablished {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_InitConnection value)? connecting,
     TResult? Function(_ConnectingFailed value)? connectingFailed,
+    TResult? Function(_RequiresPairing value)? requiresPairing,
     TResult? Function(_ConnectionEstablished value)? connected,
     TResult? Function(_Disconnecting value)? disconnecting,
     TResult? Function(_Disconnected value)? disconnected,
@@ -466,6 +648,7 @@ class _$_ConnectionEstablished extends _ConnectionEstablished {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_InitConnection value)? connecting,
     TResult Function(_ConnectingFailed value)? connectingFailed,
+    TResult Function(_RequiresPairing value)? requiresPairing,
     TResult Function(_ConnectionEstablished value)? connected,
     TResult Function(_Disconnecting value)? disconnecting,
     TResult Function(_Disconnected value)? disconnected,
@@ -555,6 +738,7 @@ class _$_Disconnecting extends _Disconnecting {
   TResult when<TResult extends Object?>({
     required TResult Function() connecting,
     required TResult Function() connectingFailed,
+    required TResult Function(DiscoveryHandle handle) requiresPairing,
     required TResult Function(Camera camera) connected,
     required TResult Function(Camera camera) disconnecting,
     required TResult Function() disconnected,
@@ -567,6 +751,7 @@ class _$_Disconnecting extends _Disconnecting {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? connecting,
     TResult? Function()? connectingFailed,
+    TResult? Function(DiscoveryHandle handle)? requiresPairing,
     TResult? Function(Camera camera)? connected,
     TResult? Function(Camera camera)? disconnecting,
     TResult? Function()? disconnected,
@@ -579,6 +764,7 @@ class _$_Disconnecting extends _Disconnecting {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? connecting,
     TResult Function()? connectingFailed,
+    TResult Function(DiscoveryHandle handle)? requiresPairing,
     TResult Function(Camera camera)? connected,
     TResult Function(Camera camera)? disconnecting,
     TResult Function()? disconnected,
@@ -595,6 +781,7 @@ class _$_Disconnecting extends _Disconnecting {
   TResult map<TResult extends Object?>({
     required TResult Function(_InitConnection value) connecting,
     required TResult Function(_ConnectingFailed value) connectingFailed,
+    required TResult Function(_RequiresPairing value) requiresPairing,
     required TResult Function(_ConnectionEstablished value) connected,
     required TResult Function(_Disconnecting value) disconnecting,
     required TResult Function(_Disconnected value) disconnected,
@@ -607,6 +794,7 @@ class _$_Disconnecting extends _Disconnecting {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_InitConnection value)? connecting,
     TResult? Function(_ConnectingFailed value)? connectingFailed,
+    TResult? Function(_RequiresPairing value)? requiresPairing,
     TResult? Function(_ConnectionEstablished value)? connected,
     TResult? Function(_Disconnecting value)? disconnecting,
     TResult? Function(_Disconnected value)? disconnected,
@@ -619,6 +807,7 @@ class _$_Disconnecting extends _Disconnecting {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_InitConnection value)? connecting,
     TResult Function(_ConnectingFailed value)? connectingFailed,
+    TResult Function(_RequiresPairing value)? requiresPairing,
     TResult Function(_ConnectionEstablished value)? connected,
     TResult Function(_Disconnecting value)? disconnecting,
     TResult Function(_Disconnected value)? disconnected,
@@ -681,6 +870,7 @@ class _$_Disconnected extends _Disconnected {
   TResult when<TResult extends Object?>({
     required TResult Function() connecting,
     required TResult Function() connectingFailed,
+    required TResult Function(DiscoveryHandle handle) requiresPairing,
     required TResult Function(Camera camera) connected,
     required TResult Function(Camera camera) disconnecting,
     required TResult Function() disconnected,
@@ -693,6 +883,7 @@ class _$_Disconnected extends _Disconnected {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? connecting,
     TResult? Function()? connectingFailed,
+    TResult? Function(DiscoveryHandle handle)? requiresPairing,
     TResult? Function(Camera camera)? connected,
     TResult? Function(Camera camera)? disconnecting,
     TResult? Function()? disconnected,
@@ -705,6 +896,7 @@ class _$_Disconnected extends _Disconnected {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? connecting,
     TResult Function()? connectingFailed,
+    TResult Function(DiscoveryHandle handle)? requiresPairing,
     TResult Function(Camera camera)? connected,
     TResult Function(Camera camera)? disconnecting,
     TResult Function()? disconnected,
@@ -721,6 +913,7 @@ class _$_Disconnected extends _Disconnected {
   TResult map<TResult extends Object?>({
     required TResult Function(_InitConnection value) connecting,
     required TResult Function(_ConnectingFailed value) connectingFailed,
+    required TResult Function(_RequiresPairing value) requiresPairing,
     required TResult Function(_ConnectionEstablished value) connected,
     required TResult Function(_Disconnecting value) disconnecting,
     required TResult Function(_Disconnected value) disconnected,
@@ -733,6 +926,7 @@ class _$_Disconnected extends _Disconnected {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_InitConnection value)? connecting,
     TResult? Function(_ConnectingFailed value)? connectingFailed,
+    TResult? Function(_RequiresPairing value)? requiresPairing,
     TResult? Function(_ConnectionEstablished value)? connected,
     TResult? Function(_Disconnecting value)? disconnecting,
     TResult? Function(_Disconnected value)? disconnected,
@@ -745,6 +939,7 @@ class _$_Disconnected extends _Disconnected {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_InitConnection value)? connecting,
     TResult Function(_ConnectingFailed value)? connectingFailed,
+    TResult Function(_RequiresPairing value)? requiresPairing,
     TResult Function(_ConnectionEstablished value)? connected,
     TResult Function(_Disconnecting value)? disconnecting,
     TResult Function(_Disconnected value)? disconnected,

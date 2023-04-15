@@ -2,10 +2,11 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
-import '../../../../camera_control/demo/demo_camera_handle.dart';
-import '../../../../camera_control/eos_cine_http/eos_cine_http_camera_handle.dart';
-import '../../../../camera_control/eos_ptp_ip/eos_ptp_ip_camera_handle.dart';
+import '../../../../camera_control/demo/demo_camera_pairing_data.dart';
+import '../../../../camera_control/eos_cine_http/eos_cine_http_camera_pairing_data.dart';
+import '../../../../camera_control/eos_ptp_ip/eos_ptp_ip_camera_pairing_data.dart';
 import '../../../../camera_control/interface/camera_factory.dart';
+import '../../../../camera_control/interface/models/camera_handle.dart';
 import 'recent_camera_item.dart';
 
 class RecentCamerasList extends StatelessWidget {
@@ -44,21 +45,30 @@ class RecentCamerasList extends StatelessWidget {
               padding: const EdgeInsets.all(0),
               children: [
                 RecentCameraItem(
-                  cameraHandle: EosPtpIpCameraHandle(
+                  cameraHandle: CameraHandle(
+                    id: '123',
                     model: CameraModels.canon70D,
-                    guid:
-                        Uint8List.fromList(List.generate(16, (index) => 0x00)),
-                    address: '192.168.178.43',
-                    clientName: 'Cine Remote',
+                    pairingData: EosPtpIpCameraPairingData(
+                      guid: Uint8List.fromList(
+                          List.generate(16, (index) => 0x00)),
+                      address: '192.168.178.43',
+                      clientName: 'Cine Remote',
+                    ),
                   ),
                 ),
                 const RecentCameraItem(
-                  cameraHandle: EosCineHttpCameraHandle(
+                  cameraHandle: CameraHandle(
+                    id: '31231',
                     model: CameraModels.canonC100II,
+                    pairingData: EosCineHttpCameraPairingData(),
                   ),
                 ),
                 const RecentCameraItem(
-                  cameraHandle: DemoCameraHandle(),
+                  cameraHandle: CameraHandle(
+                    id: '3123',
+                    model: CameraModels.demoCamera,
+                    pairingData: DemoCameraPairingData(),
+                  ),
                 ),
               ],
             ),

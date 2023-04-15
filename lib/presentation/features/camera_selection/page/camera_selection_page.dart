@@ -1,7 +1,7 @@
-import '../../../../camera_control/interface/discovery/camera_discovery_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../camera_control/interface/discovery/camera_discovery_service.dart';
 import '../../../cine_remote_colors.dart';
 import '../../../core/widgets/laoding_overlay_layout.dart';
 import '../../../routes.dart';
