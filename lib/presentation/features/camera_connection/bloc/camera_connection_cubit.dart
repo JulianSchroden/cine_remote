@@ -47,14 +47,20 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
   ) async {
     try {
       emit(const CameraConnectionState.connecting());
-      final factory = _cameraFactoryProvider.provide(discoveryHandle.model);
-      const pairingData = null;
-      final cameraHandle = await factory.prepare(discoveryHandle, pairingData);
-      if (cameraHandle != null) {
-        return connect(cameraHandle);
+
+      final pairingData = discoveryHandle.pairingData;
+      // try to get data from RecentCamerasRepostitory
+      if (pairingData == null) {
+        emit(CameraConnectionState.requiresPairing(discoveryHandle));
+        return;
       }
 
-      emit(CameraConnectionState.requiresPairing(discoveryHandle));
+      final cameraHandle = CameraHandle(
+          id: discoveryHandle.id,
+          model: discoveryHandle.model,
+          pairingData: pairingData);
+
+      return connect(cameraHandle);
     } catch (e) {
       emit(const CameraConnectionState.connectingFailed());
     }

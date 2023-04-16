@@ -1,8 +1,6 @@
 import '../interface/camera.dart';
 import '../interface/camera_factory.dart';
-import '../interface/discovery/discovery_handle.dart';
 import '../interface/models/camera_handle.dart';
-import '../interface/models/pairing_data.dart';
 import 'actions/action_factory.dart';
 import 'adapter/eos_ptp_event_processor.dart';
 import 'adapter/get_eos_events_delegate.dart';
@@ -27,22 +25,6 @@ class EosPtpIpCameraFactory extends CameraFactory<EosPtpIpCameraPairingData> {
   EosPtpIpCameraFactory([
     this._actionFactory = const ActionFactory(),
   ]);
-
-  @override
-  Future<CameraHandle<EosPtpIpCameraPairingData>?> prepare(
-    DiscoveryHandle discoveryHandle,
-    PairingData? pairingData,
-  ) async {
-    if (pairingData == null || pairingData is! EosPtpIpCameraPairingData) {
-      return null;
-    }
-
-    return CameraHandle(
-      id: discoveryHandle.id,
-      model: discoveryHandle.model,
-      pairingData: pairingData,
-    );
-  }
 
   @override
   Future<Camera> connect(CameraHandle<EosPtpIpCameraPairingData> handle) async {

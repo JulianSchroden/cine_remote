@@ -1,14 +1,17 @@
+import '../models/pairing_data.dart';
 import 'package:equatable/equatable.dart';
 
 import '../models/camera_model.dart';
 
-class DiscoveryHandle extends Equatable {
+class DiscoveryHandle<Pd extends PairingData> extends Equatable {
   final String id;
   final CameraModel model;
+  final Pd? pairingData;
 
   const DiscoveryHandle({
     required this.id,
     required this.model,
+    this.pairingData,
   });
 
   @override

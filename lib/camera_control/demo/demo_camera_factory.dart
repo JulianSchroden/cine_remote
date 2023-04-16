@@ -8,16 +8,6 @@ import 'demo_camera_pairing_data.dart';
 
 class DemoCameraFactory extends CameraFactory {
   @override
-  Future<CameraHandle<PairingData>?> prepare(
-      DiscoveryHandle discoveryHandle, PairingData? pairingData) async {
-    return CameraHandle(
-      id: discoveryHandle.id,
-      model: discoveryHandle.model,
-      pairingData: const DemoCameraPairingData(),
-    );
-  }
-
-  @override
   Future<Camera> connect(CameraHandle handle) async {
     return DemoCamera();
   }

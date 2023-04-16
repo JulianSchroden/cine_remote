@@ -2,10 +2,8 @@ import 'dart:io';
 
 import '../interface/camera.dart';
 import '../interface/camera_factory.dart';
-import '../interface/discovery/discovery_handle.dart';
 import '../interface/exceptions/camera_communication_exception.dart';
 import '../interface/models/camera_handle.dart';
-import '../interface/models/pairing_data.dart';
 import 'adapter/http_adapter_factory.dart';
 import 'adapter/http_client_factory.dart';
 import 'communication/action_factory.dart';
@@ -23,16 +21,6 @@ class EosCineHttpCameraFactory
     this.adaperFactory = const DefaultHttpAdapterFactory(),
     this.actionFactory = const ActionFactory(),
   ]);
-
-  @override
-  Future<CameraHandle<EosCineHttpCameraPairingData>?> prepare(
-      DiscoveryHandle discoveryHandle, PairingData? pairingData) async {
-    return CameraHandle(
-      id: discoveryHandle.id,
-      model: discoveryHandle.model,
-      pairingData: const EosCineHttpCameraPairingData(),
-    );
-  }
 
   @override
   Future<Camera> connect(

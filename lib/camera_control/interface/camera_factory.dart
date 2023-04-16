@@ -1,5 +1,4 @@
 import 'camera.dart';
-import 'discovery/discovery_handle.dart';
 import 'models/camera_control_protocol.dart';
 import 'models/camera_handle.dart';
 import 'models/camera_model.dart';
@@ -41,9 +40,6 @@ class CameraModels {
 
 abstract class CameraFactory<Pd extends PairingData> {
   const CameraFactory();
-
-  Future<CameraHandle<Pd>?> prepare(
-      DiscoveryHandle discoveryHandle, PairingData? pairingData);
 
   Future<Camera> connect(CameraHandle<Pd> handle);
 }
