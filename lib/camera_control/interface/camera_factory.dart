@@ -1,3 +1,4 @@
+import '../../shared/extensions/list_extensions.dart';
 import 'camera.dart';
 import 'models/camera_control_protocol.dart';
 import 'models/camera_handle.dart';
@@ -31,11 +32,14 @@ class CameraModels {
     protocol: CameraControlProtocol.eosPtpIp,
   );
 
-  static const List<CameraModel> supportedCameras = [
+  static const List<CameraModel> values = [
     demoCamera,
     canonC100II,
     canon70D,
   ];
+
+  static CameraModel? findByName(String modelName) =>
+      values.firstWhereOrNull((model) => model.name == modelName);
 }
 
 abstract class CameraFactory<Pd extends PairingData> {

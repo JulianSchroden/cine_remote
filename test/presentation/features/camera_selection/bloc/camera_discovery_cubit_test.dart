@@ -144,6 +144,7 @@ void main() {
           'emits [active] with new camera added to discoveredCameras list',
           act: (_, controller) => controller.add(
             const EosPtpIpDiscoveryHandle(
+              address: '192.168.178.120',
               id: 'canon-70D-123232323',
               model: CameraModels.canon70D,
             ),
@@ -153,6 +154,7 @@ void main() {
               currentIp,
               [
                 EosPtpIpDiscoveryHandle(
+                  address: '192.168.178.120',
                   id: 'canon-70D-123232323',
                   model: CameraModels.canon70D,
                 ),
@@ -191,6 +193,7 @@ void main() {
               '192.168.0.81',
               [
                 EosPtpIpDiscoveryHandle(
+                  address: '192.168.178.120',
                   id: 'canon-70D-123232323',
                   model: CameraModels.canon70D,
                 ),

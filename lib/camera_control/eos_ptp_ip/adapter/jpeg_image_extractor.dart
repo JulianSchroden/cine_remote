@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import '../../common/list_extensions.dart';
+import '../../common/extensions/list_extensions.dart';
 
 class JpegImageExtractor {
   static const jpegStartMarker = [0xff, 0xd8, 0xff];

@@ -1,3 +1,4 @@
+import '../common/extensions/stream_extensions.dart';
 import '../interface/camera.dart';
 import '../interface/camera_factory.dart';
 import '../interface/models/camera_handle.dart';
@@ -11,7 +12,6 @@ import 'communication/ptp_ip_client.dart';
 import 'communication/ptp_transaction_queue.dart';
 import 'eos_ptp_ip_camera.dart';
 import 'eos_ptp_ip_camera_pairing_data.dart';
-import 'extensions/stream_extensions.dart';
 import 'logging/eos_ptp_ip_logger.dart';
 import 'responses/ptp_init_command_response.dart';
 import 'responses/ptp_init_event_response.dart';

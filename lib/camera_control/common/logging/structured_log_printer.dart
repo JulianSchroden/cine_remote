@@ -1,6 +1,6 @@
 import 'package:logger/logger.dart';
 
-import '../list_extensions.dart';
+import '../extensions/list_extensions.dart';
 
 class StructuredLogPrinter extends PrettyPrinter {
   @override

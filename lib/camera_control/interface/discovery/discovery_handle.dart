@@ -15,7 +15,11 @@ class DiscoveryHandle<Pd extends PairingData> extends Equatable {
   });
 
   @override
-  List<Object?> get props => [model];
+  List<Object?> get props => [
+        id,
+        model,
+        pairingData,
+      ];
 
   @override
   String toString() {

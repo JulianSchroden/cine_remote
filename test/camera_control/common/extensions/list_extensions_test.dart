@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:cine_remote/camera_control/common/list_extensions.dart';
+import 'package:cine_remote/camera_control/common/extensions/list_extensions.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../eos_ptp_ip/packet_helper.dart';

@@ -1,0 +1,29 @@
+<root xmlns="urn:schemas-upnp-org:device-1-0">
+  <specVersion>
+    <major>1</major>
+    <minor>0</minor>
+  </specVersion>
+  <URLBase>http://192.168.0.120:49152/upnp/</URLBase>
+  <device>
+    <deviceType>urn:schemas-upnp-org:device:Basic:1</deviceType>
+    <friendlyName>Canon EOS 70D</friendlyName>
+    <manufacturer>Canon</manufacturer>
+    <manufacturerURL>http://www.canon.com/</manufacturerURL>
+    <modelDescription>Canon Digital Camera</modelDescription>
+    <serialNumber>10981377</serialNumber>
+    <UDN>uuid:00000000-0000-0000-0001-60128B7CC240</UDN>
+    <serviceList>
+        <service>
+          <serviceType>urn:schemas-canon-com:service:ICPO-WFTEOSSystemService:1</serviceType>
+          <serviceId>urn:schemas-canon-com:serviceId:ICPO-WFTEOSSystemService-1</serviceId>
+          <SCPDURL>CameraSvcDesc.xml</SCPDURL>
+          <controlURL>control/CanonCamera/</controlURL>
+          <eventSubURL/>
+          <ns:X_onService xmlns:ns="urn:schemas-canon-com:schema-upnp">0</ns:X_onService>
+          <ns:X_deviceUsbId xmlns:ns="urn:schemas-canon-com:schema-upnp">3253</ns:X_deviceUsbId>
+          <ns:X_deviceNickname xmlns:ns="urn:schemas-canon-com:schema-upnp">Canon EOS 70D</ns:X_deviceNickname>
+        </service>
+    </serviceList>
+    <presentationURL>/</presentationURL>
+  </device>
+</root>

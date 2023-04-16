@@ -1,8 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:http/http.dart' as http;
+
 import '../../adapter/raw_datagram_socket_adapter.dart';
+import '../../extensions/stream_extensions.dart';
 import 'upnp_advertisement_message.dart';
+import 'upnp_device_description.dart';
+import 'upnp_device_description_parser.dart';
 
 abstract class MessageType {
   const MessageType._();
@@ -16,15 +21,17 @@ abstract class NotificationSubType {
   static const alive = 'ssdp:alive';
 }
 
-class UpnpDeviceDescription {}
-
 class UpnpDiscoveryAdapter {
   static const upnpPort = 1900;
   final RawDatagramSocketFactory _socketFactory;
+  final UpnpDeviceDescriptionParser _deviceDescriptionParser;
 
   UpnpDiscoveryAdapter({
     RawDatagramSocketFactory? socketFactory,
-  }) : _socketFactory = socketFactory ?? const RawDatagramSocketFactory();
+    UpnpDeviceDescriptionParser? deviceDescriptionParser,
+  })  : _socketFactory = socketFactory ?? const RawDatagramSocketFactory(),
+        _deviceDescriptionParser =
+            deviceDescriptionParser ?? const UpnpDeviceDescriptionParser();
 
   Stream<UpnpAdvertisementMessage> discover() async* {
     final socket = await _socketFactory.bind(InternetAddress.anyIPv4, upnpPort);
@@ -47,8 +54,21 @@ class UpnpDiscoveryAdapter {
     }
   }
 
+  Stream<UpnpDeviceDescription> onDeviceAlive(String serviceType) => discover()
+      .whereType<UpnpAdvertisementAlive>()
+      .where((message) => message.serviceType == serviceType)
+      .asyncMap((aliveMessage) => getDeviceDescription(aliveMessage.location))
+      .whereNotNull();
+
+  Future<UpnpDeviceDescription?> getDeviceDescription(String location) async {
+    final response = await http.get(Uri.parse(location));
+
+    return _deviceDescriptionParser.parse(location, response.body);
+  }
+
   UpnpAdvertisementMessage? _processMessage(Datagram datagram) {
     final payload = utf8.decode(datagram.data);
+
     final lines = payload.split('\n');
     final messageHeader = lines.removeAt(0).toUpperCase().trim();
     if (messageHeader == MessageType.notify) {
