@@ -45,5 +45,5 @@ class CameraModels {
 abstract class CameraFactory<Pd extends PairingData> {
   const CameraFactory();
 
-  Future<Camera> connect(CameraHandle<Pd> handle);
+  Future<Camera> connect(CameraHandle handle);
 }

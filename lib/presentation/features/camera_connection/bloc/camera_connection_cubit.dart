@@ -37,11 +37,6 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
       [this._cameraFactoryProvider = const CameraFactoryProvider()])
       : super(const CameraConnectionState.disconnected());
 
-  @override
-  Future<void> close() async {
-    return super.close();
-  }
-
   Future<void> connectToDiscoveredCamera(
     DiscoveryHandle discoveryHandle,
   ) async {

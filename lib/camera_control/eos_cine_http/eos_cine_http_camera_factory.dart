@@ -23,9 +23,8 @@ class EosCineHttpCameraFactory
   ]);
 
   @override
-  Future<Camera> connect(
-      CameraHandle<EosCineHttpCameraPairingData> handle) async {
-    final pairingData = handle.pairingData;
+  Future<Camera> connect(CameraHandle handle) async {
+    final pairingData = handle.pairingData as EosCineHttpCameraPairingData;
 
     final client = await clientFactory.create();
     final httpAdapter = await adaperFactory.create(client, pairingData.address);

@@ -27,8 +27,8 @@ class EosPtpIpCameraFactory extends CameraFactory<EosPtpIpCameraPairingData> {
   ]);
 
   @override
-  Future<Camera> connect(CameraHandle<EosPtpIpCameraPairingData> handle) async {
-    final pairingData = handle.pairingData;
+  Future<Camera> connect(CameraHandle handle) async {
+    final pairingData = handle.pairingData as EosPtpIpCameraPairingData;
 
     logger.info('Attempting to open command channel');
     final commandChannel =
