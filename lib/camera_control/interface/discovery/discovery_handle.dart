@@ -1,7 +1,7 @@
-import '../models/pairing_data.dart';
 import 'package:equatable/equatable.dart';
 
 import '../models/camera_model.dart';
+import '../models/pairing_data.dart';
 
 class DiscoveryHandle<Pd extends PairingData> extends Equatable {
   final String id;
