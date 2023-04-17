@@ -1,5 +1,6 @@
-import 'upnp_device_description.dart';
 import 'package:xml/xml.dart';
+
+import 'upnp_device_description.dart';
 
 class UpnpDeviceDescriptionParser {
   const UpnpDeviceDescriptionParser();

@@ -38,9 +38,19 @@ class RecentCamera extends Equatable {
       ];
 }
 
-extension CameraHandleToRecentCamera on CameraHandle {
+extension CameraHandleToRecentCameraExtension on CameraHandle {
   RecentCamera toRecentCamera() {
     return RecentCamera(
+      id: id,
+      model: model,
+      pairingData: pairingData,
+    );
+  }
+}
+
+extension RecentCameraToCameraHandleExtension on RecentCamera {
+  CameraHandle toCameraHandle() {
+    return CameraHandle(
       id: id,
       model: model,
       pairingData: pairingData,

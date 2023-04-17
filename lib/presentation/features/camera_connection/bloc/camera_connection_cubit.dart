@@ -9,6 +9,8 @@ import '../../../../camera_control/interface/discovery/discovery_handle.dart';
 import '../../../../camera_control/interface/exceptions/camera_connection_exception.dart';
 import '../../../../camera_control/interface/models/camera_handle.dart';
 import '../../../../camera_control/interface/models/camera_update_event.dart';
+import '../../../../camera_control/interface/models/pairing_data.dart';
+import '../../recent_cameras/repository/recent_cameras_repository.dart';
 
 part 'camera_connection_cubit.freezed.dart';
 
@@ -31,11 +33,13 @@ class CameraConnectionState with _$CameraConnectionState {
 }
 
 class CameraConnectionCubit extends Cubit<CameraConnectionState> {
-  final CameraFactoryProvider _cameraFactoryProvider;
+  final CameraFactoryProvider cameraFactoryProvider;
+  final RecentCamerasRepostitory recentCamerasRepostitory;
 
-  CameraConnectionCubit(
-      [this._cameraFactoryProvider = const CameraFactoryProvider()])
-      : super(const CameraConnectionState.disconnected());
+  CameraConnectionCubit({
+    required this.cameraFactoryProvider,
+    required this.recentCamerasRepostitory,
+  }) : super(const CameraConnectionState.disconnected());
 
   Future<void> connectToDiscoveredCamera(
     DiscoveryHandle discoveryHandle,
@@ -43,8 +47,7 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
     try {
       emit(const CameraConnectionState.connecting());
 
-      final pairingData = discoveryHandle.pairingData;
-      // try to get data from RecentCamerasRepostitory
+      final pairingData = await getPairingData(discoveryHandle);
       if (pairingData == null) {
         emit(CameraConnectionState.requiresPairing(discoveryHandle));
         return;
@@ -61,15 +64,24 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
     }
   }
 
+  Future<PairingData?> getPairingData(DiscoveryHandle discoveryHandle) async {
+    if (discoveryHandle.pairingData != null) {
+      return discoveryHandle.pairingData;
+    }
+
+    return await recentCamerasRepostitory.getPairingData(discoveryHandle.id);
+  }
+
   Future<void> connect(CameraHandle cameraHandle) async {
     try {
       print('cubit connect');
 
       emit(const CameraConnectionState.connecting());
 
-      final factory = _cameraFactoryProvider.provide(cameraHandle.model);
+      final factory = cameraFactoryProvider.provide(cameraHandle.model);
 
       final camera = await factory.connect(cameraHandle);
+      await recentCamerasRepostitory.addCamera(cameraHandle);
 
       print('connection success');
       emit(CameraConnectionState.connected(camera));

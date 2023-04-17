@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import '../../../../../camera_control/interface/models/camera_control_protocol.dart';
 import '../../../../../camera_control/interface/models/camera_model.dart';
 
 class CameraModelConverter
@@ -11,7 +12,7 @@ class CameraModelConverter
     return CameraModel(
       identifier: json['identifier'],
       name: json['name'],
-      protocol: json['protocol'],
+      protocol: CameraControlProtocol.values.byName(json['protocol']),
     );
   }
 
@@ -20,7 +21,7 @@ class CameraModelConverter
     return <String, dynamic>{
       'identifier': model.identifier,
       'name': model.name,
-      'protocol': model.protocol,
+      'protocol': model.protocol.name,
     };
   }
 }

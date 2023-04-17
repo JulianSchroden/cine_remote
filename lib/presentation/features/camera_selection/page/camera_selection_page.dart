@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../camera_control/interface/discovery/camera_discovery_service.dart';
+import '../../../../dependencies.dart';
 import '../../../cine_remote_colors.dart';
 import '../../../core/widgets/laoding_overlay_layout.dart';
 import '../../../routes.dart';
 import '../../camera_connection/bloc/camera_connection_cubit.dart';
+import '../../recent_cameras/bloc/recent_cameras_cubit.dart';
+import '../../recent_cameras/widget/recent_cameras_list.dart';
 import '../bloc/camera_discovery_cubit.dart';
 import '../widgets/camera_discovery_card.dart';
-import '../widgets/recent_cameras_list.dart';
 
 class CameraSelectionPage extends StatelessWidget {
   const CameraSelectionPage({super.key});
@@ -17,9 +18,15 @@ class CameraSelectionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CineRemoteColors.background,
-      body: BlocProvider(
-        create: (context) =>
-            CameraDiscoveryCubit(CameraDiscoveryService.create())..init(),
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => get<CameraDiscoveryCubit>()..init(),
+          ),
+          BlocProvider(
+            create: (context) => get<RecentCamerasCubit>()..load(),
+          ),
+        ],
         child: BlocConsumer<CameraConnectionCubit, CameraConnectionState>(
           listener: (context, state) {
             state.maybeWhen(

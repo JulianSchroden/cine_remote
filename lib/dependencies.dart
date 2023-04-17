@@ -5,12 +5,33 @@ import 'package:logging/logging.dart';
 
 import 'camera_control/common/adapter/date_time_adapter.dart';
 import 'camera_control/eos_ptp_ip/logging/eos_ptp_ip_logger_topics.dart';
+import 'camera_control/interface/camera_factory_provider.dart';
+import 'camera_control/interface/discovery/camera_discovery_service.dart';
 import 'camera_control/interface/logging/camera_control_logger.dart';
+import 'presentation/features/camera_connection/bloc/camera_connection_cubit.dart';
+import 'presentation/features/camera_selection/bloc/camera_discovery_cubit.dart';
+import 'presentation/features/recent_cameras/bloc/recent_cameras_cubit.dart';
+import 'presentation/features/recent_cameras/repository/recent_cameras_repository.dart';
 
 void registerDependencies() {
   factory<DateTimeAdapter>(() => const DateTimeAdapterImpl());
+  singleton<HiveAdapter>(() => const HiveAdapter());
+  singleton<RecentCamerasRepostitory>(
+      () => RecentCamerasRepostitory(get<HiveAdapter>()));
 
+  factory<CameraConnectionCubit>(() => CameraConnectionCubit(
+        cameraFactoryProvider: const CameraFactoryProvider(),
+        recentCamerasRepostitory: get<RecentCamerasRepostitory>(),
+      ));
+  factory<CameraDiscoveryCubit>(
+      () => CameraDiscoveryCubit(CameraDiscoveryService.create()));
+  factory<RecentCamerasCubit>(
+      () => RecentCamerasCubit(get<RecentCamerasRepostitory>()));
+}
+
+Future<void> setup() async {
   setupLogging();
+  await setupHive();
 }
 
 void setupLogging() {
@@ -22,6 +43,8 @@ void setupLogging() {
     print('${record.level.name}: ${record.time}: ${record.message}');
   });
 }
+
+Future<void> setupHive() => get<HiveAdapter>().init();
 
 T get<T extends Object>({dynamic param1, dynamic param2}) {
   if (GetIt.instance.isRegistered<T>()) {

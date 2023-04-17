@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:json_annotation/json_annotation.dart';
 
 import '../../../../../camera_control/demo/demo_camera_pairing_data.dart';
@@ -24,7 +26,7 @@ class PairingDataConverter
       case 'eosPtpIp':
         {
           return EosPtpIpCameraPairingData(
-            guid: json['guid'],
+            guid: Uint8List.fromList(List<int>.from(json['guid'])),
             address: json['address'],
             clientName: json['clientName'],
           );
@@ -57,7 +59,7 @@ class PairingDataConverter
           final eosPtpIpPairingData = pairingData as EosPtpIpCameraPairingData;
           return {
             'pairingDataType': 'eosPtpIp',
-            'guid': eosPtpIpPairingData.guid,
+            'guid': eosPtpIpPairingData.guid.toList(),
             'address': eosPtpIpPairingData.address,
             'clientName': eosPtpIpPairingData.clientName,
           };

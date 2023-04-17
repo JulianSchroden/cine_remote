@@ -3,10 +3,10 @@ import 'package:equatable/equatable.dart';
 import '../models/camera_model.dart';
 import '../models/pairing_data.dart';
 
-class DiscoveryHandle<Pd extends PairingData> extends Equatable {
+class DiscoveryHandle extends Equatable {
   final String id;
   final CameraModel model;
-  final Pd? pairingData;
+  final PairingData? pairingData;
 
   const DiscoveryHandle({
     required this.id,

@@ -8,8 +8,12 @@ import 'presentation/features/camera_selection/page/camera_selection_page.dart';
 import 'presentation/features/screen_orientation/bloc/screen_orientation_cubit.dart';
 import 'presentation/routes.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   registerDependencies();
+  await setup();
+
   runApp(const CineRemote());
 }
 
@@ -21,7 +25,7 @@ class CineRemote extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => CameraConnectionCubit(),
+          create: (_) => get<CameraConnectionCubit>(),
         ),
         BlocProvider(
           create: (_) => ScreenOrientationCubit()..setForcedOrientation(null),

@@ -1,26 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../camera_control/demo/demo_camera_pairing_data.dart';
 import '../../../../camera_control/eos_cine_http/eos_cine_http_camera_pairing_data.dart';
 import '../../../../camera_control/eos_ptp_ip/eos_ptp_ip_camera_pairing_data.dart';
-import '../../../../camera_control/interface/models/camera_handle.dart';
 import '../../../core/extensions/camera_model_display_extension.dart';
 import '../../camera_connection/bloc/camera_connection_cubit.dart';
+import '../repository/recent_camera.dart';
 
 class RecentCameraItem extends StatelessWidget {
-  final CameraHandle cameraHandle;
+  final RecentCamera recentCamera;
 
   const RecentCameraItem({
-    required this.cameraHandle,
+    required this.recentCamera,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    final previewImagePath = cameraHandle.model.productImagePath();
+    final previewImagePath = recentCamera.model.productImagePath();
 
     return InkWell(
-      onTap: () => context.read<CameraConnectionCubit>().connect(cameraHandle),
+      onTap: () => context
+          .read<CameraConnectionCubit>()
+          .connect(recentCamera.toCameraHandle()),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Row(
@@ -38,7 +41,7 @@ class RecentCameraItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  cameraHandle.model.name,
+                  recentCamera.model.name,
                   style: const TextStyle(
                       color: Colors.white,
                       fontSize: 16,
@@ -46,7 +49,7 @@ class RecentCameraItem extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  cameraHandle.connectionInfo,
+                  recentCamera.connectionInfo,
                   style: TextStyle(
                     color: Colors.grey[300],
                     fontWeight: FontWeight.w300,
@@ -61,9 +64,11 @@ class RecentCameraItem extends StatelessWidget {
   }
 }
 
-extension CameraHandleConnectionInfoExtension on CameraHandle {
+extension CameraHandleConnectionInfoExtension on RecentCamera {
   String get connectionInfo {
     switch (pairingData.runtimeType) {
+      case DemoCameraPairingData:
+        return 'XXX.XXX.XXX.XXX';
       case EosCineHttpCameraPairingData:
         return (pairingData as EosCineHttpCameraPairingData).address;
       case EosPtpIpCameraPairingData:

@@ -66,8 +66,8 @@ class CameraDisoveryCard extends StatelessWidget {
                       ),
                       items: discoveryHandles
                           .map(
-                            (discoveredCamera) => CameraDiscoveryItem(
-                              discoveryHandle: discoveredCamera,
+                            (discoveryHandle) => CameraDiscoveryItem(
+                              discoveryHandle: discoveryHandle,
                             ),
                           )
                           .toList(),
