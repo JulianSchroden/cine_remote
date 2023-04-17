@@ -3,18 +3,18 @@ import 'dart:async';
 import 'package:get_it/get_it.dart';
 import 'package:logging/logging.dart';
 
-import 'camera_control/common/adapter/date_time_adapter.dart';
 import 'camera_control/eos_ptp_ip/logging/eos_ptp_ip_logger_topics.dart';
 import 'camera_control/interface/camera_factory_provider.dart';
 import 'camera_control/interface/discovery/camera_discovery_service.dart';
 import 'camera_control/interface/logging/camera_control_logger.dart';
+import 'presentation/core/adapter/date_time_adapter.dart';
 import 'presentation/features/camera_connection/bloc/camera_connection_cubit.dart';
 import 'presentation/features/camera_selection/bloc/camera_discovery_cubit.dart';
 import 'presentation/features/recent_cameras/bloc/recent_cameras_cubit.dart';
 import 'presentation/features/recent_cameras/repository/recent_cameras_repository.dart';
 
 void registerDependencies() {
-  factory<DateTimeAdapter>(() => const DateTimeAdapterImpl());
+  factory<DateTimeAdapter>(() => const DateTimeAdapter());
   singleton<HiveAdapter>(() => const HiveAdapter());
   singleton<RecentCamerasRepostitory>(
       () => RecentCamerasRepostitory(get<HiveAdapter>()));

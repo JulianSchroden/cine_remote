@@ -9,7 +9,7 @@ class GetLiveViewImageAction extends GetAction<Uint8List> {
 
   const GetLiveViewImageAction(
     super.httpAdapter, [
-    this.dateTimeAdapter = const DateTimeAdapterImpl(),
+    this.dateTimeAdapter = const DateTimeAdapter(),
   ]);
 
   @override
