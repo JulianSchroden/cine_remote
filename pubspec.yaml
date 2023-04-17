@@ -39,6 +39,7 @@ dependencies:
   flutter_bloc: ^8.1.2
   freezed_annotation: ^2.2.0
   get_it: ^7.2.0
+  json_annotation: ^4.8.0
   equatable: ^2.0.5
   carousel_slider: ^4.2.1
   network_info_plus: ^3.0.3
