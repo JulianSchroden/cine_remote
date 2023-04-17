@@ -19,10 +19,13 @@ class RecentCamera extends Equatable {
   @PairingDataConverter()
   final PairingData pairingData;
 
+  final DateTime lastUsed;
+
   const RecentCamera({
     required this.id,
     required this.model,
     required this.pairingData,
+    required this.lastUsed,
   });
 
   factory RecentCamera.fromJson(Map<String, dynamic> json) =>
@@ -35,15 +38,17 @@ class RecentCamera extends Equatable {
         id,
         model,
         pairingData,
+        lastUsed,
       ];
 }
 
 extension CameraHandleToRecentCameraExtension on CameraHandle {
-  RecentCamera toRecentCamera() {
+  RecentCamera toRecentCamera(DateTime lastUsed) {
     return RecentCamera(
       id: id,
       model: model,
       pairingData: pairingData,
+      lastUsed: lastUsed,
     );
   }
 }

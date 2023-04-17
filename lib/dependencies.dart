@@ -16,8 +16,10 @@ import 'presentation/features/recent_cameras/repository/recent_cameras_repositor
 void registerDependencies() {
   factory<DateTimeAdapter>(() => const DateTimeAdapter());
   singleton<HiveAdapter>(() => const HiveAdapter());
-  singleton<RecentCamerasRepostitory>(
-      () => RecentCamerasRepostitory(get<HiveAdapter>()));
+  singleton<RecentCamerasRepostitory>(() => RecentCamerasRepostitory(
+        get<HiveAdapter>(),
+        get<DateTimeAdapter>(),
+      ));
 
   factory<CameraConnectionCubit>(() => CameraConnectionCubit(
         cameraFactoryProvider: const CameraFactoryProvider(),

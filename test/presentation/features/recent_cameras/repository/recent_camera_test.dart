@@ -9,16 +9,18 @@ import 'package:cine_remote/presentation/features/recent_cameras/repository/rece
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  final currentTime = DateTime(2023, 04, 17);
+
   test('converts demo recentCamera toJson and fromJson', () {
     const cameraHandle = CameraHandle(
         id: 'demo-1',
         model: CameraModels.demoCamera,
         pairingData: DemoCameraPairingData());
 
-    final json = cameraHandle.toRecentCamera().toJson();
+    final json = cameraHandle.toRecentCamera(currentTime).toJson();
     final recentCamera = RecentCamera.fromJson(json);
 
-    expect(recentCamera, cameraHandle.toRecentCamera());
+    expect(recentCamera, cameraHandle.toRecentCamera(currentTime));
   });
 
   test('converts eosCineHttp recentCamera toJson and fromJson', () {
@@ -28,10 +30,10 @@ void main() {
       pairingData: EosCineHttpCameraPairingData(address: '192.168.178.80'),
     );
 
-    final json = cameraHandle.toRecentCamera().toJson();
+    final json = cameraHandle.toRecentCamera(currentTime).toJson();
     final recentCamera = RecentCamera.fromJson(json);
 
-    expect(recentCamera, cameraHandle.toRecentCamera());
+    expect(recentCamera, cameraHandle.toRecentCamera(currentTime));
   });
 
   test('converts eosPtpIp recentCamera toJson and fromJson', () {
@@ -44,9 +46,9 @@ void main() {
           clientName: 'phone'),
     );
 
-    final json = cameraHandle.toRecentCamera().toJson();
+    final json = cameraHandle.toRecentCamera(currentTime).toJson();
     final recentCamera = RecentCamera.fromJson(json);
 
-    expect(recentCamera, cameraHandle.toRecentCamera());
+    expect(recentCamera, cameraHandle.toRecentCamera(currentTime));
   });
 }

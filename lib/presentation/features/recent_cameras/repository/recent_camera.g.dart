@@ -12,6 +12,7 @@ RecentCamera _$RecentCameraFromJson(Map<String, dynamic> json) => RecentCamera(
           .fromJson(json['model'] as Map<String, dynamic>),
       pairingData: const PairingDataConverter()
           .fromJson(json['pairingData'] as Map<String, dynamic>),
+      lastUsed: DateTime.parse(json['lastUsed'] as String),
     );
 
 Map<String, dynamic> _$RecentCameraToJson(RecentCamera instance) =>
@@ -19,4 +20,5 @@ Map<String, dynamic> _$RecentCameraToJson(RecentCamera instance) =>
       'id': instance.id,
       'model': const CameraModelConverter().toJson(instance.model),
       'pairingData': const PairingDataConverter().toJson(instance.pairingData),
+      'lastUsed': instance.lastUsed.toIso8601String(),
     };
