@@ -69,6 +69,12 @@ class RecentCamerasRepostitory {
     _onCameraAdded?.add(recentCamera);
   }
 
+  Future<void> removeCamera(String id) async {
+    await _ensureBoxIsOpen();
+
+    await _recentCamerasBox!.delete(id);
+  }
+
   Future<PairingData?> getPairingData(String id) async {
     await _ensureBoxIsOpen();
 

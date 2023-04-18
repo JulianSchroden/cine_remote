@@ -130,6 +130,19 @@ void main() {
     });
   });
 
+  group('removeCamera', () {
+    setUp(() {
+      when(() => mockBox.delete(any())).thenAnswer((_) => Future.value());
+    });
+
+    test('deletes recentCamera from box', () async {
+      const id = 'demo-1';
+      await sut.removeCamera(id);
+
+      verify(() => mockBox.delete(id));
+    });
+  });
+
   group('getPairingData', () {
     test('returns null when recent pairingData empty', () async {
       final result = await sut.getPairingData('any-id');
