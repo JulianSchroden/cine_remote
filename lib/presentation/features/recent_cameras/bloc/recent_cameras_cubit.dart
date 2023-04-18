@@ -10,12 +10,20 @@ part 'recent_cameras_cubit.freezed.dart';
 
 @freezed
 class RecentCamerasState with _$RecentCamerasState {
+  const RecentCamerasState._();
+
   const factory RecentCamerasState.init() = _Init;
-  const factory RecentCamerasState.loading() = _Loading;
+  const factory RecentCamerasState.loading(List<RecentCamera> recentCameras) =
+      _Loading;
   const factory RecentCamerasState.success(List<RecentCamera> recentCameras) =
       _Success;
   const factory RecentCamerasState.empty() = _Empty;
   const factory RecentCamerasState.error() = _Error;
+
+  List<RecentCamera> get recentCameras => maybeWhen(
+      loading: (recentCameras) => recentCameras,
+      success: (recentCameras) => recentCameras,
+      orElse: () => <RecentCamera>[]);
 }
 
 class RecentCamerasCubit extends Cubit<RecentCamerasState> {
@@ -32,10 +40,10 @@ class RecentCamerasCubit extends Cubit<RecentCamerasState> {
   }
 
   Future<void> load() async {
-    emit(const RecentCamerasState.loading());
+    emit(const RecentCamerasState.loading([]));
 
     try {
-      listenToCameraAdded();
+      _listenToCameraAdded();
 
       final recentCameras =
           await _recentCamerasRepostitory.getAllRecentCameras();
@@ -48,21 +56,28 @@ class RecentCamerasCubit extends Cubit<RecentCamerasState> {
     }
   }
 
-  void listenToCameraAdded() {
+  Future<void> forgetCamera(RecentCamera recentCamera) async {
+    try {
+      emit(RecentCamerasState.loading(state.recentCameras));
+
+      await _recentCamerasRepostitory.removeCamera(recentCamera.id);
+
+      final recentCameras = state.recentCameras.toList()
+        ..removeWhere((entry) => entry.id == recentCamera.id);
+      emit(RecentCamerasState.success(recentCameras));
+    } catch (e) {
+      emit(const RecentCamerasState.error());
+    }
+  }
+
+  void _listenToCameraAdded() {
     _recentCameraStreamSubscription ??=
         _recentCamerasRepostitory.onCameraAdded.listen(
       (recentCamera) {
-        final oldRecentCameras = state.maybeWhen(
-            success: (recentCameras) => recentCameras.toList(),
-            orElse: () => <RecentCamera>[]);
+        final recentCameras = state.recentCameras.toList()
+          ..removeWhere((entry) => entry.id == recentCamera.id);
 
-        final indexOfOldEntry =
-            oldRecentCameras.indexWhere((entry) => entry.id == recentCamera.id);
-        if (indexOfOldEntry != -1) {
-          oldRecentCameras.removeAt(indexOfOldEntry);
-        }
-
-        emit(RecentCamerasState.success([recentCamera, ...oldRecentCameras]));
+        emit(RecentCamerasState.success([recentCamera, ...recentCameras]));
       },
     );
   }

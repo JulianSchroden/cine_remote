@@ -19,7 +19,7 @@ mixin _$RecentCamerasState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
-    required TResult Function() loading,
+    required TResult Function(List<RecentCamera> recentCameras) loading,
     required TResult Function(List<RecentCamera> recentCameras) success,
     required TResult Function() empty,
     required TResult Function() error,
@@ -28,7 +28,7 @@ mixin _$RecentCamerasState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
-    TResult? Function()? loading,
+    TResult? Function(List<RecentCamera> recentCameras)? loading,
     TResult? Function(List<RecentCamera> recentCameras)? success,
     TResult? Function()? empty,
     TResult? Function()? error,
@@ -37,7 +37,7 @@ mixin _$RecentCamerasState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function()? loading,
+    TResult Function(List<RecentCamera> recentCameras)? loading,
     TResult Function(List<RecentCamera> recentCameras)? success,
     TResult Function()? empty,
     TResult Function()? error,
@@ -108,8 +108,8 @@ class __$$_InitCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Init implements _Init {
-  const _$_Init();
+class _$_Init extends _Init {
+  const _$_Init() : super._();
 
   @override
   String toString() {
@@ -129,7 +129,7 @@ class _$_Init implements _Init {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
-    required TResult Function() loading,
+    required TResult Function(List<RecentCamera> recentCameras) loading,
     required TResult Function(List<RecentCamera> recentCameras) success,
     required TResult Function() empty,
     required TResult Function() error,
@@ -141,7 +141,7 @@ class _$_Init implements _Init {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
-    TResult? Function()? loading,
+    TResult? Function(List<RecentCamera> recentCameras)? loading,
     TResult? Function(List<RecentCamera> recentCameras)? success,
     TResult? Function()? empty,
     TResult? Function()? error,
@@ -153,7 +153,7 @@ class _$_Init implements _Init {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function()? loading,
+    TResult Function(List<RecentCamera> recentCameras)? loading,
     TResult Function(List<RecentCamera> recentCameras)? success,
     TResult Function()? empty,
     TResult Function()? error,
@@ -206,8 +206,9 @@ class _$_Init implements _Init {
   }
 }
 
-abstract class _Init implements RecentCamerasState {
+abstract class _Init extends RecentCamerasState {
   const factory _Init() = _$_Init;
+  const _Init._() : super._();
 }
 
 /// @nodoc
@@ -215,6 +216,8 @@ abstract class _$$_LoadingCopyWith<$Res> {
   factory _$$_LoadingCopyWith(
           _$_Loading value, $Res Function(_$_Loading) then) =
       __$$_LoadingCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<RecentCamera> recentCameras});
 }
 
 /// @nodoc
@@ -223,63 +226,95 @@ class __$$_LoadingCopyWithImpl<$Res>
     implements _$$_LoadingCopyWith<$Res> {
   __$$_LoadingCopyWithImpl(_$_Loading _value, $Res Function(_$_Loading) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? recentCameras = null,
+  }) {
+    return _then(_$_Loading(
+      null == recentCameras
+          ? _value._recentCameras
+          : recentCameras // ignore: cast_nullable_to_non_nullable
+              as List<RecentCamera>,
+    ));
+  }
 }
 
 /// @nodoc
 
-class _$_Loading implements _Loading {
-  const _$_Loading();
+class _$_Loading extends _Loading {
+  const _$_Loading(final List<RecentCamera> recentCameras)
+      : _recentCameras = recentCameras,
+        super._();
+
+  final List<RecentCamera> _recentCameras;
+  @override
+  List<RecentCamera> get recentCameras {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_recentCameras);
+  }
 
   @override
   String toString() {
-    return 'RecentCamerasState.loading()';
+    return 'RecentCamerasState.loading(recentCameras: $recentCameras)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_Loading);
+        (other.runtimeType == runtimeType &&
+            other is _$_Loading &&
+            const DeepCollectionEquality()
+                .equals(other._recentCameras, _recentCameras));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_recentCameras));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_LoadingCopyWith<_$_Loading> get copyWith =>
+      __$$_LoadingCopyWithImpl<_$_Loading>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
-    required TResult Function() loading,
+    required TResult Function(List<RecentCamera> recentCameras) loading,
     required TResult Function(List<RecentCamera> recentCameras) success,
     required TResult Function() empty,
     required TResult Function() error,
   }) {
-    return loading();
+    return loading(recentCameras);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
-    TResult? Function()? loading,
+    TResult? Function(List<RecentCamera> recentCameras)? loading,
     TResult? Function(List<RecentCamera> recentCameras)? success,
     TResult? Function()? empty,
     TResult? Function()? error,
   }) {
-    return loading?.call();
+    return loading?.call(recentCameras);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function()? loading,
+    TResult Function(List<RecentCamera> recentCameras)? loading,
     TResult Function(List<RecentCamera> recentCameras)? success,
     TResult Function()? empty,
     TResult Function()? error,
     required TResult orElse(),
   }) {
     if (loading != null) {
-      return loading();
+      return loading(recentCameras);
     }
     return orElse();
   }
@@ -325,8 +360,14 @@ class _$_Loading implements _Loading {
   }
 }
 
-abstract class _Loading implements RecentCamerasState {
-  const factory _Loading() = _$_Loading;
+abstract class _Loading extends RecentCamerasState {
+  const factory _Loading(final List<RecentCamera> recentCameras) = _$_Loading;
+  const _Loading._() : super._();
+
+  List<RecentCamera> get recentCameras;
+  @JsonKey(ignore: true)
+  _$$_LoadingCopyWith<_$_Loading> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -361,9 +402,10 @@ class __$$_SuccessCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Success implements _Success {
+class _$_Success extends _Success {
   const _$_Success(final List<RecentCamera> recentCameras)
-      : _recentCameras = recentCameras;
+      : _recentCameras = recentCameras,
+        super._();
 
   final List<RecentCamera> _recentCameras;
   @override
@@ -400,7 +442,7 @@ class _$_Success implements _Success {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
-    required TResult Function() loading,
+    required TResult Function(List<RecentCamera> recentCameras) loading,
     required TResult Function(List<RecentCamera> recentCameras) success,
     required TResult Function() empty,
     required TResult Function() error,
@@ -412,7 +454,7 @@ class _$_Success implements _Success {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
-    TResult? Function()? loading,
+    TResult? Function(List<RecentCamera> recentCameras)? loading,
     TResult? Function(List<RecentCamera> recentCameras)? success,
     TResult? Function()? empty,
     TResult? Function()? error,
@@ -424,7 +466,7 @@ class _$_Success implements _Success {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function()? loading,
+    TResult Function(List<RecentCamera> recentCameras)? loading,
     TResult Function(List<RecentCamera> recentCameras)? success,
     TResult Function()? empty,
     TResult Function()? error,
@@ -477,8 +519,9 @@ class _$_Success implements _Success {
   }
 }
 
-abstract class _Success implements RecentCamerasState {
+abstract class _Success extends RecentCamerasState {
   const factory _Success(final List<RecentCamera> recentCameras) = _$_Success;
+  const _Success._() : super._();
 
   List<RecentCamera> get recentCameras;
   @JsonKey(ignore: true)
@@ -502,8 +545,8 @@ class __$$_EmptyCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Empty implements _Empty {
-  const _$_Empty();
+class _$_Empty extends _Empty {
+  const _$_Empty() : super._();
 
   @override
   String toString() {
@@ -523,7 +566,7 @@ class _$_Empty implements _Empty {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
-    required TResult Function() loading,
+    required TResult Function(List<RecentCamera> recentCameras) loading,
     required TResult Function(List<RecentCamera> recentCameras) success,
     required TResult Function() empty,
     required TResult Function() error,
@@ -535,7 +578,7 @@ class _$_Empty implements _Empty {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
-    TResult? Function()? loading,
+    TResult? Function(List<RecentCamera> recentCameras)? loading,
     TResult? Function(List<RecentCamera> recentCameras)? success,
     TResult? Function()? empty,
     TResult? Function()? error,
@@ -547,7 +590,7 @@ class _$_Empty implements _Empty {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function()? loading,
+    TResult Function(List<RecentCamera> recentCameras)? loading,
     TResult Function(List<RecentCamera> recentCameras)? success,
     TResult Function()? empty,
     TResult Function()? error,
@@ -600,8 +643,9 @@ class _$_Empty implements _Empty {
   }
 }
 
-abstract class _Empty implements RecentCamerasState {
+abstract class _Empty extends RecentCamerasState {
   const factory _Empty() = _$_Empty;
+  const _Empty._() : super._();
 }
 
 /// @nodoc
@@ -620,8 +664,8 @@ class __$$_ErrorCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Error implements _Error {
-  const _$_Error();
+class _$_Error extends _Error {
+  const _$_Error() : super._();
 
   @override
   String toString() {
@@ -641,7 +685,7 @@ class _$_Error implements _Error {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
-    required TResult Function() loading,
+    required TResult Function(List<RecentCamera> recentCameras) loading,
     required TResult Function(List<RecentCamera> recentCameras) success,
     required TResult Function() empty,
     required TResult Function() error,
@@ -653,7 +697,7 @@ class _$_Error implements _Error {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? init,
-    TResult? Function()? loading,
+    TResult? Function(List<RecentCamera> recentCameras)? loading,
     TResult? Function(List<RecentCamera> recentCameras)? success,
     TResult? Function()? empty,
     TResult? Function()? error,
@@ -665,7 +709,7 @@ class _$_Error implements _Error {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function()? loading,
+    TResult Function(List<RecentCamera> recentCameras)? loading,
     TResult Function(List<RecentCamera> recentCameras)? success,
     TResult Function()? empty,
     TResult Function()? error,
@@ -718,6 +762,7 @@ class _$_Error implements _Error {
   }
 }
 
-abstract class _Error implements RecentCamerasState {
+abstract class _Error extends RecentCamerasState {
   const factory _Error() = _$_Error;
+  const _Error._() : super._();
 }

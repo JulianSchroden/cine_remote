@@ -19,6 +19,19 @@ void main() {
   late RecentCamerasCubit sut;
   late MockRecentCamerasRepostitory mockRecentCamerasRepostitory;
 
+  final recentDemoCamera = RecentCamera(
+    id: 'demo-1',
+    model: CameraModels.demoCamera,
+    pairingData: const DemoCameraPairingData(),
+    lastUsed: DateTime(2023, 04, 17, 17, 45, 23),
+  );
+  final recentEosCineCamera = RecentCamera(
+    id: 'eos-cine-http-1',
+    model: CameraModels.canonC100II,
+    pairingData: const EosCineHttpCameraPairingData(),
+    lastUsed: DateTime(2023, 04, 18, 00, 01, 00),
+  );
+
   setUp(() {
     mockRecentCamerasRepostitory = MockRecentCamerasRepostitory();
     when(() => mockRecentCamerasRepostitory.onCameraAdded)
@@ -28,18 +41,8 @@ void main() {
 
   group('load', () {
     final recentCameras = [
-      RecentCamera(
-        id: 'demo-1',
-        model: CameraModels.demoCamera,
-        pairingData: const DemoCameraPairingData(),
-        lastUsed: DateTime(2023, 04, 17, 17, 45, 23),
-      ),
-      RecentCamera(
-        id: 'eos-cine-http-1',
-        model: CameraModels.canonC100II,
-        pairingData: const EosCineHttpCameraPairingData(),
-        lastUsed: DateTime(2023, 04, 18, 00, 01, 00),
-      )
+      recentDemoCamera,
+      recentEosCineCamera,
     ];
 
     blocTest<RecentCamerasCubit, RecentCamerasState>(
@@ -53,7 +56,7 @@ void main() {
       },
       act: (bloc) => bloc.load(),
       expect: () => [
-        const RecentCamerasState.loading(),
+        const RecentCamerasState.loading([]),
         RecentCamerasState.success(recentCameras),
       ],
     );
@@ -69,7 +72,7 @@ void main() {
       },
       act: (bloc) => bloc.load(),
       expect: () => const [
-        RecentCamerasState.loading(),
+        RecentCamerasState.loading([]),
         RecentCamerasState.empty(),
       ],
     );
@@ -83,8 +86,60 @@ void main() {
       },
       act: (bloc) => bloc.load(),
       expect: () => const [
-        RecentCamerasState.loading(),
+        RecentCamerasState.loading([]),
         RecentCamerasState.error(),
+      ],
+    );
+  });
+
+  group('forgetCamera', () {
+    blocTest<RecentCamerasCubit, RecentCamerasState>(
+      'emits [loading, success] when delete operation successfull',
+      seed: () => RecentCamerasState.success(
+        [
+          recentDemoCamera,
+          recentEosCineCamera,
+        ],
+      ),
+      setUp: () {
+        when(() => mockRecentCamerasRepostitory.removeCamera(any()))
+            .thenAnswer((_) => Future.value());
+      },
+      build: () => sut,
+      act: (bloc) => bloc.forgetCamera(recentEosCineCamera),
+      expect: () => [
+        RecentCamerasState.loading([
+          recentDemoCamera,
+          recentEosCineCamera,
+        ]),
+        RecentCamerasState.success(
+          [
+            recentDemoCamera,
+          ],
+        )
+      ],
+    );
+
+    blocTest<RecentCamerasCubit, RecentCamerasState>(
+      'emits [loading, error] when delete operation failed',
+      seed: () => RecentCamerasState.success(
+        [
+          recentDemoCamera,
+          recentEosCineCamera,
+        ],
+      ),
+      setUp: () {
+        when(() => mockRecentCamerasRepostitory.removeCamera(any()))
+            .thenThrow(Error());
+      },
+      build: () => sut,
+      act: (bloc) => bloc.forgetCamera(recentEosCineCamera),
+      expect: () => [
+        RecentCamerasState.loading([
+          recentDemoCamera,
+          recentEosCineCamera,
+        ]),
+        const RecentCamerasState.error()
       ],
     );
   });
@@ -108,8 +163,10 @@ void main() {
                 .thenAnswer((_) => Future.value([]));
           },
           act: (bloc, _) => bloc.load(),
-          expect: () =>
-              const [RecentCamerasState.loading(), RecentCamerasState.empty()],
+          expect: () => const [
+            RecentCamerasState.loading([]),
+            RecentCamerasState.empty(),
+          ],
         ),
         BlocTestStep(
           'emits [success] on camera added',
