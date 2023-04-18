@@ -34,7 +34,10 @@ class CineRemote extends StatelessWidget {
       child: MaterialApp(
         title: 'Cine Remote',
         theme: ThemeData(
-          primarySwatch: Colors.green,
+          colorScheme: ColorScheme.dark(
+            primary: Colors.green,
+            background: Colors.grey[850]!,
+          ),
         ),
         routes: {
           Routes.cameraSelection: (_) => const CameraSelectionPage(),
