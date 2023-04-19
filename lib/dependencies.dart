@@ -9,6 +9,7 @@ import 'camera_control/interface/discovery/camera_discovery_service.dart';
 import 'camera_control/interface/logging/camera_control_logger.dart';
 import 'presentation/core/adapter/date_time_adapter.dart';
 import 'presentation/features/camera_connection/bloc/camera_connection_cubit.dart';
+import 'presentation/features/camera_pairing/bloc/camera_pairing_cubit.dart';
 import 'presentation/features/camera_selection/bloc/camera_discovery_cubit.dart';
 import 'presentation/features/recent_cameras/bloc/recent_cameras_cubit.dart';
 import 'presentation/features/recent_cameras/repository/recent_cameras_repository.dart';
@@ -27,6 +28,10 @@ void registerDependencies() {
       ));
   factory<CameraDiscoveryCubit>(
       () => CameraDiscoveryCubit(CameraDiscoveryService.create()));
+  factory<CameraPairingCubit>(() => CameraPairingCubit(
+        const CameraFactoryProvider(),
+        get<RecentCamerasRepostitory>(),
+      ));
   factory<RecentCamerasCubit>(
       () => RecentCamerasCubit(get<RecentCamerasRepostitory>()));
 }

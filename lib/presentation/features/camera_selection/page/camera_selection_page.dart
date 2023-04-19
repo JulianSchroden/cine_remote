@@ -6,6 +6,7 @@ import '../../../cine_remote_colors.dart';
 import '../../../core/widgets/laoding_overlay_layout.dart';
 import '../../../routes.dart';
 import '../../camera_connection/bloc/camera_connection_cubit.dart';
+import '../../camera_pairing/bloc/camera_pairing_cubit.dart';
 import '../../recent_cameras/bloc/recent_cameras_cubit.dart';
 import '../../recent_cameras/widget/recent_cameras_list.dart';
 import '../bloc/camera_discovery_cubit.dart';
@@ -50,6 +51,14 @@ class CameraSelectionPage extends StatelessWidget {
                         backgroundColor: Colors.grey,
                       ),
                     ),
+                requiresPairing: (handle) async {
+                  final pairingCubit = context.read<CameraPairingCubit>();
+                  pairingCubit.init(handle);
+
+                  await Navigator.of(context).pushNamed(Routes.cameraPairing);
+
+                  pairingCubit.reset();
+                },
                 orElse: () {});
           },
           builder: (context, state) => LoadingOverlayLayout(
