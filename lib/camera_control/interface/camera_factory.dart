@@ -45,5 +45,6 @@ class CameraModels {
 abstract class CameraFactory<Pd extends PairingData> {
   const CameraFactory();
 
+  Future<void> pair(CameraHandle handle) async {}
   Future<Camera> connect(CameraHandle handle);
 }

@@ -27,39 +27,17 @@ class EosPtpIpCameraFactory extends CameraFactory<EosPtpIpCameraPairingData> {
   ]);
 
   @override
+  Future<void> pair(CameraHandle handle) async {
+    final client = await _initClient(handle);
+    await client.disconnect();
+  }
+
+  @override
   Future<Camera> connect(CameraHandle handle) async {
-    final pairingData = handle.pairingData as EosPtpIpCameraPairingData;
-
-    logger.info('Attempting to open command channel');
-    final commandChannel =
-        await PtpIpChannel.connect(pairingData.address, ptpIpPort);
-
-    logger.info('Sending initCommand request');
-    await commandChannel.write(PtpRequestFactory().createInitCommandRequest(
-        name: pairingData.clientName, guid: pairingData.guid));
-
-    final initCommandResponse = await commandChannel.onResponse
-        .firstWhereType<PtpInitCommandResponse>()
-        .timeout(const Duration(seconds: 10));
-
-    logger.info(
-        'Received initCommand response with connectionNumber: ${initCommandResponse.connectionNumber}');
-
-    logger.info('Attempting to open event channel');
-    final eventChannel =
-        await PtpIpChannel.connect(pairingData.address, ptpIpPort);
-
-    logger.info("Sending initEvent request");
-    await eventChannel.write(PtpRequestFactory().createInitEventRequest(
-        connectionNumber: initCommandResponse.connectionNumber));
-
-    await eventChannel.onResponse
-        .firstWhereType<PtpInitEventResponse>()
-        .timeout(const Duration(seconds: 10));
-
-    logger.info('Received initEvent response');
-
-    final client = PtpIpClient(commandChannel, eventChannel);
+    final client = await _initClient(
+      handle,
+      initCommandTimeout: const Duration(seconds: 10),
+    );
     final transactionQueue = PtpTransactionQueue(client);
 
     final initSession = _actionFactory.createInitSessionAction();
@@ -87,5 +65,67 @@ class EosPtpIpCameraFactory extends CameraFactory<EosPtpIpCameraPairingData> {
       _actionFactory,
       eventProcessor,
     );
+  }
+
+  Future<PtpIpClient> _initClient(
+    CameraHandle handle, {
+    Duration? initCommandTimeout,
+  }) async {
+    final pairingData = handle.pairingData as EosPtpIpCameraPairingData;
+
+    logger.info('Attempting to open command channel');
+    final commandChannel =
+        await PtpIpChannel.connect(pairingData.address, ptpIpPort);
+
+    logger.info('Sending initCommand request');
+    final initCommandResponse = await _initCommandChannel(
+      commandChannel,
+      pairingData,
+      timeout: initCommandTimeout,
+    );
+    logger.info(
+        'Received initCommand response with connectionNumber: ${initCommandResponse.connectionNumber}');
+
+    logger.info('Attempting to open event channel');
+    final eventChannel =
+        await PtpIpChannel.connect(pairingData.address, ptpIpPort);
+
+    logger.info("Sending initEvent request");
+    await _initEventChannel(eventChannel, initCommandResponse.connectionNumber);
+    logger.info('Received initEvent response');
+
+    return PtpIpClient(commandChannel, eventChannel);
+  }
+
+  Future<PtpInitCommandResponse> _initCommandChannel(
+    PtpIpChannel commandChannel,
+    EosPtpIpCameraPairingData pairingData, {
+    Duration? timeout,
+  }) async {
+    await commandChannel.write(PtpRequestFactory().createInitCommandRequest(
+        name: pairingData.clientName, guid: pairingData.guid));
+
+    final initCommandFuture =
+        commandChannel.onResponse.firstWhereType<PtpInitCommandResponse>();
+
+    final initCommandResponse = timeout != null
+        ? await initCommandFuture.timeout(timeout)
+        : await initCommandFuture;
+
+    return initCommandResponse;
+  }
+
+  Future<PtpInitEventResponse> _initEventChannel(
+    PtpIpChannel eventChannel,
+    int connectionNumber,
+  ) async {
+    await eventChannel.write(PtpRequestFactory()
+        .createInitEventRequest(connectionNumber: connectionNumber));
+
+    final initEventResponse = await eventChannel.onResponse
+        .firstWhereType<PtpInitEventResponse>()
+        .timeout(const Duration(seconds: 10));
+
+    return initEventResponse;
   }
 }
