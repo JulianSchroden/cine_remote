@@ -65,6 +65,7 @@ jobs:
           name: cine-remote-ios
           path: build/ios/ipa/*.ipa
 
+
   deploy_iOS:
     runs-on: macos-latest
     needs: [ build_iOS ]
@@ -74,6 +75,14 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: cine-remote-ios
+
       - name: Display downloaded files
         run: ls -R
-        
+
+      - name: 'Upload app to TestFlight'
+        uses: apple-actions/upload-testflight-build@v1
+        with: 
+          app-path: 'cine_remote.ipa'
+          issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
+          api-key-id: ${{ secrets.APPSTORE_API_KEY_ID }}
+          api-private-key: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}
