@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build_iOS:
     runs-on: macos-latest
     
     steps:
@@ -45,9 +45,10 @@ jobs:
           cp $PROVISIONING_PROFILE_PATH ~/Library/MobileDevice/Provisioning\ Profiles
 
       - name: Install Flutter
-        uses: subosito/flutter-action@v1
+        uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.7.11'
+          channel: 'stable'
 
       - name: Install Dependencies
         run: flutter pub get
@@ -61,7 +62,18 @@ jobs:
       - name: Upload ipa to artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: cine-remote-release
+          name: cine-remote-ios
           path: build/ios/ipa/*.ipa
-        
+
+  deploy_iOS:
+    runs-on: macos-latest
+    needs: [ build_iOS ]
+
+    steps:
+      - name: Download ipa from artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: cine-remote-ios
+      - name: Display downloaded files
+        run: ls -R
         
