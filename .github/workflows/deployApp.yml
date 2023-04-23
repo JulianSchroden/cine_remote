@@ -54,5 +54,14 @@ jobs:
       
       - name: Run tests
         run: flutter test
+
+      - name: Build ipa
+        run: flutter build ipa --release --export-options-plist=ios/Runner/ExportOptions.plist
+      
+      - name: Upload ipa to artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: cine-remote-release
+          path: build/ios/ipa/*.ipa
         
         
