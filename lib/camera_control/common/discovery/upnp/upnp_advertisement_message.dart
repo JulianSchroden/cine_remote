@@ -21,6 +21,8 @@ class UpnpAdvertisementMessage extends Equatable {
   final String serviceType;
   final String uniqueServiceName;
 
+  String get uniqueDeviceName => uniqueServiceName.split('::').first;
+
   const UpnpAdvertisementMessage({
     required this.serviceType,
     required this.uniqueServiceName,

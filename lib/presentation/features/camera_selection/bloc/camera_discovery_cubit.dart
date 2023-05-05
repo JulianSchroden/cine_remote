@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../camera_control/interface/discovery/camera_discovery_event.dart';
 import '../../../../camera_control/interface/discovery/camera_discovery_service.dart';
 import '../../../../camera_control/interface/discovery/discovery_handle.dart';
 
@@ -28,7 +29,7 @@ class CameraDiscoveryState with _$CameraDiscoveryState {
 
 class CameraDiscoveryCubit extends Cubit<CameraDiscoveryState> {
   final CameraDiscoveryService cameraDiscoveryService;
-  StreamSubscription<DiscoveryHandle>? _discoveryStreamSubscription;
+  StreamSubscription<CameraDiscoveryEvent>? _discoveryStreamSubscription;
 
   CameraDiscoveryCubit(this.cameraDiscoveryService)
       : super(const CameraDiscoveryState.init());
@@ -54,20 +55,28 @@ class CameraDiscoveryCubit extends Cubit<CameraDiscoveryState> {
 
   Future<void> startDiscovery() async {
     _discoveryStreamSubscription = cameraDiscoveryService.discover().listen(
-      (discoveredCamera) async {
+      (discoveryEvent) async {
         final wifiInfo = await cameraDiscoveryService.wifiInfo();
 
         final previousHandles = state.maybeWhen(
             active: (_, discoveryHandles) => discoveryHandles,
             orElse: () => <DiscoveryHandle>[]);
 
-        if (previousHandles.contains(discoveredCamera)) {
-          emit(CameraDiscoveryState.active(wifiInfo.localIp, previousHandles));
-          return;
-        }
+        if (discoveryEvent is CameraDiscoveryEventAlive) {
+          if (previousHandles.contains(discoveryEvent.handle)) {
+            emit(
+                CameraDiscoveryState.active(wifiInfo.localIp, previousHandles));
+            return;
+          }
 
-        emit(CameraDiscoveryState.active(
-            wifiInfo.localIp, [discoveredCamera, ...previousHandles]));
+          emit(CameraDiscoveryState.active(
+              wifiInfo.localIp, [discoveryEvent.handle, ...previousHandles]));
+        } else if (discoveryEvent is CameraDiscoveryEventByeBye) {
+          final updatedHandles = [...previousHandles]
+            ..removeWhere((handle) => handle.id == discoveryEvent.id);
+
+          emit(CameraDiscoveryState.active(wifiInfo.localIp, updatedHandles));
+        }
       },
       onError: (e, s) {
         emit(const CameraDiscoveryState.error());

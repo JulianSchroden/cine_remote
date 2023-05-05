@@ -1,5 +1,5 @@
-import 'discovery_handle.dart';
+import 'camera_discovery_event.dart';
 
 abstract class CameraDiscoveryAdapter {
-  Stream<DiscoveryHandle> discover();
+  Stream<CameraDiscoveryEvent> discover();
 }

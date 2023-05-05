@@ -1,5 +1,5 @@
 import '../../common/discovery/default_camera_discovery_service.dart';
-import 'discovery_handle.dart';
+import 'camera_discovery_event.dart';
 import 'wifi_info.dart';
 
 abstract class CameraDiscoveryService {
@@ -7,5 +7,5 @@ abstract class CameraDiscoveryService {
 
   Future<WifiInfo> wifiInfo();
 
-  Stream<DiscoveryHandle> discover();
+  Stream<CameraDiscoveryEvent> discover();
 }

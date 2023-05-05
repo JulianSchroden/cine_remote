@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 import '../../adapter/raw_datagram_socket_adapter.dart';
-import '../../extensions/stream_extensions.dart';
 import 'upnp_advertisement_message.dart';
 import 'upnp_device_description.dart';
 import 'upnp_device_description_parser.dart';
@@ -54,12 +53,6 @@ class UpnpDiscoveryAdapter {
       }
     }
   }
-
-  Stream<UpnpDeviceDescription> onDeviceAlive(String serviceType) => discover()
-      .whereType<UpnpAdvertisementAlive>()
-      .where((message) => message.serviceType == serviceType)
-      .asyncMap((aliveMessage) => getDeviceDescription(aliveMessage.location))
-      .whereNotNull();
 
   Future<UpnpDeviceDescription?> getDeviceDescription(String location) async {
     final response = await http.get(Uri.parse(location));
