@@ -35,6 +35,16 @@ void main() {
     sut = UpnpDiscoveryAdapter(socketFactory: mockRawDatagramSocketFactory);
   });
 
+  void setupDatagram(String payload) {
+    final datagram = Datagram(
+      Uint8List.fromList(utf8.encode(payload)),
+      InternetAddress('192.168.0.120'),
+      1900,
+    );
+    when(() => mockRawDatagramSocketAdapter.receive()).thenReturn(datagram);
+    eventStreamController.add(RawSocketEvent.read);
+  }
+
   group('ignores events other than [read]:', () {
     void ignoresEvent(RawSocketEvent event) {
       test('ignores event [$event]', () {
@@ -67,13 +77,7 @@ void main() {
       'USN: uuid:00000000-0000-0000-0001-60128B7CC240::urn:schemas-canon-com:service:ICPO-WFTEOSSystemService:1'
     ].join('\n');
 
-    final datagram = Datagram(
-      Uint8List.fromList(utf8.encode(payload)),
-      InternetAddress('192.168.0.120'),
-      1900,
-    );
-    when(() => mockRawDatagramSocketAdapter.receive()).thenReturn(datagram);
-    eventStreamController.add(RawSocketEvent.read);
+    setupDatagram(payload);
 
     expect(
       sut.discover().timeout(const Duration(seconds: 1)),
@@ -85,6 +89,32 @@ void main() {
             uniqueServiceName:
                 'uuid:00000000-0000-0000-0001-60128B7CC240::urn:schemas-canon-com:service:ICPO-WFTEOSSystemService:1',
             location: 'http://192.168.0.120:49152/upnp/CameraDevDesc.xml',
+          )
+        ],
+      ),
+    );
+  });
+
+  test('emits [byeBye] message when receiving notify datagram', () {
+    final payload = [
+      'NOTIFY * HTTP/1.1',
+      'Host: 239.255.255.250:1900',
+      'NT: urn:schemas-canon-com:service:ICPO-WFTEOSSystemService:1',
+      'NTS: ssdp:byebye',
+      'USN: uuid:00000000-0000-0000-0001-60128B7CC240::urn:schemas-canon-com:service:ICPO-WFTEOSSystemService:1',
+    ].join('\n');
+
+    setupDatagram(payload);
+
+    expect(
+      sut.discover().timeout(const Duration(seconds: 1)),
+      emitsInOrder(
+        [
+          const UpnpAdvertisementMessage.byeBye(
+            serviceType:
+                'urn:schemas-canon-com:service:ICPO-WFTEOSSystemService:1',
+            uniqueServiceName:
+                'uuid:00000000-0000-0000-0001-60128B7CC240::urn:schemas-canon-com:service:ICPO-WFTEOSSystemService:1',
           )
         ],
       ),

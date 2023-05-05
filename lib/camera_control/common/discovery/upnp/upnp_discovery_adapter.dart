@@ -19,6 +19,7 @@ abstract class NotificationSubType {
   const NotificationSubType._();
 
   static const alive = 'ssdp:alive';
+  static const byeBye = 'ssdp:byebye';
 }
 
 class UpnpDiscoveryAdapter {
@@ -107,6 +108,13 @@ class UpnpDiscoveryAdapter {
               serviceType: entries['NT']!,
               uniqueServiceName: entries['USN']!,
               location: entries['LOCATION']!,
+            );
+          }
+        case NotificationSubType.byeBye:
+          {
+            return UpnpAdvertisementMessage.byeBye(
+              serviceType: entries['NT']!,
+              uniqueServiceName: entries['USN']!,
             );
           }
       }
