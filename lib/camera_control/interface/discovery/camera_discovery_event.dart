@@ -39,6 +39,7 @@ class CameraDiscoveryEventAlive extends CameraDiscoveryEvent {
 }
 
 class CameraDiscoveryEventByeBye extends CameraDiscoveryEvent {
+  @override
   final String id;
 
   const CameraDiscoveryEventByeBye({

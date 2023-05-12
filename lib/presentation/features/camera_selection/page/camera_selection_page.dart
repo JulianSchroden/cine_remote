@@ -37,9 +37,9 @@ class CameraSelectionPage extends StatelessWidget {
                 },
                 connectingFailed: () =>
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
+                      const SnackBar(
                         content: Row(
-                          children: const [
+                          children: [
                             Icon(
                               Icons.error,
                               color: CineRemoteColors.warning,
@@ -65,9 +65,9 @@ class CameraSelectionPage extends StatelessWidget {
             backgroundColor: const Color.fromARGB(200, 0, 0, 0),
             showOverlay: state.isLoading,
             overlayMessage: 'Connecting',
-            child: Column(
+            child: const Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: const [
+              children: [
                 CameraDisoveryCard(),
                 Expanded(child: RecentCamerasList()),
               ],
