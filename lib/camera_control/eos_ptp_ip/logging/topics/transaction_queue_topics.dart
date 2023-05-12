@@ -16,7 +16,8 @@ class EosPtpTransactionQueueTopic extends LoggerTopic<TransactionQueueChannel> {
 mixin EosTransactionQueueLogger on BaseCameraControlLogger {
   void logNextRequest(int operationCode, PtpPacket packet) {
     whenTopicEnabled<EosPtpTransactionQueueTopic>((topic) {
-      info<TransactionQueueChannel>(
+      log<TransactionQueueChannel>(
+        topic.level,
         'Sending request ${operationCode.asHex(padLeft: 4)} with data: ${packet.data.dumpAsHex()}',
       );
     });
@@ -24,22 +25,22 @@ mixin EosTransactionQueueLogger on BaseCameraControlLogger {
 
   void logDataStart(PtpPacket packet) {
     whenTopicEnabled<EosPtpTransactionQueueTopic>((topic) {
-      info<TransactionQueueChannel>(
+      log<TransactionQueueChannel>(topic.level,
           'Sending dataStart packet with payload: ${packet.data.dumpAsHex()}');
     });
   }
 
   void logDataEnd(PtpPacket packet) {
     whenTopicEnabled<EosPtpTransactionQueueTopic>((topic) {
-      info<TransactionQueueChannel>(
+      log<TransactionQueueChannel>(topic.level,
           'Sending dataEnd packet with paylaod: ${packet.data.dumpAsHex()}');
     });
   }
 
   void logCompleteTransaction(PtpResponse response) {
     whenTopicEnabled<EosPtpTransactionQueueTopic>((topic) {
-      info<TransactionQueueChannel>(
-          'Completing transaction with response: $response');
+      log<TransactionQueueChannel>(
+          topic.level, 'Completing transaction with response: $response');
     });
   }
 }
