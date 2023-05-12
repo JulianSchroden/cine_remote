@@ -53,8 +53,8 @@ class GetUpdateAction extends GetAction<GetUpdateResponse> {
       if (propContent != null) {
         final propValue = propContent['pv'];
         if (propValue != null) {
-          updateEvents.add(
-              CameraUpdateEvent.prop(propType, EosCinePropValue(propValue)));
+          updateEvents.add(CameraUpdateEvent.propValueChanged(
+              propType, EosCinePropValue(propValue)));
         }
       }
     }

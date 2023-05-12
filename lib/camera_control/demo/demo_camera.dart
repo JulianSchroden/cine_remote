@@ -82,7 +82,8 @@ class DemoCamera extends BaseCamera {
     _dummyControlProps[propIndex] =
         _dummyControlProps[propIndex].copyWith(currentValue: propValue);
 
-    _updateStreamController.add(CameraUpdateEvent.prop(propType, propValue));
+    _updateStreamController
+        .add(CameraUpdateEvent.propValueChanged(propType, propValue));
   }
 
   @override

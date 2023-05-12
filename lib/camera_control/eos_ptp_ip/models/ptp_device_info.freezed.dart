@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'ptp_device_info.dart';
 
@@ -297,6 +297,7 @@ class _$_PtpDeviceInfo implements _PtpDeviceInfo {
   final List<int> _operations;
   @override
   List<int> get operations {
+    if (_operations is EqualUnmodifiableListView) return _operations;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_operations);
   }
@@ -304,6 +305,7 @@ class _$_PtpDeviceInfo implements _PtpDeviceInfo {
   final List<int> _events;
   @override
   List<int> get events {
+    if (_events is EqualUnmodifiableListView) return _events;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_events);
   }
@@ -311,6 +313,7 @@ class _$_PtpDeviceInfo implements _PtpDeviceInfo {
   final List<int> _properties;
   @override
   List<int> get properties {
+    if (_properties is EqualUnmodifiableListView) return _properties;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_properties);
   }
@@ -318,6 +321,7 @@ class _$_PtpDeviceInfo implements _PtpDeviceInfo {
   final List<int> _captureFormats;
   @override
   List<int> get captureFormats {
+    if (_captureFormats is EqualUnmodifiableListView) return _captureFormats;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_captureFormats);
   }
@@ -325,6 +329,7 @@ class _$_PtpDeviceInfo implements _PtpDeviceInfo {
   final List<int> _imageFormats;
   @override
   List<int> get imageFormats {
+    if (_imageFormats is EqualUnmodifiableListView) return _imageFormats;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_imageFormats);
   }

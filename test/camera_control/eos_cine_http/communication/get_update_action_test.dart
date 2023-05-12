@@ -116,7 +116,7 @@ void main() {
       final response = await GetUpdateAction(mockHttpAdapter, 7).call();
       expect(
         response.cameraEvents,
-        contains(const CameraUpdateEvent.prop(
+        contains(const CameraUpdateEvent.propValueChanged(
             ControlPropType.iso, EosCinePropValue('4000'))),
       );
     });
@@ -129,7 +129,7 @@ void main() {
       final response = await GetUpdateAction(mockHttpAdapter, 5).call();
       expect(
         response.cameraEvents,
-        contains(const CameraUpdateEvent.prop(
+        contains(const CameraUpdateEvent.propValueChanged(
             ControlPropType.aperture, EosCinePropValue('2.2'))),
       );
     });
@@ -142,7 +142,7 @@ void main() {
       final response = await GetUpdateAction(mockHttpAdapter, 8).call();
       expect(
         response.cameraEvents,
-        contains(const CameraUpdateEvent.prop(
+        contains(const CameraUpdateEvent.propValueChanged(
             ControlPropType.shutterAngle, EosCinePropValue('240.00'))),
       );
     });
@@ -155,7 +155,7 @@ void main() {
       final response = await GetUpdateAction(mockHttpAdapter, 26).call();
       expect(
         response.cameraEvents,
-        contains(const CameraUpdateEvent.prop(
+        contains(const CameraUpdateEvent.propValueChanged(
             ControlPropType.whiteBalance, EosCinePropValue('4100'))),
       );
     });

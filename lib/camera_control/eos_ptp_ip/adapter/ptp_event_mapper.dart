@@ -7,7 +7,8 @@ class PtpEventMapper {
 
   CameraUpdateEvent? mapToCommon(PtpEvent ptpEvents) {
     if (ptpEvents is PropValueChanged && ptpEvents.propType != null) {
-      return CameraUpdateEvent.prop(ptpEvents.propType!, ptpEvents.propValue);
+      return CameraUpdateEvent.propValueChanged(
+          ptpEvents.propType!, ptpEvents.propValue);
     }
 
     return null;

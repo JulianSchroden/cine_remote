@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'camera_update_event.dart';
 
@@ -19,7 +19,10 @@ mixin _$CameraUpdateEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(ControlPropType propType, ControlPropValue value)
-        prop,
+        propValueChanged,
+    required TResult Function(
+            ControlPropType propType, List<ControlPropValue> allowedValues)
+        propAllowedValuesChanged,
     required TResult Function(bool isRecording) recordState,
     required TResult Function(AutoFocusMode focusMode) focusMode,
     required TResult Function(int ndValue) ndFilter,
@@ -27,7 +30,11 @@ mixin _$CameraUpdateEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ControlPropType propType, ControlPropValue value)? prop,
+    TResult? Function(ControlPropType propType, ControlPropValue value)?
+        propValueChanged,
+    TResult? Function(
+            ControlPropType propType, List<ControlPropValue> allowedValues)?
+        propAllowedValuesChanged,
     TResult? Function(bool isRecording)? recordState,
     TResult? Function(AutoFocusMode focusMode)? focusMode,
     TResult? Function(int ndValue)? ndFilter,
@@ -35,7 +42,11 @@ mixin _$CameraUpdateEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ControlPropType propType, ControlPropValue value)? prop,
+    TResult Function(ControlPropType propType, ControlPropValue value)?
+        propValueChanged,
+    TResult Function(
+            ControlPropType propType, List<ControlPropValue> allowedValues)?
+        propAllowedValuesChanged,
     TResult Function(bool isRecording)? recordState,
     TResult Function(AutoFocusMode focusMode)? focusMode,
     TResult Function(int ndValue)? ndFilter,
@@ -44,7 +55,9 @@ mixin _$CameraUpdateEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_PropUpdate value) prop,
+    required TResult Function(_PropValueChanged value) propValueChanged,
+    required TResult Function(_PropAllowedValuesChanged value)
+        propAllowedValuesChanged,
     required TResult Function(_RecordStateUpdate value) recordState,
     required TResult Function(_FocusModeUpdate value) focusMode,
     required TResult Function(_NdFilterUpdate value) ndFilter,
@@ -52,7 +65,9 @@ mixin _$CameraUpdateEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_PropUpdate value)? prop,
+    TResult? Function(_PropValueChanged value)? propValueChanged,
+    TResult? Function(_PropAllowedValuesChanged value)?
+        propAllowedValuesChanged,
     TResult? Function(_RecordStateUpdate value)? recordState,
     TResult? Function(_FocusModeUpdate value)? focusMode,
     TResult? Function(_NdFilterUpdate value)? ndFilter,
@@ -60,7 +75,8 @@ mixin _$CameraUpdateEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_PropUpdate value)? prop,
+    TResult Function(_PropValueChanged value)? propValueChanged,
+    TResult Function(_PropAllowedValuesChanged value)? propAllowedValuesChanged,
     TResult Function(_RecordStateUpdate value)? recordState,
     TResult Function(_FocusModeUpdate value)? focusMode,
     TResult Function(_NdFilterUpdate value)? ndFilter,
@@ -88,20 +104,20 @@ class _$CameraUpdateEventCopyWithImpl<$Res, $Val extends CameraUpdateEvent>
 }
 
 /// @nodoc
-abstract class _$$_PropUpdateCopyWith<$Res> {
-  factory _$$_PropUpdateCopyWith(
-          _$_PropUpdate value, $Res Function(_$_PropUpdate) then) =
-      __$$_PropUpdateCopyWithImpl<$Res>;
+abstract class _$$_PropValueChangedCopyWith<$Res> {
+  factory _$$_PropValueChangedCopyWith(
+          _$_PropValueChanged value, $Res Function(_$_PropValueChanged) then) =
+      __$$_PropValueChangedCopyWithImpl<$Res>;
   @useResult
   $Res call({ControlPropType propType, ControlPropValue value});
 }
 
 /// @nodoc
-class __$$_PropUpdateCopyWithImpl<$Res>
-    extends _$CameraUpdateEventCopyWithImpl<$Res, _$_PropUpdate>
-    implements _$$_PropUpdateCopyWith<$Res> {
-  __$$_PropUpdateCopyWithImpl(
-      _$_PropUpdate _value, $Res Function(_$_PropUpdate) _then)
+class __$$_PropValueChangedCopyWithImpl<$Res>
+    extends _$CameraUpdateEventCopyWithImpl<$Res, _$_PropValueChanged>
+    implements _$$_PropValueChangedCopyWith<$Res> {
+  __$$_PropValueChangedCopyWithImpl(
+      _$_PropValueChanged _value, $Res Function(_$_PropValueChanged) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -110,7 +126,7 @@ class __$$_PropUpdateCopyWithImpl<$Res>
     Object? propType = null,
     Object? value = null,
   }) {
-    return _then(_$_PropUpdate(
+    return _then(_$_PropValueChanged(
       null == propType
           ? _value.propType
           : propType // ignore: cast_nullable_to_non_nullable
@@ -125,8 +141,8 @@ class __$$_PropUpdateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_PropUpdate implements _PropUpdate {
-  const _$_PropUpdate(this.propType, this.value);
+class _$_PropValueChanged implements _PropValueChanged {
+  const _$_PropValueChanged(this.propType, this.value);
 
   @override
   final ControlPropType propType;
@@ -135,14 +151,14 @@ class _$_PropUpdate implements _PropUpdate {
 
   @override
   String toString() {
-    return 'CameraUpdateEvent.prop(propType: $propType, value: $value)';
+    return 'CameraUpdateEvent.propValueChanged(propType: $propType, value: $value)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PropUpdate &&
+            other is _$_PropValueChanged &&
             (identical(other.propType, propType) ||
                 other.propType == propType) &&
             (identical(other.value, value) || other.value == value));
@@ -154,43 +170,54 @@ class _$_PropUpdate implements _PropUpdate {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PropUpdateCopyWith<_$_PropUpdate> get copyWith =>
-      __$$_PropUpdateCopyWithImpl<_$_PropUpdate>(this, _$identity);
+  _$$_PropValueChangedCopyWith<_$_PropValueChanged> get copyWith =>
+      __$$_PropValueChangedCopyWithImpl<_$_PropValueChanged>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(ControlPropType propType, ControlPropValue value)
-        prop,
+        propValueChanged,
+    required TResult Function(
+            ControlPropType propType, List<ControlPropValue> allowedValues)
+        propAllowedValuesChanged,
     required TResult Function(bool isRecording) recordState,
     required TResult Function(AutoFocusMode focusMode) focusMode,
     required TResult Function(int ndValue) ndFilter,
   }) {
-    return prop(propType, value);
+    return propValueChanged(propType, value);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ControlPropType propType, ControlPropValue value)? prop,
+    TResult? Function(ControlPropType propType, ControlPropValue value)?
+        propValueChanged,
+    TResult? Function(
+            ControlPropType propType, List<ControlPropValue> allowedValues)?
+        propAllowedValuesChanged,
     TResult? Function(bool isRecording)? recordState,
     TResult? Function(AutoFocusMode focusMode)? focusMode,
     TResult? Function(int ndValue)? ndFilter,
   }) {
-    return prop?.call(propType, value);
+    return propValueChanged?.call(propType, value);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ControlPropType propType, ControlPropValue value)? prop,
+    TResult Function(ControlPropType propType, ControlPropValue value)?
+        propValueChanged,
+    TResult Function(
+            ControlPropType propType, List<ControlPropValue> allowedValues)?
+        propAllowedValuesChanged,
     TResult Function(bool isRecording)? recordState,
     TResult Function(AutoFocusMode focusMode)? focusMode,
     TResult Function(int ndValue)? ndFilter,
     required TResult orElse(),
   }) {
-    if (prop != null) {
-      return prop(propType, value);
+    if (propValueChanged != null) {
+      return propValueChanged(propType, value);
     }
     return orElse();
   }
@@ -198,51 +225,240 @@ class _$_PropUpdate implements _PropUpdate {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_PropUpdate value) prop,
+    required TResult Function(_PropValueChanged value) propValueChanged,
+    required TResult Function(_PropAllowedValuesChanged value)
+        propAllowedValuesChanged,
     required TResult Function(_RecordStateUpdate value) recordState,
     required TResult Function(_FocusModeUpdate value) focusMode,
     required TResult Function(_NdFilterUpdate value) ndFilter,
   }) {
-    return prop(this);
+    return propValueChanged(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_PropUpdate value)? prop,
+    TResult? Function(_PropValueChanged value)? propValueChanged,
+    TResult? Function(_PropAllowedValuesChanged value)?
+        propAllowedValuesChanged,
     TResult? Function(_RecordStateUpdate value)? recordState,
     TResult? Function(_FocusModeUpdate value)? focusMode,
     TResult? Function(_NdFilterUpdate value)? ndFilter,
   }) {
-    return prop?.call(this);
+    return propValueChanged?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_PropUpdate value)? prop,
+    TResult Function(_PropValueChanged value)? propValueChanged,
+    TResult Function(_PropAllowedValuesChanged value)? propAllowedValuesChanged,
     TResult Function(_RecordStateUpdate value)? recordState,
     TResult Function(_FocusModeUpdate value)? focusMode,
     TResult Function(_NdFilterUpdate value)? ndFilter,
     required TResult orElse(),
   }) {
-    if (prop != null) {
-      return prop(this);
+    if (propValueChanged != null) {
+      return propValueChanged(this);
     }
     return orElse();
   }
 }
 
-abstract class _PropUpdate implements CameraUpdateEvent {
-  const factory _PropUpdate(
+abstract class _PropValueChanged implements CameraUpdateEvent {
+  const factory _PropValueChanged(
           final ControlPropType propType, final ControlPropValue value) =
-      _$_PropUpdate;
+      _$_PropValueChanged;
 
   ControlPropType get propType;
   ControlPropValue get value;
   @JsonKey(ignore: true)
-  _$$_PropUpdateCopyWith<_$_PropUpdate> get copyWith =>
+  _$$_PropValueChangedCopyWith<_$_PropValueChanged> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$_PropAllowedValuesChangedCopyWith<$Res> {
+  factory _$$_PropAllowedValuesChangedCopyWith(
+          _$_PropAllowedValuesChanged value,
+          $Res Function(_$_PropAllowedValuesChanged) then) =
+      __$$_PropAllowedValuesChangedCopyWithImpl<$Res>;
+  @useResult
+  $Res call({ControlPropType propType, List<ControlPropValue> allowedValues});
+}
+
+/// @nodoc
+class __$$_PropAllowedValuesChangedCopyWithImpl<$Res>
+    extends _$CameraUpdateEventCopyWithImpl<$Res, _$_PropAllowedValuesChanged>
+    implements _$$_PropAllowedValuesChangedCopyWith<$Res> {
+  __$$_PropAllowedValuesChangedCopyWithImpl(_$_PropAllowedValuesChanged _value,
+      $Res Function(_$_PropAllowedValuesChanged) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? propType = null,
+    Object? allowedValues = null,
+  }) {
+    return _then(_$_PropAllowedValuesChanged(
+      null == propType
+          ? _value.propType
+          : propType // ignore: cast_nullable_to_non_nullable
+              as ControlPropType,
+      null == allowedValues
+          ? _value._allowedValues
+          : allowedValues // ignore: cast_nullable_to_non_nullable
+              as List<ControlPropValue>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_PropAllowedValuesChanged implements _PropAllowedValuesChanged {
+  const _$_PropAllowedValuesChanged(
+      this.propType, final List<ControlPropValue> allowedValues)
+      : _allowedValues = allowedValues;
+
+  @override
+  final ControlPropType propType;
+  final List<ControlPropValue> _allowedValues;
+  @override
+  List<ControlPropValue> get allowedValues {
+    if (_allowedValues is EqualUnmodifiableListView) return _allowedValues;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_allowedValues);
+  }
+
+  @override
+  String toString() {
+    return 'CameraUpdateEvent.propAllowedValuesChanged(propType: $propType, allowedValues: $allowedValues)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_PropAllowedValuesChanged &&
+            (identical(other.propType, propType) ||
+                other.propType == propType) &&
+            const DeepCollectionEquality()
+                .equals(other._allowedValues, _allowedValues));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, propType,
+      const DeepCollectionEquality().hash(_allowedValues));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_PropAllowedValuesChangedCopyWith<_$_PropAllowedValuesChanged>
+      get copyWith => __$$_PropAllowedValuesChangedCopyWithImpl<
+          _$_PropAllowedValuesChanged>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(ControlPropType propType, ControlPropValue value)
+        propValueChanged,
+    required TResult Function(
+            ControlPropType propType, List<ControlPropValue> allowedValues)
+        propAllowedValuesChanged,
+    required TResult Function(bool isRecording) recordState,
+    required TResult Function(AutoFocusMode focusMode) focusMode,
+    required TResult Function(int ndValue) ndFilter,
+  }) {
+    return propAllowedValuesChanged(propType, allowedValues);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(ControlPropType propType, ControlPropValue value)?
+        propValueChanged,
+    TResult? Function(
+            ControlPropType propType, List<ControlPropValue> allowedValues)?
+        propAllowedValuesChanged,
+    TResult? Function(bool isRecording)? recordState,
+    TResult? Function(AutoFocusMode focusMode)? focusMode,
+    TResult? Function(int ndValue)? ndFilter,
+  }) {
+    return propAllowedValuesChanged?.call(propType, allowedValues);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(ControlPropType propType, ControlPropValue value)?
+        propValueChanged,
+    TResult Function(
+            ControlPropType propType, List<ControlPropValue> allowedValues)?
+        propAllowedValuesChanged,
+    TResult Function(bool isRecording)? recordState,
+    TResult Function(AutoFocusMode focusMode)? focusMode,
+    TResult Function(int ndValue)? ndFilter,
+    required TResult orElse(),
+  }) {
+    if (propAllowedValuesChanged != null) {
+      return propAllowedValuesChanged(propType, allowedValues);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_PropValueChanged value) propValueChanged,
+    required TResult Function(_PropAllowedValuesChanged value)
+        propAllowedValuesChanged,
+    required TResult Function(_RecordStateUpdate value) recordState,
+    required TResult Function(_FocusModeUpdate value) focusMode,
+    required TResult Function(_NdFilterUpdate value) ndFilter,
+  }) {
+    return propAllowedValuesChanged(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_PropValueChanged value)? propValueChanged,
+    TResult? Function(_PropAllowedValuesChanged value)?
+        propAllowedValuesChanged,
+    TResult? Function(_RecordStateUpdate value)? recordState,
+    TResult? Function(_FocusModeUpdate value)? focusMode,
+    TResult? Function(_NdFilterUpdate value)? ndFilter,
+  }) {
+    return propAllowedValuesChanged?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_PropValueChanged value)? propValueChanged,
+    TResult Function(_PropAllowedValuesChanged value)? propAllowedValuesChanged,
+    TResult Function(_RecordStateUpdate value)? recordState,
+    TResult Function(_FocusModeUpdate value)? focusMode,
+    TResult Function(_NdFilterUpdate value)? ndFilter,
+    required TResult orElse(),
+  }) {
+    if (propAllowedValuesChanged != null) {
+      return propAllowedValuesChanged(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _PropAllowedValuesChanged implements CameraUpdateEvent {
+  const factory _PropAllowedValuesChanged(final ControlPropType propType,
+      final List<ControlPropValue> allowedValues) = _$_PropAllowedValuesChanged;
+
+  ControlPropType get propType;
+  List<ControlPropValue> get allowedValues;
+  @JsonKey(ignore: true)
+  _$$_PropAllowedValuesChangedCopyWith<_$_PropAllowedValuesChanged>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -312,7 +528,10 @@ class _$_RecordStateUpdate implements _RecordStateUpdate {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(ControlPropType propType, ControlPropValue value)
-        prop,
+        propValueChanged,
+    required TResult Function(
+            ControlPropType propType, List<ControlPropValue> allowedValues)
+        propAllowedValuesChanged,
     required TResult Function(bool isRecording) recordState,
     required TResult Function(AutoFocusMode focusMode) focusMode,
     required TResult Function(int ndValue) ndFilter,
@@ -323,7 +542,11 @@ class _$_RecordStateUpdate implements _RecordStateUpdate {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ControlPropType propType, ControlPropValue value)? prop,
+    TResult? Function(ControlPropType propType, ControlPropValue value)?
+        propValueChanged,
+    TResult? Function(
+            ControlPropType propType, List<ControlPropValue> allowedValues)?
+        propAllowedValuesChanged,
     TResult? Function(bool isRecording)? recordState,
     TResult? Function(AutoFocusMode focusMode)? focusMode,
     TResult? Function(int ndValue)? ndFilter,
@@ -334,7 +557,11 @@ class _$_RecordStateUpdate implements _RecordStateUpdate {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ControlPropType propType, ControlPropValue value)? prop,
+    TResult Function(ControlPropType propType, ControlPropValue value)?
+        propValueChanged,
+    TResult Function(
+            ControlPropType propType, List<ControlPropValue> allowedValues)?
+        propAllowedValuesChanged,
     TResult Function(bool isRecording)? recordState,
     TResult Function(AutoFocusMode focusMode)? focusMode,
     TResult Function(int ndValue)? ndFilter,
@@ -349,7 +576,9 @@ class _$_RecordStateUpdate implements _RecordStateUpdate {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_PropUpdate value) prop,
+    required TResult Function(_PropValueChanged value) propValueChanged,
+    required TResult Function(_PropAllowedValuesChanged value)
+        propAllowedValuesChanged,
     required TResult Function(_RecordStateUpdate value) recordState,
     required TResult Function(_FocusModeUpdate value) focusMode,
     required TResult Function(_NdFilterUpdate value) ndFilter,
@@ -360,7 +589,9 @@ class _$_RecordStateUpdate implements _RecordStateUpdate {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_PropUpdate value)? prop,
+    TResult? Function(_PropValueChanged value)? propValueChanged,
+    TResult? Function(_PropAllowedValuesChanged value)?
+        propAllowedValuesChanged,
     TResult? Function(_RecordStateUpdate value)? recordState,
     TResult? Function(_FocusModeUpdate value)? focusMode,
     TResult? Function(_NdFilterUpdate value)? ndFilter,
@@ -371,7 +602,8 @@ class _$_RecordStateUpdate implements _RecordStateUpdate {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_PropUpdate value)? prop,
+    TResult Function(_PropValueChanged value)? propValueChanged,
+    TResult Function(_PropAllowedValuesChanged value)? propAllowedValuesChanged,
     TResult Function(_RecordStateUpdate value)? recordState,
     TResult Function(_FocusModeUpdate value)? focusMode,
     TResult Function(_NdFilterUpdate value)? ndFilter,
@@ -460,7 +692,10 @@ class _$_FocusModeUpdate implements _FocusModeUpdate {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(ControlPropType propType, ControlPropValue value)
-        prop,
+        propValueChanged,
+    required TResult Function(
+            ControlPropType propType, List<ControlPropValue> allowedValues)
+        propAllowedValuesChanged,
     required TResult Function(bool isRecording) recordState,
     required TResult Function(AutoFocusMode focusMode) focusMode,
     required TResult Function(int ndValue) ndFilter,
@@ -471,7 +706,11 @@ class _$_FocusModeUpdate implements _FocusModeUpdate {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ControlPropType propType, ControlPropValue value)? prop,
+    TResult? Function(ControlPropType propType, ControlPropValue value)?
+        propValueChanged,
+    TResult? Function(
+            ControlPropType propType, List<ControlPropValue> allowedValues)?
+        propAllowedValuesChanged,
     TResult? Function(bool isRecording)? recordState,
     TResult? Function(AutoFocusMode focusMode)? focusMode,
     TResult? Function(int ndValue)? ndFilter,
@@ -482,7 +721,11 @@ class _$_FocusModeUpdate implements _FocusModeUpdate {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ControlPropType propType, ControlPropValue value)? prop,
+    TResult Function(ControlPropType propType, ControlPropValue value)?
+        propValueChanged,
+    TResult Function(
+            ControlPropType propType, List<ControlPropValue> allowedValues)?
+        propAllowedValuesChanged,
     TResult Function(bool isRecording)? recordState,
     TResult Function(AutoFocusMode focusMode)? focusMode,
     TResult Function(int ndValue)? ndFilter,
@@ -497,7 +740,9 @@ class _$_FocusModeUpdate implements _FocusModeUpdate {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_PropUpdate value) prop,
+    required TResult Function(_PropValueChanged value) propValueChanged,
+    required TResult Function(_PropAllowedValuesChanged value)
+        propAllowedValuesChanged,
     required TResult Function(_RecordStateUpdate value) recordState,
     required TResult Function(_FocusModeUpdate value) focusMode,
     required TResult Function(_NdFilterUpdate value) ndFilter,
@@ -508,7 +753,9 @@ class _$_FocusModeUpdate implements _FocusModeUpdate {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_PropUpdate value)? prop,
+    TResult? Function(_PropValueChanged value)? propValueChanged,
+    TResult? Function(_PropAllowedValuesChanged value)?
+        propAllowedValuesChanged,
     TResult? Function(_RecordStateUpdate value)? recordState,
     TResult? Function(_FocusModeUpdate value)? focusMode,
     TResult? Function(_NdFilterUpdate value)? ndFilter,
@@ -519,7 +766,8 @@ class _$_FocusModeUpdate implements _FocusModeUpdate {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_PropUpdate value)? prop,
+    TResult Function(_PropValueChanged value)? propValueChanged,
+    TResult Function(_PropAllowedValuesChanged value)? propAllowedValuesChanged,
     TResult Function(_RecordStateUpdate value)? recordState,
     TResult Function(_FocusModeUpdate value)? focusMode,
     TResult Function(_NdFilterUpdate value)? ndFilter,
@@ -607,7 +855,10 @@ class _$_NdFilterUpdate implements _NdFilterUpdate {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(ControlPropType propType, ControlPropValue value)
-        prop,
+        propValueChanged,
+    required TResult Function(
+            ControlPropType propType, List<ControlPropValue> allowedValues)
+        propAllowedValuesChanged,
     required TResult Function(bool isRecording) recordState,
     required TResult Function(AutoFocusMode focusMode) focusMode,
     required TResult Function(int ndValue) ndFilter,
@@ -618,7 +869,11 @@ class _$_NdFilterUpdate implements _NdFilterUpdate {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ControlPropType propType, ControlPropValue value)? prop,
+    TResult? Function(ControlPropType propType, ControlPropValue value)?
+        propValueChanged,
+    TResult? Function(
+            ControlPropType propType, List<ControlPropValue> allowedValues)?
+        propAllowedValuesChanged,
     TResult? Function(bool isRecording)? recordState,
     TResult? Function(AutoFocusMode focusMode)? focusMode,
     TResult? Function(int ndValue)? ndFilter,
@@ -629,7 +884,11 @@ class _$_NdFilterUpdate implements _NdFilterUpdate {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ControlPropType propType, ControlPropValue value)? prop,
+    TResult Function(ControlPropType propType, ControlPropValue value)?
+        propValueChanged,
+    TResult Function(
+            ControlPropType propType, List<ControlPropValue> allowedValues)?
+        propAllowedValuesChanged,
     TResult Function(bool isRecording)? recordState,
     TResult Function(AutoFocusMode focusMode)? focusMode,
     TResult Function(int ndValue)? ndFilter,
@@ -644,7 +903,9 @@ class _$_NdFilterUpdate implements _NdFilterUpdate {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_PropUpdate value) prop,
+    required TResult Function(_PropValueChanged value) propValueChanged,
+    required TResult Function(_PropAllowedValuesChanged value)
+        propAllowedValuesChanged,
     required TResult Function(_RecordStateUpdate value) recordState,
     required TResult Function(_FocusModeUpdate value) focusMode,
     required TResult Function(_NdFilterUpdate value) ndFilter,
@@ -655,7 +916,9 @@ class _$_NdFilterUpdate implements _NdFilterUpdate {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_PropUpdate value)? prop,
+    TResult? Function(_PropValueChanged value)? propValueChanged,
+    TResult? Function(_PropAllowedValuesChanged value)?
+        propAllowedValuesChanged,
     TResult? Function(_RecordStateUpdate value)? recordState,
     TResult? Function(_FocusModeUpdate value)? focusMode,
     TResult? Function(_NdFilterUpdate value)? ndFilter,
@@ -666,7 +929,8 @@ class _$_NdFilterUpdate implements _NdFilterUpdate {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_PropUpdate value)? prop,
+    TResult Function(_PropValueChanged value)? propValueChanged,
+    TResult Function(_PropAllowedValuesChanged value)? propAllowedValuesChanged,
     TResult Function(_RecordStateUpdate value)? recordState,
     TResult Function(_FocusModeUpdate value)? focusMode,
     TResult Function(_NdFilterUpdate value)? ndFilter,

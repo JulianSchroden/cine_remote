@@ -8,8 +8,11 @@ part 'camera_update_event.freezed.dart';
 
 @freezed
 class CameraUpdateEvent with _$CameraUpdateEvent {
-  const factory CameraUpdateEvent.prop(
-      ControlPropType propType, ControlPropValue value) = _PropUpdate;
+  const factory CameraUpdateEvent.propValueChanged(
+      ControlPropType propType, ControlPropValue value) = _PropValueChanged;
+  const factory CameraUpdateEvent.propAllowedValuesChanged(
+          ControlPropType propType, List<ControlPropValue> allowedValues) =
+      _PropAllowedValuesChanged;
   const factory CameraUpdateEvent.recordState(bool isRecording) =
       _RecordStateUpdate;
   const factory CameraUpdateEvent.focusMode(AutoFocusMode focusMode) =

@@ -34,7 +34,7 @@ void main() {
 
       expect(
         result,
-        const CameraUpdateEvent.prop(
+        const CameraUpdateEvent.propValueChanged(
           ControlPropType.aperture,
           EosPtpPropValue('16', 0x48),
         ),
@@ -52,7 +52,7 @@ void main() {
 
       expect(
         result,
-        const CameraUpdateEvent.prop(
+        const CameraUpdateEvent.propValueChanged(
           ControlPropType.iso,
           EosPtpPropValue('Auto', 0x00),
         ),

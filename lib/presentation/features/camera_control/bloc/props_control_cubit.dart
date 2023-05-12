@@ -112,7 +112,7 @@ class PropsControlCubit extends Cubit<PropsControlState> {
     _updateStreamSubscription =
         _cameraConnectionCubit.updateEvents.listen((event) {
       event.maybeWhen(
-        prop: (propType, value) {
+        propValueChanged: (propType, value) {
           final prop = state.getProp(propType);
           final isWithinPendingTime =
               prop.isWithinPendingTime(_dateTimeAdapter.now(), pendingDuration);
