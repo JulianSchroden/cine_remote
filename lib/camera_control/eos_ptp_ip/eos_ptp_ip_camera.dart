@@ -30,10 +30,15 @@ class EosPtpIpCamera extends BaseCamera {
   );
 
   @override
+  Future<void> close() async {
+    await _transactionQueue.close();
+  }
+
+  @override
   Future<void> disconnect() async {
     final deinitSession = _actionFactory.createDeinitSessionAction();
     await deinitSession.run(_transactionQueue);
-    await _transactionQueue.close();
+    await close();
   }
 
   @override

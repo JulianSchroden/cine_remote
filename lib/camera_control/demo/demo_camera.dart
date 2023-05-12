@@ -49,6 +49,9 @@ class DemoCamera extends BaseCamera {
       StreamController<CameraUpdateEvent>.broadcast();
 
   @override
+  Future<void> close() async {}
+
+  @override
   Future<void> disconnect() async {}
 
   @override

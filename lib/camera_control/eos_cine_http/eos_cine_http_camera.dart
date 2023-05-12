@@ -30,8 +30,13 @@ class EosCineHttpCamera extends BaseCamera {
   ]);
 
   @override
+  Future<void> close() async {
+    await httpAdapter.close();
+  }
+
+  @override
   Future<void> disconnect() async {
-    httpAdapter.close();
+    await close();
   }
 
   @override

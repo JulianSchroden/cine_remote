@@ -9,6 +9,7 @@ import 'models/control_prop_value.dart';
 abstract class Camera {
   const Camera();
 
+  Future<void> close();
   Future<void> disconnect();
 
   Future<CameraDescriptor> getDescriptor();
