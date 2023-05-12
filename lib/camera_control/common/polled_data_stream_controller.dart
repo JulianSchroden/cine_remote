@@ -52,7 +52,12 @@ class PolledDataStreamController<T> {
     };
     _controller!.onCancel = () async {
       _timer?.cancel();
-      await onCancel?.call();
+
+      try {
+        await onCancel?.call();
+      } catch (e, s) {
+        _controller!.sink.addError(e, s);
+      }
     };
 
     return _controller!.stream;
