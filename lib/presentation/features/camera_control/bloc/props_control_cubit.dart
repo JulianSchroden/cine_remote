@@ -109,31 +109,48 @@ class PropsControlCubit extends Cubit<PropsControlState> {
 
   Future<void> _setupUpdateListener() async {
     await _updateStreamSubscription?.cancel();
-    _updateStreamSubscription =
-        _cameraConnectionCubit.updateEvents.listen((event) {
-      event.maybeWhen(
-        propValueChanged: (propType, value) {
-          final prop = state.getProp(propType);
-          final isWithinPendingTime =
-              prop.isWithinPendingTime(_dateTimeAdapter.now(), pendingDuration);
-          final isWaitingForPendingValue =
-              isWithinPendingTime && prop.currentValue != value;
-          if (isWaitingForPendingValue) {
-            return;
-          }
+    _updateStreamSubscription = _cameraConnectionCubit.updateEvents.listen(
+      (event) {
+        event.maybeWhen(
+          propValueChanged: _handlePropValueChanged,
+          propAllowedValuesChanged: _handleAllowedValuesChanged,
+          orElse: () {},
+        );
+      },
+    );
+  }
 
-          final updatedProps = state.controlProps.copyWith(
-            predecate: (prop) => prop.type == propType,
-            transform: (prop) => prop.copyWith(
-              currentValue: value,
-              pendingSince: null,
-            ),
-          );
+  void _handlePropValueChanged(
+      ControlPropType propType, ControlPropValue value) {
+    final prop = state.getProp(propType);
+    final isWithinPendingTime =
+        prop.isWithinPendingTime(_dateTimeAdapter.now(), pendingDuration);
+    final isWaitingForPendingValue =
+        isWithinPendingTime && prop.currentValue != value;
+    if (isWaitingForPendingValue) {
+      return;
+    }
 
-          emit(PropsControlState.updateSuccess(updatedProps));
-        },
-        orElse: () {},
-      );
-    });
+    final updatedProps = state.controlProps.copyWith(
+      predecate: (prop) => prop.type == propType,
+      transform: (prop) => prop.copyWith(
+        currentValue: value,
+        pendingSince: null,
+      ),
+    );
+
+    emit(PropsControlState.updateSuccess(updatedProps));
+  }
+
+  void _handleAllowedValuesChanged(
+      ControlPropType propType, List<ControlPropValue> allowedValue) {
+    final updatedProps = state.controlProps.copyWith(
+      predecate: (prop) => prop.type == propType,
+      transform: (prop) => prop.copyWith(
+        allowedValues: allowedValue,
+      ),
+    );
+
+    emit(PropsControlState.updateSuccess(updatedProps));
   }
 }
