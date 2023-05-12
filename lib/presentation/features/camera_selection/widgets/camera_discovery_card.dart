@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../camera_control/interface/discovery/discovery_handle.dart';
 import '../bloc/camera_discovery_cubit.dart';
 import 'camera_discovery_item.dart';
 
@@ -58,27 +59,10 @@ class CameraDisoveryCard extends StatelessWidget {
                 SizedBox(
                   height: 250,
                   child: state.maybeWhen(
-                    active: (currentIp, discoveryHandles) => CarouselSlider(
-                      options: CarouselOptions(
-                        viewportFraction: 0.7,
-                        height: 250,
-                        enableInfiniteScroll: false,
-                      ),
-                      items: discoveryHandles
-                          .map(
-                            (discoveryHandle) => CameraDiscoveryItem(
-                              discoveryHandle: discoveryHandle,
-                            ),
-                          )
-                          .toList(),
-                    ),
-                    orElse: () => const Center(
-                      child: SizedBox(
-                        width: 48,
-                        height: 48,
-                        child: CircularProgressIndicator(color: Colors.white),
-                      ),
-                    ),
+                    active: (_, discoveryHandles) => discoveryHandles.isNotEmpty
+                        ? _buildCarousel(context, discoveryHandles)
+                        : _buildLoadingSpinner(context),
+                    orElse: () => _buildLoadingSpinner(context),
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -89,4 +73,31 @@ class CameraDisoveryCard extends StatelessWidget {
       },
     );
   }
+
+  Widget _buildCarousel(
+    BuildContext context,
+    List<DiscoveryHandle> discoveryHandles,
+  ) =>
+      CarouselSlider(
+        options: CarouselOptions(
+          viewportFraction: 0.7,
+          height: 250,
+          enableInfiniteScroll: false,
+        ),
+        items: discoveryHandles
+            .map(
+              (discoveryHandle) => CameraDiscoveryItem(
+                discoveryHandle: discoveryHandle,
+              ),
+            )
+            .toList(),
+      );
+
+  Widget _buildLoadingSpinner(BuildContext context) => const Center(
+        child: SizedBox(
+          width: 48,
+          height: 48,
+          child: CircularProgressIndicator(color: Colors.white),
+        ),
+      );
 }
