@@ -45,6 +45,8 @@ class PolledDataStreamController<T> {
 
         pollData(_controller!.sink).then((_) {
           _pollDataCompleter?.complete();
+        }, onError: (e, s) {
+          _controller!.sink.addError(e, s);
         });
       });
     };

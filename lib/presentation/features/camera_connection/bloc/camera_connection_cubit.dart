@@ -102,6 +102,12 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
     }
   }
 
+  Future<void> handleConnectionAborted() async {
+    emit(CameraConnectionState.disconnecting(camera));
+    camera.close();
+    emit(const CameraConnectionState.disconnected());
+  }
+
   T withConnectedCamera<T>(
     T Function(Camera camera) callback, {
     required T Function() orElse,
@@ -122,7 +128,8 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
       );
 
   Stream<CameraUpdateEvent> get updateEvents => withConnectedCamera(
-        (camera) => camera.events(),
+        (camera) =>
+            camera.events().handleError((e, s) => handleConnectionAborted()),
         orElse: () => Stream.fromIterable([]),
       );
 }

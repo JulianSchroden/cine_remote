@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../camera_control/interface/exceptions/camera_communication_exception.dart';
 import '../../../../camera_control/interface/exceptions/unsupported_capability_exception.dart';
 import '../../../../camera_control/interface/models/capabilities/live_view_capability.dart';
 import '../../camera_connection/bloc/camera_connection_cubit.dart';
@@ -101,6 +102,11 @@ class LiveViewCubit extends Cubit<LiveViewState> {
           ));
         },
         onError: (e, s) {
+          if (e is CameraCommunicationAbortedException) {
+            _cameraConnectionCubit.handleConnectionAborted();
+            return;
+          }
+
           emit(state.copyWith(
             status: LiveViewStatus.error,
           ));

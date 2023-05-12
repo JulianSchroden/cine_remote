@@ -8,3 +8,12 @@ class CameraCommunicationException implements Exception {
     return 'CameraCommunicationException: $message';
   }
 }
+
+class CameraCommunicationAbortedException extends CameraCommunicationException {
+  const CameraCommunicationAbortedException(super.message);
+
+  @override
+  String toString() {
+    return 'CameraCommunicationAbortedException: $message';
+  }
+}

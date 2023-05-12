@@ -22,6 +22,12 @@ class PtpTransactionQueue {
       logger.logCompleteTransaction(response);
       _currentTransaction!.complete(response);
       await _startNextTransaction();
+    }, onError: (error, stackTrace) {
+      if (_currentTransaction == null) {
+        throw error;
+      }
+
+      _currentTransaction!.completeError(error, stackTrace);
     });
   }
 
@@ -106,6 +112,10 @@ class _PtpTransaction {
 
   void complete(PtpResponse response) {
     responseCompleter.complete(response);
+  }
+
+  void completeError(Object error, dynamic stackTrace) {
+    responseCompleter.completeError(error, stackTrace);
   }
 
   bool get isActive => !responseCompleter.isCompleted;
