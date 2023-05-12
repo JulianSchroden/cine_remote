@@ -44,6 +44,7 @@ Future<void> setup() async {
 void setupLogging() {
   CameraControlLoggerConfig.init(enabledTopics: [
     const EosPtpTransactionQueueTopic(),
+    const EosPtpIpDiscoveryTopic(),
   ]);
 
   Logger.root.onRecord.listen((record) {
