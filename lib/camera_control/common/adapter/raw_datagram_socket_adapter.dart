@@ -8,6 +8,8 @@ class RawDatagramSocketAdapter {
 
   Datagram? receive() => socket.receive();
 
+  void close() => socket.close();
+
   void joinMulticast(InternetAddress group) => socket.joinMulticast(group);
 }
 

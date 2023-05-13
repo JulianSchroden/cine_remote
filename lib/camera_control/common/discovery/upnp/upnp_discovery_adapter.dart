@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -23,6 +24,8 @@ abstract class NotificationSubType {
 
 class UpnpDiscoveryAdapter {
   static const upnpPort = 1900;
+  final ipv4MulticastAddress = InternetAddress('239.255.255.250');
+
   final RawDatagramSocketFactory _socketFactory;
   final UpnpDeviceDescriptionParser _deviceDescriptionParser;
 
@@ -33,25 +36,42 @@ class UpnpDiscoveryAdapter {
         _deviceDescriptionParser =
             deviceDescriptionParser ?? const UpnpDeviceDescriptionParser();
 
-  Stream<UpnpAdvertisementMessage> discover() async* {
-    final socket = await _socketFactory.bind(InternetAddress.anyIPv4, upnpPort);
-    socket.joinMulticast(InternetAddress('239.255.255.250'));
+  Stream<UpnpAdvertisementMessage> discover() {
+    final controller = StreamController<UpnpAdvertisementMessage>();
 
-    await for (final event in socket.stream) {
-      if (event != RawSocketEvent.read) {
-        continue;
-      }
+    controller.onListen = () async {
+      final socket =
+          await _socketFactory.bind(InternetAddress.anyIPv4, upnpPort);
+      socket.joinMulticast(ipv4MulticastAddress);
 
-      final datagram = socket.receive();
-      if (datagram == null) {
-        continue;
-      }
+      controller.addStream(
+        socket.stream.transform(
+          StreamTransformer.fromHandlers(
+            handleData: (event, sink) {
+              if (event != RawSocketEvent.read) {
+                return;
+              }
 
-      final message = _processMessage(datagram);
-      if (message != null) {
-        yield message;
-      }
-    }
+              final datagram = socket.receive();
+              if (datagram == null) {
+                return;
+              }
+
+              final message = _processMessage(datagram);
+              if (message != null) {
+                sink.add(message);
+              }
+            },
+          ),
+        ),
+      );
+
+      controller.onCancel = () {
+        socket.close();
+      };
+    };
+
+    return controller.stream;
   }
 
   Future<UpnpDeviceDescription?> getDeviceDescription(String location) async {
