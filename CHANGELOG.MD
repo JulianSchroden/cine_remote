@@ -1,3 +1,9 @@
+## 2023-05-13 v.0.2.1+3
+- Update camera discovery to detect when the camera is not available anymore
+- Updated flutter to 3.1.0
+- Handle AllowedValuesChanged events so the app behaves correctly in modes other than manual
+- Detect camera disconnects and route back to the selection page when the app loses connection to the camera
+
 ## 2023-04-23 v.0.2.0+2
 - Added GitHub workflow to publish iOS builds to Testflight automatically
 
@@ -8,7 +14,7 @@
   - Image capturing
   - Event handling
 - Added camera discovery
-  - EOS PTP/IP: Using Universal Plug and Play
+  - EOS PTP/IP: Using `Universal Plug and Play`
   - Eos C100 II: Based on device and gateway IP address
 - Moved all camera-control related files into `camera_control` directory
 - Added configurable logger topics
