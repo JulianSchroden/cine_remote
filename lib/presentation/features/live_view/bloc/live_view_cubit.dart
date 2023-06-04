@@ -29,6 +29,7 @@ class LiveViewState with _$LiveViewState {
     required LiveViewStatus status,
     @Default(null) Uint8List? imageBytes,
     @Default(16 / 9) double aspectRatio,
+    @Default(false) bool supportsTouchAutofocus,
   }) = _LiveViewState;
 
   bool get isLiveViewActive => status == LiveViewStatus.active;
@@ -60,6 +61,7 @@ class LiveViewCubit extends Cubit<LiveViewState> {
       emit(LiveViewState(
         status: LiveViewStatus.paused,
         aspectRatio: liveViewCapability.aspectRatio,
+        supportsTouchAutofocus: liveViewCapability.supportsTouchAutofocus,
       ));
     } on UnsupportedCapabilityException {
       emit(const LiveViewState(status: LiveViewStatus.unsupported));

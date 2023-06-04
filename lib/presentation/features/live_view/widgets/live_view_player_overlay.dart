@@ -3,12 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../camera_control/interface/models/properties/autofocus_position.dart';
 import '../bloc/live_view_cubit.dart';
+import '../bloc/touch_autofocus_cubit.dart';
 
 class LiveViewPlayerOverlay extends StatelessWidget {
-  final Duration autoHideDuration;
+  final bool supportsTouchAutofocus;
 
   const LiveViewPlayerOverlay({
-    this.autoHideDuration = const Duration(seconds: 2),
+    required this.supportsTouchAutofocus,
     super.key,
   });
 
@@ -24,7 +25,7 @@ class LiveViewPlayerOverlay extends StatelessWidget {
       y: touchPosition.dy / widgetSize.height,
     );
 
-    print(normalizedPosition);
+    context.read<TouchAutofocusCubit>().setTouchAutofocus(normalizedPosition);
   }
 
   @override
@@ -38,14 +39,16 @@ class LiveViewPlayerOverlay extends StatelessWidget {
           opacity: isVisible ? 1.0 : 0,
           duration: const Duration(milliseconds: 200),
           child: InkWell(
-            onTapDown: (details) => handleTapToAutofocus(
-              context,
-              Size(
-                constraints.maxWidth,
-                constraints.maxHeight,
-              ),
-              details.localPosition,
-            ),
+            onTapDown: supportsTouchAutofocus
+                ? (details) => handleTapToAutofocus(
+                      context,
+                      Size(
+                        constraints.maxWidth,
+                        constraints.maxHeight,
+                      ),
+                      details.localPosition,
+                    )
+                : null,
             child: Center(
               child: IgnorePointer(
                 ignoring: ignoreStartButtonPress,

@@ -19,6 +19,7 @@ mixin _$LiveViewState {
   LiveViewStatus get status => throw _privateConstructorUsedError;
   Uint8List? get imageBytes => throw _privateConstructorUsedError;
   double get aspectRatio => throw _privateConstructorUsedError;
+  bool get supportsTouchAutofocus => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $LiveViewStateCopyWith<LiveViewState> get copyWith =>
@@ -31,7 +32,11 @@ abstract class $LiveViewStateCopyWith<$Res> {
           LiveViewState value, $Res Function(LiveViewState) then) =
       _$LiveViewStateCopyWithImpl<$Res, LiveViewState>;
   @useResult
-  $Res call({LiveViewStatus status, Uint8List? imageBytes, double aspectRatio});
+  $Res call(
+      {LiveViewStatus status,
+      Uint8List? imageBytes,
+      double aspectRatio,
+      bool supportsTouchAutofocus});
 }
 
 /// @nodoc
@@ -50,6 +55,7 @@ class _$LiveViewStateCopyWithImpl<$Res, $Val extends LiveViewState>
     Object? status = null,
     Object? imageBytes = freezed,
     Object? aspectRatio = null,
+    Object? supportsTouchAutofocus = null,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -64,6 +70,10 @@ class _$LiveViewStateCopyWithImpl<$Res, $Val extends LiveViewState>
           ? _value.aspectRatio
           : aspectRatio // ignore: cast_nullable_to_non_nullable
               as double,
+      supportsTouchAutofocus: null == supportsTouchAutofocus
+          ? _value.supportsTouchAutofocus
+          : supportsTouchAutofocus // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -76,7 +86,11 @@ abstract class _$$_LiveViewStateCopyWith<$Res>
       __$$_LiveViewStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({LiveViewStatus status, Uint8List? imageBytes, double aspectRatio});
+  $Res call(
+      {LiveViewStatus status,
+      Uint8List? imageBytes,
+      double aspectRatio,
+      bool supportsTouchAutofocus});
 }
 
 /// @nodoc
@@ -93,6 +107,7 @@ class __$$_LiveViewStateCopyWithImpl<$Res>
     Object? status = null,
     Object? imageBytes = freezed,
     Object? aspectRatio = null,
+    Object? supportsTouchAutofocus = null,
   }) {
     return _then(_$_LiveViewState(
       status: null == status
@@ -107,6 +122,10 @@ class __$$_LiveViewStateCopyWithImpl<$Res>
           ? _value.aspectRatio
           : aspectRatio // ignore: cast_nullable_to_non_nullable
               as double,
+      supportsTouchAutofocus: null == supportsTouchAutofocus
+          ? _value.supportsTouchAutofocus
+          : supportsTouchAutofocus // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -115,7 +134,10 @@ class __$$_LiveViewStateCopyWithImpl<$Res>
 
 class _$_LiveViewState extends _LiveViewState {
   const _$_LiveViewState(
-      {required this.status, this.imageBytes = null, this.aspectRatio = 16 / 9})
+      {required this.status,
+      this.imageBytes = null,
+      this.aspectRatio = 16 / 9,
+      this.supportsTouchAutofocus = false})
       : super._();
 
   @override
@@ -126,10 +148,13 @@ class _$_LiveViewState extends _LiveViewState {
   @override
   @JsonKey()
   final double aspectRatio;
+  @override
+  @JsonKey()
+  final bool supportsTouchAutofocus;
 
   @override
   String toString() {
-    return 'LiveViewState(status: $status, imageBytes: $imageBytes, aspectRatio: $aspectRatio)';
+    return 'LiveViewState(status: $status, imageBytes: $imageBytes, aspectRatio: $aspectRatio, supportsTouchAutofocus: $supportsTouchAutofocus)';
   }
 
   @override
@@ -141,12 +166,18 @@ class _$_LiveViewState extends _LiveViewState {
             const DeepCollectionEquality()
                 .equals(other.imageBytes, imageBytes) &&
             (identical(other.aspectRatio, aspectRatio) ||
-                other.aspectRatio == aspectRatio));
+                other.aspectRatio == aspectRatio) &&
+            (identical(other.supportsTouchAutofocus, supportsTouchAutofocus) ||
+                other.supportsTouchAutofocus == supportsTouchAutofocus));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, status,
-      const DeepCollectionEquality().hash(imageBytes), aspectRatio);
+  int get hashCode => Object.hash(
+      runtimeType,
+      status,
+      const DeepCollectionEquality().hash(imageBytes),
+      aspectRatio,
+      supportsTouchAutofocus);
 
   @JsonKey(ignore: true)
   @override
@@ -159,7 +190,8 @@ abstract class _LiveViewState extends LiveViewState {
   const factory _LiveViewState(
       {required final LiveViewStatus status,
       final Uint8List? imageBytes,
-      final double aspectRatio}) = _$_LiveViewState;
+      final double aspectRatio,
+      final bool supportsTouchAutofocus}) = _$_LiveViewState;
   const _LiveViewState._() : super._();
 
   @override
@@ -168,6 +200,8 @@ abstract class _LiveViewState extends LiveViewState {
   Uint8List? get imageBytes;
   @override
   double get aspectRatio;
+  @override
+  bool get supportsTouchAutofocus;
   @override
   @JsonKey(ignore: true)
   _$$_LiveViewStateCopyWith<_$_LiveViewState> get copyWith =>

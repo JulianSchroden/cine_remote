@@ -21,7 +21,8 @@ class LiveViewPlayer extends StatelessWidget {
                   gaplessPlayback: true,
                 ),
               state.isLiveViewSupported
-                  ? const LiveViewPlayerOverlay()
+                  ? LiveViewPlayerOverlay(
+                      supportsTouchAutofocus: state.supportsTouchAutofocus)
                   : const Center(
                       child: Text(
                         'LiveView not supported :(',
