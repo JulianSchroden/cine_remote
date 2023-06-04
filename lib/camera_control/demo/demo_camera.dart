@@ -62,7 +62,10 @@ class DemoCamera extends BaseCamera {
         ControlPropCapability(
           supportedProps: _dummyControlProps.map((prop) => prop.type).toList(),
         ),
-        const LiveViewCapability(aspectRatio: 16 / 9),
+        const LiveViewCapability(
+          aspectRatio: 16 / 9,
+          supportsTouchAutofocus: true,
+        ),
         const MovieRecordCapility(),
       ],
     );

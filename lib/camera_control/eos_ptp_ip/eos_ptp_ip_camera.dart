@@ -49,7 +49,10 @@ class EosPtpIpCamera extends BaseCamera {
         ControlPropCapability(
           supportedProps: _eventProcessor.propertyCache.supportedProps(),
         ),
-        const LiveViewCapability(aspectRatio: 3 / 2),
+        const LiveViewCapability(
+          aspectRatio: 3 / 2,
+          supportsTouchAutofocus: true,
+        ),
         const ImageCaptureCapability(),
       ],
     );

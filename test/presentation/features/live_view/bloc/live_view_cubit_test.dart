@@ -25,8 +25,12 @@ void main() {
     blocTest<LiveViewCubit, LiveViewState>(
       'emits status [initInProgress, paused] when liveView supported',
       setUp: () {
-        mockCamera.setupDescriptor(
-            capabilities: const [LiveViewCapability(aspectRatio: 3 / 2)]);
+        mockCamera.setupDescriptor(capabilities: const [
+          LiveViewCapability(
+            aspectRatio: 3 / 2,
+            supportsTouchAutofocus: false,
+          )
+        ]);
       },
       build: () => LiveViewCubit(mockCameraConnectionCubit),
       act: (bloc) => bloc.init(),

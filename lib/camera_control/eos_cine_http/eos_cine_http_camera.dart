@@ -50,7 +50,10 @@ class EosCineHttpCamera extends BaseCamera {
           ControlPropType.shutterAngle,
           ControlPropType.whiteBalance,
         ]),
-        LiveViewCapability(aspectRatio: 16 / 9),
+        LiveViewCapability(
+          aspectRatio: 16 / 9,
+          supportsTouchAutofocus: false,
+        ),
         MovieRecordCapility(),
       ],
     );
