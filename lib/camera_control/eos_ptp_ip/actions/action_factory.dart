@@ -1,8 +1,10 @@
 import '../../interface/models/control_prop_type.dart';
+import '../../interface/models/properties/autofocus_position.dart';
 import '../actions/get_events_action.dart';
 import '../adapter/eos_ptp_event_processor.dart';
 import '../constants/properties/live_view_output.dart';
 import '../models/eos_ptp_prop_value.dart';
+import '../models/eos_sensor_info.dart';
 import 'capture_image_action.dart';
 import 'deinit_session_action.dart';
 import 'get_device_info_action.dart';
@@ -10,6 +12,7 @@ import 'get_live_view_image_action.dart';
 import 'init_session_action.dart';
 import 'set_live_view_output_action.dart';
 import 'set_prop_action.dart';
+import 'set_touch_af_position_action.dart';
 
 class ActionFactory {
   const ActionFactory();
@@ -38,4 +41,13 @@ class ActionFactory {
 
   GetLiveViewImageAction createGetLiveViewImageAction() =>
       GetLiveViewImageAction();
+
+  SetTouchAfPositionAction createSetTouchAfPositionAction(
+    AutofocusPosition focusPosition,
+    EosSensorInfo sensorInfo,
+  ) =>
+      SetTouchAfPositionAction(
+        focusPosition,
+        sensorInfo,
+      );
 }
