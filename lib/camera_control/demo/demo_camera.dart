@@ -11,6 +11,7 @@ import '../interface/models/capabilities/movie_record_capability.dart';
 import '../interface/models/control_prop.dart';
 import '../interface/models/control_prop_type.dart';
 import '../interface/models/control_prop_value.dart';
+import '../interface/models/properties/autofocus_position.dart';
 import '../interface/models/properties/camera_mode.dart';
 import '../interface/models/properties/exposure_mode.dart';
 
@@ -119,4 +120,8 @@ class DemoCamera extends BaseCamera {
 
     return byteData.buffer.asUint8List();
   }
+
+  @override
+  Future<void> setAutofocusPosition(
+      AutofocusPosition autofocusPosition) async {}
 }

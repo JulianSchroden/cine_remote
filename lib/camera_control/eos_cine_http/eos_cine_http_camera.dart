@@ -11,6 +11,7 @@ import '../interface/models/capabilities/movie_record_capability.dart';
 import '../interface/models/control_prop.dart';
 import '../interface/models/control_prop_type.dart';
 import '../interface/models/control_prop_value.dart';
+import '../interface/models/properties/autofocus_position.dart';
 import '../interface/models/properties/camera_mode.dart';
 import '../interface/models/properties/exposure_mode.dart';
 import 'adapter/http_adapter.dart';
@@ -146,4 +147,8 @@ class EosCineHttpCamera extends BaseCamera {
     final getInfoAction = actionFactory.createGetInfoAction(httpAdapter);
     return getInfoAction();
   }
+
+  @override
+  Future<void> setAutofocusPosition(
+      AutofocusPosition autofocusPosition) async {}
 }

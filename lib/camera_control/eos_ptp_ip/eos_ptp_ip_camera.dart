@@ -10,6 +10,7 @@ import '../interface/models/capabilities/live_view_capability.dart';
 import '../interface/models/control_prop.dart';
 import '../interface/models/control_prop_type.dart';
 import '../interface/models/control_prop_value.dart';
+import '../interface/models/properties/autofocus_position.dart';
 import '../interface/models/properties/camera_mode.dart';
 import '../interface/models/properties/exposure_mode.dart';
 import 'actions/action_factory.dart';
@@ -17,6 +18,7 @@ import 'adapter/eos_ptp_event_processor.dart';
 import 'communication/ptp_transaction_queue.dart';
 import 'constants/properties/live_view_output.dart';
 import 'models/eos_ptp_prop_value.dart';
+import 'models/eos_sensor_info.dart';
 
 class EosPtpIpCamera extends BaseCamera {
   final PtpTransactionQueue _transactionQueue;
@@ -112,5 +114,15 @@ class EosPtpIpCamera extends BaseCamera {
   Future<Uint8List> getLiveViewImage() async {
     final getLiveViewImage = _actionFactory.createGetLiveViewImageAction();
     return await getLiveViewImage.run(_transactionQueue);
+  }
+
+  @override
+  Future<void> setAutofocusPosition(AutofocusPosition autofocusPosition) async {
+    const sensorInfo = EosSensorInfo(width: 5472, height: 3648);
+    final setAutofocusPosition = _actionFactory.createSetTouchAfPositionAction(
+      autofocusPosition,
+      sensorInfo,
+    );
+    await setAutofocusPosition.run(_transactionQueue);
   }
 }
