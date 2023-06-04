@@ -6,7 +6,7 @@ import '../../live_view/widgets/live_view_player.dart';
 import '../../screen_orientation/widgets/force_orientation_button.dart';
 import '../bloc/camera_control_layout_cubit.dart';
 import '../widgets/camera_control_base_layout.dart';
-import '../widgets/camera_control_menu.dart';
+import '../widgets/menu/camera_control_menu.dart';
 import '../widgets/control_actions_bar.dart';
 import '../widgets/control_prop_item.dart';
 import '../widgets/control_prop_value_picker.dart';
@@ -94,16 +94,16 @@ class CameraControlPageLandscape extends StatelessWidget {
                   if (state.showMenu)
                     Align(
                       alignment: Alignment.centerLeft,
-                      child: CameraControlMenu(
-                        backgroundColor: CineRemoteColors.overlayBackground,
+                      child: Container(
+                        color: CineRemoteColors.overlayBackground,
+                        width: 200,
                         padding: EdgeInsets.only(
                           top: MediaQuery.of(context).padding.top + 16,
-                          right: 8,
+                          right: 12,
                           bottom: MediaQuery.of(context).padding.bottom + 16,
-                          left: 8,
+                          left: 12,
                         ),
-                        width: 150,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        child: const CameraControlMenu(),
                       ),
                     ),
                 ],

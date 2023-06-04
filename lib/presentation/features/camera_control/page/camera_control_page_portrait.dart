@@ -6,7 +6,7 @@ import '../../live_view/widgets/live_view_player.dart';
 import '../../screen_orientation/widgets/force_orientation_button.dart';
 import '../bloc/camera_control_layout_cubit.dart';
 import '../widgets/camera_control_base_layout.dart';
-import '../widgets/camera_control_menu.dart';
+import '../widgets/menu/camera_control_menu.dart';
 import '../widgets/control_actions_bar.dart';
 import '../widgets/control_prop_value_picker.dart';
 import '../widgets/control_props_bar.dart';
@@ -42,10 +42,16 @@ class CameraControlPagePortrait extends StatelessWidget {
                   ),
                 ),
                 if (state.showMenu)
-                  CameraControlMenu(
-                    backgroundColor: CineRemoteColors.overlayBackground,
-                    width: MediaQuery.of(context).size.width,
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  Container(
+                    color: CineRemoteColors.overlayBackground,
+                    child: const Center(
+                      child: SizedBox(
+                        width: 200,
+                        child: CameraControlMenu(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                        ),
+                      ),
+                    ),
                   )
               ],
             ),
