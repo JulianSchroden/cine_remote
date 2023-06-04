@@ -59,22 +59,13 @@ class CameraControlPageLandscape extends StatelessWidget {
               child: Stack(
                 alignment: Alignment.centerRight,
                 children: [
-                  const SafeArea(
-                    top: false,
-                    bottom: false,
-                    left: false,
-                    child: LiveViewPlayer(children: [
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: ControlActionsBar.landscape(),
-                      ),
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: ForceOrientationButton(
-                            forceTo: Orientation.portrait),
-                      ),
-                    ]),
-                  ),
+                  const LiveViewPlayer(children: [
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child:
+                          ForceOrientationButton(forceTo: Orientation.portrait),
+                    ),
+                  ]),
                   if (state.activePropType != null)
                     Align(
                       alignment: Alignment.centerLeft,
@@ -109,6 +100,11 @@ class CameraControlPageLandscape extends StatelessWidget {
                 ],
               ),
             ),
+            const SizedBox(width: 16),
+            const SafeArea(
+              left: false,
+              child: ControlActionsBar.landscape(),
+            )
           ],
         ),
       );
