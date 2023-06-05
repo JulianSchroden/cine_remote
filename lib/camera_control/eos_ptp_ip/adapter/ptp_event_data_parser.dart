@@ -17,34 +17,33 @@ class PtpEventDataParser {
     final updateEvents = <PtpEvent>[];
 
     while (packetReader.unconsumedBytes > 8) {
-      packetReader.processSegment((packetReader) {
-        final eventCode = packetReader.getUint32();
-
-        logger.logRawEvent(eventCode, packetReader.peekRemainingBytes());
-
-        switch (eventCode) {
-          case PtpEventCode.propertyChanged:
-            {
-              final propChangedEvent = parsePropertyChangedEvent(packetReader);
-              if (propChangedEvent != null) {
-                updateEvents.add(propChangedEvent);
-              }
-              break;
-            }
-          case PtpEventCode.allowedValuesChanged:
-            {
-              final allowedValuesChanged =
-                  parseAllowedValuesChangedEvent(packetReader);
-              if (allowedValuesChanged != null) {
-                updateEvents.add(allowedValuesChanged);
-              }
-              break;
-            }
-        }
-      });
+      final segmentReader = packetReader.readSegment();
+      final event = parseEventSegment(segmentReader);
+      if (event != null) {
+        updateEvents.add(event);
+      }
     }
 
     return updateEvents;
+  }
+
+  PtpEvent? parseEventSegment(PtpPacketReader segmentReader) {
+    final eventCode = segmentReader.getUint32();
+
+    if (eventCode != PtpEventCode.allowedValuesChanged) {
+      logger.logRawEvent(eventCode, segmentReader.peekRemainingBytes());
+    }
+
+    switch (eventCode) {
+      case PtpEventCode.propertyChanged:
+        return parsePropertyChangedEvent(segmentReader);
+
+      case PtpEventCode.allowedValuesChanged:
+        return parseAllowedValuesChangedEvent(segmentReader);
+
+      default:
+        return null;
+    }
   }
 
   PropValueChanged? parsePropertyChangedEvent(PtpPacketReader packetReader) {

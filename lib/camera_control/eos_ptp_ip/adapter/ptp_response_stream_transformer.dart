@@ -77,37 +77,36 @@ class PtpResponseStreamTransformer
         break;
       }
 
-      reader.processSegment((segmentReader) {
-        final packetType = segmentReader.getUint32();
+      final segmentReader = reader.readSegment();
+      final packetType = segmentReader.getUint32();
 
-        switch (packetType) {
-          case PtpPacketType.initCommandAck:
-            responses.add(parseInitAckReponse(segmentReader));
-            break;
-          case PtpPacketType.initEventAck:
-            responses.add(PtpInitEventResponse());
-            break;
-          case PtpPacketType.operationResponse:
-            responses.add(parseOperationResponse(
-              segmentReader,
-              dataPacketMode.takeBytes(),
-            ));
-            break;
-          case PtpPacketType.startDataPacket:
-            final startDataPacket = parseStartDataResponse(segmentReader);
-            dataPacketMode.start(startDataPacket.totalLength);
-            break;
-          case PtpPacketType.dataPacket:
-            final dataPacket = parseDataResponse(segmentReader);
-            dataPacketMode.addBytes(dataPacket.data);
-            break;
-          case PtpPacketType.endDataPacket:
-            final endDataPacket = parseEndDataResponse(segmentReader);
+      switch (packetType) {
+        case PtpPacketType.initCommandAck:
+          responses.add(parseInitAckReponse(segmentReader));
+          break;
+        case PtpPacketType.initEventAck:
+          responses.add(PtpInitEventResponse());
+          break;
+        case PtpPacketType.operationResponse:
+          responses.add(parseOperationResponse(
+            segmentReader,
+            dataPacketMode.takeBytes(),
+          ));
+          break;
+        case PtpPacketType.startDataPacket:
+          final startDataPacket = parseStartDataResponse(segmentReader);
+          dataPacketMode.start(startDataPacket.totalLength);
+          break;
+        case PtpPacketType.dataPacket:
+          final dataPacket = parseDataResponse(segmentReader);
+          dataPacketMode.addBytes(dataPacket.data);
+          break;
+        case PtpPacketType.endDataPacket:
+          final endDataPacket = parseEndDataResponse(segmentReader);
 
-            dataPacketMode.finish(endDataPacket.data);
-            break;
-        }
-      });
+          dataPacketMode.finish(endDataPacket.data);
+          break;
+      }
     }
 
     return ParserResult(reader.consumedBytes, responses);

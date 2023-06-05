@@ -48,7 +48,7 @@ void main() {
       final reader = PtpPacketReader.fromBytes(packetBytes);
 
       expect(
-        () => reader.processSegment((reader) {}),
+        () => reader.readSegment(),
         throwsA(isA<RangeError>()),
       );
     });
@@ -63,7 +63,7 @@ void main() {
       final reader = PtpPacketReader.fromBytes(packetBytes);
 
       expect(
-        () => reader.processSegment((reader) {}),
+        () => reader.readSegment(),
         throwsA(isA<RangeError>()),
       );
     });
@@ -79,13 +79,12 @@ void main() {
 
       final reader = PtpPacketReader.fromBytes(packetBytes);
 
-      reader.processSegment((reader) {
-        reader.getUint32();
-        expect(
-          () => reader.getUint32(),
-          throwsA(isA<RangeError>()),
-        );
-      });
+      final segmentReader = reader.readSegment();
+      segmentReader.getUint32();
+      expect(
+        () => segmentReader.getUint32(),
+        throwsA(isA<RangeError>()),
+      );
     });
 
     test('skips onconsumed bytes', () {
@@ -98,10 +97,10 @@ void main() {
       ]));
 
       final reader = PtpPacketReader.fromPacket(packet);
-      var segmentValue = -1;
-      reader.processSegment((reader) {
-        segmentValue = reader.getUint16();
-      });
+
+      final segmentReader = reader.readSegment();
+      final segmentValue = segmentReader.getUint16();
+
       expect(segmentValue, 0x01);
       expect(reader.consumedBytes, 8);
     });
@@ -119,15 +118,13 @@ void main() {
       ]));
 
       final reader = PtpPacketReader.fromPacket(packet);
-      reader.processSegment((reader) {});
+      reader.readSegment();
       expect(reader.consumedBytes, 8);
 
-      late int segmentTwoValue;
-      late Uint8List segmentTwoBytes;
-      reader.processSegment((reader) {
-        segmentTwoValue = reader.getUint32();
-        segmentTwoBytes = reader.getBytes(4);
-      });
+      final segmentReader = reader.readSegment();
+
+      final segmentTwoValue = segmentReader.getUint32();
+      final segmentTwoBytes = segmentReader.getBytes(4);
 
       expect(segmentTwoValue, 0x0403);
       expect(segmentTwoBytes, [0x05, 0x06, 0x00, 0x00]);
@@ -146,16 +143,14 @@ void main() {
       ]));
 
       final reader = PtpPacketReader.fromPacket(packet);
-      reader.processSegment((reader) {});
+      reader.readSegment();
       expect(reader.consumedBytes, 8);
 
-      late Uint8List result;
-      reader.processSegment((reader) {
-        reader.getUint16();
-        result = reader.getRemainingBytes();
+      final segmentReader = reader.readSegment();
+      segmentReader.getUint16();
+      final result = segmentReader.getRemainingBytes();
 
-        expect(reader.consumedBytes, 8);
-      });
+      expect(segmentReader.consumedBytes, 8);
 
       expect(result.length, 6);
       expect(

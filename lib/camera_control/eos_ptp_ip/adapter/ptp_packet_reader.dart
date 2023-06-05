@@ -26,7 +26,7 @@ class PtpPacketReader {
     return segmentLength <= unconsumedBytes;
   }
 
-  void processSegment(void Function(PtpPacketReader reader) callback) {
+  PtpPacketReader readSegment() {
     final segmentLength = getUint32();
     final segmentDataLength = segmentLength - 4;
 
@@ -36,11 +36,9 @@ class PtpPacketReader {
     }
 
     final segmentBytes = _bytes.buffer.asByteData(_offset, segmentDataLength);
-    final segmentReader = PtpPacketReader(segmentBytes);
-
-    callback(segmentReader);
-
     skipBytes(segmentDataLength);
+
+    return PtpPacketReader(segmentBytes);
   }
 
   BigInt getUint64() {
