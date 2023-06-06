@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:typed_data';
 
+import 'package:cine_remote/camera_control/eos_ptp_ip/adapter/live_view_data_parser.dart';
+
 import '../common/base_camera.dart';
 import '../interface/models/camera_descriptor.dart';
 import '../interface/models/camera_update_event.dart';
@@ -24,11 +26,13 @@ class EosPtpIpCamera extends BaseCamera {
   final PtpTransactionQueue _transactionQueue;
   final ActionFactory _actionFactory;
   final EosPtpEventProcessor _eventProcessor;
+  final LiveViewDataParser _liveViewDataParser;
 
   const EosPtpIpCamera(
     this._transactionQueue,
     this._actionFactory,
     this._eventProcessor,
+    this._liveViewDataParser,
   );
 
   @override
@@ -112,13 +116,15 @@ class EosPtpIpCamera extends BaseCamera {
 
   @override
   Future<Uint8List> getLiveViewImage() async {
-    final getLiveViewImage = _actionFactory.createGetLiveViewImageAction();
+    final getLiveViewImage =
+        _actionFactory.createGetLiveViewImageAction(_liveViewDataParser);
     return await getLiveViewImage.run(_transactionQueue);
   }
 
   @override
   Future<void> setAutofocusPosition(AutofocusPosition autofocusPosition) async {
-    const sensorInfo = EosSensorInfo(width: 5472, height: 3648);
+    const sensorInfo = EosSensorInfo(
+        width: 5472, height: 3648); // TODO: get values dynamically
     final setAutofocusPosition = _actionFactory.createSetTouchAfPositionAction(
       autofocusPosition,
       sensorInfo,

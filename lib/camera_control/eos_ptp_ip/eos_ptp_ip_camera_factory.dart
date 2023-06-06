@@ -1,3 +1,5 @@
+import 'package:cine_remote/camera_control/eos_ptp_ip/adapter/live_view_data_parser.dart';
+
 import '../common/extensions/stream_extensions.dart';
 import '../interface/camera.dart';
 import '../interface/camera_factory.dart';
@@ -64,6 +66,7 @@ class EosPtpIpCameraFactory extends CameraFactory<EosPtpIpCameraPairingData> {
       transactionQueue,
       _actionFactory,
       eventProcessor,
+      LiveViewDataParser(),
     );
   }
 

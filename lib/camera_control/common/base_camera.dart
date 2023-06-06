@@ -8,7 +8,7 @@ abstract class BaseCamera extends Camera {
 
   @override
   Stream<Uint8List> liveView({
-    Duration pollInterval = const Duration(milliseconds: 200),
+    Duration pollInterval = const Duration(milliseconds: 1000),
   }) {
     final controller = PolledDataStreamController<Uint8List>(
       pollInterval: pollInterval,

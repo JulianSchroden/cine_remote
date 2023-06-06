@@ -13,10 +13,15 @@ class SetTouchAfPositionAction extends Action<void> {
   @override
   Future<void> run(PtpTransactionQueue transactionQueue) async {
     final position = mapPosition(focusPosition, sensorInfo);
+    print('Set AFposition to $position');
     final setTouchAfPosition =
         operationFactory.createSetTouchAfPosition(position);
     final response = await transactionQueue.handle(setTouchAfPosition);
     verifyOperationResponse(response, 'setTouchAfPosition($position)');
+    // TODO:
+    // start autofocus
+    // stop autofocus
+    // check autofokus events? green rectangle vs red rectangle
   }
 
   EosAutofocusPostion mapPosition(

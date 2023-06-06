@@ -1,3 +1,6 @@
+import 'package:cine_remote/camera_control/eos_ptp_ip/adapter/live_view_data_parser.dart';
+import 'package:cine_remote/camera_control/eos_ptp_ip/communication/operations/ptp_operation_factory.dart';
+
 import '../../interface/models/control_prop_type.dart';
 import '../../interface/models/properties/autofocus_position.dart';
 import '../actions/get_events_action.dart';
@@ -39,8 +42,9 @@ class ActionFactory {
   ) =>
       SetLiveViewOutputAction(eventProcessor, liveViewOutput);
 
-  GetLiveViewImageAction createGetLiveViewImageAction() =>
-      GetLiveViewImageAction();
+  GetLiveViewImageAction createGetLiveViewImageAction(
+          LiveViewDataParser dataParser) =>
+      GetLiveViewImageAction(const PtpOperationFactory(), dataParser);
 
   SetTouchAfPositionAction createSetTouchAfPositionAction(
     AutofocusPosition focusPosition,
