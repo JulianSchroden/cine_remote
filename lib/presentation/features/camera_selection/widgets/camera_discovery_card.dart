@@ -5,9 +5,33 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../camera_control/interface/discovery/discovery_handle.dart';
 import '../bloc/camera_discovery_cubit.dart';
 import 'camera_discovery_item.dart';
+import 'card_header.dart';
 
 class CameraDisoveryCard extends StatelessWidget {
-  const CameraDisoveryCard({super.key});
+  final EdgeInsets padding;
+  final BoxConstraints constraints;
+  final bool respectsRightSafeArea;
+  final bool respectBottomSafeArea;
+
+  const CameraDisoveryCard({
+    required this.padding,
+    required this.constraints,
+    required this.respectsRightSafeArea,
+    required this.respectBottomSafeArea,
+    super.key,
+  });
+
+  const CameraDisoveryCard.portrait({super.key})
+      : padding = const EdgeInsets.all(0),
+        constraints = const BoxConstraints(maxHeight: 400),
+        respectsRightSafeArea = true,
+        respectBottomSafeArea = false;
+
+  const CameraDisoveryCard.landscape({super.key})
+      : padding = const EdgeInsets.only(right: 16),
+        constraints = const BoxConstraints(maxWidth: 350),
+        respectsRightSafeArea = false,
+        respectBottomSafeArea = true;
 
   @override
   Widget build(BuildContext context) {
@@ -27,46 +51,31 @@ class CameraDisoveryCard extends StatelessWidget {
               radius: 0.8,
             ),
           ),
+          constraints: constraints,
           child: SafeArea(
-            bottom: false,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Nearby',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                        ),
-                      ),
-                      if (currentIp != null) ...[
-                        const SizedBox(height: 2),
-                        Text(
-                          currentIp,
-                          style: const TextStyle(
-                            color: Color.fromARGB(255, 243, 243, 243),
-                          ),
-                        ),
-                      ]
-                    ],
+            bottom: respectBottomSafeArea,
+            right: respectsRightSafeArea,
+            child: Padding(
+              padding: padding,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CardHeader(
+                    title: 'Nearby',
+                    subTitle: currentIp,
                   ),
-                ),
-                SizedBox(
-                  height: 250,
-                  child: state.maybeWhen(
-                    active: (_, discoveryHandles) => discoveryHandles.isNotEmpty
-                        ? _buildCarousel(context, discoveryHandles)
-                        : _buildLoadingSpinner(context),
-                    orElse: () => _buildLoadingSpinner(context),
+                  Expanded(
+                    child: state.maybeWhen(
+                      active: (_, discoveryHandles) =>
+                          discoveryHandles.isNotEmpty
+                              ? _buildCarousel(context, discoveryHandles)
+                              : _buildLoadingSpinner(context),
+                      orElse: () => _buildLoadingSpinner(context),
+                    ),
                   ),
-                ),
-                const SizedBox(height: 16),
-              ],
+                  const SizedBox(height: 16),
+                ],
+              ),
             ),
           ),
         );

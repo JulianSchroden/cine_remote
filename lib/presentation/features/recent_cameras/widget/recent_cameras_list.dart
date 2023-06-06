@@ -6,50 +6,61 @@ import '../../../../camera_control/eos_cine_http/eos_cine_http_camera_pairing_da
 import '../../../../camera_control/interface/camera_factory.dart';
 import '../../../../camera_control/interface/models/camera_handle.dart';
 import '../../../../dependencies.dart';
+import '../../camera_selection/widgets/card_header.dart';
 import '../bloc/recent_cameras_cubit.dart';
 import '../repository/recent_camera.dart';
 import '../repository/recent_cameras_repository.dart';
 import 'recent_camera_item.dart';
 
 class RecentCamerasList extends StatelessWidget {
-  const RecentCamerasList({super.key});
+  final EdgeInsets padding;
+  final bool respectsLeftSafeArea;
+  final bool respectsTopSafeArea;
+
+  const RecentCamerasList({
+    required this.padding,
+    required this.respectsLeftSafeArea,
+    required this.respectsTopSafeArea,
+    super.key,
+  });
+
+  const RecentCamerasList.portrait({super.key})
+      : padding = const EdgeInsets.only(top: 16),
+        respectsLeftSafeArea = true,
+        respectsTopSafeArea = false;
+
+  const RecentCamerasList.landscape({super.key})
+      : padding = const EdgeInsets.only(left: 16),
+        respectsLeftSafeArea = false,
+        respectsTopSafeArea = true;
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RecentCamerasCubit, RecentCamerasState>(
       builder: (context, state) => SafeArea(
-        top: false,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.baseline,
-                textBaseline: TextBaseline.alphabetic,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Recents',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () => seedRecentCameras(),
-                    child: const Text('Pair Manually'),
-                  )
-                ],
+        left: respectsLeftSafeArea,
+        top: respectsTopSafeArea,
+        child: Padding(
+          padding: padding,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CardHeader(
+                title: 'Recents',
+                action: TextButton(
+                  onPressed: () => seedRecentCameras(),
+                  child: const Text('Pair Manually'),
+                ),
               ),
-            ),
-            Expanded(
-              child: state.maybeWhen(
+              Expanded(
+                child: state.maybeWhen(
                   success: (recentCameras) =>
                       _buildList(context, recentCameras),
-                  orElse: () => Container()),
-            ),
-          ],
+                  orElse: () => Container(),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -65,13 +65,24 @@ class CameraSelectionPage extends StatelessWidget {
             backgroundColor: const Color.fromARGB(200, 0, 0, 0),
             showOverlay: state.isLoading,
             overlayMessage: 'Connecting',
-            child: const Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                CameraDisoveryCard(),
-                Expanded(child: RecentCamerasList()),
-              ],
-            ),
+            child: OrientationBuilder(builder: (context, orientation) {
+              if (orientation == Orientation.portrait) {
+                return const Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    CameraDisoveryCard.portrait(),
+                    Expanded(child: RecentCamerasList.portrait()),
+                  ],
+                );
+              }
+
+              return const Row(
+                children: [
+                  CameraDisoveryCard.landscape(),
+                  Expanded(child: RecentCamerasList.landscape()),
+                ],
+              );
+            }),
           ),
         ),
       ),
