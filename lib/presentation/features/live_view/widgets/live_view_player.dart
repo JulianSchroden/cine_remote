@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/live_view_cubit.dart';
-import 'live_view_player_overlay.dart';
+import 'live_view_autofocus_overlay.dart';
+import 'live_view_control_overlay.dart';
 
 class LiveViewPlayer extends StatelessWidget {
   final List<Widget> children;
@@ -10,30 +11,39 @@ class LiveViewPlayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LiveViewCubit, LiveViewState>(
+    return BlocConsumer<LiveViewCubit, LiveViewState>(
+      listener: (context, state) {
+        print(state.autofocusState);
+      },
       builder: (context, state) => AspectRatio(
-          aspectRatio: state.aspectRatio,
-          child: Stack(
-            children: [
-              if (state.isLiveViewSupported && state.imageBytes != null)
-                Image.memory(
-                  state.imageBytes!,
-                  gaplessPlayback: true,
-                ),
-              state.isLiveViewSupported
-                  ? LiveViewPlayerOverlay(
-                      supportsTouchAutofocus: state.supportsTouchAutofocus)
-                  : const Center(
-                      child: Text(
-                        'LiveView not supported :(',
-                        style: TextStyle(
-                            color: Color.fromARGB(255, 137, 137, 137)),
-                        textAlign: TextAlign.center,
-                      ),
+        aspectRatio: state.aspectRatio,
+        child: state.isLiveViewSupported
+            ? Stack(
+                children: [
+                  if (state.imageBytes != null)
+                    Image.memory(
+                      state.imageBytes!,
+                      gaplessPlayback: true,
                     ),
-              ...children,
-            ],
-          )),
+                  LiveViewControlOverlay(
+                    isLiveViewActive: state.isLiveViewActive,
+                    isLoading: state.isLoading,
+                  ),
+                  if (state.supportsTouchAutofocus && state.isLiveViewActive)
+                    LiveViewAutofocusOverlay(
+                      autofocusState: state.autofocusState,
+                    ),
+                  ...children,
+                ],
+              )
+            : const Center(
+                child: Text(
+                  'LiveView not supported :(',
+                  style: TextStyle(color: Color.fromARGB(255, 137, 137, 137)),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+      ),
     );
   }
 }
