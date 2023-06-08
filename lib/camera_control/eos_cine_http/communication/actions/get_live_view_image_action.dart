@@ -1,10 +1,11 @@
 import 'package:flutter/foundation.dart';
 
 import '../../../common/adapter/date_time_adapter.dart';
+import '../../../interface/models/live_view_data.dart';
 import '../../constants/api_endpoint_path.dart';
 import '../get_acion.dart';
 
-class GetLiveViewImageAction extends GetAction<Uint8List> {
+class GetLiveViewImageAction extends GetAction<LiveViewData> {
   final DateTimeAdapter dateTimeAdapter;
 
   const GetLiveViewImageAction(
@@ -13,13 +14,16 @@ class GetLiveViewImageAction extends GetAction<Uint8List> {
   ]);
 
   @override
-  Future<Uint8List> call() async {
+  Future<LiveViewData> call() async {
     final timeStamp = DateTime.now().toIso8601String();
 
     final response = await httpAdapter.getRaw(
       ApiEndpointPath.liveViewGetImage,
       {'d': timeStamp},
     );
-    return await consolidateHttpClientResponseBytes(response);
+
+    final imageBytes = await consolidateHttpClientResponseBytes(response);
+
+    return LiveViewData(imageBytes: imageBytes);
   }
 }

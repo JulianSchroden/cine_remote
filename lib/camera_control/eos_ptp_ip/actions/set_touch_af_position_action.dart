@@ -20,7 +20,9 @@ class SetTouchAfPositionAction extends Action<void> {
   }
 
   EosAutofocusPostion mapPosition(
-      AutofocusPosition position, EosSensorInfo sensorInfo) {
+    AutofocusPosition position,
+    EosSensorInfo sensorInfo,
+  ) {
     return EosAutofocusPostion(
       x: (position.x * sensorInfo.width).toInt(),
       y: (position.y * sensorInfo.height).toInt(),

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:cine_remote/camera_control/interface/models/capabilities/live_view_capability.dart';
+import 'package:cine_remote/camera_control/interface/models/live_view_data.dart';
 import 'package:cine_remote/presentation/features/live_view/bloc/live_view_cubit.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -101,7 +102,11 @@ void main() {
             status: LiveViewStatus.paused, aspectRatio: 16 / 9),
         setUp: () {
           when(() => mockCamera.liveView()).thenAnswer(
-            (_) => Stream.fromIterable([Uint8List(0)]),
+            (_) => Stream.fromIterable([
+              LiveViewData(
+                imageBytes: Uint8List(0),
+              )
+            ]),
           );
         },
         build: () => LiveViewCubit(mockCameraConnectionCubit),
@@ -113,12 +118,12 @@ void main() {
 
       group('liveViewStream', () {
         multiStepBlocTest<LiveViewCubit, LiveViewState,
-            StreamController<Uint8List>>(
+            StreamController<LiveViewData>>(
           'emits status [active] and updates imageBytes on event',
           seed: () => const LiveViewState(
               status: LiveViewStatus.paused, aspectRatio: 3 / 2),
           setUp: () {
-            final streamController = StreamController<Uint8List>();
+            final streamController = StreamController<LiveViewData>();
             when(() => mockCamera.liveView())
                 .thenAnswer((_) => streamController.stream);
             return streamController;
@@ -136,7 +141,9 @@ void main() {
             BlocTestStep(
               'emits status [active] on event',
               act: (bloc, streamController) => streamController.add(
-                Uint8List.fromList([0x0, 0x1]),
+                LiveViewData(
+                  imageBytes: Uint8List.fromList([0x0, 0x1]),
+                ),
               ),
               expect: () => [
                 LiveViewState(
@@ -150,12 +157,12 @@ void main() {
       });
 
       multiStepBlocTest<LiveViewCubit, LiveViewState,
-          StreamController<Uint8List>>(
+          StreamController<LiveViewData>>(
         'emits status [error] on stream error',
         seed: () => const LiveViewState(
             status: LiveViewStatus.paused, aspectRatio: 3 / 2),
         setUp: () {
-          final streamController = StreamController<Uint8List>();
+          final streamController = StreamController<LiveViewData>();
           when(() => mockCamera.liveView())
               .thenAnswer((_) => streamController.stream);
           return streamController;
@@ -184,12 +191,12 @@ void main() {
       );
 
       multiStepBlocTest<LiveViewCubit, LiveViewState,
-          StreamController<Uint8List>>(
+          StreamController<LiveViewData>>(
         'emits status [paused] on stream done',
         seed: () => const LiveViewState(
             status: LiveViewStatus.paused, aspectRatio: 3 / 2),
         setUp: () {
-          final streamController = StreamController<Uint8List>();
+          final streamController = StreamController<LiveViewData>();
           when(() => mockCamera.liveView())
               .thenAnswer((_) => streamController.stream);
           return streamController;
@@ -220,12 +227,12 @@ void main() {
 
     group('stop', () {
       multiStepBlocTest<LiveViewCubit, LiveViewState,
-          StreamController<Uint8List>>(
+          StreamController<LiveViewData>>(
         'terminates liveView Stream',
         seed: () => const LiveViewState(
             status: LiveViewStatus.paused, aspectRatio: 3 / 2),
         setUp: () {
-          final streamController = StreamController<Uint8List>();
+          final streamController = StreamController<LiveViewData>();
           when(() => mockCamera.liveView())
               .thenAnswer((_) => streamController.stream);
           return streamController;
@@ -248,7 +255,9 @@ void main() {
           BlocTestStep(
             'emits status [active] on event',
             act: (bloc, streamController) => streamController.add(
-              Uint8List.fromList([0x0, 0x1]),
+              LiveViewData(
+                imageBytes: Uint8List.fromList([0x0, 0x1]),
+              ),
             ),
             expect: () => [
               LiveViewState(

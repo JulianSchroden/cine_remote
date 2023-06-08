@@ -11,6 +11,7 @@ import '../interface/models/capabilities/movie_record_capability.dart';
 import '../interface/models/control_prop.dart';
 import '../interface/models/control_prop_type.dart';
 import '../interface/models/control_prop_value.dart';
+import '../interface/models/live_view_data.dart';
 import '../interface/models/properties/autofocus_position.dart';
 import '../interface/models/properties/camera_mode.dart';
 import '../interface/models/properties/exposure_mode.dart';
@@ -114,11 +115,11 @@ class DemoCamera extends BaseCamera {
   Future<void> stopLiveView() async {}
 
   @override
-  Future<Uint8List> getLiveViewImage() async {
+  Future<LiveViewData> getLiveViewData() async {
     ByteData byteData =
         await rootBundle.load('assets/images/dummy_live_view_image.jpg');
 
-    return byteData.buffer.asUint8List();
+    return LiveViewData(imageBytes: byteData.buffer.asUint8List());
   }
 
   @override

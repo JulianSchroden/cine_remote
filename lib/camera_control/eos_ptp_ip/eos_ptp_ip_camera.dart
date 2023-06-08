@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:typed_data';
 
 import '../common/base_camera.dart';
 import '../interface/models/camera_descriptor.dart';
@@ -10,6 +9,7 @@ import '../interface/models/capabilities/live_view_capability.dart';
 import '../interface/models/control_prop.dart';
 import '../interface/models/control_prop_type.dart';
 import '../interface/models/control_prop_value.dart';
+import '../interface/models/live_view_data.dart';
 import '../interface/models/properties/autofocus_position.dart';
 import '../interface/models/properties/camera_mode.dart';
 import '../interface/models/properties/exposure_mode.dart';
@@ -24,6 +24,11 @@ class EosPtpIpCamera extends BaseCamera {
   final PtpTransactionQueue _transactionQueue;
   final ActionFactory _actionFactory;
   final EosPtpEventProcessor _eventProcessor;
+
+  final sensorInfo = const EosSensorInfo(
+    width: 5472,
+    height: 3648,
+  );
 
   const EosPtpIpCamera(
     this._transactionQueue,
@@ -111,14 +116,15 @@ class EosPtpIpCamera extends BaseCamera {
   }
 
   @override
-  Future<Uint8List> getLiveViewImage() async {
-    final getLiveViewImage = _actionFactory.createGetLiveViewImageAction();
+  Future<LiveViewData> getLiveViewData() async {
+    final getLiveViewImage = _actionFactory.createGetLiveViewImageAction(
+      sensorInfo,
+    );
     return await getLiveViewImage.run(_transactionQueue);
   }
 
   @override
   Future<void> setAutofocusPosition(AutofocusPosition autofocusPosition) async {
-    const sensorInfo = EosSensorInfo(width: 5472, height: 3648);
     final setAutofocusPosition = _actionFactory.createSetTouchAfPositionAction(
       autofocusPosition,
       sensorInfo,

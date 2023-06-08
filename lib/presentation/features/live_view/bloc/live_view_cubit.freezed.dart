@@ -20,6 +20,7 @@ mixin _$LiveViewState {
   Uint8List? get imageBytes => throw _privateConstructorUsedError;
   double get aspectRatio => throw _privateConstructorUsedError;
   bool get supportsTouchAutofocus => throw _privateConstructorUsedError;
+  TouchAutofocusState? get autofocusState => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $LiveViewStateCopyWith<LiveViewState> get copyWith =>
@@ -36,7 +37,8 @@ abstract class $LiveViewStateCopyWith<$Res> {
       {LiveViewStatus status,
       Uint8List? imageBytes,
       double aspectRatio,
-      bool supportsTouchAutofocus});
+      bool supportsTouchAutofocus,
+      TouchAutofocusState? autofocusState});
 }
 
 /// @nodoc
@@ -56,6 +58,7 @@ class _$LiveViewStateCopyWithImpl<$Res, $Val extends LiveViewState>
     Object? imageBytes = freezed,
     Object? aspectRatio = null,
     Object? supportsTouchAutofocus = null,
+    Object? autofocusState = freezed,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -74,6 +77,10 @@ class _$LiveViewStateCopyWithImpl<$Res, $Val extends LiveViewState>
           ? _value.supportsTouchAutofocus
           : supportsTouchAutofocus // ignore: cast_nullable_to_non_nullable
               as bool,
+      autofocusState: freezed == autofocusState
+          ? _value.autofocusState
+          : autofocusState // ignore: cast_nullable_to_non_nullable
+              as TouchAutofocusState?,
     ) as $Val);
   }
 }
@@ -90,7 +97,8 @@ abstract class _$$_LiveViewStateCopyWith<$Res>
       {LiveViewStatus status,
       Uint8List? imageBytes,
       double aspectRatio,
-      bool supportsTouchAutofocus});
+      bool supportsTouchAutofocus,
+      TouchAutofocusState? autofocusState});
 }
 
 /// @nodoc
@@ -108,6 +116,7 @@ class __$$_LiveViewStateCopyWithImpl<$Res>
     Object? imageBytes = freezed,
     Object? aspectRatio = null,
     Object? supportsTouchAutofocus = null,
+    Object? autofocusState = freezed,
   }) {
     return _then(_$_LiveViewState(
       status: null == status
@@ -126,6 +135,10 @@ class __$$_LiveViewStateCopyWithImpl<$Res>
           ? _value.supportsTouchAutofocus
           : supportsTouchAutofocus // ignore: cast_nullable_to_non_nullable
               as bool,
+      autofocusState: freezed == autofocusState
+          ? _value.autofocusState
+          : autofocusState // ignore: cast_nullable_to_non_nullable
+              as TouchAutofocusState?,
     ));
   }
 }
@@ -135,15 +148,15 @@ class __$$_LiveViewStateCopyWithImpl<$Res>
 class _$_LiveViewState extends _LiveViewState {
   const _$_LiveViewState(
       {required this.status,
-      this.imageBytes = null,
+      this.imageBytes,
       this.aspectRatio = 16 / 9,
-      this.supportsTouchAutofocus = false})
+      this.supportsTouchAutofocus = false,
+      this.autofocusState})
       : super._();
 
   @override
   final LiveViewStatus status;
   @override
-  @JsonKey()
   final Uint8List? imageBytes;
   @override
   @JsonKey()
@@ -151,10 +164,12 @@ class _$_LiveViewState extends _LiveViewState {
   @override
   @JsonKey()
   final bool supportsTouchAutofocus;
+  @override
+  final TouchAutofocusState? autofocusState;
 
   @override
   String toString() {
-    return 'LiveViewState(status: $status, imageBytes: $imageBytes, aspectRatio: $aspectRatio, supportsTouchAutofocus: $supportsTouchAutofocus)';
+    return 'LiveViewState(status: $status, imageBytes: $imageBytes, aspectRatio: $aspectRatio, supportsTouchAutofocus: $supportsTouchAutofocus, autofocusState: $autofocusState)';
   }
 
   @override
@@ -168,7 +183,9 @@ class _$_LiveViewState extends _LiveViewState {
             (identical(other.aspectRatio, aspectRatio) ||
                 other.aspectRatio == aspectRatio) &&
             (identical(other.supportsTouchAutofocus, supportsTouchAutofocus) ||
-                other.supportsTouchAutofocus == supportsTouchAutofocus));
+                other.supportsTouchAutofocus == supportsTouchAutofocus) &&
+            (identical(other.autofocusState, autofocusState) ||
+                other.autofocusState == autofocusState));
   }
 
   @override
@@ -177,7 +194,8 @@ class _$_LiveViewState extends _LiveViewState {
       status,
       const DeepCollectionEquality().hash(imageBytes),
       aspectRatio,
-      supportsTouchAutofocus);
+      supportsTouchAutofocus,
+      autofocusState);
 
   @JsonKey(ignore: true)
   @override
@@ -191,7 +209,8 @@ abstract class _LiveViewState extends LiveViewState {
       {required final LiveViewStatus status,
       final Uint8List? imageBytes,
       final double aspectRatio,
-      final bool supportsTouchAutofocus}) = _$_LiveViewState;
+      final bool supportsTouchAutofocus,
+      final TouchAutofocusState? autofocusState}) = _$_LiveViewState;
   const _LiveViewState._() : super._();
 
   @override
@@ -202,6 +221,8 @@ abstract class _LiveViewState extends LiveViewState {
   double get aspectRatio;
   @override
   bool get supportsTouchAutofocus;
+  @override
+  TouchAutofocusState? get autofocusState;
   @override
   @JsonKey(ignore: true)
   _$$_LiveViewStateCopyWith<_$_LiveViewState> get copyWith =>

@@ -39,8 +39,10 @@ class ActionFactory {
   ) =>
       SetLiveViewOutputAction(eventProcessor, liveViewOutput);
 
-  GetLiveViewImageAction createGetLiveViewImageAction() =>
-      GetLiveViewImageAction();
+  GetLiveViewImageAction createGetLiveViewImageAction(
+    EosSensorInfo sensorInfo,
+  ) =>
+      GetLiveViewImageAction(sensorInfo);
 
   SetTouchAfPositionAction createSetTouchAfPositionAction(
     AutofocusPosition focusPosition,

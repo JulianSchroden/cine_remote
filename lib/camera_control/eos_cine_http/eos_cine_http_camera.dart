@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import '../common/base_camera.dart';
 import '../common/polled_data_stream_controller.dart';
 import '../interface/models/camera_descriptor.dart';
@@ -11,6 +9,7 @@ import '../interface/models/capabilities/movie_record_capability.dart';
 import '../interface/models/control_prop.dart';
 import '../interface/models/control_prop_type.dart';
 import '../interface/models/control_prop_value.dart';
+import '../interface/models/live_view_data.dart';
 import '../interface/models/properties/autofocus_position.dart';
 import '../interface/models/properties/camera_mode.dart';
 import '../interface/models/properties/exposure_mode.dart';
@@ -137,7 +136,7 @@ class EosCineHttpCamera extends BaseCamera {
   }
 
   @override
-  Future<Uint8List> getLiveViewImage() async {
+  Future<LiveViewData> getLiveViewData() async {
     final getLiveViewImageAction =
         actionFactory.createGetLiveViewImageAction(httpAdapter);
     return getLiveViewImageAction();
