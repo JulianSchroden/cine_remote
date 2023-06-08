@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../camera_control/interface/models/properties/autofocus_position.dart';
 import '../bloc/live_view_cubit.dart';
-import '../bloc/touch_autofocus_cubit.dart';
 
 class LiveViewPlayerOverlay extends StatelessWidget {
   final bool supportsTouchAutofocus;
@@ -25,7 +24,7 @@ class LiveViewPlayerOverlay extends StatelessWidget {
       y: touchPosition.dy / widgetSize.height,
     );
 
-    context.read<TouchAutofocusCubit>().setTouchAutofocus(normalizedPosition);
+    context.read<LiveViewCubit>().setTouchAutofocus(normalizedPosition);
   }
 
   @override
