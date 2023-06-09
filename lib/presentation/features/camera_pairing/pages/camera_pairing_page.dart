@@ -5,6 +5,7 @@ import '../../../../camera_control/eos_ptp_ip/discovery/eos_ptp_ip_discovery_han
 import '../../../core/widgets/laoding_overlay_layout.dart';
 import '../bloc/camera_pairing_cubit.dart';
 import '../widgets/eos_ptp_ip_pairing_card.dart';
+import '../widgets/eos_ptp_ip_pairing_error_card.dart';
 
 class CameraPairingPage extends StatelessWidget {
   const CameraPairingPage({super.key});
@@ -42,15 +43,14 @@ class CameraPairingPage extends StatelessWidget {
   Widget buildPairingCard(CameraPairingState state) {
     return state.maybeWhen(
       active: (discoverHandle) {
-        if (discoverHandle is! EosPtpIpDiscoveryHandle) {
-          return Container();
+        if (discoverHandle is EosPtpIpDiscoveryHandle) {
+          return EosPtpIpPairingCard(discoveryHandle: discoverHandle);
         }
 
-        return EosPtpIpPairingCard(discoveryHandle: discoverHandle);
+        return const SizedBox.shrink();
       },
-      orElse: () => const Center(
-        child: Text('orElse'),
-      ),
+      error: () => const EosPtpIpPairingErrorCard(),
+      orElse: () => const SizedBox.shrink(),
     );
   }
 }
