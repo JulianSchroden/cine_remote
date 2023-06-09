@@ -28,7 +28,10 @@ class EosPtpIpCameraFactory extends CameraFactory<EosPtpIpCameraPairingData> {
 
   @override
   Future<void> pair(CameraHandle handle) async {
-    final client = await _initClient(handle);
+    final client = await _initClient(
+      handle,
+      initCommandTimeout: const Duration(minutes: 3),
+    );
     await client.disconnect();
   }
 
