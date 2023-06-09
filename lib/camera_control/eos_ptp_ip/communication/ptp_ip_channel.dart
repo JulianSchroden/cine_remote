@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
-import '../../interface/exceptions/camera_communication_exception.dart';
 import '../adapter/ptp_response_stream_transformer.dart';
 import '../adapter/socket_factory.dart';
 import '../models/ptp_packet.dart';
@@ -23,13 +22,7 @@ class PtpIpChannel {
       port: port,
     );
 
-    final dataStream = socket.asBroadcastStream().timeout(
-          const Duration(seconds: 2),
-          onTimeout: (sink) => sink.addError(
-            const CameraCommunicationAbortedException(
-                'Communication timed out'),
-          ),
-        );
+    final dataStream = socket.asBroadcastStream();
 
     return PtpIpChannel(socket, dataStream);
   }
