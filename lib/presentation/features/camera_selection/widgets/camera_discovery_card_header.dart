@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'camera_discovery_indicator.dart';
+
 class CameraDiscoveryCardHeader extends StatelessWidget {
   final String title;
   final bool isDiscovering;
@@ -23,12 +25,22 @@ class CameraDiscoveryCardHeader extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
+                  ),
+                  CameraDiscoveryIndicator(
+                    diameter: 6,
+                    padding: const EdgeInsets.only(bottom: 2),
+                    isDiscovering: isDiscovering,
+                  ),
+                ],
               ),
               if (subTitle != null) ...[
                 const SizedBox(height: 2),
