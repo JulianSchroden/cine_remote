@@ -16,7 +16,8 @@ abstract class Action<T> {
 
   Future<T> run(PtpTransactionQueue transactionQueue);
 
-  void verifyOperationResponse(PtpResponse response, String operationName) {
+  PtpOperationResponse verifyOperationResponse(
+      PtpResponse response, String operationName) {
     if (response is! PtpOperationResponse) {
       throw CameraCommunicationException(
           'Operation $operationName failed. Received invalid response.');
@@ -26,5 +27,7 @@ abstract class Action<T> {
       throw CameraCommunicationException(
           'Operation $operationName failed with responseCode ${response.responseCode.asHex()}.');
     }
+
+    return response;
   }
 }

@@ -19,9 +19,9 @@ class GetLiveViewImageAction extends Action<LiveViewData> {
   Future<LiveViewData> run(PtpTransactionQueue transactionQueue) async {
     final getLiveViewImage = operationFactory.createGetLiveViewImage();
     final response = await transactionQueue.handle(getLiveViewImage);
-    verifyOperationResponse(response, 'getLiveViewImage');
+    final operationResponse =
+        verifyOperationResponse(response, 'getLiveViewImage');
 
-    final operationResponse = response as PtpOperationResponse;
     final responseBytes = operationResponse.data;
 
     final liveViewDataParser = EosLiveViewDataParser();
