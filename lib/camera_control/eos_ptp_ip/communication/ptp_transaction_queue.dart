@@ -28,6 +28,7 @@ class PtpTransactionQueue {
       }
 
       _currentTransaction!.completeError(error, stackTrace);
+      _currentTransaction = null;
     });
   }
 
