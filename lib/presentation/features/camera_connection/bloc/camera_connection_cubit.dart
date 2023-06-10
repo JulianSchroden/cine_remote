@@ -103,6 +103,7 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
   }
 
   Future<void> handleConnectionAborted() async {
+    print('handleConnectionAborted');
     await withConnectedCamera((camera) async {
       emit(CameraConnectionState.disconnecting(camera));
       await camera.close();

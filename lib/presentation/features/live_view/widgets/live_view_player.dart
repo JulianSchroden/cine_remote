@@ -11,10 +11,7 @@ class LiveViewPlayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<LiveViewCubit, LiveViewState>(
-      listener: (context, state) {
-        print(state.autofocusState);
-      },
+    return BlocBuilder<LiveViewCubit, LiveViewState>(
       builder: (context, state) => AspectRatio(
         aspectRatio: state.aspectRatio,
         child: state.isLiveViewSupported

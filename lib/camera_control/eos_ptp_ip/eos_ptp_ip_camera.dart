@@ -125,9 +125,11 @@ class EosPtpIpCamera extends BaseCamera {
 
   @override
   Future<void> setAutofocusPosition(AutofocusPosition autofocusPosition) async {
+    const focusDuration = Duration(seconds: 1);
     final setAutofocusPosition = _actionFactory.createSetTouchAfPositionAction(
       autofocusPosition,
       sensorInfo,
+      focusDuration,
     );
     await setAutofocusPosition.run(_transactionQueue);
   }

@@ -47,9 +47,11 @@ class ActionFactory {
   SetTouchAfPositionAction createSetTouchAfPositionAction(
     AutofocusPosition focusPosition,
     EosSensorInfo sensorInfo,
+    Duration focusDuration,
   ) =>
       SetTouchAfPositionAction(
         focusPosition,
         sensorInfo,
+        focusDuration,
       );
 }
