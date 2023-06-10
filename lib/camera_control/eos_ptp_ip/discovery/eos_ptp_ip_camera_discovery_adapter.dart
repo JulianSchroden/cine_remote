@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import '../../common/discovery/upnp/upnp_advertisement_message.dart';
 import '../../common/discovery/upnp/upnp_discovery_adapter.dart';
 import '../../interface/camera_factory.dart';
@@ -16,44 +18,48 @@ class EosPtpIpCameraDiscoveryAdapter extends CameraDiscoveryAdapter {
   EosPtpIpCameraDiscoveryAdapter(this.upnpDiscoveryAdapter);
 
   @override
-  Stream<CameraDiscoveryEvent> discover() async* {
-    await for (final upnpMessage in upnpDiscoveryAdapter.discover()) {
-      if (upnpMessage is UpnpAdvertisementAlive) {
-        if (upnpMessage.serviceType != eosPtpIpService) {
-          continue;
-        }
+  Stream<CameraDiscoveryEvent> discover() {
+    return upnpDiscoveryAdapter.discover().transform(
+      StreamTransformer.fromHandlers(
+        handleData: (upnpMessage, sink) async {
+          if (upnpMessage is UpnpAdvertisementAlive) {
+            if (upnpMessage.serviceType != eosPtpIpService) {
+              return;
+            }
 
-        final deviceDescription = await upnpDiscoveryAdapter
-            .getDeviceDescription(upnpMessage.location);
-        if (deviceDescription == null) {
-          continue;
-        }
+            final deviceDescription = await upnpDiscoveryAdapter
+                .getDeviceDescription(upnpMessage.location);
+            if (deviceDescription == null) {
+              return;
+            }
 
-        final model = CameraModels.findByName(deviceDescription.modelName);
-        if (model == null) {
-          continue;
-        }
+            final model = CameraModels.findByName(deviceDescription.modelName);
+            if (model == null) {
+              return;
+            }
 
-        logger.logCameraAlive(deviceDescription.uniqueDeviceName);
+            logger.logCameraAlive(deviceDescription.uniqueDeviceName);
 
-        yield CameraDiscoveryEvent.alive(
-          handle: EosPtpIpDiscoveryHandle(
-            address: deviceDescription.address,
-            id: deviceDescription.uniqueDeviceName,
-            model: model,
-          ),
-        );
-      } else if (upnpMessage is UpnpAdvertisementByeBye) {
-        if (upnpMessage.serviceType != eosPtpIpService) {
-          continue;
-        }
+            sink.add(CameraDiscoveryEvent.alive(
+              handle: EosPtpIpDiscoveryHandle(
+                address: deviceDescription.address,
+                id: deviceDescription.uniqueDeviceName,
+                model: model,
+              ),
+            ));
+          } else if (upnpMessage is UpnpAdvertisementByeBye) {
+            if (upnpMessage.serviceType != eosPtpIpService) {
+              return;
+            }
 
-        logger.logCameraByeBye(upnpMessage.uniqueDeviceName);
+            logger.logCameraByeBye(upnpMessage.uniqueDeviceName);
 
-        yield CameraDiscoveryEvent.byeBye(
-          id: upnpMessage.uniqueDeviceName,
-        );
-      }
-    }
+            sink.add(CameraDiscoveryEvent.byeBye(
+              id: upnpMessage.uniqueDeviceName,
+            ));
+          }
+        },
+      ),
+    );
   }
 }

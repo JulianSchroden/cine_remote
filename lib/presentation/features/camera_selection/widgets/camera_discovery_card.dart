@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../camera_control/interface/discovery/discovery_handle.dart';
 import '../bloc/camera_discovery_cubit.dart';
 import 'camera_discovery_item.dart';
-import 'card_header.dart';
+import 'camera_discovery_card_header.dart';
 
 class CameraDisoveryCard extends StatelessWidget {
   final EdgeInsets padding;
@@ -60,16 +60,19 @@ class CameraDisoveryCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CardHeader(
+                  CameraDiscoveryCardHeader(
                     title: 'Nearby',
                     subTitle: currentIp,
+                    isDiscovering: state.isActive,
                   ),
                   Expanded(
                     child: state.maybeWhen(
+                      initInProgress: () => _buildLoadingSpinner(context),
                       active: (_, discoveryHandles) =>
                           discoveryHandles.isNotEmpty
                               ? _buildCarousel(context, discoveryHandles)
                               : _buildLoadingSpinner(context),
+                      paused: (_) => const SizedBox.shrink(),
                       orElse: () => _buildLoadingSpinner(context),
                     ),
                   ),

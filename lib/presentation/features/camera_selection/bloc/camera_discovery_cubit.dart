@@ -25,6 +25,11 @@ class CameraDiscoveryState with _$CameraDiscoveryState {
         active: (currentIp, _) => currentIp,
         orElse: () => null,
       );
+
+  bool get isActive => maybeWhen(
+        active: (_, __) => true,
+        orElse: () => false,
+      );
 }
 
 class CameraDiscoveryCubit extends Cubit<CameraDiscoveryState> {
@@ -47,7 +52,7 @@ class CameraDiscoveryCubit extends Cubit<CameraDiscoveryState> {
       final wifiInfo = await cameraDiscoveryService.wifiInfo();
       await startDiscovery();
 
-      emit(CameraDiscoveryState.paused(wifiInfo.localIp));
+      emit(CameraDiscoveryState.active(wifiInfo.localIp, []));
     } catch (e) {
       emit(const CameraDiscoveryState.error());
     }
@@ -90,5 +95,6 @@ class CameraDiscoveryCubit extends Cubit<CameraDiscoveryState> {
 
   Future<void> stopDiscovery() async {
     await _discoveryStreamSubscription?.cancel();
+    emit(const CameraDiscoveryState.paused(null));
   }
 }

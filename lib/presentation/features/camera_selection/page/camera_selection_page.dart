@@ -59,6 +59,9 @@ class CameraSelectionPage extends StatelessWidget {
 
                   pairingCubit.reset();
                 },
+                disconnected: () {
+                  context.read<CameraDiscoveryCubit>().startDiscovery();
+                },
                 orElse: () {});
           },
           builder: (context, state) => LoadingOverlayLayout(

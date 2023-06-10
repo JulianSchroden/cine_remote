@@ -6,11 +6,11 @@ import '../../../../camera_control/eos_cine_http/eos_cine_http_camera_pairing_da
 import '../../../../camera_control/interface/camera_factory.dart';
 import '../../../../camera_control/interface/models/camera_handle.dart';
 import '../../../../dependencies.dart';
-import '../../camera_selection/widgets/card_header.dart';
 import '../bloc/recent_cameras_cubit.dart';
 import '../repository/recent_camera.dart';
 import '../repository/recent_cameras_repository.dart';
 import 'recent_camera_item.dart';
+import 'recent_cameras_list_header.dart';
 
 class RecentCamerasList extends StatelessWidget {
   final EdgeInsets padding;
@@ -45,7 +45,7 @@ class RecentCamerasList extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CardHeader(
+              RecentCamerasListHeader(
                 title: 'Recents',
                 action: TextButton(
                   onPressed: () => seedRecentCameras(),

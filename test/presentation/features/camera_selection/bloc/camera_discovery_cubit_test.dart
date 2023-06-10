@@ -38,12 +38,12 @@ void main() {
 
   group('init', () {
     blocTest<CameraDiscoveryCubit, CameraDiscoveryState>(
-      'emits [initInProgress, paused] on init success',
+      'emits [initInProgress, active] on init success',
       build: () => sut,
       act: (bloc) => bloc.init(),
       expect: () => const [
         CameraDiscoveryState.initInProgress(),
-        CameraDiscoveryState.paused(currentIp)
+        CameraDiscoveryState.active(currentIp, [])
       ],
     );
 
@@ -73,7 +73,7 @@ void main() {
           act: (bloc, _) => bloc.init(),
           expect: () => const [
             CameraDiscoveryState.initInProgress(),
-            CameraDiscoveryState.paused(currentIp)
+            CameraDiscoveryState.active(currentIp, [])
           ],
           verify: (bloc, controller) {
             expect(controller.hasListener, isTrue);
@@ -116,7 +116,7 @@ void main() {
           act: (bloc, _) => bloc.init(),
           expect: () => const [
             CameraDiscoveryState.initInProgress(),
-            CameraDiscoveryState.paused(currentIp)
+            CameraDiscoveryState.active(currentIp, [])
           ],
           verify: (bloc, controller) {
             expect(controller.hasListener, isTrue);
@@ -229,7 +229,7 @@ void main() {
           act: (bloc, _) => bloc.init(),
           expect: () => const [
             CameraDiscoveryState.initInProgress(),
-            CameraDiscoveryState.paused(currentIp)
+            CameraDiscoveryState.active(currentIp, [])
           ],
           verify: (bloc, controller) {
             expect(controller.hasListener, isTrue);

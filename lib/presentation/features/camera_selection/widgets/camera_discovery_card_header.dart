@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-class CardHeader extends StatelessWidget {
+class CameraDiscoveryCardHeader extends StatelessWidget {
   final String title;
+  final bool isDiscovering;
   final String? subTitle;
-  final Widget? action;
 
-  const CardHeader({
+  const CameraDiscoveryCardHeader({
     required this.title,
+    required this.isDiscovering,
     this.subTitle,
-    this.action,
     super.key,
   });
 
@@ -18,7 +18,7 @@ class CardHeader extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,10 +38,9 @@ class CardHeader extends StatelessWidget {
                     color: Color.fromARGB(255, 243, 243, 243),
                   ),
                 ),
-              ]
+              ],
             ],
           ),
-          if (action != null) action!,
         ],
       ),
     );
