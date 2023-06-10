@@ -7,13 +7,10 @@ import '../communication/ptp_transaction_queue.dart';
 import '../models/eos_autofocus_state.dart';
 import '../models/eos_live_view_response.dart';
 import '../models/eos_sensor_info.dart';
-import '../responses/ptp_operation_response.dart';
 import 'action.dart';
 
 class GetLiveViewImageAction extends Action<LiveViewData> {
-  final EosSensorInfo sensorInfo;
-
-  GetLiveViewImageAction(this.sensorInfo);
+  GetLiveViewImageAction();
 
   @override
   Future<LiveViewData> run(PtpTransactionQueue transactionQueue) async {
@@ -25,7 +22,7 @@ class GetLiveViewImageAction extends Action<LiveViewData> {
     final responseBytes = operationResponse.data;
 
     final liveViewDataParser = EosLiveViewDataParser();
-    final EosLiveViewResponse(:imageBytes, :touchAutofocusState) =
+    final EosLiveViewResponse(:imageBytes, :touchAutofocusState, :sensorInfo) =
         liveViewDataParser.parseData(responseBytes);
 
     if (imageBytes == null) {
@@ -34,17 +31,24 @@ class GetLiveViewImageAction extends Action<LiveViewData> {
       );
     }
 
+    final autofocusState = mapAutofocusState(touchAutofocusState, sensorInfo);
+
     return LiveViewData(
       imageBytes: imageBytes,
-      autofocusState: touchAutofocusState?.toCommon(sensorInfo),
+      autofocusState: autofocusState,
     );
   }
-}
 
-extension EosTouchAutofocusStateToCommon on EosTouchAutofocusState {
-  TouchAutofocusState toCommon(EosSensorInfo sensorInfo) {
-    final centerX = x + (width / 2);
-    final centerY = y + (height / 2);
+  TouchAutofocusState? mapAutofocusState(
+    EosTouchAutofocusState? autofocusState,
+    EosSensorInfo? sensorInfo,
+  ) {
+    if (autofocusState == null || sensorInfo == null) {
+      return null;
+    }
+
+    final centerX = autofocusState.x + (sensorInfo.width / 2);
+    final centerY = autofocusState.y + (sensorInfo.height / 2);
 
     return TouchAutofocusState(
       position: AutofocusPosition(

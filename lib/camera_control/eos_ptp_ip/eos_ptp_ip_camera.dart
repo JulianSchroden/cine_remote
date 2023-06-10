@@ -117,9 +117,7 @@ class EosPtpIpCamera extends BaseCamera {
 
   @override
   Future<LiveViewData> getLiveViewData() async {
-    final getLiveViewImage = _actionFactory.createGetLiveViewImageAction(
-      sensorInfo,
-    );
+    final getLiveViewImage = _actionFactory.createGetLiveViewImageAction();
     return await getLiveViewImage.run(_transactionQueue);
   }
 

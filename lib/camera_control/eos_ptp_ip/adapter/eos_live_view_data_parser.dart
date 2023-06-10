@@ -5,6 +5,7 @@ import '../constants/properties/touch_autofocus_status.dart';
 import '../logging/eos_ptp_ip_logger.dart';
 import '../models/eos_autofocus_state.dart';
 import '../models/eos_live_view_response.dart';
+import '../models/eos_sensor_info.dart';
 import 'ptp_packet_reader.dart';
 
 class EosLiveViewDataParser {
@@ -16,6 +17,7 @@ class EosLiveViewDataParser {
     final packetReader = PtpPacketReader.fromBytes(liveViewData);
     Uint8List? imageBytes;
     EosTouchAutofocusState? touchAutofocusState;
+    EosSensorInfo? sensorInfo;
 
     while (packetReader.unconsumedBytes > 8) {
       final segmentReader = packetReader.readSegment();
@@ -26,6 +28,14 @@ class EosLiveViewDataParser {
           {
             imageBytes = segmentReader.getRemainingBytes();
             break;
+          }
+
+        case LiveViewDataCode.sensorResolution:
+          {
+            final width = segmentReader.getUint32();
+            final height = segmentReader.getUint32();
+
+            sensorInfo = EosSensorInfo(width: width, height: height);
           }
 
         case LiveViewDataCode.touchAutofocus:
@@ -53,6 +63,10 @@ class EosLiveViewDataParser {
       }
     }
 
-    return EosLiveViewResponse(imageBytes, touchAutofocusState);
+    return EosLiveViewResponse(
+      imageBytes,
+      touchAutofocusState,
+      sensorInfo,
+    );
   }
 }
