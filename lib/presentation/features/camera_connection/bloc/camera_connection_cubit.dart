@@ -102,8 +102,15 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
     }
   }
 
-  Future<void> handleConnectionAborted() async {
-    print('handleConnectionAborted');
+  Future<void> handleConnectionAborted(
+    String message,
+    dynamic e,
+    StackTrace s,
+  ) async {
+    print('handleConnectionAborted: $message');
+    print(e);
+    print(s);
+
     await withConnectedCamera((camera) async {
       emit(CameraConnectionState.disconnecting(camera));
       await camera.close();
@@ -132,8 +139,8 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
       );
 
   Stream<CameraUpdateEvent> get updateEvents => withConnectedCamera(
-        (camera) =>
-            camera.events().handleError((e, s) => handleConnectionAborted()),
+        (camera) => camera.events().handleError(
+            (e, s) => handleConnectionAborted('update events error', e, s)),
         orElse: () => Stream.fromIterable([]),
       );
 }

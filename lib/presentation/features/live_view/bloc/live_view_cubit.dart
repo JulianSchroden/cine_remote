@@ -115,7 +115,8 @@ class LiveViewCubit extends BaseCameraControlCubit<LiveViewState> {
         },
         onError: (e, s) {
           if (e is CameraCommunicationAbortedException) {
-            cameraConnectionCubit.handleConnectionAborted();
+            cameraConnectionCubit.handleConnectionAborted(
+                'liveView error', e, s);
             return;
           }
 
