@@ -1,3 +1,5 @@
+import '../../../../shared/extensions/list_extensions.dart';
+
 import '../ptp_property.dart';
 
 enum TouchAutofocusStatus {
@@ -20,6 +22,6 @@ extension TouchAutofocusStatusToValueExtension on TouchAutofocusStatus {
       .native;
 }
 
-TouchAutofocusStatus mapTouchAutofocusStatus(int value) => touchAutofocusValues
-    .firstWhere((mappedValue) => value == mappedValue.native)
-    .enumEntry;
+TouchAutofocusStatus? mapTouchAutofocusStatus(int value) => touchAutofocusValues
+    .firstWhereOrNull((mappedValue) => value == mappedValue.native)
+    ?.enumEntry;

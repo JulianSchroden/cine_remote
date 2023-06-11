@@ -41,7 +41,7 @@ class EosLiveViewDataParser {
         case LiveViewDataCode.touchAutofocus:
           {
             segmentReader.getUint32(); // unknown value
-            final status = mapTouchAutofocusStatus(segmentReader.getUint32());
+            final status = segmentReader.getUint32();
             segmentReader.getUint32(); // unknown value
 
             final x = segmentReader.getUint32();
@@ -50,8 +50,15 @@ class EosLiveViewDataParser {
             final width = segmentReader.getUint32();
             final height = segmentReader.getUint32();
 
+            final mappedStatus = mapTouchAutofocusStatus(status);
+            if (mappedStatus == null) {
+              logger.warning(
+                  'LiveViewDataCode.touchAutofocus: Received unknown status $status');
+              continue;
+            }
+
             touchAutofocusState = EosTouchAutofocusState(
-              status,
+              mappedStatus,
               x,
               y,
               width,
