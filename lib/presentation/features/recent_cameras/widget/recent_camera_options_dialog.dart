@@ -45,7 +45,10 @@ class RecentCameraOptionsDialog extends StatelessWidget {
                     title: 'Copy pairing data',
                     icon: Icons.copy,
                     onTap: () {
-                      print('copy pairing data');
+                      context
+                          .read<RecentCamerasCubit>()
+                          .copyEncodedCameraToClipboard(recentCamera);
+
                       Navigator.of(context).pop();
                     },
                   ),

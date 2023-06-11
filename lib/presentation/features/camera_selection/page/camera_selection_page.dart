@@ -7,7 +7,6 @@ import '../../../core/widgets/laoding_overlay_layout.dart';
 import '../../../routes.dart';
 import '../../camera_connection/bloc/camera_connection_cubit.dart';
 import '../../camera_pairing/bloc/camera_pairing_cubit.dart';
-import '../../recent_cameras/bloc/recent_cameras_cubit.dart';
 import '../../recent_cameras/widget/recent_cameras_list.dart';
 import '../bloc/camera_discovery_cubit.dart';
 import '../widgets/camera_discovery_card.dart';
@@ -23,9 +22,6 @@ class CameraSelectionPage extends StatelessWidget {
         providers: [
           BlocProvider(
             create: (context) => get<CameraDiscoveryCubit>()..init(),
-          ),
-          BlocProvider(
-            create: (context) => get<RecentCamerasCubit>()..load(),
           ),
         ],
         child: BlocConsumer<CameraConnectionCubit, CameraConnectionState>(

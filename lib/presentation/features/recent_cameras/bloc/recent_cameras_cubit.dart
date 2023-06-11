@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -51,6 +53,22 @@ class RecentCamerasCubit extends Cubit<RecentCamerasState> {
       emit(recentCameras.isEmpty
           ? const RecentCamerasState.empty()
           : RecentCamerasState.success(recentCameras));
+    } catch (e) {
+      emit(const RecentCamerasState.error());
+    }
+  }
+
+  void copyEncodedCameraToClipboard(RecentCamera recentCamera) {
+    final encodedContent = jsonEncode(recentCamera.toJson());
+    Clipboard.setData(ClipboardData(text: encodedContent));
+  }
+
+  Future<void> addEncodedCamera(String encodedCamera) async {
+    try {
+      emit(RecentCamerasState.loading(state.recentCameras));
+      final recentCamera = RecentCamera.fromJson(jsonDecode(encodedCamera));
+
+      await _recentCamerasRepostitory.addRecentCamera(recentCamera);
     } catch (e) {
       emit(const RecentCamerasState.error());
     }

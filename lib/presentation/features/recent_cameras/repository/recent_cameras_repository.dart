@@ -55,9 +55,12 @@ class RecentCamerasRepostitory {
   }
 
   Future<void> addCamera(CameraHandle handle) async {
-    await _ensureBoxIsOpen();
-
     final recentCamera = handle.toRecentCamera(_dateTimeAdapter.now());
+    await addRecentCamera(recentCamera);
+  }
+
+  Future<void> addRecentCamera(RecentCamera recentCamera) async {
+    await _ensureBoxIsOpen();
 
     await _recentCamerasBox!.put(
       recentCamera.id,

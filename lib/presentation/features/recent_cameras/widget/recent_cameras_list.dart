@@ -6,6 +6,7 @@ import '../../../../camera_control/eos_cine_http/eos_cine_http_camera_pairing_da
 import '../../../../camera_control/interface/camera_factory.dart';
 import '../../../../camera_control/interface/models/camera_handle.dart';
 import '../../../../dependencies.dart';
+import '../../../routes.dart';
 import '../../camera_connection/bloc/camera_connection_cubit.dart';
 import '../bloc/recent_cameras_cubit.dart';
 import '../repository/recent_camera.dart';
@@ -50,7 +51,8 @@ class RecentCamerasList extends StatelessWidget {
               RecentCamerasListHeader(
                 title: 'Recents',
                 action: TextButton(
-                  onPressed: () => seedRecentCameras(),
+                  onPressed: () => Navigator.of(context)
+                      .pushNamed(Routes.manualCameraPairing),
                   child: const Text('Pair Manually'),
                 ),
               ),
@@ -85,11 +87,8 @@ class RecentCamerasList extends StatelessWidget {
 
                   showDialog(
                     context: parentContext,
-                    builder: (context) => BlocProvider.value(
-                      value: parentContext.read<RecentCamerasCubit>(),
-                      child:
-                          RecentCameraOptionsDialog(recentCamera: recentCamera),
-                    ),
+                    builder: (context) =>
+                        RecentCameraOptionsDialog(recentCamera: recentCamera),
                   );
                 },
               ),
