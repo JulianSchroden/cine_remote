@@ -55,7 +55,7 @@ class PtpEventDataParser {
     final mappedValue = mapPtpValue(propertyCode, propertyValue);
     final propType = mapPropCodeToType(propertyCode);
 
-    return PropValueChanged(propType, propertyCode, mappedValue);
+    return PropValueChanged(propertyCode, propType, mappedValue);
   }
 
   AllowedValuesChanged? parseAllowedValuesChangedEvent(
@@ -63,7 +63,6 @@ class PtpEventDataParser {
   ) {
     final propertyCode = packetReader.getUint32();
     final propType = mapPropCodeToType(propertyCode);
-    if (propType == null) return null;
 
     packetReader.getUint32(); // unknown value
 
@@ -75,6 +74,6 @@ class PtpEventDataParser {
       allowedValues.add(propValue);
     }
 
-    return AllowedValuesChanged(propType, allowedValues);
+    return AllowedValuesChanged(propertyCode, propType, allowedValues);
   }
 }

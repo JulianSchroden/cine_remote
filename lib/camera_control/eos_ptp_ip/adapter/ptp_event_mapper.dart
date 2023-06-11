@@ -10,7 +10,7 @@ class PtpEventMapper {
     switch (ptpEvent) {
       case PropValueChanged(:var propType?, :var propValue):
         return CameraUpdateEvent.propValueChanged(propType, propValue);
-      case AllowedValuesChanged(:var propType, :var allowedValues):
+      case AllowedValuesChanged(:var propType?, :var allowedValues):
         return CameraUpdateEvent.propAllowedValuesChanged(
             propType, allowedValues);
     }

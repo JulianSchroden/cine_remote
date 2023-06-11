@@ -10,10 +10,13 @@ class CachedProperty with _$CachedProperty {
   const CachedProperty._();
 
   const factory CachedProperty({
-    required ControlPropType type,
+    required int propCode,
+    ControlPropType? type,
     ControlPropValue? currentValue,
     List<ControlPropValue>? allowedValues,
   }) = _CachedProperty;
 
-  bool get isValid => currentValue != null && allowedValues != null;
+  bool get isValid =>
+      type != null && currentValue != null && allowedValues != null;
+  bool get isInvalid => !isValid;
 }

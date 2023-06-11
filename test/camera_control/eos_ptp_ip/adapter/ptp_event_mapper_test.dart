@@ -26,8 +26,8 @@ void main() {
   group('on propValueChanged event', () {
     test('returns null when event has unknown propType', () {
       const unknownPropChanged = PropValueChanged(
-        null,
         0xF0F0,
+        null,
         EosPtpIntPropValue('99', 0xFF),
       );
 
@@ -37,8 +37,8 @@ void main() {
 
     test('maps aperture changed event', () {
       const apertureChanged = PropValueChanged(
-        ControlPropType.aperture,
         PtpPropertyCode.aperture,
+        ControlPropType.aperture,
         EosPtpIntPropValue('16', 0x48),
       );
 
@@ -55,8 +55,8 @@ void main() {
 
     test('maps iso changed event', () {
       const isoChanged = PropValueChanged(
-        ControlPropType.iso,
         PtpPropertyCode.iso,
+        ControlPropType.iso,
         EosPtpIntPropValue('Auto', 0x00),
       );
 
@@ -75,6 +75,7 @@ void main() {
   group('on allowedValuesChanged event', () {
     test('maps allowedValuesChanged event', () {
       const allowedIsoValuesChanged = AllowedValuesChanged(
+        PtpPropertyCode.iso,
         ControlPropType.iso,
         [
           EosPtpIntPropValue('100', 0x48),

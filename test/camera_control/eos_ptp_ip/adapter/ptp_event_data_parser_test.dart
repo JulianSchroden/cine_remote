@@ -26,13 +26,13 @@ void main() {
         result,
         containsAll([
           const PropValueChanged(
-            ControlPropType.shutterSpeed,
             PtpPropertyCode.shutterSpeed,
+            ControlPropType.shutterSpeed,
             EosPtpIntPropValue('1/20', 0x5b),
           ),
           const PropValueChanged(
-            ControlPropType.aperture,
             PtpPropertyCode.aperture,
+            ControlPropType.aperture,
             EosPtpIntPropValue('2.0', 0x18),
           )
         ]),
@@ -47,8 +47,8 @@ void main() {
         containsAll(
           [
             PropValueChanged(
-              null,
               PtpPropertyCode.liveViewOutput,
+              null,
               EosPtpIntPropValue(
                 LiveViewOutput.cameraAndHost.name,
                 LiveViewOutput.cameraAndHost.value,
@@ -67,17 +67,25 @@ void main() {
         result,
         containsAll(
           [
-            const AllowedValuesChanged(ControlPropType.aperture, [
-              EosPtpIntPropValue('1.8', 0x15),
-              EosPtpIntPropValue('2.0', 0x18),
-              EosPtpIntPropValue('2.2', 0x1b),
-            ]),
-            const AllowedValuesChanged(ControlPropType.shutterSpeed, [
-              EosPtpIntPropValue('30', 0x10),
-              EosPtpIntPropValue('25', 0x13),
-              EosPtpIntPropValue('20', 0x15),
-              EosPtpIntPropValue('15', 0x18),
-            ])
+            const AllowedValuesChanged(
+              PtpPropertyCode.aperture,
+              ControlPropType.aperture,
+              [
+                EosPtpIntPropValue('1.8', 0x15),
+                EosPtpIntPropValue('2.0', 0x18),
+                EosPtpIntPropValue('2.2', 0x1b),
+              ],
+            ),
+            const AllowedValuesChanged(
+              PtpPropertyCode.shutterSpeed,
+              ControlPropType.shutterSpeed,
+              [
+                EosPtpIntPropValue('30', 0x10),
+                EosPtpIntPropValue('25', 0x13),
+                EosPtpIntPropValue('20', 0x15),
+                EosPtpIntPropValue('15', 0x18),
+              ],
+            )
           ],
         ),
       );

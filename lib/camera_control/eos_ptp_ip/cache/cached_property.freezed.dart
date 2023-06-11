@@ -16,7 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$CachedProperty {
-  ControlPropType get type => throw _privateConstructorUsedError;
+  int get propCode => throw _privateConstructorUsedError;
+  ControlPropType? get type => throw _privateConstructorUsedError;
   ControlPropValue? get currentValue => throw _privateConstructorUsedError;
   List<ControlPropValue>? get allowedValues =>
       throw _privateConstructorUsedError;
@@ -33,7 +34,8 @@ abstract class $CachedPropertyCopyWith<$Res> {
       _$CachedPropertyCopyWithImpl<$Res, CachedProperty>;
   @useResult
   $Res call(
-      {ControlPropType type,
+      {int propCode,
+      ControlPropType? type,
       ControlPropValue? currentValue,
       List<ControlPropValue>? allowedValues});
 }
@@ -51,15 +53,20 @@ class _$CachedPropertyCopyWithImpl<$Res, $Val extends CachedProperty>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? type = null,
+    Object? propCode = null,
+    Object? type = freezed,
     Object? currentValue = freezed,
     Object? allowedValues = freezed,
   }) {
     return _then(_value.copyWith(
-      type: null == type
+      propCode: null == propCode
+          ? _value.propCode
+          : propCode // ignore: cast_nullable_to_non_nullable
+              as int,
+      type: freezed == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as ControlPropType,
+              as ControlPropType?,
       currentValue: freezed == currentValue
           ? _value.currentValue
           : currentValue // ignore: cast_nullable_to_non_nullable
@@ -81,7 +88,8 @@ abstract class _$$_CachedPropertyCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {ControlPropType type,
+      {int propCode,
+      ControlPropType? type,
       ControlPropValue? currentValue,
       List<ControlPropValue>? allowedValues});
 }
@@ -97,15 +105,20 @@ class __$$_CachedPropertyCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? type = null,
+    Object? propCode = null,
+    Object? type = freezed,
     Object? currentValue = freezed,
     Object? allowedValues = freezed,
   }) {
     return _then(_$_CachedProperty(
-      type: null == type
+      propCode: null == propCode
+          ? _value.propCode
+          : propCode // ignore: cast_nullable_to_non_nullable
+              as int,
+      type: freezed == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as ControlPropType,
+              as ControlPropType?,
       currentValue: freezed == currentValue
           ? _value.currentValue
           : currentValue // ignore: cast_nullable_to_non_nullable
@@ -122,14 +135,17 @@ class __$$_CachedPropertyCopyWithImpl<$Res>
 
 class _$_CachedProperty extends _CachedProperty {
   const _$_CachedProperty(
-      {required this.type,
+      {required this.propCode,
+      this.type,
       this.currentValue,
       final List<ControlPropValue>? allowedValues})
       : _allowedValues = allowedValues,
         super._();
 
   @override
-  final ControlPropType type;
+  final int propCode;
+  @override
+  final ControlPropType? type;
   @override
   final ControlPropValue? currentValue;
   final List<ControlPropValue>? _allowedValues;
@@ -144,7 +160,7 @@ class _$_CachedProperty extends _CachedProperty {
 
   @override
   String toString() {
-    return 'CachedProperty(type: $type, currentValue: $currentValue, allowedValues: $allowedValues)';
+    return 'CachedProperty(propCode: $propCode, type: $type, currentValue: $currentValue, allowedValues: $allowedValues)';
   }
 
   @override
@@ -152,6 +168,8 @@ class _$_CachedProperty extends _CachedProperty {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_CachedProperty &&
+            (identical(other.propCode, propCode) ||
+                other.propCode == propCode) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.currentValue, currentValue) ||
                 other.currentValue == currentValue) &&
@@ -160,7 +178,7 @@ class _$_CachedProperty extends _CachedProperty {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, type, currentValue,
+  int get hashCode => Object.hash(runtimeType, propCode, type, currentValue,
       const DeepCollectionEquality().hash(_allowedValues));
 
   @JsonKey(ignore: true)
@@ -172,13 +190,16 @@ class _$_CachedProperty extends _CachedProperty {
 
 abstract class _CachedProperty extends CachedProperty {
   const factory _CachedProperty(
-      {required final ControlPropType type,
+      {required final int propCode,
+      final ControlPropType? type,
       final ControlPropValue? currentValue,
       final List<ControlPropValue>? allowedValues}) = _$_CachedProperty;
   const _CachedProperty._() : super._();
 
   @override
-  ControlPropType get type;
+  int get propCode;
+  @override
+  ControlPropType? get type;
   @override
   ControlPropValue? get currentValue;
   @override

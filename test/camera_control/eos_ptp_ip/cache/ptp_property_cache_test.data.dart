@@ -1,8 +1,8 @@
 part of 'ptp_property_cache_test.dart';
 
 const apertureValueChangedEvent = PropValueChanged(
-  ControlPropType.aperture,
   PtpPropertyCode.aperture,
+  ControlPropType.aperture,
   EosPtpIntPropValue(
     '10',
     0x3d,
@@ -16,13 +16,14 @@ const apertureAllowedValues = [
 ];
 
 const apertureAllowedValuesChangedEvent = AllowedValuesChanged(
+  PtpPropertyCode.aperture,
   ControlPropType.aperture,
   apertureAllowedValues,
 );
 
 const isoValueChangedEvent = PropValueChanged(
-  ControlPropType.iso,
   PtpPropertyCode.iso,
+  ControlPropType.iso,
   EosPtpIntPropValue(
     '100',
     0x48,
@@ -37,6 +38,7 @@ const isoAllowedValues = [
 ];
 
 const isoAllowedValuesChangedEvent = AllowedValuesChanged(
+  PtpPropertyCode.iso,
   ControlPropType.iso,
   isoAllowedValues,
 );
