@@ -2,6 +2,7 @@ import '../../interface/models/control_prop_type.dart';
 import '../../interface/models/properties/autofocus_position.dart';
 import '../actions/get_events_action.dart';
 import '../adapter/eos_ptp_event_processor.dart';
+import '../cache/ptp_property_cache.dart';
 import '../constants/properties/live_view_output.dart';
 import '../models/eos_ptp_int_prop_value.dart';
 import '../models/eos_sensor_info.dart';
@@ -39,8 +40,9 @@ class ActionFactory {
   ) =>
       SetLiveViewOutputAction(eventProcessor, liveViewOutput);
 
-  GetLiveViewImageAction createGetLiveViewImageAction() =>
-      GetLiveViewImageAction();
+  GetLiveViewImageAction createGetLiveViewImageAction(
+          PtpPropertyCache propertyCache) =>
+      GetLiveViewImageAction(propertyCache);
 
   SetTouchAfPositionAction createSetTouchAfPositionAction(
     AutofocusPosition focusPosition,

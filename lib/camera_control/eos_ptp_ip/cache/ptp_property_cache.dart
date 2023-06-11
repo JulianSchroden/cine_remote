@@ -1,6 +1,8 @@
 import '../../../shared/extensions/list_extensions.dart';
+import '../../common/extensions/list_extensions.dart';
 import '../../interface/models/control_prop.dart';
 import '../../interface/models/control_prop_type.dart';
+import '../../interface/models/control_prop_value.dart';
 import '../communication/events/allowed_values_changed.dart';
 import '../communication/events/prop_value_changed.dart';
 import '../communication/events/ptp_event.dart';
@@ -19,7 +21,7 @@ class PtpPropertyCache {
         } else {
           _cachedProps[event.propCode] = CachedProperty(
             propCode: event.propCode,
-            type: event.propType!,
+            type: event.propType,
             currentValue: event.propValue,
           );
         }
@@ -40,7 +42,10 @@ class PtpPropertyCache {
   }
 
   List<ControlPropType> supportedProps() {
-    return _validEntries.map((entry) => entry.value.type!).toList();
+    return _validEntries
+        .map((entry) => entry.value.type)
+        .whereNotNull()
+        .toList();
   }
 
   ControlProp? getProp(ControlPropType propType) {
@@ -54,6 +59,10 @@ class PtpPropertyCache {
       currentValue: cachedProp.currentValue!,
       allowedValues: cachedProp.allowedValues!,
     );
+  }
+
+  ControlPropValue? getValueByPropCode(int propCode) {
+    return _cachedProps[propCode]?.currentValue;
   }
 
   List<ControlProp> listAll() {

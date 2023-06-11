@@ -14,4 +14,9 @@ class EosTouchAutofocusState {
     this.width,
     this.height,
   );
+
+  @override
+  String toString() {
+    return "EosTouchAutofocusState(status: $touchAutofocusStatus, x: $x, y: $y, width: $width, height: $height)";
+  }
 }

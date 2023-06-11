@@ -3,6 +3,8 @@ import '../../interface/models/live_view_data.dart';
 import '../../interface/models/properties/autofocus_position.dart';
 import '../../interface/models/touch_autofocus_state.dart';
 import '../adapter/eos_live_view_data_parser.dart';
+import '../cache/ptp_property_cache.dart';
+import '../cache/ptp_property_cache_extensions.dart';
 import '../communication/ptp_transaction_queue.dart';
 import '../models/eos_autofocus_state.dart';
 import '../models/eos_live_view_response.dart';
@@ -10,7 +12,9 @@ import '../models/eos_sensor_info.dart';
 import 'action.dart';
 
 class GetLiveViewImageAction extends Action<LiveViewData> {
-  GetLiveViewImageAction();
+  final PtpPropertyCache _propertyCache;
+
+  GetLiveViewImageAction(this._propertyCache);
 
   @override
   Future<LiveViewData> run(PtpTransactionQueue transactionQueue) async {
@@ -22,13 +26,19 @@ class GetLiveViewImageAction extends Action<LiveViewData> {
     final responseBytes = operationResponse.data;
 
     final liveViewDataParser = EosLiveViewDataParser();
-    final EosLiveViewResponse(:imageBytes, :touchAutofocusState, :sensorInfo) =
+    var EosLiveViewResponse(:imageBytes, :touchAutofocusState, :sensorInfo) =
         liveViewDataParser.parseData(responseBytes);
 
     if (imageBytes == null) {
       throw const CameraCommunicationException(
         'Response did not include valid image',
       );
+    }
+
+    if (sensorInfo != null) {
+      _propertyCache.updateSensorInfo(sensorInfo);
+    } else {
+      sensorInfo = _propertyCache.getSensorInfo();
     }
 
     final autofocusState = mapAutofocusState(touchAutofocusState, sensorInfo);
@@ -47,8 +57,8 @@ class GetLiveViewImageAction extends Action<LiveViewData> {
       return null;
     }
 
-    final centerX = autofocusState.x + (sensorInfo.width / 2);
-    final centerY = autofocusState.y + (sensorInfo.height / 2);
+    final centerX = autofocusState.x + (autofocusState.width / 2);
+    final centerY = autofocusState.y + (autofocusState.height / 2);
 
     return TouchAutofocusState(
       position: AutofocusPosition(

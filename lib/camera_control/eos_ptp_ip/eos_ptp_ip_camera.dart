@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import '../common/base_camera.dart';
+import '../interface/exceptions/camera_communication_exception.dart';
 import '../interface/models/camera_descriptor.dart';
 import '../interface/models/camera_update_event.dart';
 import '../interface/models/capabilities/control_prop_capability.dart';
@@ -15,20 +16,15 @@ import '../interface/models/properties/camera_mode.dart';
 import '../interface/models/properties/exposure_mode.dart';
 import 'actions/action_factory.dart';
 import 'adapter/eos_ptp_event_processor.dart';
+import 'cache/ptp_property_cache_extensions.dart';
 import 'communication/ptp_transaction_queue.dart';
 import 'constants/properties/live_view_output.dart';
 import 'models/eos_ptp_int_prop_value.dart';
-import 'models/eos_sensor_info.dart';
 
 class EosPtpIpCamera extends BaseCamera {
   final PtpTransactionQueue _transactionQueue;
   final ActionFactory _actionFactory;
   final EosPtpEventProcessor _eventProcessor;
-
-  final sensorInfo = const EosSensorInfo(
-    width: 5472,
-    height: 3648,
-  );
 
   const EosPtpIpCamera(
     this._transactionQueue,
@@ -117,13 +113,20 @@ class EosPtpIpCamera extends BaseCamera {
 
   @override
   Future<LiveViewData> getLiveViewData() async {
-    final getLiveViewImage = _actionFactory.createGetLiveViewImageAction();
+    final getLiveViewImage = _actionFactory
+        .createGetLiveViewImageAction(_eventProcessor.propertyCache);
     return await getLiveViewImage.run(_transactionQueue);
   }
 
   @override
   Future<void> setAutofocusPosition(AutofocusPosition autofocusPosition) async {
     const focusDuration = Duration(seconds: 1);
+    final sensorInfo = _eventProcessor.propertyCache.getSensorInfo();
+    if (sensorInfo == null) {
+      throw const CameraCommunicationException(
+          'Cannot set autofocusPosition since sensorInfo is null');
+    }
+
     final setAutofocusPosition = _actionFactory.createSetTouchAfPositionAction(
       autofocusPosition,
       sensorInfo,

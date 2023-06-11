@@ -43,6 +43,8 @@ abstract class PtpPropertyCode {
 
   static const int captureDestination = 0xd11c;
   static const int liveViewOutput = 0xd1b0;
+
+  static const int liveViewSensorResolution = 0x91530e;
 }
 
 const Map<int, ControlPropType> eosPropCodeToPropTypeMap = {

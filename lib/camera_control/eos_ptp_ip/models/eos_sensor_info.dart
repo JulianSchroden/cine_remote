@@ -8,4 +8,9 @@ class EosSensorInfo extends Equatable {
 
   @override
   List<Object?> get props => [width, height];
+
+  @override
+  String toString() {
+    return "EosSensorInfo(width: $width, height: $height)";
+  }
 }

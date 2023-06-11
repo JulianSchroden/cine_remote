@@ -7,6 +7,7 @@ import '../cache/ptp_property_cache.dart';
 import '../communication/events/prop_value_changed.dart';
 import '../communication/events/ptp_event.dart';
 import '../extensions/int_as_hex_string_extension.dart';
+import '../models/eos_ptp_int_prop_value.dart';
 import 'get_eos_events_delegate.dart';
 import 'ptp_event_mapper.dart';
 
@@ -56,12 +57,18 @@ class EosPtpEventProcessor {
     Duration timeLimit = const Duration(seconds: 3),
   }) async {
     try {
-      final propEvent = await eosEvents
-          .firstWhere((event) =>
-              event is PropValueChanged &&
-              event.propCode == propCode &&
-              event.propValue.nativeValue == propValue)
-          .timeout(timeLimit);
+      final propEvent = await eosEvents.firstWhere((event) {
+        if (event
+            case PropValueChanged(
+              propCode: final code,
+              propType: _,
+              propValue: EosPtpIntPropValue(:final nativeValue)
+            )) {
+          return propCode == code && propValue == nativeValue;
+        }
+
+        return false;
+      }).timeout(timeLimit);
       return propEvent as PropValueChanged;
     } catch (e) {
       throw CameraCommunicationException(

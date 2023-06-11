@@ -6,4 +6,9 @@ class TouchAutofocusState {
   TouchAutofocusState({
     required this.position,
   });
+
+  @override
+  String toString() {
+    return "TouchAutofocusState(position: $position)";
+  }
 }

@@ -9,4 +9,9 @@ class AutofocusPosition extends Equatable {
 
   @override
   List<Object?> get props => [x, y];
+
+  @override
+  String toString() {
+    return "AutofocusPosition(x: $x, y: $y)";
+  }
 }

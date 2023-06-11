@@ -2,6 +2,10 @@ extension LastIndexExtension<T> on Iterable<T> {
   int get lastIndex => length - 1;
 }
 
+extension WhereNotNullExtension<T> on Iterable<T?> {
+  Iterable<T> whereNotNull() => where((element) => element != null).cast<T>();
+}
+
 extension IndexOfSequenceExtension<T> on List<T> {
   int indexOfSequence(List<T> sequence) {
     if (sequence.isEmpty) {
