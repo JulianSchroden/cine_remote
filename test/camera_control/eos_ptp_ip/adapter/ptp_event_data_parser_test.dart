@@ -3,7 +3,7 @@ import 'package:cine_remote/camera_control/eos_ptp_ip/communication/events/allow
 import 'package:cine_remote/camera_control/eos_ptp_ip/communication/events/prop_value_changed.dart';
 import 'package:cine_remote/camera_control/eos_ptp_ip/constants/properties/live_view_output.dart';
 import 'package:cine_remote/camera_control/eos_ptp_ip/constants/ptp_property.dart';
-import 'package:cine_remote/camera_control/eos_ptp_ip/models/eos_ptp_prop_value.dart';
+import 'package:cine_remote/camera_control/eos_ptp_ip/models/eos_ptp_int_prop_value.dart';
 import 'package:cine_remote/camera_control/interface/models/control_prop_type.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -28,12 +28,12 @@ void main() {
           const PropValueChanged(
             ControlPropType.shutterSpeed,
             PtpPropertyCode.shutterSpeed,
-            EosPtpPropValue('1/20', 0x5b),
+            EosPtpIntPropValue('1/20', 0x5b),
           ),
           const PropValueChanged(
             ControlPropType.aperture,
             PtpPropertyCode.aperture,
-            EosPtpPropValue('2.0', 0x18),
+            EosPtpIntPropValue('2.0', 0x18),
           )
         ]),
       );
@@ -49,7 +49,7 @@ void main() {
             PropValueChanged(
               null,
               PtpPropertyCode.liveViewOutput,
-              EosPtpPropValue(
+              EosPtpIntPropValue(
                 LiveViewOutput.cameraAndHost.name,
                 LiveViewOutput.cameraAndHost.value,
               ),
@@ -68,15 +68,15 @@ void main() {
         containsAll(
           [
             const AllowedValuesChanged(ControlPropType.aperture, [
-              EosPtpPropValue('1.8', 0x15),
-              EosPtpPropValue('2.0', 0x18),
-              EosPtpPropValue('2.2', 0x1b),
+              EosPtpIntPropValue('1.8', 0x15),
+              EosPtpIntPropValue('2.0', 0x18),
+              EosPtpIntPropValue('2.2', 0x1b),
             ]),
             const AllowedValuesChanged(ControlPropType.shutterSpeed, [
-              EosPtpPropValue('30', 0x10),
-              EosPtpPropValue('25', 0x13),
-              EosPtpPropValue('20', 0x15),
-              EosPtpPropValue('15', 0x18),
+              EosPtpIntPropValue('30', 0x10),
+              EosPtpIntPropValue('25', 0x13),
+              EosPtpIntPropValue('20', 0x15),
+              EosPtpIntPropValue('15', 0x18),
             ])
           ],
         ),

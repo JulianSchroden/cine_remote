@@ -1,10 +1,10 @@
 import '../../interface/models/control_prop_value.dart';
 
-class EosPtpPropValue extends ControlPropValue {
+class EosPtpIntPropValue extends ControlPropValue {
   final String commonValue;
   final int nativeValue;
 
-  const EosPtpPropValue(this.commonValue, this.nativeValue);
+  const EosPtpIntPropValue(this.commonValue, this.nativeValue);
 
   @override
   String get value => commonValue;

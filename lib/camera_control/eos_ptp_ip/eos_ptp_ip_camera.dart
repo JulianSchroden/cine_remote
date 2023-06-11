@@ -17,7 +17,7 @@ import 'actions/action_factory.dart';
 import 'adapter/eos_ptp_event_processor.dart';
 import 'communication/ptp_transaction_queue.dart';
 import 'constants/properties/live_view_output.dart';
-import 'models/eos_ptp_prop_value.dart';
+import 'models/eos_ptp_int_prop_value.dart';
 import 'models/eos_sensor_info.dart';
 
 class EosPtpIpCamera extends BaseCamera {
@@ -77,7 +77,7 @@ class EosPtpIpCamera extends BaseCamera {
   ) async {
     final setPropAction = _actionFactory.createSetPropAction(
       propType,
-      propValue as EosPtpPropValue,
+      propValue as EosPtpIntPropValue,
     );
     await setPropAction.run(_transactionQueue);
   }

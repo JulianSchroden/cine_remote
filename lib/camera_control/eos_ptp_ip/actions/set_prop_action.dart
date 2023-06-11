@@ -3,12 +3,12 @@ import '../communication/ptp_transaction_queue.dart';
 import '../constants/ptp_property.dart';
 import '../extensions/int_as_hex_string_extension.dart';
 import '../extensions/to_byte_extensions.dart';
-import '../models/eos_ptp_prop_value.dart';
+import '../models/eos_ptp_int_prop_value.dart';
 import 'action.dart';
 
 class SetPropAction extends Action<void> {
   final ControlPropType propType;
-  final EosPtpPropValue propValue;
+  final EosPtpIntPropValue propValue;
 
   SetPropAction(this.propType, this.propValue, [super.operationFactory]);
 

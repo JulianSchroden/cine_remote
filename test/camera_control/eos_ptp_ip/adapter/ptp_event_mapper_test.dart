@@ -3,7 +3,7 @@ import 'package:cine_remote/camera_control/eos_ptp_ip/communication/events/allow
 import 'package:cine_remote/camera_control/eos_ptp_ip/communication/events/prop_value_changed.dart';
 import 'package:cine_remote/camera_control/eos_ptp_ip/communication/events/ptp_event.dart';
 import 'package:cine_remote/camera_control/eos_ptp_ip/constants/ptp_property.dart';
-import 'package:cine_remote/camera_control/eos_ptp_ip/models/eos_ptp_prop_value.dart';
+import 'package:cine_remote/camera_control/eos_ptp_ip/models/eos_ptp_int_prop_value.dart';
 import 'package:cine_remote/camera_control/interface/models/camera_update_event.dart';
 import 'package:cine_remote/camera_control/interface/models/control_prop_type.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -28,7 +28,7 @@ void main() {
       const unknownPropChanged = PropValueChanged(
         null,
         0xF0F0,
-        EosPtpPropValue('99', 0xFF),
+        EosPtpIntPropValue('99', 0xFF),
       );
 
       final result = sut.mapToCommon(unknownPropChanged);
@@ -39,7 +39,7 @@ void main() {
       const apertureChanged = PropValueChanged(
         ControlPropType.aperture,
         PtpPropertyCode.aperture,
-        EosPtpPropValue('16', 0x48),
+        EosPtpIntPropValue('16', 0x48),
       );
 
       final result = sut.mapToCommon(apertureChanged);
@@ -48,7 +48,7 @@ void main() {
         result,
         const CameraUpdateEvent.propValueChanged(
           ControlPropType.aperture,
-          EosPtpPropValue('16', 0x48),
+          EosPtpIntPropValue('16', 0x48),
         ),
       );
     });
@@ -57,7 +57,7 @@ void main() {
       const isoChanged = PropValueChanged(
         ControlPropType.iso,
         PtpPropertyCode.iso,
-        EosPtpPropValue('Auto', 0x00),
+        EosPtpIntPropValue('Auto', 0x00),
       );
 
       final result = sut.mapToCommon(isoChanged);
@@ -66,7 +66,7 @@ void main() {
         result,
         const CameraUpdateEvent.propValueChanged(
           ControlPropType.iso,
-          EosPtpPropValue('Auto', 0x00),
+          EosPtpIntPropValue('Auto', 0x00),
         ),
       );
     });
@@ -77,9 +77,9 @@ void main() {
       const allowedIsoValuesChanged = AllowedValuesChanged(
         ControlPropType.iso,
         [
-          EosPtpPropValue('100', 0x48),
-          EosPtpPropValue('200', 0x50),
-          EosPtpPropValue('400', 0x58),
+          EosPtpIntPropValue('100', 0x48),
+          EosPtpIntPropValue('200', 0x50),
+          EosPtpIntPropValue('400', 0x58),
         ],
       );
 
@@ -90,9 +90,9 @@ void main() {
         const CameraUpdateEvent.propAllowedValuesChanged(
           ControlPropType.iso,
           [
-            EosPtpPropValue('100', 0x48),
-            EosPtpPropValue('200', 0x50),
-            EosPtpPropValue('400', 0x58),
+            EosPtpIntPropValue('100', 0x48),
+            EosPtpIntPropValue('200', 0x50),
+            EosPtpIntPropValue('400', 0x58),
           ],
         ),
       );

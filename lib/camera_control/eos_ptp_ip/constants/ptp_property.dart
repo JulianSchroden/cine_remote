@@ -1,7 +1,7 @@
 import '../../../shared/extensions/list_extensions.dart';
 import '../../interface/models/control_prop_type.dart';
 import '../extensions/int_as_hex_string_extension.dart';
-import '../models/eos_ptp_prop_value.dart';
+import '../models/eos_ptp_int_prop_value.dart';
 import 'properties/live_view_output.dart';
 
 abstract class EosValue {
@@ -64,9 +64,9 @@ int? mapPropTypeToCode(ControlPropType propType) {
       ?.key;
 }
 
-EosPtpPropValue mapPtpValue(int propCode, int value) {
+EosPtpIntPropValue mapPtpValue(int propCode, int value) {
   if (propCode == PtpPropertyCode.whiteBalance) {
-    return EosPtpPropValue('$value', value);
+    return EosPtpIntPropValue('$value', value);
   }
 
   final knownPropValues = knownPropValuesMap[propCode];
@@ -76,7 +76,7 @@ EosPtpPropValue mapPtpValue(int propCode, int value) {
           ?.common ??
       fallbackValue;
 
-  return EosPtpPropValue(mappedValue, value);
+  return EosPtpIntPropValue(mappedValue, value);
 }
 
 const Map<int, List<EosValue>> knownPropValuesMap = {

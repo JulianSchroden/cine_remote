@@ -3,7 +3,7 @@ import '../../interface/models/properties/autofocus_position.dart';
 import '../actions/get_events_action.dart';
 import '../adapter/eos_ptp_event_processor.dart';
 import '../constants/properties/live_view_output.dart';
-import '../models/eos_ptp_prop_value.dart';
+import '../models/eos_ptp_int_prop_value.dart';
 import '../models/eos_sensor_info.dart';
 import 'capture_image_action.dart';
 import 'deinit_session_action.dart';
@@ -27,7 +27,7 @@ class ActionFactory {
 
   SetPropAction createSetPropAction(
     ControlPropType propType,
-    EosPtpPropValue propValue,
+    EosPtpIntPropValue propValue,
   ) =>
       SetPropAction(propType, propValue);
 

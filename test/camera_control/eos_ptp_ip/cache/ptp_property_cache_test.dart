@@ -2,7 +2,7 @@ import 'package:cine_remote/camera_control/eos_ptp_ip/cache/ptp_property_cache.d
 import 'package:cine_remote/camera_control/eos_ptp_ip/communication/events/allowed_values_changed.dart';
 import 'package:cine_remote/camera_control/eos_ptp_ip/communication/events/prop_value_changed.dart';
 import 'package:cine_remote/camera_control/eos_ptp_ip/constants/ptp_property.dart';
-import 'package:cine_remote/camera_control/eos_ptp_ip/models/eos_ptp_prop_value.dart';
+import 'package:cine_remote/camera_control/eos_ptp_ip/models/eos_ptp_int_prop_value.dart';
 import 'package:cine_remote/camera_control/interface/models/control_prop.dart';
 import 'package:cine_remote/camera_control/interface/models/control_prop_type.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -113,7 +113,7 @@ void main() {
         result,
         const ControlProp(
           type: ControlPropType.iso,
-          currentValue: EosPtpPropValue(
+          currentValue: EosPtpIntPropValue(
             '100',
             0x48,
           ),
@@ -149,12 +149,12 @@ void main() {
           [
             const ControlProp(
               type: ControlPropType.aperture,
-              currentValue: EosPtpPropValue('10', 0x3d),
+              currentValue: EosPtpIntPropValue('10', 0x3d),
               allowedValues: apertureAllowedValues,
             ),
             const ControlProp(
               type: ControlPropType.iso,
-              currentValue: EosPtpPropValue('100', 0x48),
+              currentValue: EosPtpIntPropValue('100', 0x48),
               allowedValues: isoAllowedValues,
             )
           ],
@@ -180,7 +180,7 @@ void main() {
           [
             const ControlProp(
               type: ControlPropType.iso,
-              currentValue: EosPtpPropValue('100', 0x48),
+              currentValue: EosPtpIntPropValue('100', 0x48),
               allowedValues: isoAllowedValues,
             )
           ],
