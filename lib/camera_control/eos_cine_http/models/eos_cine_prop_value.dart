@@ -1,10 +1,13 @@
 import '../../interface/models/control_prop_value.dart';
 
 class EosCinePropValue extends ControlPropValue {
-  const EosCinePropValue(super.value);
+  final String nativeValue;
 
-  String get nativeValue => value;
+  const EosCinePropValue(this.nativeValue);
 
   @override
-  List<Object?> get props => [...super.props];
+  String get value => nativeValue;
+
+  @override
+  List<Object?> get props => [nativeValue];
 }

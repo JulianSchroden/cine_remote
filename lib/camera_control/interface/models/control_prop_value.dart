@@ -1,13 +1,10 @@
 import 'package:equatable/equatable.dart';
 
-class ControlPropValue extends Equatable {
-  final String value;
+abstract class ControlPropValue extends Equatable {
+  const ControlPropValue();
 
-  const ControlPropValue(this.value);
+  String get value;
 
   @override
   String toString() => value;
-
-  @override
-  List<Object?> get props => [value];
 }

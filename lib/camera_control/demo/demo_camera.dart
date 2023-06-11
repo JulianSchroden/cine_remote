@@ -15,35 +15,34 @@ import '../interface/models/live_view_data.dart';
 import '../interface/models/properties/autofocus_position.dart';
 import '../interface/models/properties/camera_mode.dart';
 import '../interface/models/properties/exposure_mode.dart';
+import 'models/demo_prop_value.dart';
 
 class DemoCamera extends BaseCamera {
   final List<ControlProp> _dummyControlProps = [
     ControlProp(
       type: ControlPropType.iso,
-      currentValue: const ControlPropValue('100'),
-      allowedValues: ['100', '200', '400']
-          .map((value) => ControlPropValue(value))
-          .toList(),
+      currentValue: const DemoPropValue('100'),
+      allowedValues:
+          ['100', '200', '400'].map((value) => DemoPropValue(value)).toList(),
     ),
     ControlProp(
       type: ControlPropType.aperture,
-      currentValue: const ControlPropValue('2.8'),
-      allowedValues: ['2.8', '4.0', '5.6']
-          .map((value) => ControlPropValue(value))
-          .toList(),
+      currentValue: const DemoPropValue('2.8'),
+      allowedValues:
+          ['2.8', '4.0', '5.6'].map((value) => DemoPropValue(value)).toList(),
     ),
     ControlProp(
       type: ControlPropType.shutterAngle,
-      currentValue: const ControlPropValue('180'),
+      currentValue: const DemoPropValue('180'),
       allowedValues: ['90', '180', '270', '360']
-          .map((value) => ControlPropValue(value))
+          .map((value) => DemoPropValue(value))
           .toList(),
     ),
     ControlProp(
       type: ControlPropType.whiteBalance,
-      currentValue: const ControlPropValue('5600'),
+      currentValue: const DemoPropValue('5600'),
       allowedValues: List.generate(
-          50, (index) => ControlPropValue((2000 + index * 100).toString())),
+          50, (index) => DemoPropValue((2000 + index * 100).toString())),
     )
   ];
   bool _reordState = false;
