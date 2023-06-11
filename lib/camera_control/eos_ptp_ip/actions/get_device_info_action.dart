@@ -1,6 +1,5 @@
 import '../adapter/ptp_device_info_parser.dart';
 import '../communication/ptp_transaction_queue.dart';
-import '../responses/ptp_operation_response.dart';
 import 'action.dart';
 
 class GetDeviceInfoAction extends Action<void> {

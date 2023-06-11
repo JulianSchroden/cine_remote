@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../camera_control/interface/discovery/discovery_handle.dart';
 import '../bloc/camera_discovery_cubit.dart';
-import 'camera_discovery_item.dart';
 import 'camera_discovery_card_header.dart';
+import 'camera_discovery_item.dart';
 
 class CameraDisoveryCard extends StatelessWidget {
   final EdgeInsets padding;
