@@ -6,10 +6,12 @@ import '../../../../camera_control/eos_cine_http/eos_cine_http_camera_pairing_da
 import '../../../../camera_control/interface/camera_factory.dart';
 import '../../../../camera_control/interface/models/camera_handle.dart';
 import '../../../../dependencies.dart';
+import '../../camera_connection/bloc/camera_connection_cubit.dart';
 import '../bloc/recent_cameras_cubit.dart';
 import '../repository/recent_camera.dart';
 import '../repository/recent_cameras_repository.dart';
 import 'recent_camera_item.dart';
+import 'recent_camera_options_dialog.dart';
 import 'recent_cameras_list_header.dart';
 
 class RecentCamerasList extends StatelessWidget {
@@ -70,7 +72,28 @@ class RecentCamerasList extends StatelessWidget {
       ListView(
         padding: const EdgeInsets.all(0),
         children: recentCameras
-            .map((recentCamera) => RecentCameraItem(recentCamera: recentCamera))
+            .map(
+              (recentCamera) => RecentCameraItem(
+                recentCamera: recentCamera,
+                onTap: () {
+                  context
+                      .read<CameraConnectionCubit>()
+                      .connect(recentCamera.toCameraHandle());
+                },
+                onLongTap: () {
+                  final parentContext = context;
+
+                  showDialog(
+                    context: parentContext,
+                    builder: (context) => BlocProvider.value(
+                      value: parentContext.read<RecentCamerasCubit>(),
+                      child:
+                          RecentCameraOptionsDialog(recentCamera: recentCamera),
+                    ),
+                  );
+                },
+              ),
+            )
             .toList(),
       );
 
