@@ -1,3 +1,18 @@
+## 2023-06-11 v.0.3.0+4
+- UI
+  - Rework all pages to support landscape mode 
+  - Camera control page:
+    - Move capture button next to live view player
+    - Remove auto-hiding live view play/pause button
+    - Add live view toggle to menu
+- EOS/PTP IP:
+  - Add support for touch to focus
+  - Improve pairing flow:
+    - increase connection timeout while pairing
+    - show error card when pairing fails
+- Restart camera discovery when camera disconnects
+- Add option to transfer pairing data
+
 ## 2023-05-13 v.0.2.1+3
 - Update camera discovery to detect when the camera is not available anymore
 - Updated flutter to 3.1.0
