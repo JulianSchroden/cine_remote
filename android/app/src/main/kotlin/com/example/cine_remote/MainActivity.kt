@@ -1,4 +1,4 @@
-package com.example.cine_remote
+package com.julianschroden.cine_remote
 
 import io.flutter.embedding.android.FlutterActivity
 

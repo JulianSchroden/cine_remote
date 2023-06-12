@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.cine_remote">
+    package="com.julianschroden.cine_remote">
    <application
         android:label="cine_remote"
         android:name="${applicationName}"
