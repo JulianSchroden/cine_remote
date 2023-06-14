@@ -1,17 +1,45 @@
 PODS:
+  - Firebase/CoreOnly (10.10.0):
+    - FirebaseCore (= 10.10.0)
+  - firebase_core (2.14.0):
+    - Firebase/CoreOnly (= 10.10.0)
+    - Flutter
+  - FirebaseCore (10.10.0):
+    - FirebaseCoreInternal (~> 10.0)
+    - GoogleUtilities/Environment (~> 7.8)
+    - GoogleUtilities/Logger (~> 7.8)
+  - FirebaseCoreInternal (10.11.0):
+    - "GoogleUtilities/NSData+zlib (~> 7.8)"
   - Flutter (1.0.0)
+  - GoogleUtilities/Environment (7.11.1):
+    - PromisesObjC (< 3.0, >= 1.2)
+  - GoogleUtilities/Logger (7.11.1):
+    - GoogleUtilities/Environment
+  - "GoogleUtilities/NSData+zlib (7.11.1)"
   - network_info_plus (0.0.1):
     - Flutter
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
+  - PromisesObjC (2.2.0)
 
 DEPENDENCIES:
+  - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
   - network_info_plus (from `.symlinks/plugins/network_info_plus/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
 
+SPEC REPOS:
+  trunk:
+    - Firebase
+    - FirebaseCore
+    - FirebaseCoreInternal
+    - GoogleUtilities
+    - PromisesObjC
+
 EXTERNAL SOURCES:
+  firebase_core:
+    :path: ".symlinks/plugins/firebase_core/ios"
   Flutter:
     :path: Flutter
   network_info_plus:
@@ -20,10 +48,16 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
 
 SPEC CHECKSUMS:
+  Firebase: facd334e557a979bd03a0b58d90fd56b52b8aba0
+  firebase_core: 85b6664038311940ad60584eaabc73103c61f5de
+  FirebaseCore: d027ff503d37edb78db98429b11f580a24a7df2a
+  FirebaseCoreInternal: 9e46c82a14a3b3a25be4e1e151ce6d21536b89c0
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  GoogleUtilities: 9aa0ad5a7bc171f8bae016300bfcfa3fb8425749
   network_info_plus: 122280582fe2fa2bbb8681a4269745cd5c3a9b32
   path_provider_foundation: c68054786f1b4f3343858c1e1d0caaded73f0be9
+  PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
 
 PODFILE CHECKSUM: ef19549a9bc3046e7bb7d2fab4d021637c0c58a3
 
-COCOAPODS: 1.12.0
+COCOAPODS: 1.12.1

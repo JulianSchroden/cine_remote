@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 import 'dependencies.dart';
 import 'presentation/features/camera_connection/bloc/camera_connection_cubit.dart';
@@ -14,6 +16,10 @@ import 'presentation/routes.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   registerDependencies();
   await setup();
