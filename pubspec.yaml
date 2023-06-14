@@ -30,6 +30,7 @@ dependencies:
   xml: ^6.3.0
   path_provider: ^2.0.15
   firebase_core: ^2.14.0
+  firebase_crashlytics: ^3.3.3
 
 dev_dependencies:
   flutter_test:
