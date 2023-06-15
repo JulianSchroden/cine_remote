@@ -1,3 +1,10 @@
+## 2023-06-15 v.0.3.1+5
+- EOS/PTP IP
+  - Add facetracking touch autofocus status
+  - Fix autofocus status mapping causing error when value not known
+- Add Firebase to project
+- Setup Firebase crashlytics to report uncaught exceptions
+
 ## 2023-06-11 v.0.3.0+4
 - UI
   - Rework all pages to support landscape mode 
