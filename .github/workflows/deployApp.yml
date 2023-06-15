@@ -15,6 +15,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.10.0'
+          channel: 'stable'
+      
+      - name: Setup config files
+        env:
+          CONFIG_ZIP_BASE64: ${{ secrets.CONFIG_ZIP_BASE64 }}
+        run: |
+          CONFIG_ZIP_PATH=$GITHUB_WORKSPACE/config.zip
+          echo -n "$CONFIG_ZIP_BASE64" | base64 --decode -o $CONFIG_ZIP_PATH
+          unzip $CONFIG_ZIP_PATH
+          rm $CONFIG_ZIP_PATH
+          dart run ./scripts/setup_flavor.dart prod
+
       - name: Install Apple distribution certificate and provisioning profile
         env:
           DISTRIBUTION_CERTIFICATE_P12_BASE64: ${{ secrets.DISTRIBUTION_CERTIFICATE_P12_BASE64 }}
@@ -44,12 +60,6 @@ jobs:
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp $PROVISIONING_PROFILE_PATH ~/Library/MobileDevice/Provisioning\ Profiles
 
-      - name: Install Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.10.0'
-          channel: 'stable'
-
       - name: Install Dependencies
         run: flutter pub get
       
@@ -66,23 +76,23 @@ jobs:
           path: build/ios/ipa/*.ipa
 
 
-  deploy_iOS:
-    runs-on: macos-latest
-    needs: [ build_iOS ]
-
-    steps:
-      - name: Download ipa from artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: cine-remote-ios
-
-      - name: Display downloaded files
-        run: ls -R
-
-      - name: 'Upload app to TestFlight'
-        uses: apple-actions/upload-testflight-build@v1
-        with: 
-          app-path: 'cine_remote.ipa'
-          issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
-          api-key-id: ${{ secrets.APPSTORE_API_KEY_ID }}
-          api-private-key: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}
+  #deploy_iOS:
+  #  runs-on: macos-latest
+  #  needs: [ build_iOS ]
+#
+  #  steps:
+  #    - name: Download ipa from artifacts
+  #      uses: actions/download-artifact@v3
+  #      with:
+  #        name: cine-remote-ios
+#
+  #    - name: Display downloaded files
+  #      run: ls -R
+#
+  #    - name: 'Upload app to TestFlight'
+  #      uses: apple-actions/upload-testflight-build@v1
+  #      with: 
+  #        app-path: 'cine_remote.ipa'
+  #        issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
+  #        api-key-id: ${{ secrets.APPSTORE_API_KEY_ID }}
+  #        api-private-key: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}
