@@ -10,12 +10,18 @@ class ManualCameraPairingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: const SafeArea(
+      body: SafeArea(
         child: Column(
           children: [
-            AddRecentCameraCard(),
-            Spacer(),
-            AddDemoCamerasButton(),
+            const AddRecentCameraCard(),
+            const SizedBox(height: 32),
+            TextButton(
+              child: const Text('Throw test exception'),
+              onPressed: () => throw Exception(
+                  "Test Exception to verify Firebase connection"),
+            ),
+            const Spacer(),
+            const AddDemoCamerasButton(),
           ],
         ),
       ),
