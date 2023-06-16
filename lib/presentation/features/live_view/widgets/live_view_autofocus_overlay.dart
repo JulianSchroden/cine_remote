@@ -7,11 +7,9 @@ import '../bloc/live_view_cubit.dart';
 
 class LiveViewAutofocusOverlay extends StatelessWidget {
   final TouchAutofocusState? autofocusState;
-  final Size autofocusAreaSize;
 
   const LiveViewAutofocusOverlay({
     required this.autofocusState,
-    this.autofocusAreaSize = const Size(50, 50),
     super.key,
   });
 
@@ -37,13 +35,7 @@ class LiveViewAutofocusOverlay extends StatelessWidget {
           constraints.maxHeight,
         );
 
-        var focusRectPosition = autofocusState != null
-            ? _calculateFocusRectPosition(
-                autofocusState!.position,
-                autofocusAreaSize,
-                widgetSize,
-              )
-            : null;
+        final focusRect = autofocusState?.toOverlayRect(widgetSize);
 
         return Stack(
           children: [
@@ -54,13 +46,13 @@ class LiveViewAutofocusOverlay extends StatelessWidget {
                 details.localPosition,
               ),
             ),
-            if (focusRectPosition != null)
+            if (focusRect != null)
               Positioned(
-                top: focusRectPosition.dy,
-                left: focusRectPosition.dx,
+                top: focusRect.position.dy,
+                left: focusRect.position.dx,
                 child: Container(
-                  width: autofocusAreaSize.width,
-                  height: autofocusAreaSize.height,
+                  width: focusRect.size.width,
+                  height: focusRect.size.height,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: Colors.white,
@@ -74,15 +66,31 @@ class LiveViewAutofocusOverlay extends StatelessWidget {
       },
     );
   }
+}
 
-  Offset _calculateFocusRectPosition(
-    AutofocusPosition autofocusPosition,
-    Size autofocusAreaSize,
-    Size widgetSize,
-  ) {
-    return Offset(
-      autofocusPosition.x * widgetSize.width - (autofocusAreaSize.width / 2),
-      autofocusPosition.y * widgetSize.height - (autofocusAreaSize.height / 2),
+class AutofocusOverlayRect {
+  final Offset position;
+  final Size size;
+
+  AutofocusOverlayRect(this.position, this.size);
+
+  @override
+  String toString() {
+    return "AutofocusOverlayRect(position: $position, size: $size)";
+  }
+}
+
+extension TouchAutofocusStateToOverlayRect on TouchAutofocusState {
+  AutofocusOverlayRect toOverlayRect(Size widgetSize) {
+    return AutofocusOverlayRect(
+      Offset(
+        position.x * widgetSize.width,
+        position.y * widgetSize.height,
+      ),
+      Size(
+        width * widgetSize.width,
+        height * widgetSize.height,
+      ),
     );
   }
 }

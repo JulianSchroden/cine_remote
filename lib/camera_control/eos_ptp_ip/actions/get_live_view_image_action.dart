@@ -57,14 +57,13 @@ class GetLiveViewImageAction extends Action<LiveViewData> {
       return null;
     }
 
-    final centerX = autofocusState.x + (autofocusState.width / 2);
-    final centerY = autofocusState.y + (autofocusState.height / 2);
-
     return TouchAutofocusState(
       position: AutofocusPosition(
-        x: centerX / sensorInfo.width,
-        y: centerY / sensorInfo.height,
+        x: autofocusState.x / sensorInfo.width,
+        y: autofocusState.y / sensorInfo.height,
       ),
+      width: autofocusState.width / sensorInfo.width,
+      height: autofocusState.height / sensorInfo.height,
     );
   }
 }
