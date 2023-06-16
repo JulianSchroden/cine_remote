@@ -67,7 +67,7 @@ void setupCrashReporting() {
 
 void setupLogging() {
   CameraControlLoggerConfig.init(enabledTopics: [
-    const EosPtpTransactionQueueTopic(),
+    // const EosPtpTransactionQueueTopic(),
     const EosPtpIpDiscoveryTopic(),
   ]);
 
