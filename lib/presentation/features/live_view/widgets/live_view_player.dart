@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/live_view_cubit.dart';
 import 'live_view_autofocus_overlay.dart';
 import 'live_view_control_overlay.dart';
+import 'live_view_grid_guidelines_overlay.dart';
 
 class LiveViewPlayer extends StatelessWidget {
   final List<Widget> children;
@@ -22,6 +23,8 @@ class LiveViewPlayer extends StatelessWidget {
                       state.imageBytes!,
                       gaplessPlayback: true,
                     ),
+                  if (state.isLiveViewActive)
+                    const LiveViewGridGuidelinesOverlay(),
                   LiveViewControlOverlay(
                     liveViewStatus: state.status,
                     isLoading: state.isLoading,
