@@ -23,7 +23,7 @@ class LiveViewPlayer extends StatelessWidget {
                       gaplessPlayback: true,
                     ),
                   LiveViewControlOverlay(
-                    isLiveViewActive: state.isLiveViewActive,
+                    liveViewStatus: state.status,
                     isLoading: state.isLoading,
                   ),
                   if (state.supportsTouchAutofocus && state.isLiveViewActive)

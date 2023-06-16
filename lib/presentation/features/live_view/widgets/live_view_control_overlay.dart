@@ -4,11 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/live_view_cubit.dart';
 
 class LiveViewControlOverlay extends StatelessWidget {
-  final bool isLiveViewActive;
+  final LiveViewStatus liveViewStatus;
   final bool isLoading;
 
   const LiveViewControlOverlay({
-    required this.isLiveViewActive,
+    required this.liveViewStatus,
     required this.isLoading,
     super.key,
   });
@@ -17,11 +17,12 @@ class LiveViewControlOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isVisible = !isLiveViewActive;
-    final ignoreStartButtonPress = isLiveViewActive;
+    final showStartButton = liveViewStatus == LiveViewStatus.paused ||
+        liveViewStatus == LiveViewStatus.loading;
+    final ignoreStartButtonPress = liveViewStatus != LiveViewStatus.paused;
 
     return AnimatedOpacity(
-      opacity: isVisible ? 1.0 : 0,
+      opacity: showStartButton ? 1.0 : 0,
       duration: const Duration(milliseconds: 200),
       child: Center(
         child: IgnorePointer(
@@ -41,11 +42,11 @@ class LiveViewControlOverlay extends StatelessWidget {
                       strokeWidth: 2,
                     ),
                   ),
-                SizedBox(
+                const SizedBox(
                   width: buttonSize,
                   height: buttonSize,
                   child: Icon(
-                    isLiveViewActive ? Icons.pause : Icons.play_arrow_outlined,
+                    Icons.play_arrow_outlined,
                     color: Colors.white,
                     size: 48,
                   ),
