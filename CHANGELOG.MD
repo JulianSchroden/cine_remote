@@ -1,3 +1,11 @@
+## 2023-06-27 v.0.3.2+6
+- EOS/PTP IP
+  - Add support for displaying dynamically sized face autofocus rectangle
+- Live view player
+  - Only show start button in paused state
+  - Add toggleable grid overlay
+  - Add toggleable center marker overlay
+
 ## 2023-06-15 v.0.3.1+5
 - EOS/PTP IP
   - Add facetracking touch autofocus status
