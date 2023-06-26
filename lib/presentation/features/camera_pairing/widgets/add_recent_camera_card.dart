@@ -35,8 +35,11 @@ class _AddRecentCameraCardState extends State<AddRecentCameraCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: CineRemoteColors.background,
-      padding: const EdgeInsets.fromLTRB(16, 24, 16, 16),
+      padding: const EdgeInsets.fromLTRB(24, 32, 24, 16),
+      decoration: const BoxDecoration(
+        color: CineRemoteColors.background,
+        borderRadius: BorderRadius.all(Radius.circular(4)),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
