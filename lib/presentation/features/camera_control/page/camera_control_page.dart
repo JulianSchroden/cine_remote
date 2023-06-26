@@ -5,6 +5,7 @@ import '../../../../dependencies.dart';
 import '../../../core/adapter/date_time_adapter.dart';
 import '../../camera_connection/bloc/camera_connection_cubit.dart';
 import '../../live_view/bloc/live_view_cubit.dart';
+import '../../live_view/bloc/live_view_overlay_cubit.dart';
 import '../../screen_orientation/bloc/screen_orientation_cubit.dart';
 import '../bloc/actions_control_cubit.dart';
 import '../bloc/camera_control_layout_cubit.dart';
@@ -38,6 +39,9 @@ class CameraControlPage extends StatelessWidget {
           create: (context) => LiveViewCubit(
             context.read<CameraConnectionCubit>(),
           )..init(),
+        ),
+        BlocProvider(
+          create: (context) => LiveViewOverlayCubit(),
         ),
         BlocProvider(
           create: (context) => ImageCaptureCubit(
