@@ -1,14 +1,9 @@
 import 'dart:async';
 import 'dart:typed_data';
 
+import 'package:camera_control_dart/camera_control_dart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../camera_control/interface/exceptions/camera_communication_exception.dart';
-import '../../../../camera_control/interface/exceptions/unsupported_capability_exception.dart';
-import '../../../../camera_control/interface/models/capabilities/live_view_capability.dart';
-import '../../../../camera_control/interface/models/live_view_data.dart';
-import '../../../../camera_control/interface/models/properties/autofocus_position.dart';
-import '../../../../camera_control/interface/models/touch_autofocus_state.dart';
 import '../../camera_control/bloc/base_camera_control_cubit.dart';
 
 part 'live_view_cubit.freezed.dart';

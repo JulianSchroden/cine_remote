@@ -1,5 +1,4 @@
-import '../../../camera_control/interface/camera_factory.dart';
-import '../../../camera_control/interface/models/camera_model.dart';
+import 'package:camera_control_dart/camera_control_dart.dart';
 
 extension CameraModelDisplayExtension on CameraModel {
   String? productImagePath() {

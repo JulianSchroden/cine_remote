@@ -1,8 +1,7 @@
+import 'package:camera_control_dart/camera_control_dart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../camera_control/interface/models/properties/autofocus_position.dart';
-import '../../../../camera_control/interface/models/touch_autofocus_state.dart';
 import '../bloc/live_view_cubit.dart';
 
 class LiveViewAutofocusOverlay extends StatelessWidget {

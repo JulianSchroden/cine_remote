@@ -1,11 +1,8 @@
 import 'dart:async';
 
+import 'package:camera_control_dart/camera_control_dart.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-
-import '../../../../camera_control/interface/discovery/camera_discovery_event.dart';
-import '../../../../camera_control/interface/discovery/camera_discovery_service.dart';
-import '../../../../camera_control/interface/discovery/discovery_handle.dart';
 
 part 'camera_discovery_cubit.freezed.dart';
 

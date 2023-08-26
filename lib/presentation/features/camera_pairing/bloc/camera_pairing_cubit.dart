@@ -1,9 +1,7 @@
+import 'package:camera_control_dart/camera_control_dart.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../camera_control/interface/camera_factory_provider.dart';
-import '../../../../camera_control/interface/discovery/discovery_handle.dart';
-import '../../../../camera_control/interface/models/camera_handle.dart';
 import '../../recent_cameras/repository/recent_cameras_repository.dart';
 
 part 'camera_pairing_cubit.freezed.dart';

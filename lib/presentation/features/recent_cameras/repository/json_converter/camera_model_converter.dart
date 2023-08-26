@@ -1,7 +1,5 @@
+import 'package:camera_control_dart/camera_control_dart.dart';
 import 'package:json_annotation/json_annotation.dart';
-
-import '../../../../../camera_control/interface/models/camera_control_protocol.dart';
-import '../../../../../camera_control/interface/models/camera_model.dart';
 
 class CameraModelConverter
     implements JsonConverter<CameraModel, Map<String, dynamic>> {

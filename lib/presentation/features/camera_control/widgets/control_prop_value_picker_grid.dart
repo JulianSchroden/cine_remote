@@ -1,9 +1,9 @@
 import 'dart:math' as math;
 
+import 'package:camera_control_dart/camera_control_dart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../camera_control/interface/models/control_prop.dart';
 import '../bloc/props_control_cubit.dart';
 
 class ControlPropValuePickerGrid extends StatefulWidget {

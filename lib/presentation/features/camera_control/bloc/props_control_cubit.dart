@@ -1,13 +1,9 @@
 import 'dart:async';
 
+import 'package:camera_control_dart/camera_control_dart.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../camera_control/interface/models/camera_update_event.dart';
-import '../../../../camera_control/interface/models/capabilities/control_prop_capability.dart';
-import '../../../../camera_control/interface/models/control_prop.dart';
-import '../../../../camera_control/interface/models/control_prop_type.dart';
-import '../../../../camera_control/interface/models/control_prop_value.dart';
 import '../../../../shared/extensions/list_extensions.dart';
 import '../../../core/adapter/date_time_adapter.dart';
 import '../../../core/extensions/control_prop_extension.dart';

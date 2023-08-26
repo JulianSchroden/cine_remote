@@ -1,12 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc_test/bloc_test.dart';
-import 'package:cine_remote/camera_control/eos_cine_http/models/eos_cine_http_discovery_handle.dart';
-import 'package:cine_remote/camera_control/eos_ptp_ip/discovery/eos_ptp_ip_discovery_handle.dart';
-import 'package:cine_remote/camera_control/interface/camera_factory.dart';
-import 'package:cine_remote/camera_control/interface/discovery/camera_discovery_event.dart';
-import 'package:cine_remote/camera_control/interface/discovery/camera_discovery_service.dart';
-import 'package:cine_remote/camera_control/interface/discovery/wifi_info.dart';
+import 'package:camera_control_dart/camera_control_dart.dart';
 import 'package:cine_remote/presentation/features/camera_selection/bloc/camera_discovery_cubit.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';

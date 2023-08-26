@@ -1,16 +1,15 @@
 import 'dart:async';
 
+import 'package:camera_control_dart/camera_control_dart.dart';
+import 'package:cine_remote/adapter/wifi_info_adapter.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
-import 'package:logging/logging.dart';
+import 'package:logging/logging.dart' as logger_impl;
 
-import 'camera_control/eos_ptp_ip/logging/eos_ptp_ip_logger_topics.dart';
-import 'camera_control/interface/camera_factory_provider.dart';
-import 'camera_control/interface/discovery/camera_discovery_service.dart';
-import 'camera_control/interface/logging/camera_control_logger.dart';
 import 'firebase_options.dart';
+import 'logging/camera_control_logger.dart';
 import 'presentation/core/adapter/date_time_adapter.dart';
 import 'presentation/features/camera_connection/bloc/camera_connection_cubit.dart';
 import 'presentation/features/camera_pairing/bloc/camera_pairing_cubit.dart';
@@ -30,8 +29,8 @@ void registerDependencies() {
         cameraFactoryProvider: const CameraFactoryProvider(),
         recentCamerasRepostitory: get<RecentCamerasRepostitory>(),
       ));
-  factory<CameraDiscoveryCubit>(
-      () => CameraDiscoveryCubit(CameraDiscoveryService.create()));
+  factory<CameraDiscoveryCubit>(() => CameraDiscoveryCubit(
+      DefaultCameraDiscoveryService(wifiInfoAdapter: WifiInfoAdapterImpl())));
   factory<CameraPairingCubit>(() => CameraPairingCubit(
         const CameraFactoryProvider(),
         get<RecentCamerasRepostitory>(),
@@ -66,12 +65,14 @@ void setupCrashReporting() {
 }
 
 void setupLogging() {
-  CameraControlLoggerConfig.init(enabledTopics: [
-    // const EosPtpTransactionQueueTopic(),
-    const EosPtpIpDiscoveryTopic(),
-  ]);
+  CameraControlLoggerConfig.init(
+      logger: CameraControlLoggerImpl(),
+      enabledTopics: [
+        // const EosPtpTransactionQueueTopic(),
+        // const EosPtpIpDiscoveryTopic(),
+      ]);
 
-  Logger.root.onRecord.listen((record) {
+  logger_impl.Logger.root.onRecord.listen((record) {
     print('${record.level.name}: ${record.time}: ${record.message}');
   });
 }

@@ -1,10 +1,5 @@
-import 'package:cine_remote/camera_control/common/adapter/date_time_adapter.dart';
-import 'package:cine_remote/camera_control/interface/camera.dart';
-import 'package:cine_remote/camera_control/interface/exceptions/camera_connection_exception.dart';
-import 'package:cine_remote/camera_control/interface/models/camera_descriptor.dart';
-import 'package:cine_remote/camera_control/interface/models/capabilities/camera_capability.dart';
-import 'package:cine_remote/camera_control/interface/models/properties/camera_mode.dart';
-import 'package:cine_remote/camera_control/interface/models/properties/exposure_mode.dart';
+import 'package:camera_control_dart/camera_control_dart.dart';
+import 'package:cine_remote/presentation/core/adapter/date_time_adapter.dart';
 import 'package:cine_remote/presentation/features/camera_connection/bloc/camera_connection_cubit.dart';
 import 'package:mocktail/mocktail.dart';
 

@@ -1,9 +1,7 @@
+import 'package:camera_control_dart/camera_control_dart.dart';
 import 'package:equatable/equatable.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../camera_control/interface/models/camera_handle.dart';
-import '../../../../camera_control/interface/models/camera_model.dart';
-import '../../../../camera_control/interface/models/pairing_data.dart';
 import 'json_converter/camera_model_converter.dart';
 import 'json_converter/pairing_data_converter.dart';
 

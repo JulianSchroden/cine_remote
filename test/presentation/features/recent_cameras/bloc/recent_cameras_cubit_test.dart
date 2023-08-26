@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc_test/bloc_test.dart';
-import 'package:cine_remote/camera_control/demo/demo_camera_pairing_data.dart';
-import 'package:cine_remote/camera_control/eos_cine_http/eos_cine_http_camera_pairing_data.dart';
-import 'package:cine_remote/camera_control/interface/camera_factory.dart';
+import 'package:camera_control_dart/camera_control_dart.dart';
 import 'package:cine_remote/presentation/features/recent_cameras/bloc/recent_cameras_cubit.dart';
 import 'package:cine_remote/presentation/features/recent_cameras/repository/recent_camera.dart';
 import 'package:cine_remote/presentation/features/recent_cameras/repository/recent_cameras_repository.dart';

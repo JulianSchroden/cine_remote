@@ -1,11 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:camera_control_dart/camera_control_dart.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../../../../camera_control/interface/models/camera_handle.dart';
-import '../../../../camera_control/interface/models/pairing_data.dart';
 import '../../../core/adapter/date_time_adapter.dart';
 import 'recent_camera.dart';
 

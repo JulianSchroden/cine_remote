@@ -1,5 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:cine_remote/camera_control/interface/models/capabilities/image_capture_capability.dart';
+import 'package:camera_control_dart/camera_control_dart.dart';
 import 'package:cine_remote/presentation/features/camera_control/bloc/image_capture_cubit.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';

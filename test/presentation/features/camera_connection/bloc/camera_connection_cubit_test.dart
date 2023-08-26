@@ -1,8 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:cine_remote/camera_control/eos_cine_http/eos_cine_http_camera.dart';
-import 'package:cine_remote/camera_control/interface/camera.dart';
-import 'package:cine_remote/camera_control/interface/models/camera_handle.dart';
-import 'package:cine_remote/camera_control/interface/models/camera_model.dart';
+import 'package:camera_control_dart/camera_control_dart.dart';
 
 import 'package:cine_remote/presentation/features/camera_connection/bloc/camera_connection_cubit.dart';
 import 'package:flutter_test/flutter_test.dart';

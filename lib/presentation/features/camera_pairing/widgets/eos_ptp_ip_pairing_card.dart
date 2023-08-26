@@ -1,12 +1,10 @@
 import 'dart:math';
 import 'dart:typed_data';
 
+import 'package:camera_control_dart/camera_control_dart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../camera_control/eos_ptp_ip/discovery/eos_ptp_ip_discovery_handle.dart';
-import '../../../../camera_control/eos_ptp_ip/eos_ptp_ip_camera_pairing_data.dart';
-import '../../../../camera_control/interface/models/camera_handle.dart';
 import '../bloc/camera_pairing_cubit.dart';
 
 class EosPtpIpGuid {

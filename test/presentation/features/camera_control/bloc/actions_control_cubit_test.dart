@@ -1,9 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc_test/bloc_test.dart';
-import 'package:cine_remote/camera_control/interface/models/properties/auto_focus_mode.dart';
-import 'package:cine_remote/camera_control/interface/models/camera_update_event.dart';
-import 'package:cine_remote/presentation/features/camera_control/bloc/actions_control_cubit.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 

@@ -1,5 +1,4 @@
-import '../../../camera_control/interface/models/control_prop.dart';
-import '../../../camera_control/interface/models/control_prop_type.dart';
+import 'package:camera_control_dart/camera_control_dart.dart';
 
 extension FormatControlPropExtension on ControlProp {
   String format() {

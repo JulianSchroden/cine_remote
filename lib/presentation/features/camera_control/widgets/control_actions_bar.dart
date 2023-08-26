@@ -1,7 +1,7 @@
+import 'package:camera_control_dart/camera_control_dart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../camera_control/interface/models/properties/camera_mode.dart';
 import '../bloc/camera_meta_cubit.dart';
 import 'capture_image_button.dart';
 import 'record_button.dart';

@@ -1,7 +1,6 @@
+import 'package:camera_control_dart/camera_control_dart.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-
-import '../../../../camera_control/interface/models/control_prop_type.dart';
 
 part 'camera_control_layout_cubit.freezed.dart';
 

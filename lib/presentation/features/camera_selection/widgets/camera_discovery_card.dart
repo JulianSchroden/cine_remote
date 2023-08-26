@@ -1,8 +1,8 @@
+import 'package:camera_control_dart/camera_control_dart.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../camera_control/interface/discovery/discovery_handle.dart';
 import '../bloc/camera_discovery_cubit.dart';
 import 'camera_discovery_card_header.dart';
 import 'camera_discovery_item.dart';

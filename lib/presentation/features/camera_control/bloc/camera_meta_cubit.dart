@@ -1,6 +1,6 @@
+import 'package:camera_control_dart/camera_control_dart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../camera_control/interface/models/camera_descriptor.dart';
 import 'base_camera_control_cubit.dart';
 
 part 'camera_meta_cubit.freezed.dart';

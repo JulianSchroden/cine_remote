@@ -1,8 +1,6 @@
+import 'package:camera_control_dart/camera_control_dart.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../camera_control/demo/demo_camera_pairing_data.dart';
-import '../../../../camera_control/eos_cine_http/eos_cine_http_camera_pairing_data.dart';
-import '../../../../camera_control/eos_ptp_ip/eos_ptp_ip_camera_pairing_data.dart';
 import '../../../core/extensions/camera_model_display_extension.dart';
 
 import '../repository/recent_camera.dart';

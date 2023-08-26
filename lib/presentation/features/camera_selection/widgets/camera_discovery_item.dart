@@ -1,7 +1,7 @@
+import 'package:camera_control_dart/camera_control_dart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../camera_control/interface/discovery/discovery_handle.dart';
 import '../../../core/extensions/camera_model_display_extension.dart';
 import '../../camera_connection/bloc/camera_connection_cubit.dart';
 
