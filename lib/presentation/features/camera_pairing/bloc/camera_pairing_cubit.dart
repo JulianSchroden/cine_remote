@@ -13,8 +13,8 @@ class CameraPairingState with _$CameraPairingState {
       _Activ;
   const factory CameraPairingState.inProgress(DiscoveryHandle discoveryHandle) =
       _InProgress;
-  const factory CameraPairingState.success(CameraHandle cameraHandle) =
-      _Success;
+  const factory CameraPairingState.success(
+      CameraConnectionHandle cameraHandle) = _Success;
   const factory CameraPairingState.error() = _Error;
 }
 
@@ -30,7 +30,7 @@ class CameraPairingCubit extends Cubit<CameraPairingState> {
     emit(CameraPairingState.active(discoveryHandle));
   }
 
-  Future<void> pair(CameraHandle cameraHandle) async {
+  Future<void> pair(CameraConnectionHandle cameraHandle) async {
     final discoveryHandle = state.maybeWhen(
         active: (discoveryHandle) => discoveryHandle, orElse: () => null);
     if (discoveryHandle == null) {

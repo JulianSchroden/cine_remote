@@ -8,7 +8,7 @@ void main() {
   final currentTime = DateTime(2023, 04, 17);
 
   test('converts demo recentCamera toJson and fromJson', () {
-    const cameraHandle = CameraHandle(
+    const cameraHandle = CameraConnectionHandle(
         id: 'demo-1',
         model: CameraModels.demoCamera,
         pairingData: DemoCameraPairingData());
@@ -20,7 +20,7 @@ void main() {
   });
 
   test('converts eosCineHttp recentCamera toJson and fromJson', () {
-    const cameraHandle = CameraHandle(
+    const cameraHandle = CameraConnectionHandle(
       id: 'eos-cine-http-1',
       model: CameraModels.canonC100II,
       pairingData: EosCineHttpCameraPairingData(address: '192.168.178.80'),
@@ -33,7 +33,7 @@ void main() {
   });
 
   test('converts eosPtpIp recentCamera toJson and fromJson', () {
-    final cameraHandle = CameraHandle(
+    final cameraHandle = CameraConnectionHandle(
       id: 'eos-ptp-ip-1',
       model: CameraModels.canon70D,
       pairingData: EosPtpIpCameraPairingData(

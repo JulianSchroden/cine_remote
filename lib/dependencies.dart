@@ -30,7 +30,7 @@ void registerDependencies() {
         recentCamerasRepostitory: get<RecentCamerasRepostitory>(),
       ));
   factory<CameraDiscoveryCubit>(() => CameraDiscoveryCubit(
-      DefaultCameraDiscoveryService(wifiInfoAdapter: WifiInfoAdapterImpl())));
+      CameraDiscoveryService(wifiInfoAdapter: WifiInfoAdapterImpl())));
   factory<CameraPairingCubit>(() => CameraPairingCubit(
         const CameraFactoryProvider(),
         get<RecentCamerasRepostitory>(),

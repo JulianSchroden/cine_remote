@@ -67,7 +67,7 @@ class _EosPtpIpPairingCardState extends State<EosPtpIpPairingCard> {
     print(
         'connect to: ${ipAddressController.text} with clientName: ${clientNameController.text} and guid: ${pairingGuidController.text}');
 
-    final cameraHandle = CameraHandle(
+    final cameraHandle = CameraConnectionHandle(
       id: widget.discoveryHandle.id,
       model: widget.discoveryHandle.model,
       pairingData: EosPtpIpCameraPairingData(

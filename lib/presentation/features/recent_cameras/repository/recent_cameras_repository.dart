@@ -53,7 +53,7 @@ class RecentCamerasRepostitory {
       ..sort((a, b) => b.lastUsed.compareTo(a.lastUsed));
   }
 
-  Future<void> addCamera(CameraHandle handle) async {
+  Future<void> addCamera(CameraConnectionHandle handle) async {
     final recentCamera = handle.toRecentCamera(_dateTimeAdapter.now());
     await addRecentCamera(recentCamera);
   }

@@ -23,12 +23,12 @@ void main() {
 
   final currentTime = DateTime(2023, 04, 17, 17, 47, 12);
 
-  final recentDemoCamera = const CameraHandle(
+  final recentDemoCamera = const CameraConnectionHandle(
           id: 'demo-1',
           model: CameraModels.demoCamera,
           pairingData: DemoCameraPairingData())
       .toRecentCamera(DateTime(2023, 04, 17, 17, 38, 10));
-  final recentPtpIpCamera = CameraHandle(
+  final recentPtpIpCamera = CameraConnectionHandle(
           id: 'eos-ptp-ip-1',
           model: CameraModels.canon70D,
           pairingData: EosPtpIpCameraPairingData(
@@ -36,7 +36,7 @@ void main() {
               address: '192.168.178.120',
               clientName: 'phone'))
       .toRecentCamera(DateTime(2023, 04, 18, 12, 03, 22));
-  final recentEosCineHttpCamera = const CameraHandle(
+  final recentEosCineHttpCamera = const CameraConnectionHandle(
           id: 'eos-cine-http-1',
           model: CameraModels.canonC100II,
           pairingData: EosCineHttpCameraPairingData())
@@ -93,7 +93,7 @@ void main() {
   });
 
   group('addCamera', () {
-    final cameraHandle = CameraHandle(
+    final cameraHandle = CameraConnectionHandle(
       id: 'id-1232',
       model: CameraModels.canon70D,
       pairingData: EosPtpIpCameraPairingData(

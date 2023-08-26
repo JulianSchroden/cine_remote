@@ -47,7 +47,7 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
         return;
       }
 
-      final cameraHandle = CameraHandle(
+      final cameraHandle = CameraConnectionHandle(
           id: discoveryHandle.id,
           model: discoveryHandle.model,
           pairingData: pairingData);
@@ -66,7 +66,7 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
     return await recentCamerasRepostitory.getPairingData(discoveryHandle.id);
   }
 
-  Future<void> connect(CameraHandle cameraHandle) async {
+  Future<void> connect(CameraConnectionHandle cameraHandle) async {
     try {
       print('cubit connect');
 

@@ -21,7 +21,7 @@ mixin _$CameraPairingState {
     required TResult Function() init,
     required TResult Function(DiscoveryHandle discoveryHandle) active,
     required TResult Function(DiscoveryHandle discoveryHandle) inProgress,
-    required TResult Function(CameraHandle cameraHandle) success,
+    required TResult Function(CameraConnectionHandle cameraHandle) success,
     required TResult Function() error,
   }) =>
       throw _privateConstructorUsedError;
@@ -30,7 +30,7 @@ mixin _$CameraPairingState {
     TResult? Function()? init,
     TResult? Function(DiscoveryHandle discoveryHandle)? active,
     TResult? Function(DiscoveryHandle discoveryHandle)? inProgress,
-    TResult? Function(CameraHandle cameraHandle)? success,
+    TResult? Function(CameraConnectionHandle cameraHandle)? success,
     TResult? Function()? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -39,7 +39,7 @@ mixin _$CameraPairingState {
     TResult Function()? init,
     TResult Function(DiscoveryHandle discoveryHandle)? active,
     TResult Function(DiscoveryHandle discoveryHandle)? inProgress,
-    TResult Function(CameraHandle cameraHandle)? success,
+    TResult Function(CameraConnectionHandle cameraHandle)? success,
     TResult Function()? error,
     required TResult orElse(),
   }) =>
@@ -131,7 +131,7 @@ class _$_Init implements _Init {
     required TResult Function() init,
     required TResult Function(DiscoveryHandle discoveryHandle) active,
     required TResult Function(DiscoveryHandle discoveryHandle) inProgress,
-    required TResult Function(CameraHandle cameraHandle) success,
+    required TResult Function(CameraConnectionHandle cameraHandle) success,
     required TResult Function() error,
   }) {
     return init();
@@ -143,7 +143,7 @@ class _$_Init implements _Init {
     TResult? Function()? init,
     TResult? Function(DiscoveryHandle discoveryHandle)? active,
     TResult? Function(DiscoveryHandle discoveryHandle)? inProgress,
-    TResult? Function(CameraHandle cameraHandle)? success,
+    TResult? Function(CameraConnectionHandle cameraHandle)? success,
     TResult? Function()? error,
   }) {
     return init?.call();
@@ -155,7 +155,7 @@ class _$_Init implements _Init {
     TResult Function()? init,
     TResult Function(DiscoveryHandle discoveryHandle)? active,
     TResult Function(DiscoveryHandle discoveryHandle)? inProgress,
-    TResult Function(CameraHandle cameraHandle)? success,
+    TResult Function(CameraConnectionHandle cameraHandle)? success,
     TResult Function()? error,
     required TResult orElse(),
   }) {
@@ -276,7 +276,7 @@ class _$_Activ implements _Activ {
     required TResult Function() init,
     required TResult Function(DiscoveryHandle discoveryHandle) active,
     required TResult Function(DiscoveryHandle discoveryHandle) inProgress,
-    required TResult Function(CameraHandle cameraHandle) success,
+    required TResult Function(CameraConnectionHandle cameraHandle) success,
     required TResult Function() error,
   }) {
     return active(discoveryHandle);
@@ -288,7 +288,7 @@ class _$_Activ implements _Activ {
     TResult? Function()? init,
     TResult? Function(DiscoveryHandle discoveryHandle)? active,
     TResult? Function(DiscoveryHandle discoveryHandle)? inProgress,
-    TResult? Function(CameraHandle cameraHandle)? success,
+    TResult? Function(CameraConnectionHandle cameraHandle)? success,
     TResult? Function()? error,
   }) {
     return active?.call(discoveryHandle);
@@ -300,7 +300,7 @@ class _$_Activ implements _Activ {
     TResult Function()? init,
     TResult Function(DiscoveryHandle discoveryHandle)? active,
     TResult Function(DiscoveryHandle discoveryHandle)? inProgress,
-    TResult Function(CameraHandle cameraHandle)? success,
+    TResult Function(CameraConnectionHandle cameraHandle)? success,
     TResult Function()? error,
     required TResult orElse(),
   }) {
@@ -428,7 +428,7 @@ class _$_InProgress implements _InProgress {
     required TResult Function() init,
     required TResult Function(DiscoveryHandle discoveryHandle) active,
     required TResult Function(DiscoveryHandle discoveryHandle) inProgress,
-    required TResult Function(CameraHandle cameraHandle) success,
+    required TResult Function(CameraConnectionHandle cameraHandle) success,
     required TResult Function() error,
   }) {
     return inProgress(discoveryHandle);
@@ -440,7 +440,7 @@ class _$_InProgress implements _InProgress {
     TResult? Function()? init,
     TResult? Function(DiscoveryHandle discoveryHandle)? active,
     TResult? Function(DiscoveryHandle discoveryHandle)? inProgress,
-    TResult? Function(CameraHandle cameraHandle)? success,
+    TResult? Function(CameraConnectionHandle cameraHandle)? success,
     TResult? Function()? error,
   }) {
     return inProgress?.call(discoveryHandle);
@@ -452,7 +452,7 @@ class _$_InProgress implements _InProgress {
     TResult Function()? init,
     TResult Function(DiscoveryHandle discoveryHandle)? active,
     TResult Function(DiscoveryHandle discoveryHandle)? inProgress,
-    TResult Function(CameraHandle cameraHandle)? success,
+    TResult Function(CameraConnectionHandle cameraHandle)? success,
     TResult Function()? error,
     required TResult orElse(),
   }) {
@@ -519,7 +519,7 @@ abstract class _$$_SuccessCopyWith<$Res> {
           _$_Success value, $Res Function(_$_Success) then) =
       __$$_SuccessCopyWithImpl<$Res>;
   @useResult
-  $Res call({CameraHandle cameraHandle});
+  $Res call({CameraConnectionHandle cameraHandle});
 }
 
 /// @nodoc
@@ -538,7 +538,7 @@ class __$$_SuccessCopyWithImpl<$Res>
       null == cameraHandle
           ? _value.cameraHandle
           : cameraHandle // ignore: cast_nullable_to_non_nullable
-              as CameraHandle,
+              as CameraConnectionHandle,
     ));
   }
 }
@@ -549,7 +549,7 @@ class _$_Success implements _Success {
   const _$_Success(this.cameraHandle);
 
   @override
-  final CameraHandle cameraHandle;
+  final CameraConnectionHandle cameraHandle;
 
   @override
   String toString() {
@@ -580,7 +580,7 @@ class _$_Success implements _Success {
     required TResult Function() init,
     required TResult Function(DiscoveryHandle discoveryHandle) active,
     required TResult Function(DiscoveryHandle discoveryHandle) inProgress,
-    required TResult Function(CameraHandle cameraHandle) success,
+    required TResult Function(CameraConnectionHandle cameraHandle) success,
     required TResult Function() error,
   }) {
     return success(cameraHandle);
@@ -592,7 +592,7 @@ class _$_Success implements _Success {
     TResult? Function()? init,
     TResult? Function(DiscoveryHandle discoveryHandle)? active,
     TResult? Function(DiscoveryHandle discoveryHandle)? inProgress,
-    TResult? Function(CameraHandle cameraHandle)? success,
+    TResult? Function(CameraConnectionHandle cameraHandle)? success,
     TResult? Function()? error,
   }) {
     return success?.call(cameraHandle);
@@ -604,7 +604,7 @@ class _$_Success implements _Success {
     TResult Function()? init,
     TResult Function(DiscoveryHandle discoveryHandle)? active,
     TResult Function(DiscoveryHandle discoveryHandle)? inProgress,
-    TResult Function(CameraHandle cameraHandle)? success,
+    TResult Function(CameraConnectionHandle cameraHandle)? success,
     TResult Function()? error,
     required TResult orElse(),
   }) {
@@ -656,9 +656,10 @@ class _$_Success implements _Success {
 }
 
 abstract class _Success implements CameraPairingState {
-  const factory _Success(final CameraHandle cameraHandle) = _$_Success;
+  const factory _Success(final CameraConnectionHandle cameraHandle) =
+      _$_Success;
 
-  CameraHandle get cameraHandle;
+  CameraConnectionHandle get cameraHandle;
   @JsonKey(ignore: true)
   _$$_SuccessCopyWith<_$_Success> get copyWith =>
       throw _privateConstructorUsedError;
@@ -703,7 +704,7 @@ class _$_Error implements _Error {
     required TResult Function() init,
     required TResult Function(DiscoveryHandle discoveryHandle) active,
     required TResult Function(DiscoveryHandle discoveryHandle) inProgress,
-    required TResult Function(CameraHandle cameraHandle) success,
+    required TResult Function(CameraConnectionHandle cameraHandle) success,
     required TResult Function() error,
   }) {
     return error();
@@ -715,7 +716,7 @@ class _$_Error implements _Error {
     TResult? Function()? init,
     TResult? Function(DiscoveryHandle discoveryHandle)? active,
     TResult? Function(DiscoveryHandle discoveryHandle)? inProgress,
-    TResult? Function(CameraHandle cameraHandle)? success,
+    TResult? Function(CameraConnectionHandle cameraHandle)? success,
     TResult? Function()? error,
   }) {
     return error?.call();
@@ -727,7 +728,7 @@ class _$_Error implements _Error {
     TResult Function()? init,
     TResult Function(DiscoveryHandle discoveryHandle)? active,
     TResult Function(DiscoveryHandle discoveryHandle)? inProgress,
-    TResult Function(CameraHandle cameraHandle)? success,
+    TResult Function(CameraConnectionHandle cameraHandle)? success,
     TResult Function()? error,
     required TResult orElse(),
   }) {

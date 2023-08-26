@@ -18,7 +18,7 @@ class AddDemoCamerasButton extends StatelessWidget {
   Future<void> seedRecentCameras() async {
     final recentCameraRepository = get<RecentCamerasRepostitory>();
     await recentCameraRepository.addCamera(
-      const CameraHandle(
+      const CameraConnectionHandle(
         id: 'demo-1',
         model: CameraModels.demoCamera,
         pairingData: DemoCameraPairingData(),
@@ -26,7 +26,7 @@ class AddDemoCamerasButton extends StatelessWidget {
     );
 
     await recentCameraRepository.addCamera(
-      const CameraHandle(
+      const CameraConnectionHandle(
         id: 'eos-cine-http-1',
         model: CameraModels.canonC100II,
         pairingData: EosCineHttpCameraPairingData(),
