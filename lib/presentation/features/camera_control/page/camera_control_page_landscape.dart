@@ -21,6 +21,7 @@ class CameraControlPageLandscape extends StatelessWidget {
           children: [
             SafeArea(
               right: false,
+              minimum: const EdgeInsets.only(left: 8),
               child: Container(
                 width: 120,
                 padding: const EdgeInsets.only(
@@ -103,6 +104,7 @@ class CameraControlPageLandscape extends StatelessWidget {
             const SizedBox(width: 16),
             const SafeArea(
               left: false,
+              minimum: EdgeInsets.only(right: 16),
               child: ControlActionsBar.landscape(),
             )
           ],
