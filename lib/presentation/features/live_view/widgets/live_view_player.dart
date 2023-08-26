@@ -32,6 +32,8 @@ class LiveViewPlayer extends StatelessWidget {
                       Image.memory(
                         state.imageBytes!,
                         gaplessPlayback: true,
+                        fit: BoxFit.fitWidth,
+                        width: double.infinity,
                       ),
                     if (showGridOverlay) const LiveViewGridGuidelinesOverlay(),
                     if (showCenterMarkerOverlay)
