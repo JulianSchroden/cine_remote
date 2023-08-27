@@ -38,8 +38,9 @@ class CameraControlPageLandscape extends StatelessWidget {
                       style: const ControlPropItemStyle.square(),
                       isSelected: state.showMenu,
                     ),
-                    const SizedBox(height: 24),
-                    Expanded(
+                    const Spacer(),
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(maxHeight: 360),
                       child: ControlPropsBar.landscape(
                         selectedType: state.activePropType,
                         onPropSelected: (propType) {
@@ -52,6 +53,7 @@ class CameraControlPageLandscape extends StatelessWidget {
                         },
                       ),
                     ),
+                    const Spacer(),
                   ],
                 ),
               ),
