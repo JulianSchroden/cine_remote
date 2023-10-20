@@ -16,7 +16,7 @@ dependencies:
   camera_control_dart:
     git:
       url: https://github.com/JulianSchroden/camera_control_dart.git
-      ref: v0.0.1
+      ref: v0.0.2
 
   cupertino_icons: ^1.0.2
   hive: ^2.2.3
