@@ -1,3 +1,6 @@
+## 2023-10-20 v0.3.3+7
+- Extract camera_control code into separate package [camera_control_dart](https://github.com/JulianSchroden/camera_control_dart)
+
 ## 2023-06-27 v.0.3.2+6
 - EOS/PTP IP
   - Add support for displaying dynamically sized face autofocus rectangle

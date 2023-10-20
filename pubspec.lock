@@ -133,8 +133,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "v0.0.1"
-      resolved-ref: "92860281d03f98652a8079f9f0f203fa5617a84a"
+      ref: "v0.0.2"
+      resolved-ref: "2a77bef816f61b02d75828a791ae8430bf5c6be9"
       url: "https://github.com/JulianSchroden/camera_control_dart.git"
     source: git
     version: "0.0.1"

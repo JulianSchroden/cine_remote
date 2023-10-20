@@ -5,7 +5,7 @@ description: Camera Remote Control App
 publish_to: "none"
 
 # Version number followed by build number separated by a +.
-version: 0.3.2+6
+version: 0.3.3+7
 
 environment:
   sdk: "^3.0.0"
