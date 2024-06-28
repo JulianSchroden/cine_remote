@@ -19,11 +19,10 @@ class CameraPairingState with _$CameraPairingState {
 }
 
 class CameraPairingCubit extends Cubit<CameraPairingState> {
-  final CameraFactoryProvider _cameraFactoryProvider;
+  final CameraControl _cameraControl;
   final RecentCamerasRepostitory _recentCamerasRepostitory;
 
-  CameraPairingCubit(
-      this._cameraFactoryProvider, this._recentCamerasRepostitory)
+  CameraPairingCubit(this._cameraControl, this._recentCamerasRepostitory)
       : super(const CameraPairingState.init());
 
   void init(DiscoveryHandle discoveryHandle) {
@@ -39,8 +38,7 @@ class CameraPairingCubit extends Cubit<CameraPairingState> {
 
     emit(CameraPairingState.inProgress(discoveryHandle));
     try {
-      final factory = _cameraFactoryProvider.provide(cameraHandle.model);
-      await factory.pair(cameraHandle);
+      await _cameraControl.pair(cameraHandle);
       await _recentCamerasRepostitory.addCamera(cameraHandle);
       emit(CameraPairingState.success(cameraHandle));
     } catch (e) {

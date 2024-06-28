@@ -2,14 +2,10 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:camera_control_dart/camera_control_dart.dart';
 
 import 'package:cine_remote/presentation/features/camera_connection/bloc/camera_connection_cubit.dart';
-import 'package:cine_remote/presentation/features/recent_cameras/repository/recent_cameras_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../../../test_mocks.dart';
-
-class MockRecentCamerasRepository extends Mock
-    implements RecentCamerasRepostitory {}
 
 void main() {
   late MockCamera mockCamera;
