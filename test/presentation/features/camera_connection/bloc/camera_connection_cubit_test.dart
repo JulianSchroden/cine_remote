@@ -2,94 +2,182 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:camera_control_dart/camera_control_dart.dart';
 
 import 'package:cine_remote/presentation/features/camera_connection/bloc/camera_connection_cubit.dart';
+import 'package:cine_remote/presentation/features/recent_cameras/repository/recent_cameras_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../../../test_mocks.dart';
 
-abstract class CallbackWithCamera {
-  void call(Camera camera);
-}
+class MockRecentCamerasRepository extends Mock
+    implements RecentCamerasRepostitory {}
 
-class MockCallbackWithCameraHandle extends Mock implements CallbackWithCamera {}
-
-abstract class CallbackWithNoParams {
-  void call();
-}
-
-class MockCallbackWithNoParams extends Mock implements CallbackWithNoParams {}
-
-void main() {}
-
-/*
 void main() {
   late MockCamera mockCamera;
-  const cameraModel =
-      CameraModel(identifier: 'C100II', name: 'Canon EOS C100 II');
-  const cameraHandle = EosCineHttpCamera(cookies: [], supportedProps: []);
-
-  setUpAll(() {
-    registerFallbackValue(const CameraHandle(supportedProps: []));
-  });
+  late MockCameraControl mockCameraControl;
+  late MockRecentCamerasRepository mockRecentCamerasRepository;
+  late MockCameraConnectionHandle mockCameraConnectionHandle;
 
   setUp(() {
-    mockDependencyHelper = MockDependencyHelper();
     mockCamera = MockCamera();
+    mockCameraControl = MockCameraControl();
+    mockRecentCamerasRepository = MockRecentCamerasRepository();
+    mockCameraConnectionHandle = MockCameraConnectionHandle();
 
-    when(() => mockDependencyHelper.registerCameraRemoteService(cameraModel))
-        .thenReturn(mockCamera);
+    registerFallbackValue(FakeCameraConnectionHandle());
+
+    when(() => mockRecentCamerasRepository.addCamera(any()))
+        .thenAnswer((_) => Future<void>.value());
+
+    when(() => mockCameraControl.connect(any()))
+        .thenAnswer((_) => Future.value(mockCamera));
   });
 
-  blocTest<CameraConnectionCubit, CameraConnectionState>(
-    'emits [initConnection, connectSuccess] when connecting to camera succeeds',
-    build: () => CameraConnectionCubit(),
-    setUp: () {
-      when(() => mockCamera.connect()).thenAnswer((_) async => cameraHandle);
-    },
-    act: (cubit) => cubit.connect(cameraModel),
-    expect: () => const [
-      CameraConnectionState.connecting(),
-      CameraConnectionState.connectionEstablished(cameraHandle)
-    ],
-  );
+  CameraConnectionCubit buildCubit() => CameraConnectionCubit(
+      cameraControl: mockCameraControl,
+      recentCamerasRepostitory: mockRecentCamerasRepository);
 
-  blocTest<CameraConnectionCubit, CameraConnectionState>(
-    'emits [initConnection, connectFailed] when connecting to camera fails',
-    build: () => CameraConnectionCubit(mockDependencyHelper),
-    setUp: () {
-      when(() => mockCamera.connect())
-          .thenThrow(Exception('Cannot connect to camera'));
-    },
-    act: (cubit) => cubit.connect(cameraModel),
-    expect: () => const [
-      CameraConnectionState.connecting(),
-      CameraConnectionState.connectingFailed()
-    ],
-  );
+  group('connectToDiscoveredCamera', () {
+    const String cameraId = 'camera-1';
+    const model = CameraModels.demoCamera;
+    late MockCameraDiscoveryHandle mockDiscoveryHandle;
+    late MockPairingData mockPairingData;
 
-  group('withConnectedCamera', () {
+    setUp(() {
+      mockDiscoveryHandle = MockCameraDiscoveryHandle();
+      mockPairingData = MockPairingData();
+      when(() => mockDiscoveryHandle.id).thenReturn(cameraId);
+      when(() => mockDiscoveryHandle.model).thenReturn(model);
+    });
+
     blocTest<CameraConnectionCubit, CameraConnectionState>(
-      'calls callback with cameraHandle when connected',
-      seed: () =>
-          const CameraConnectionState.connectionEstablished(cameraHandle),
-      build: () => CameraConnectionCubit(mockDependencyHelper),
-      act: (cubit) {
-        final callback = MockCallbackWithCameraHandle();
-        cubit.withConnectedCamera(callback);
-        verify(() => callback(cameraHandle)).called(1);
+      'emits [connecting, requiresPairing] when no pairing data present',
+      setUp: () {
+        when(() => mockDiscoveryHandle.pairingData).thenReturn(null);
+        when(() => mockRecentCamerasRepository.getPairingData(cameraId))
+            .thenAnswer((_) => Future<PairingData?>.value(null));
+      },
+      build: () => buildCubit(),
+      act: (bloc) => bloc.connectToDiscoveredCamera(mockDiscoveryHandle),
+      expect: () => [
+        const CameraConnectionState.connecting(),
+        CameraConnectionState.requiresPairing(mockDiscoveryHandle),
+      ],
+    );
+
+    blocTest<CameraConnectionCubit, CameraConnectionState>(
+      'emits [connecting, connected] when discovery handle has pairing data and connection succeeds',
+      setUp: () {
+        when(() => mockDiscoveryHandle.pairingData).thenReturn(mockPairingData);
+        when(() => mockRecentCamerasRepository.getPairingData(cameraId))
+            .thenAnswer((_) => Future<PairingData?>.value(null));
+      },
+      build: () => buildCubit(),
+      act: (bloc) => bloc.connectToDiscoveredCamera(mockDiscoveryHandle),
+      expect: () => [
+        const CameraConnectionState.connecting(),
+        CameraConnectionState.connected(mockCamera),
+      ],
+      verify: (bloc) {
+        verify(
+          () => mockCameraControl.connect(any(
+              that: predicate<CameraConnectionHandle>(
+                  (handle) => handle.id == cameraId && handle.model == model))),
+        );
       },
     );
 
     blocTest<CameraConnectionCubit, CameraConnectionState>(
-      'calls orElse when not connected',
-      seed: () => const CameraConnectionState.connecting(),
-      build: () => CameraConnectionCubit(mockDependencyHelper),
-      act: (cubit) {
-        final orElseCallback = MockCallbackWithNoParams();
-        cubit.withConnectedCamera((handle) {}, orElse: orElseCallback);
-        verify(() => orElseCallback()).called(1);
+      'emits [connecting, connected] when recentCamerasRepository has pairingData',
+      setUp: () {
+        when(() => mockDiscoveryHandle.pairingData).thenReturn(null);
+        when(() => mockRecentCamerasRepository.getPairingData(cameraId))
+            .thenAnswer((_) => Future<PairingData>.value(mockPairingData));
       },
+      build: () => buildCubit(),
+      act: (bloc) => bloc.connectToDiscoveredCamera(mockDiscoveryHandle),
+      expect: () => [
+        const CameraConnectionState.connecting(),
+        CameraConnectionState.connected(mockCamera),
+      ],
+      verify: (bloc) {
+        verify(
+          () => mockCameraControl.connect(any(
+              that: predicate<CameraConnectionHandle>(
+                  (handle) => handle.id == cameraId && handle.model == model))),
+        );
+      },
+    );
+  });
+
+  group('connect', () {
+    group('when connecting succeeds', () {
+      setUp(() {
+        when(() => mockCameraControl.connect(any()))
+            .thenAnswer((_) async => mockCamera);
+      });
+
+      blocTest<CameraConnectionCubit, CameraConnectionState>(
+        'emits [connecting, connected]',
+        build: () => buildCubit(),
+        act: (bloc) async => await bloc.connect(mockCameraConnectionHandle),
+        expect: () => [
+          const CameraConnectionState.connecting(),
+          CameraConnectionState.connected(mockCamera),
+        ],
+      );
+
+      blocTest<CameraConnectionCubit, CameraConnectionState>(
+        'adds handle to recentCamerasRepository',
+        build: () => buildCubit(),
+        act: (bloc) => bloc.connect(mockCameraConnectionHandle),
+        verify: (_) {
+          verify(() => mockRecentCamerasRepository
+              .addCamera(mockCameraConnectionHandle));
+        },
+      );
+    });
+
+    group('when connecting fails', () {
+      setUp(() {
+        when(() => mockCameraControl.connect(mockCameraConnectionHandle))
+            .thenThrow(Exception());
+      });
+
+      blocTest<CameraConnectionCubit, CameraConnectionState>(
+        'emits [connecting, connectingFailed]',
+        build: () => buildCubit(),
+        act: (bloc) => bloc.connect(mockCameraConnectionHandle),
+        expect: () => const [
+          CameraConnectionState.connecting(),
+          CameraConnectionState.connectingFailed(),
+        ],
+      );
+
+      blocTest<CameraConnectionCubit, CameraConnectionState>(
+        'does not add handle to recentCamerasRepository',
+        build: () => buildCubit(),
+        act: (bloc) => bloc.connect(mockCameraConnectionHandle),
+        verify: (_) {
+          verifyNever(() => mockRecentCamerasRepository.addCamera(any()));
+        },
+      );
+    });
+  });
+
+  group('disconnect', () {
+    blocTest<CameraConnectionCubit, CameraConnectionState>(
+      'emits [disconnecting, disconnected] on success',
+      seed: () => CameraConnectionState.connected(mockCamera),
+      setUp: () {
+        when(() => mockCamera.disconnect())
+            .thenAnswer((_) => Future<void>.value());
+      },
+      build: () => buildCubit(),
+      act: (bloc) => bloc.disconnect(),
+      expect: () => [
+        CameraConnectionState.disconnecting(mockCamera),
+        const CameraConnectionState.disconnected(),
+      ],
     );
   });
 }
-*/

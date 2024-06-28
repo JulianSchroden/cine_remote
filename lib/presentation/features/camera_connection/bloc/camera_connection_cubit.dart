@@ -27,11 +27,11 @@ class CameraConnectionState with _$CameraConnectionState {
 }
 
 class CameraConnectionCubit extends Cubit<CameraConnectionState> {
-  final CameraFactoryProvider cameraFactoryProvider;
+  final CameraControl cameraControl;
   final RecentCamerasRepostitory recentCamerasRepostitory;
 
   CameraConnectionCubit({
-    required this.cameraFactoryProvider,
+    required this.cameraControl,
     required this.recentCamerasRepostitory,
   }) : super(const CameraConnectionState.disconnected());
 
@@ -68,16 +68,10 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
 
   Future<void> connect(CameraConnectionHandle cameraHandle) async {
     try {
-      print('cubit connect');
-
       emit(const CameraConnectionState.connecting());
-
-      final factory = cameraFactoryProvider.provide(cameraHandle.model);
-
-      final camera = await factory.connect(cameraHandle);
+      final camera = await cameraControl.connect(cameraHandle);
       await recentCamerasRepostitory.addCamera(cameraHandle);
 
-      print('connection success');
       emit(CameraConnectionState.connected(camera));
     } catch (e) {
       print(e);
