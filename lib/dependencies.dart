@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:camera_control_dart/camera_control_dart.dart';
-import 'package:cine_remote/adapter/wifi_info_adapter.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logging/logging.dart' as logger_impl;
 
+import 'adapter/wifi_info_adapter.dart';
 import 'firebase_options.dart';
 import 'logging/camera_control_logger.dart';
 import 'presentation/core/adapter/date_time_adapter.dart';
@@ -25,14 +25,31 @@ void registerDependencies() {
         get<DateTimeAdapter>(),
       ));
 
+  factory<WifiInfoAdapter>(() => WifiInfoAdapterImpl());
+
+  singleton<CameraControl>(() => CameraControl.init()
+          .withDiscovery((discoverySetup) => discoverySetup
+              .withDemo()
+              .withEosPtpIp()
+              .withEosCineHttp(get<WifiInfoAdapter>()))
+          .withLogging(
+        logger: CameraControlLoggerImpl(),
+        enabledTopics: [
+          const EosPtpTransactionQueueTopic(),
+          const EosPtpIpDiscoveryTopic(),
+        ],
+      ).create());
+
   factory<CameraConnectionCubit>(() => CameraConnectionCubit(
-        cameraFactoryProvider: const CameraFactoryProvider(),
+        cameraControl: get<CameraControl>(),
         recentCamerasRepostitory: get<RecentCamerasRepostitory>(),
       ));
   factory<CameraDiscoveryCubit>(() => CameraDiscoveryCubit(
-      CameraDiscoveryService(wifiInfoAdapter: WifiInfoAdapterImpl())));
+        get<CameraControl>(),
+        get<WifiInfoAdapter>(),
+      ));
   factory<CameraPairingCubit>(() => CameraPairingCubit(
-        const CameraFactoryProvider(),
+        get<CameraControl>(),
         get<RecentCamerasRepostitory>(),
       ));
   factory<RecentCamerasCubit>(
@@ -65,13 +82,6 @@ void setupCrashReporting() {
 }
 
 void setupLogging() {
-  CameraControlLoggerConfig.init(
-      logger: CameraControlLoggerImpl(),
-      enabledTopics: [
-        // const EosPtpTransactionQueueTopic(),
-        // const EosPtpIpDiscoveryTopic(),
-      ]);
-
   logger_impl.Logger.root.onRecord.listen((record) {
     print('${record.level.name}: ${record.time}: ${record.message}');
   });
