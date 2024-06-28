@@ -12,7 +12,7 @@ part of 'screen_orientation_cubit.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ScreenOrientationState {
@@ -58,23 +58,25 @@ class _$ScreenOrientationStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_ScreenOrientationStateCopyWith<$Res>
+abstract class _$$ScreenOrientationStateImplCopyWith<$Res>
     implements $ScreenOrientationStateCopyWith<$Res> {
-  factory _$$_ScreenOrientationStateCopyWith(_$_ScreenOrientationState value,
-          $Res Function(_$_ScreenOrientationState) then) =
-      __$$_ScreenOrientationStateCopyWithImpl<$Res>;
+  factory _$$ScreenOrientationStateImplCopyWith(
+          _$ScreenOrientationStateImpl value,
+          $Res Function(_$ScreenOrientationStateImpl) then) =
+      __$$ScreenOrientationStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({Orientation? forcedOrientation});
 }
 
 /// @nodoc
-class __$$_ScreenOrientationStateCopyWithImpl<$Res>
+class __$$ScreenOrientationStateImplCopyWithImpl<$Res>
     extends _$ScreenOrientationStateCopyWithImpl<$Res,
-        _$_ScreenOrientationState>
-    implements _$$_ScreenOrientationStateCopyWith<$Res> {
-  __$$_ScreenOrientationStateCopyWithImpl(_$_ScreenOrientationState _value,
-      $Res Function(_$_ScreenOrientationState) _then)
+        _$ScreenOrientationStateImpl>
+    implements _$$ScreenOrientationStateImplCopyWith<$Res> {
+  __$$ScreenOrientationStateImplCopyWithImpl(
+      _$ScreenOrientationStateImpl _value,
+      $Res Function(_$ScreenOrientationStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -82,7 +84,7 @@ class __$$_ScreenOrientationStateCopyWithImpl<$Res>
   $Res call({
     Object? forcedOrientation = freezed,
   }) {
-    return _then(_$_ScreenOrientationState(
+    return _then(_$ScreenOrientationStateImpl(
       forcedOrientation: freezed == forcedOrientation
           ? _value.forcedOrientation
           : forcedOrientation // ignore: cast_nullable_to_non_nullable
@@ -93,8 +95,8 @@ class __$$_ScreenOrientationStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ScreenOrientationState implements _ScreenOrientationState {
-  const _$_ScreenOrientationState({required this.forcedOrientation});
+class _$ScreenOrientationStateImpl implements _ScreenOrientationState {
+  const _$ScreenOrientationStateImpl({required this.forcedOrientation});
 
   @override
   final Orientation? forcedOrientation;
@@ -105,10 +107,10 @@ class _$_ScreenOrientationState implements _ScreenOrientationState {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ScreenOrientationState &&
+            other is _$ScreenOrientationStateImpl &&
             (identical(other.forcedOrientation, forcedOrientation) ||
                 other.forcedOrientation == forcedOrientation));
   }
@@ -119,20 +121,20 @@ class _$_ScreenOrientationState implements _ScreenOrientationState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ScreenOrientationStateCopyWith<_$_ScreenOrientationState> get copyWith =>
-      __$$_ScreenOrientationStateCopyWithImpl<_$_ScreenOrientationState>(
-          this, _$identity);
+  _$$ScreenOrientationStateImplCopyWith<_$ScreenOrientationStateImpl>
+      get copyWith => __$$ScreenOrientationStateImplCopyWithImpl<
+          _$ScreenOrientationStateImpl>(this, _$identity);
 }
 
 abstract class _ScreenOrientationState implements ScreenOrientationState {
   const factory _ScreenOrientationState(
           {required final Orientation? forcedOrientation}) =
-      _$_ScreenOrientationState;
+      _$ScreenOrientationStateImpl;
 
   @override
   Orientation? get forcedOrientation;
   @override
   @JsonKey(ignore: true)
-  _$$_ScreenOrientationStateCopyWith<_$_ScreenOrientationState> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$ScreenOrientationStateImplCopyWith<_$ScreenOrientationStateImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

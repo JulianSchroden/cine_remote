@@ -12,7 +12,7 @@ part of 'camera_pairing_cubit.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$CameraPairingState {
@@ -93,23 +93,24 @@ class _$CameraPairingStateCopyWithImpl<$Res, $Val extends CameraPairingState>
 }
 
 /// @nodoc
-abstract class _$$_InitCopyWith<$Res> {
-  factory _$$_InitCopyWith(_$_Init value, $Res Function(_$_Init) then) =
-      __$$_InitCopyWithImpl<$Res>;
+abstract class _$$InitImplCopyWith<$Res> {
+  factory _$$InitImplCopyWith(
+          _$InitImpl value, $Res Function(_$InitImpl) then) =
+      __$$InitImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_InitCopyWithImpl<$Res>
-    extends _$CameraPairingStateCopyWithImpl<$Res, _$_Init>
-    implements _$$_InitCopyWith<$Res> {
-  __$$_InitCopyWithImpl(_$_Init _value, $Res Function(_$_Init) _then)
+class __$$InitImplCopyWithImpl<$Res>
+    extends _$CameraPairingStateCopyWithImpl<$Res, _$InitImpl>
+    implements _$$InitImplCopyWith<$Res> {
+  __$$InitImplCopyWithImpl(_$InitImpl _value, $Res Function(_$InitImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_Init implements _Init {
-  const _$_Init();
+class _$InitImpl implements _Init {
+  const _$InitImpl();
 
   @override
   String toString() {
@@ -117,9 +118,9 @@ class _$_Init implements _Init {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_Init);
+        (other.runtimeType == runtimeType && other is _$InitImpl);
   }
 
   @override
@@ -207,22 +208,24 @@ class _$_Init implements _Init {
 }
 
 abstract class _Init implements CameraPairingState {
-  const factory _Init() = _$_Init;
+  const factory _Init() = _$InitImpl;
 }
 
 /// @nodoc
-abstract class _$$_ActivCopyWith<$Res> {
-  factory _$$_ActivCopyWith(_$_Activ value, $Res Function(_$_Activ) then) =
-      __$$_ActivCopyWithImpl<$Res>;
+abstract class _$$ActivImplCopyWith<$Res> {
+  factory _$$ActivImplCopyWith(
+          _$ActivImpl value, $Res Function(_$ActivImpl) then) =
+      __$$ActivImplCopyWithImpl<$Res>;
   @useResult
   $Res call({DiscoveryHandle discoveryHandle});
 }
 
 /// @nodoc
-class __$$_ActivCopyWithImpl<$Res>
-    extends _$CameraPairingStateCopyWithImpl<$Res, _$_Activ>
-    implements _$$_ActivCopyWith<$Res> {
-  __$$_ActivCopyWithImpl(_$_Activ _value, $Res Function(_$_Activ) _then)
+class __$$ActivImplCopyWithImpl<$Res>
+    extends _$CameraPairingStateCopyWithImpl<$Res, _$ActivImpl>
+    implements _$$ActivImplCopyWith<$Res> {
+  __$$ActivImplCopyWithImpl(
+      _$ActivImpl _value, $Res Function(_$ActivImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -230,7 +233,7 @@ class __$$_ActivCopyWithImpl<$Res>
   $Res call({
     Object? discoveryHandle = null,
   }) {
-    return _then(_$_Activ(
+    return _then(_$ActivImpl(
       null == discoveryHandle
           ? _value.discoveryHandle
           : discoveryHandle // ignore: cast_nullable_to_non_nullable
@@ -241,8 +244,8 @@ class __$$_ActivCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Activ implements _Activ {
-  const _$_Activ(this.discoveryHandle);
+class _$ActivImpl implements _Activ {
+  const _$ActivImpl(this.discoveryHandle);
 
   @override
   final DiscoveryHandle discoveryHandle;
@@ -253,10 +256,10 @@ class _$_Activ implements _Activ {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Activ &&
+            other is _$ActivImpl &&
             (identical(other.discoveryHandle, discoveryHandle) ||
                 other.discoveryHandle == discoveryHandle));
   }
@@ -267,8 +270,8 @@ class _$_Activ implements _Activ {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ActivCopyWith<_$_Activ> get copyWith =>
-      __$$_ActivCopyWithImpl<_$_Activ>(this, _$identity);
+  _$$ActivImplCopyWith<_$ActivImpl> get copyWith =>
+      __$$ActivImplCopyWithImpl<_$ActivImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -352,29 +355,29 @@ class _$_Activ implements _Activ {
 }
 
 abstract class _Activ implements CameraPairingState {
-  const factory _Activ(final DiscoveryHandle discoveryHandle) = _$_Activ;
+  const factory _Activ(final DiscoveryHandle discoveryHandle) = _$ActivImpl;
 
   DiscoveryHandle get discoveryHandle;
   @JsonKey(ignore: true)
-  _$$_ActivCopyWith<_$_Activ> get copyWith =>
+  _$$ActivImplCopyWith<_$ActivImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$_InProgressCopyWith<$Res> {
-  factory _$$_InProgressCopyWith(
-          _$_InProgress value, $Res Function(_$_InProgress) then) =
-      __$$_InProgressCopyWithImpl<$Res>;
+abstract class _$$InProgressImplCopyWith<$Res> {
+  factory _$$InProgressImplCopyWith(
+          _$InProgressImpl value, $Res Function(_$InProgressImpl) then) =
+      __$$InProgressImplCopyWithImpl<$Res>;
   @useResult
   $Res call({DiscoveryHandle discoveryHandle});
 }
 
 /// @nodoc
-class __$$_InProgressCopyWithImpl<$Res>
-    extends _$CameraPairingStateCopyWithImpl<$Res, _$_InProgress>
-    implements _$$_InProgressCopyWith<$Res> {
-  __$$_InProgressCopyWithImpl(
-      _$_InProgress _value, $Res Function(_$_InProgress) _then)
+class __$$InProgressImplCopyWithImpl<$Res>
+    extends _$CameraPairingStateCopyWithImpl<$Res, _$InProgressImpl>
+    implements _$$InProgressImplCopyWith<$Res> {
+  __$$InProgressImplCopyWithImpl(
+      _$InProgressImpl _value, $Res Function(_$InProgressImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -382,7 +385,7 @@ class __$$_InProgressCopyWithImpl<$Res>
   $Res call({
     Object? discoveryHandle = null,
   }) {
-    return _then(_$_InProgress(
+    return _then(_$InProgressImpl(
       null == discoveryHandle
           ? _value.discoveryHandle
           : discoveryHandle // ignore: cast_nullable_to_non_nullable
@@ -393,8 +396,8 @@ class __$$_InProgressCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_InProgress implements _InProgress {
-  const _$_InProgress(this.discoveryHandle);
+class _$InProgressImpl implements _InProgress {
+  const _$InProgressImpl(this.discoveryHandle);
 
   @override
   final DiscoveryHandle discoveryHandle;
@@ -405,10 +408,10 @@ class _$_InProgress implements _InProgress {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_InProgress &&
+            other is _$InProgressImpl &&
             (identical(other.discoveryHandle, discoveryHandle) ||
                 other.discoveryHandle == discoveryHandle));
   }
@@ -419,8 +422,8 @@ class _$_InProgress implements _InProgress {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_InProgressCopyWith<_$_InProgress> get copyWith =>
-      __$$_InProgressCopyWithImpl<_$_InProgress>(this, _$identity);
+  _$$InProgressImplCopyWith<_$InProgressImpl> get copyWith =>
+      __$$InProgressImplCopyWithImpl<_$InProgressImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -505,28 +508,29 @@ class _$_InProgress implements _InProgress {
 
 abstract class _InProgress implements CameraPairingState {
   const factory _InProgress(final DiscoveryHandle discoveryHandle) =
-      _$_InProgress;
+      _$InProgressImpl;
 
   DiscoveryHandle get discoveryHandle;
   @JsonKey(ignore: true)
-  _$$_InProgressCopyWith<_$_InProgress> get copyWith =>
+  _$$InProgressImplCopyWith<_$InProgressImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$_SuccessCopyWith<$Res> {
-  factory _$$_SuccessCopyWith(
-          _$_Success value, $Res Function(_$_Success) then) =
-      __$$_SuccessCopyWithImpl<$Res>;
+abstract class _$$SuccessImplCopyWith<$Res> {
+  factory _$$SuccessImplCopyWith(
+          _$SuccessImpl value, $Res Function(_$SuccessImpl) then) =
+      __$$SuccessImplCopyWithImpl<$Res>;
   @useResult
   $Res call({CameraConnectionHandle cameraHandle});
 }
 
 /// @nodoc
-class __$$_SuccessCopyWithImpl<$Res>
-    extends _$CameraPairingStateCopyWithImpl<$Res, _$_Success>
-    implements _$$_SuccessCopyWith<$Res> {
-  __$$_SuccessCopyWithImpl(_$_Success _value, $Res Function(_$_Success) _then)
+class __$$SuccessImplCopyWithImpl<$Res>
+    extends _$CameraPairingStateCopyWithImpl<$Res, _$SuccessImpl>
+    implements _$$SuccessImplCopyWith<$Res> {
+  __$$SuccessImplCopyWithImpl(
+      _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -534,7 +538,7 @@ class __$$_SuccessCopyWithImpl<$Res>
   $Res call({
     Object? cameraHandle = null,
   }) {
-    return _then(_$_Success(
+    return _then(_$SuccessImpl(
       null == cameraHandle
           ? _value.cameraHandle
           : cameraHandle // ignore: cast_nullable_to_non_nullable
@@ -545,8 +549,8 @@ class __$$_SuccessCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Success implements _Success {
-  const _$_Success(this.cameraHandle);
+class _$SuccessImpl implements _Success {
+  const _$SuccessImpl(this.cameraHandle);
 
   @override
   final CameraConnectionHandle cameraHandle;
@@ -557,10 +561,10 @@ class _$_Success implements _Success {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Success &&
+            other is _$SuccessImpl &&
             (identical(other.cameraHandle, cameraHandle) ||
                 other.cameraHandle == cameraHandle));
   }
@@ -571,8 +575,8 @@ class _$_Success implements _Success {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SuccessCopyWith<_$_Success> get copyWith =>
-      __$$_SuccessCopyWithImpl<_$_Success>(this, _$identity);
+  _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
+      __$$SuccessImplCopyWithImpl<_$SuccessImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -657,32 +661,34 @@ class _$_Success implements _Success {
 
 abstract class _Success implements CameraPairingState {
   const factory _Success(final CameraConnectionHandle cameraHandle) =
-      _$_Success;
+      _$SuccessImpl;
 
   CameraConnectionHandle get cameraHandle;
   @JsonKey(ignore: true)
-  _$$_SuccessCopyWith<_$_Success> get copyWith =>
+  _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$_ErrorCopyWith<$Res> {
-  factory _$$_ErrorCopyWith(_$_Error value, $Res Function(_$_Error) then) =
-      __$$_ErrorCopyWithImpl<$Res>;
+abstract class _$$ErrorImplCopyWith<$Res> {
+  factory _$$ErrorImplCopyWith(
+          _$ErrorImpl value, $Res Function(_$ErrorImpl) then) =
+      __$$ErrorImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_ErrorCopyWithImpl<$Res>
-    extends _$CameraPairingStateCopyWithImpl<$Res, _$_Error>
-    implements _$$_ErrorCopyWith<$Res> {
-  __$$_ErrorCopyWithImpl(_$_Error _value, $Res Function(_$_Error) _then)
+class __$$ErrorImplCopyWithImpl<$Res>
+    extends _$CameraPairingStateCopyWithImpl<$Res, _$ErrorImpl>
+    implements _$$ErrorImplCopyWith<$Res> {
+  __$$ErrorImplCopyWithImpl(
+      _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_Error implements _Error {
-  const _$_Error();
+class _$ErrorImpl implements _Error {
+  const _$ErrorImpl();
 
   @override
   String toString() {
@@ -690,9 +696,9 @@ class _$_Error implements _Error {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_Error);
+        (other.runtimeType == runtimeType && other is _$ErrorImpl);
   }
 
   @override
@@ -780,5 +786,5 @@ class _$_Error implements _Error {
 }
 
 abstract class _Error implements CameraPairingState {
-  const factory _Error() = _$_Error;
+  const factory _Error() = _$ErrorImpl;
 }

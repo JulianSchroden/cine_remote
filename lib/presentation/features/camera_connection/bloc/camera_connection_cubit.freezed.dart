@@ -12,7 +12,7 @@ part of 'camera_connection_cubit.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$CameraConnectionState {
@@ -100,25 +100,25 @@ class _$CameraConnectionStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_InitConnectionCopyWith<$Res> {
-  factory _$$_InitConnectionCopyWith(
-          _$_InitConnection value, $Res Function(_$_InitConnection) then) =
-      __$$_InitConnectionCopyWithImpl<$Res>;
+abstract class _$$InitConnectionImplCopyWith<$Res> {
+  factory _$$InitConnectionImplCopyWith(_$InitConnectionImpl value,
+          $Res Function(_$InitConnectionImpl) then) =
+      __$$InitConnectionImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_InitConnectionCopyWithImpl<$Res>
-    extends _$CameraConnectionStateCopyWithImpl<$Res, _$_InitConnection>
-    implements _$$_InitConnectionCopyWith<$Res> {
-  __$$_InitConnectionCopyWithImpl(
-      _$_InitConnection _value, $Res Function(_$_InitConnection) _then)
+class __$$InitConnectionImplCopyWithImpl<$Res>
+    extends _$CameraConnectionStateCopyWithImpl<$Res, _$InitConnectionImpl>
+    implements _$$InitConnectionImplCopyWith<$Res> {
+  __$$InitConnectionImplCopyWithImpl(
+      _$InitConnectionImpl _value, $Res Function(_$InitConnectionImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_InitConnection extends _InitConnection {
-  const _$_InitConnection() : super._();
+class _$InitConnectionImpl extends _InitConnection {
+  const _$InitConnectionImpl() : super._();
 
   @override
   String toString() {
@@ -126,9 +126,9 @@ class _$_InitConnection extends _InitConnection {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_InitConnection);
+        (other.runtimeType == runtimeType && other is _$InitConnectionImpl);
   }
 
   @override
@@ -222,30 +222,30 @@ class _$_InitConnection extends _InitConnection {
 }
 
 abstract class _InitConnection extends CameraConnectionState {
-  const factory _InitConnection() = _$_InitConnection;
+  const factory _InitConnection() = _$InitConnectionImpl;
   const _InitConnection._() : super._();
 }
 
 /// @nodoc
-abstract class _$$_ConnectingFailedCopyWith<$Res> {
-  factory _$$_ConnectingFailedCopyWith(
-          _$_ConnectingFailed value, $Res Function(_$_ConnectingFailed) then) =
-      __$$_ConnectingFailedCopyWithImpl<$Res>;
+abstract class _$$ConnectingFailedImplCopyWith<$Res> {
+  factory _$$ConnectingFailedImplCopyWith(_$ConnectingFailedImpl value,
+          $Res Function(_$ConnectingFailedImpl) then) =
+      __$$ConnectingFailedImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_ConnectingFailedCopyWithImpl<$Res>
-    extends _$CameraConnectionStateCopyWithImpl<$Res, _$_ConnectingFailed>
-    implements _$$_ConnectingFailedCopyWith<$Res> {
-  __$$_ConnectingFailedCopyWithImpl(
-      _$_ConnectingFailed _value, $Res Function(_$_ConnectingFailed) _then)
+class __$$ConnectingFailedImplCopyWithImpl<$Res>
+    extends _$CameraConnectionStateCopyWithImpl<$Res, _$ConnectingFailedImpl>
+    implements _$$ConnectingFailedImplCopyWith<$Res> {
+  __$$ConnectingFailedImplCopyWithImpl(_$ConnectingFailedImpl _value,
+      $Res Function(_$ConnectingFailedImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_ConnectingFailed extends _ConnectingFailed {
-  const _$_ConnectingFailed() : super._();
+class _$ConnectingFailedImpl extends _ConnectingFailed {
+  const _$ConnectingFailedImpl() : super._();
 
   @override
   String toString() {
@@ -253,9 +253,9 @@ class _$_ConnectingFailed extends _ConnectingFailed {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_ConnectingFailed);
+        (other.runtimeType == runtimeType && other is _$ConnectingFailedImpl);
   }
 
   @override
@@ -349,25 +349,25 @@ class _$_ConnectingFailed extends _ConnectingFailed {
 }
 
 abstract class _ConnectingFailed extends CameraConnectionState {
-  const factory _ConnectingFailed() = _$_ConnectingFailed;
+  const factory _ConnectingFailed() = _$ConnectingFailedImpl;
   const _ConnectingFailed._() : super._();
 }
 
 /// @nodoc
-abstract class _$$_RequiresPairingCopyWith<$Res> {
-  factory _$$_RequiresPairingCopyWith(
-          _$_RequiresPairing value, $Res Function(_$_RequiresPairing) then) =
-      __$$_RequiresPairingCopyWithImpl<$Res>;
+abstract class _$$RequiresPairingImplCopyWith<$Res> {
+  factory _$$RequiresPairingImplCopyWith(_$RequiresPairingImpl value,
+          $Res Function(_$RequiresPairingImpl) then) =
+      __$$RequiresPairingImplCopyWithImpl<$Res>;
   @useResult
   $Res call({DiscoveryHandle handle});
 }
 
 /// @nodoc
-class __$$_RequiresPairingCopyWithImpl<$Res>
-    extends _$CameraConnectionStateCopyWithImpl<$Res, _$_RequiresPairing>
-    implements _$$_RequiresPairingCopyWith<$Res> {
-  __$$_RequiresPairingCopyWithImpl(
-      _$_RequiresPairing _value, $Res Function(_$_RequiresPairing) _then)
+class __$$RequiresPairingImplCopyWithImpl<$Res>
+    extends _$CameraConnectionStateCopyWithImpl<$Res, _$RequiresPairingImpl>
+    implements _$$RequiresPairingImplCopyWith<$Res> {
+  __$$RequiresPairingImplCopyWithImpl(
+      _$RequiresPairingImpl _value, $Res Function(_$RequiresPairingImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -375,7 +375,7 @@ class __$$_RequiresPairingCopyWithImpl<$Res>
   $Res call({
     Object? handle = null,
   }) {
-    return _then(_$_RequiresPairing(
+    return _then(_$RequiresPairingImpl(
       null == handle
           ? _value.handle
           : handle // ignore: cast_nullable_to_non_nullable
@@ -386,8 +386,8 @@ class __$$_RequiresPairingCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_RequiresPairing extends _RequiresPairing {
-  const _$_RequiresPairing(this.handle) : super._();
+class _$RequiresPairingImpl extends _RequiresPairing {
+  const _$RequiresPairingImpl(this.handle) : super._();
 
   @override
   final DiscoveryHandle handle;
@@ -398,10 +398,10 @@ class _$_RequiresPairing extends _RequiresPairing {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_RequiresPairing &&
+            other is _$RequiresPairingImpl &&
             (identical(other.handle, handle) || other.handle == handle));
   }
 
@@ -411,8 +411,9 @@ class _$_RequiresPairing extends _RequiresPairing {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_RequiresPairingCopyWith<_$_RequiresPairing> get copyWith =>
-      __$$_RequiresPairingCopyWithImpl<_$_RequiresPairing>(this, _$identity);
+  _$$RequiresPairingImplCopyWith<_$RequiresPairingImpl> get copyWith =>
+      __$$RequiresPairingImplCopyWithImpl<_$RequiresPairingImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -503,30 +504,32 @@ class _$_RequiresPairing extends _RequiresPairing {
 
 abstract class _RequiresPairing extends CameraConnectionState {
   const factory _RequiresPairing(final DiscoveryHandle handle) =
-      _$_RequiresPairing;
+      _$RequiresPairingImpl;
   const _RequiresPairing._() : super._();
 
   DiscoveryHandle get handle;
   @JsonKey(ignore: true)
-  _$$_RequiresPairingCopyWith<_$_RequiresPairing> get copyWith =>
+  _$$RequiresPairingImplCopyWith<_$RequiresPairingImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$_ConnectionEstablishedCopyWith<$Res> {
-  factory _$$_ConnectionEstablishedCopyWith(_$_ConnectionEstablished value,
-          $Res Function(_$_ConnectionEstablished) then) =
-      __$$_ConnectionEstablishedCopyWithImpl<$Res>;
+abstract class _$$ConnectionEstablishedImplCopyWith<$Res> {
+  factory _$$ConnectionEstablishedImplCopyWith(
+          _$ConnectionEstablishedImpl value,
+          $Res Function(_$ConnectionEstablishedImpl) then) =
+      __$$ConnectionEstablishedImplCopyWithImpl<$Res>;
   @useResult
   $Res call({Camera camera});
 }
 
 /// @nodoc
-class __$$_ConnectionEstablishedCopyWithImpl<$Res>
-    extends _$CameraConnectionStateCopyWithImpl<$Res, _$_ConnectionEstablished>
-    implements _$$_ConnectionEstablishedCopyWith<$Res> {
-  __$$_ConnectionEstablishedCopyWithImpl(_$_ConnectionEstablished _value,
-      $Res Function(_$_ConnectionEstablished) _then)
+class __$$ConnectionEstablishedImplCopyWithImpl<$Res>
+    extends _$CameraConnectionStateCopyWithImpl<$Res,
+        _$ConnectionEstablishedImpl>
+    implements _$$ConnectionEstablishedImplCopyWith<$Res> {
+  __$$ConnectionEstablishedImplCopyWithImpl(_$ConnectionEstablishedImpl _value,
+      $Res Function(_$ConnectionEstablishedImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -534,7 +537,7 @@ class __$$_ConnectionEstablishedCopyWithImpl<$Res>
   $Res call({
     Object? camera = null,
   }) {
-    return _then(_$_ConnectionEstablished(
+    return _then(_$ConnectionEstablishedImpl(
       null == camera
           ? _value.camera
           : camera // ignore: cast_nullable_to_non_nullable
@@ -545,8 +548,8 @@ class __$$_ConnectionEstablishedCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ConnectionEstablished extends _ConnectionEstablished {
-  const _$_ConnectionEstablished(this.camera) : super._();
+class _$ConnectionEstablishedImpl extends _ConnectionEstablished {
+  const _$ConnectionEstablishedImpl(this.camera) : super._();
 
   @override
   final Camera camera;
@@ -557,10 +560,10 @@ class _$_ConnectionEstablished extends _ConnectionEstablished {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ConnectionEstablished &&
+            other is _$ConnectionEstablishedImpl &&
             (identical(other.camera, camera) || other.camera == camera));
   }
 
@@ -570,9 +573,9 @@ class _$_ConnectionEstablished extends _ConnectionEstablished {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ConnectionEstablishedCopyWith<_$_ConnectionEstablished> get copyWith =>
-      __$$_ConnectionEstablishedCopyWithImpl<_$_ConnectionEstablished>(
-          this, _$identity);
+  _$$ConnectionEstablishedImplCopyWith<_$ConnectionEstablishedImpl>
+      get copyWith => __$$ConnectionEstablishedImplCopyWithImpl<
+          _$ConnectionEstablishedImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -663,30 +666,30 @@ class _$_ConnectionEstablished extends _ConnectionEstablished {
 
 abstract class _ConnectionEstablished extends CameraConnectionState {
   const factory _ConnectionEstablished(final Camera camera) =
-      _$_ConnectionEstablished;
+      _$ConnectionEstablishedImpl;
   const _ConnectionEstablished._() : super._();
 
   Camera get camera;
   @JsonKey(ignore: true)
-  _$$_ConnectionEstablishedCopyWith<_$_ConnectionEstablished> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$ConnectionEstablishedImplCopyWith<_$ConnectionEstablishedImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$_DisconnectingCopyWith<$Res> {
-  factory _$$_DisconnectingCopyWith(
-          _$_Disconnecting value, $Res Function(_$_Disconnecting) then) =
-      __$$_DisconnectingCopyWithImpl<$Res>;
+abstract class _$$DisconnectingImplCopyWith<$Res> {
+  factory _$$DisconnectingImplCopyWith(
+          _$DisconnectingImpl value, $Res Function(_$DisconnectingImpl) then) =
+      __$$DisconnectingImplCopyWithImpl<$Res>;
   @useResult
   $Res call({Camera camera});
 }
 
 /// @nodoc
-class __$$_DisconnectingCopyWithImpl<$Res>
-    extends _$CameraConnectionStateCopyWithImpl<$Res, _$_Disconnecting>
-    implements _$$_DisconnectingCopyWith<$Res> {
-  __$$_DisconnectingCopyWithImpl(
-      _$_Disconnecting _value, $Res Function(_$_Disconnecting) _then)
+class __$$DisconnectingImplCopyWithImpl<$Res>
+    extends _$CameraConnectionStateCopyWithImpl<$Res, _$DisconnectingImpl>
+    implements _$$DisconnectingImplCopyWith<$Res> {
+  __$$DisconnectingImplCopyWithImpl(
+      _$DisconnectingImpl _value, $Res Function(_$DisconnectingImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -694,7 +697,7 @@ class __$$_DisconnectingCopyWithImpl<$Res>
   $Res call({
     Object? camera = null,
   }) {
-    return _then(_$_Disconnecting(
+    return _then(_$DisconnectingImpl(
       null == camera
           ? _value.camera
           : camera // ignore: cast_nullable_to_non_nullable
@@ -705,8 +708,8 @@ class __$$_DisconnectingCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Disconnecting extends _Disconnecting {
-  const _$_Disconnecting(this.camera) : super._();
+class _$DisconnectingImpl extends _Disconnecting {
+  const _$DisconnectingImpl(this.camera) : super._();
 
   @override
   final Camera camera;
@@ -717,10 +720,10 @@ class _$_Disconnecting extends _Disconnecting {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Disconnecting &&
+            other is _$DisconnectingImpl &&
             (identical(other.camera, camera) || other.camera == camera));
   }
 
@@ -730,8 +733,8 @@ class _$_Disconnecting extends _Disconnecting {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_DisconnectingCopyWith<_$_Disconnecting> get copyWith =>
-      __$$_DisconnectingCopyWithImpl<_$_Disconnecting>(this, _$identity);
+  _$$DisconnectingImplCopyWith<_$DisconnectingImpl> get copyWith =>
+      __$$DisconnectingImplCopyWithImpl<_$DisconnectingImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -821,35 +824,35 @@ class _$_Disconnecting extends _Disconnecting {
 }
 
 abstract class _Disconnecting extends CameraConnectionState {
-  const factory _Disconnecting(final Camera camera) = _$_Disconnecting;
+  const factory _Disconnecting(final Camera camera) = _$DisconnectingImpl;
   const _Disconnecting._() : super._();
 
   Camera get camera;
   @JsonKey(ignore: true)
-  _$$_DisconnectingCopyWith<_$_Disconnecting> get copyWith =>
+  _$$DisconnectingImplCopyWith<_$DisconnectingImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$_DisconnectedCopyWith<$Res> {
-  factory _$$_DisconnectedCopyWith(
-          _$_Disconnected value, $Res Function(_$_Disconnected) then) =
-      __$$_DisconnectedCopyWithImpl<$Res>;
+abstract class _$$DisconnectedImplCopyWith<$Res> {
+  factory _$$DisconnectedImplCopyWith(
+          _$DisconnectedImpl value, $Res Function(_$DisconnectedImpl) then) =
+      __$$DisconnectedImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_DisconnectedCopyWithImpl<$Res>
-    extends _$CameraConnectionStateCopyWithImpl<$Res, _$_Disconnected>
-    implements _$$_DisconnectedCopyWith<$Res> {
-  __$$_DisconnectedCopyWithImpl(
-      _$_Disconnected _value, $Res Function(_$_Disconnected) _then)
+class __$$DisconnectedImplCopyWithImpl<$Res>
+    extends _$CameraConnectionStateCopyWithImpl<$Res, _$DisconnectedImpl>
+    implements _$$DisconnectedImplCopyWith<$Res> {
+  __$$DisconnectedImplCopyWithImpl(
+      _$DisconnectedImpl _value, $Res Function(_$DisconnectedImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_Disconnected extends _Disconnected {
-  const _$_Disconnected() : super._();
+class _$DisconnectedImpl extends _Disconnected {
+  const _$DisconnectedImpl() : super._();
 
   @override
   String toString() {
@@ -857,9 +860,9 @@ class _$_Disconnected extends _Disconnected {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_Disconnected);
+        (other.runtimeType == runtimeType && other is _$DisconnectedImpl);
   }
 
   @override
@@ -953,6 +956,6 @@ class _$_Disconnected extends _Disconnected {
 }
 
 abstract class _Disconnected extends CameraConnectionState {
-  const factory _Disconnected() = _$_Disconnected;
+  const factory _Disconnected() = _$DisconnectedImpl;
   const _Disconnected._() : super._();
 }

@@ -12,7 +12,7 @@ part of 'camera_control_layout_cubit.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$CameraControlLayoutState {
@@ -64,25 +64,25 @@ class _$CameraControlLayoutStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_CameraControlPageLandscapeStateCopyWith<$Res>
+abstract class _$$CameraControlPageLandscapeStateImplCopyWith<$Res>
     implements $CameraControlLayoutStateCopyWith<$Res> {
-  factory _$$_CameraControlPageLandscapeStateCopyWith(
-          _$_CameraControlPageLandscapeState value,
-          $Res Function(_$_CameraControlPageLandscapeState) then) =
-      __$$_CameraControlPageLandscapeStateCopyWithImpl<$Res>;
+  factory _$$CameraControlPageLandscapeStateImplCopyWith(
+          _$CameraControlPageLandscapeStateImpl value,
+          $Res Function(_$CameraControlPageLandscapeStateImpl) then) =
+      __$$CameraControlPageLandscapeStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({ControlPropType? activePropType, bool showMenu});
 }
 
 /// @nodoc
-class __$$_CameraControlPageLandscapeStateCopyWithImpl<$Res>
+class __$$CameraControlPageLandscapeStateImplCopyWithImpl<$Res>
     extends _$CameraControlLayoutStateCopyWithImpl<$Res,
-        _$_CameraControlPageLandscapeState>
-    implements _$$_CameraControlPageLandscapeStateCopyWith<$Res> {
-  __$$_CameraControlPageLandscapeStateCopyWithImpl(
-      _$_CameraControlPageLandscapeState _value,
-      $Res Function(_$_CameraControlPageLandscapeState) _then)
+        _$CameraControlPageLandscapeStateImpl>
+    implements _$$CameraControlPageLandscapeStateImplCopyWith<$Res> {
+  __$$CameraControlPageLandscapeStateImplCopyWithImpl(
+      _$CameraControlPageLandscapeStateImpl _value,
+      $Res Function(_$CameraControlPageLandscapeStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -91,7 +91,7 @@ class __$$_CameraControlPageLandscapeStateCopyWithImpl<$Res>
     Object? activePropType = freezed,
     Object? showMenu = null,
   }) {
-    return _then(_$_CameraControlPageLandscapeState(
+    return _then(_$CameraControlPageLandscapeStateImpl(
       activePropType: freezed == activePropType
           ? _value.activePropType
           : activePropType // ignore: cast_nullable_to_non_nullable
@@ -106,9 +106,9 @@ class __$$_CameraControlPageLandscapeStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_CameraControlPageLandscapeState
+class _$CameraControlPageLandscapeStateImpl
     implements _CameraControlPageLandscapeState {
-  const _$_CameraControlPageLandscapeState(
+  const _$CameraControlPageLandscapeStateImpl(
       {required this.activePropType, required this.showMenu});
 
   @override
@@ -122,10 +122,10 @@ class _$_CameraControlPageLandscapeState
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CameraControlPageLandscapeState &&
+            other is _$CameraControlPageLandscapeStateImpl &&
             (identical(other.activePropType, activePropType) ||
                 other.activePropType == activePropType) &&
             (identical(other.showMenu, showMenu) ||
@@ -138,17 +138,17 @@ class _$_CameraControlPageLandscapeState
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CameraControlPageLandscapeStateCopyWith<
-          _$_CameraControlPageLandscapeState>
-      get copyWith => __$$_CameraControlPageLandscapeStateCopyWithImpl<
-          _$_CameraControlPageLandscapeState>(this, _$identity);
+  _$$CameraControlPageLandscapeStateImplCopyWith<
+          _$CameraControlPageLandscapeStateImpl>
+      get copyWith => __$$CameraControlPageLandscapeStateImplCopyWithImpl<
+          _$CameraControlPageLandscapeStateImpl>(this, _$identity);
 }
 
 abstract class _CameraControlPageLandscapeState
     implements CameraControlLayoutState {
   const factory _CameraControlPageLandscapeState(
       {required final ControlPropType? activePropType,
-      required final bool showMenu}) = _$_CameraControlPageLandscapeState;
+      required final bool showMenu}) = _$CameraControlPageLandscapeStateImpl;
 
   @override
   ControlPropType? get activePropType;
@@ -156,7 +156,7 @@ abstract class _CameraControlPageLandscapeState
   bool get showMenu;
   @override
   @JsonKey(ignore: true)
-  _$$_CameraControlPageLandscapeStateCopyWith<
-          _$_CameraControlPageLandscapeState>
+  _$$CameraControlPageLandscapeStateImplCopyWith<
+          _$CameraControlPageLandscapeStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

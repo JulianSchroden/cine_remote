@@ -12,7 +12,7 @@ part of 'camera_meta_cubit.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$CameraMetaState {
@@ -87,23 +87,24 @@ class _$CameraMetaStateCopyWithImpl<$Res, $Val extends CameraMetaState>
 }
 
 /// @nodoc
-abstract class _$$_InitCopyWith<$Res> {
-  factory _$$_InitCopyWith(_$_Init value, $Res Function(_$_Init) then) =
-      __$$_InitCopyWithImpl<$Res>;
+abstract class _$$InitImplCopyWith<$Res> {
+  factory _$$InitImplCopyWith(
+          _$InitImpl value, $Res Function(_$InitImpl) then) =
+      __$$InitImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_InitCopyWithImpl<$Res>
-    extends _$CameraMetaStateCopyWithImpl<$Res, _$_Init>
-    implements _$$_InitCopyWith<$Res> {
-  __$$_InitCopyWithImpl(_$_Init _value, $Res Function(_$_Init) _then)
+class __$$InitImplCopyWithImpl<$Res>
+    extends _$CameraMetaStateCopyWithImpl<$Res, _$InitImpl>
+    implements _$$InitImplCopyWith<$Res> {
+  __$$InitImplCopyWithImpl(_$InitImpl _value, $Res Function(_$InitImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_Init implements _Init {
-  const _$_Init();
+class _$InitImpl implements _Init {
+  const _$InitImpl();
 
   @override
   String toString() {
@@ -111,9 +112,9 @@ class _$_Init implements _Init {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_Init);
+        (other.runtimeType == runtimeType && other is _$InitImpl);
   }
 
   @override
@@ -195,29 +196,29 @@ class _$_Init implements _Init {
 }
 
 abstract class _Init implements CameraMetaState {
-  const factory _Init() = _$_Init;
+  const factory _Init() = _$InitImpl;
 }
 
 /// @nodoc
-abstract class _$$_InitInProgessCopyWith<$Res> {
-  factory _$$_InitInProgessCopyWith(
-          _$_InitInProgess value, $Res Function(_$_InitInProgess) then) =
-      __$$_InitInProgessCopyWithImpl<$Res>;
+abstract class _$$InitInProgessImplCopyWith<$Res> {
+  factory _$$InitInProgessImplCopyWith(
+          _$InitInProgessImpl value, $Res Function(_$InitInProgessImpl) then) =
+      __$$InitInProgessImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_InitInProgessCopyWithImpl<$Res>
-    extends _$CameraMetaStateCopyWithImpl<$Res, _$_InitInProgess>
-    implements _$$_InitInProgessCopyWith<$Res> {
-  __$$_InitInProgessCopyWithImpl(
-      _$_InitInProgess _value, $Res Function(_$_InitInProgess) _then)
+class __$$InitInProgessImplCopyWithImpl<$Res>
+    extends _$CameraMetaStateCopyWithImpl<$Res, _$InitInProgessImpl>
+    implements _$$InitInProgessImplCopyWith<$Res> {
+  __$$InitInProgessImplCopyWithImpl(
+      _$InitInProgessImpl _value, $Res Function(_$InitInProgessImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_InitInProgess implements _InitInProgess {
-  const _$_InitInProgess();
+class _$InitInProgessImpl implements _InitInProgess {
+  const _$InitInProgessImpl();
 
   @override
   String toString() {
@@ -225,9 +226,9 @@ class _$_InitInProgess implements _InitInProgess {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_InitInProgess);
+        (other.runtimeType == runtimeType && other is _$InitInProgessImpl);
   }
 
   @override
@@ -309,24 +310,24 @@ class _$_InitInProgess implements _InitInProgess {
 }
 
 abstract class _InitInProgess implements CameraMetaState {
-  const factory _InitInProgess() = _$_InitInProgess;
+  const factory _InitInProgess() = _$InitInProgessImpl;
 }
 
 /// @nodoc
-abstract class _$$_UpdateSuccessCopyWith<$Res> {
-  factory _$$_UpdateSuccessCopyWith(
-          _$_UpdateSuccess value, $Res Function(_$_UpdateSuccess) then) =
-      __$$_UpdateSuccessCopyWithImpl<$Res>;
+abstract class _$$UpdateSuccessImplCopyWith<$Res> {
+  factory _$$UpdateSuccessImplCopyWith(
+          _$UpdateSuccessImpl value, $Res Function(_$UpdateSuccessImpl) then) =
+      __$$UpdateSuccessImplCopyWithImpl<$Res>;
   @useResult
   $Res call({CameraDescriptor descriptor});
 }
 
 /// @nodoc
-class __$$_UpdateSuccessCopyWithImpl<$Res>
-    extends _$CameraMetaStateCopyWithImpl<$Res, _$_UpdateSuccess>
-    implements _$$_UpdateSuccessCopyWith<$Res> {
-  __$$_UpdateSuccessCopyWithImpl(
-      _$_UpdateSuccess _value, $Res Function(_$_UpdateSuccess) _then)
+class __$$UpdateSuccessImplCopyWithImpl<$Res>
+    extends _$CameraMetaStateCopyWithImpl<$Res, _$UpdateSuccessImpl>
+    implements _$$UpdateSuccessImplCopyWith<$Res> {
+  __$$UpdateSuccessImplCopyWithImpl(
+      _$UpdateSuccessImpl _value, $Res Function(_$UpdateSuccessImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -334,7 +335,7 @@ class __$$_UpdateSuccessCopyWithImpl<$Res>
   $Res call({
     Object? descriptor = null,
   }) {
-    return _then(_$_UpdateSuccess(
+    return _then(_$UpdateSuccessImpl(
       null == descriptor
           ? _value.descriptor
           : descriptor // ignore: cast_nullable_to_non_nullable
@@ -345,8 +346,8 @@ class __$$_UpdateSuccessCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_UpdateSuccess implements _UpdateSuccess {
-  const _$_UpdateSuccess(this.descriptor);
+class _$UpdateSuccessImpl implements _UpdateSuccess {
+  const _$UpdateSuccessImpl(this.descriptor);
 
   @override
   final CameraDescriptor descriptor;
@@ -357,10 +358,10 @@ class _$_UpdateSuccess implements _UpdateSuccess {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_UpdateSuccess &&
+            other is _$UpdateSuccessImpl &&
             (identical(other.descriptor, descriptor) ||
                 other.descriptor == descriptor));
   }
@@ -371,8 +372,8 @@ class _$_UpdateSuccess implements _UpdateSuccess {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_UpdateSuccessCopyWith<_$_UpdateSuccess> get copyWith =>
-      __$$_UpdateSuccessCopyWithImpl<_$_UpdateSuccess>(this, _$identity);
+  _$$UpdateSuccessImplCopyWith<_$UpdateSuccessImpl> get copyWith =>
+      __$$UpdateSuccessImplCopyWithImpl<_$UpdateSuccessImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -451,32 +452,34 @@ class _$_UpdateSuccess implements _UpdateSuccess {
 
 abstract class _UpdateSuccess implements CameraMetaState {
   const factory _UpdateSuccess(final CameraDescriptor descriptor) =
-      _$_UpdateSuccess;
+      _$UpdateSuccessImpl;
 
   CameraDescriptor get descriptor;
   @JsonKey(ignore: true)
-  _$$_UpdateSuccessCopyWith<_$_UpdateSuccess> get copyWith =>
+  _$$UpdateSuccessImplCopyWith<_$UpdateSuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$_ErrorCopyWith<$Res> {
-  factory _$$_ErrorCopyWith(_$_Error value, $Res Function(_$_Error) then) =
-      __$$_ErrorCopyWithImpl<$Res>;
+abstract class _$$ErrorImplCopyWith<$Res> {
+  factory _$$ErrorImplCopyWith(
+          _$ErrorImpl value, $Res Function(_$ErrorImpl) then) =
+      __$$ErrorImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_ErrorCopyWithImpl<$Res>
-    extends _$CameraMetaStateCopyWithImpl<$Res, _$_Error>
-    implements _$$_ErrorCopyWith<$Res> {
-  __$$_ErrorCopyWithImpl(_$_Error _value, $Res Function(_$_Error) _then)
+class __$$ErrorImplCopyWithImpl<$Res>
+    extends _$CameraMetaStateCopyWithImpl<$Res, _$ErrorImpl>
+    implements _$$ErrorImplCopyWith<$Res> {
+  __$$ErrorImplCopyWithImpl(
+      _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_Error implements _Error {
-  const _$_Error();
+class _$ErrorImpl implements _Error {
+  const _$ErrorImpl();
 
   @override
   String toString() {
@@ -484,9 +487,9 @@ class _$_Error implements _Error {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_Error);
+        (other.runtimeType == runtimeType && other is _$ErrorImpl);
   }
 
   @override
@@ -568,5 +571,5 @@ class _$_Error implements _Error {
 }
 
 abstract class _Error implements CameraMetaState {
-  const factory _Error() = _$_Error;
+  const factory _Error() = _$ErrorImpl;
 }

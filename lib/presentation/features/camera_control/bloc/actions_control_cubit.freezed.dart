@@ -12,7 +12,7 @@ part of 'actions_control_cubit.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ActionsState {
@@ -63,22 +63,22 @@ class _$ActionsStateCopyWithImpl<$Res, $Val extends ActionsState>
 }
 
 /// @nodoc
-abstract class _$$_ActionsStateCopyWith<$Res>
+abstract class _$$ActionsStateImplCopyWith<$Res>
     implements $ActionsStateCopyWith<$Res> {
-  factory _$$_ActionsStateCopyWith(
-          _$_ActionsState value, $Res Function(_$_ActionsState) then) =
-      __$$_ActionsStateCopyWithImpl<$Res>;
+  factory _$$ActionsStateImplCopyWith(
+          _$ActionsStateImpl value, $Res Function(_$ActionsStateImpl) then) =
+      __$$ActionsStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({bool isRecording, AutoFocusMode focusMode});
 }
 
 /// @nodoc
-class __$$_ActionsStateCopyWithImpl<$Res>
-    extends _$ActionsStateCopyWithImpl<$Res, _$_ActionsState>
-    implements _$$_ActionsStateCopyWith<$Res> {
-  __$$_ActionsStateCopyWithImpl(
-      _$_ActionsState _value, $Res Function(_$_ActionsState) _then)
+class __$$ActionsStateImplCopyWithImpl<$Res>
+    extends _$ActionsStateCopyWithImpl<$Res, _$ActionsStateImpl>
+    implements _$$ActionsStateImplCopyWith<$Res> {
+  __$$ActionsStateImplCopyWithImpl(
+      _$ActionsStateImpl _value, $Res Function(_$ActionsStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -87,7 +87,7 @@ class __$$_ActionsStateCopyWithImpl<$Res>
     Object? isRecording = null,
     Object? focusMode = null,
   }) {
-    return _then(_$_ActionsState(
+    return _then(_$ActionsStateImpl(
       isRecording: null == isRecording
           ? _value.isRecording
           : isRecording // ignore: cast_nullable_to_non_nullable
@@ -102,8 +102,8 @@ class __$$_ActionsStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ActionsState implements _ActionsState {
-  _$_ActionsState({required this.isRecording, required this.focusMode});
+class _$ActionsStateImpl implements _ActionsState {
+  _$ActionsStateImpl({required this.isRecording, required this.focusMode});
 
   @override
   final bool isRecording;
@@ -116,10 +116,10 @@ class _$_ActionsState implements _ActionsState {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ActionsState &&
+            other is _$ActionsStateImpl &&
             (identical(other.isRecording, isRecording) ||
                 other.isRecording == isRecording) &&
             (identical(other.focusMode, focusMode) ||
@@ -132,14 +132,14 @@ class _$_ActionsState implements _ActionsState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ActionsStateCopyWith<_$_ActionsState> get copyWith =>
-      __$$_ActionsStateCopyWithImpl<_$_ActionsState>(this, _$identity);
+  _$$ActionsStateImplCopyWith<_$ActionsStateImpl> get copyWith =>
+      __$$ActionsStateImplCopyWithImpl<_$ActionsStateImpl>(this, _$identity);
 }
 
 abstract class _ActionsState implements ActionsState {
   factory _ActionsState(
       {required final bool isRecording,
-      required final AutoFocusMode focusMode}) = _$_ActionsState;
+      required final AutoFocusMode focusMode}) = _$ActionsStateImpl;
 
   @override
   bool get isRecording;
@@ -147,7 +147,7 @@ abstract class _ActionsState implements ActionsState {
   AutoFocusMode get focusMode;
   @override
   @JsonKey(ignore: true)
-  _$$_ActionsStateCopyWith<_$_ActionsState> get copyWith =>
+  _$$ActionsStateImplCopyWith<_$ActionsStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -254,10 +254,11 @@ class _$ActionsControlStateCopyWithImpl<$Res, $Val extends ActionsControlState>
 }
 
 /// @nodoc
-abstract class _$$_InitCopyWith<$Res>
+abstract class _$$InitImplCopyWith<$Res>
     implements $ActionsControlStateCopyWith<$Res> {
-  factory _$$_InitCopyWith(_$_Init value, $Res Function(_$_Init) then) =
-      __$$_InitCopyWithImpl<$Res>;
+  factory _$$InitImplCopyWith(
+          _$InitImpl value, $Res Function(_$InitImpl) then) =
+      __$$InitImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({ActionsState actionsState});
@@ -267,10 +268,10 @@ abstract class _$$_InitCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_InitCopyWithImpl<$Res>
-    extends _$ActionsControlStateCopyWithImpl<$Res, _$_Init>
-    implements _$$_InitCopyWith<$Res> {
-  __$$_InitCopyWithImpl(_$_Init _value, $Res Function(_$_Init) _then)
+class __$$InitImplCopyWithImpl<$Res>
+    extends _$ActionsControlStateCopyWithImpl<$Res, _$InitImpl>
+    implements _$$InitImplCopyWith<$Res> {
+  __$$InitImplCopyWithImpl(_$InitImpl _value, $Res Function(_$InitImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -278,7 +279,7 @@ class __$$_InitCopyWithImpl<$Res>
   $Res call({
     Object? actionsState = null,
   }) {
-    return _then(_$_Init(
+    return _then(_$InitImpl(
       null == actionsState
           ? _value.actionsState
           : actionsState // ignore: cast_nullable_to_non_nullable
@@ -289,8 +290,8 @@ class __$$_InitCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Init implements _Init {
-  _$_Init(this.actionsState);
+class _$InitImpl implements _Init {
+  _$InitImpl(this.actionsState);
 
   @override
   final ActionsState actionsState;
@@ -301,10 +302,10 @@ class _$_Init implements _Init {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Init &&
+            other is _$InitImpl &&
             (identical(other.actionsState, actionsState) ||
                 other.actionsState == actionsState));
   }
@@ -315,8 +316,8 @@ class _$_Init implements _Init {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_InitCopyWith<_$_Init> get copyWith =>
-      __$$_InitCopyWithImpl<_$_Init>(this, _$identity);
+  _$$InitImplCopyWith<_$InitImpl> get copyWith =>
+      __$$InitImplCopyWithImpl<_$InitImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -394,21 +395,22 @@ class _$_Init implements _Init {
 }
 
 abstract class _Init implements ActionsControlState {
-  factory _Init(final ActionsState actionsState) = _$_Init;
+  factory _Init(final ActionsState actionsState) = _$InitImpl;
 
   @override
   ActionsState get actionsState;
   @override
   @JsonKey(ignore: true)
-  _$$_InitCopyWith<_$_Init> get copyWith => throw _privateConstructorUsedError;
+  _$$InitImplCopyWith<_$InitImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$_UpdatingCopyWith<$Res>
+abstract class _$$UpdatingImplCopyWith<$Res>
     implements $ActionsControlStateCopyWith<$Res> {
-  factory _$$_UpdatingCopyWith(
-          _$_Updating value, $Res Function(_$_Updating) then) =
-      __$$_UpdatingCopyWithImpl<$Res>;
+  factory _$$UpdatingImplCopyWith(
+          _$UpdatingImpl value, $Res Function(_$UpdatingImpl) then) =
+      __$$UpdatingImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({ActionsState actionsState});
@@ -418,11 +420,11 @@ abstract class _$$_UpdatingCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_UpdatingCopyWithImpl<$Res>
-    extends _$ActionsControlStateCopyWithImpl<$Res, _$_Updating>
-    implements _$$_UpdatingCopyWith<$Res> {
-  __$$_UpdatingCopyWithImpl(
-      _$_Updating _value, $Res Function(_$_Updating) _then)
+class __$$UpdatingImplCopyWithImpl<$Res>
+    extends _$ActionsControlStateCopyWithImpl<$Res, _$UpdatingImpl>
+    implements _$$UpdatingImplCopyWith<$Res> {
+  __$$UpdatingImplCopyWithImpl(
+      _$UpdatingImpl _value, $Res Function(_$UpdatingImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -430,7 +432,7 @@ class __$$_UpdatingCopyWithImpl<$Res>
   $Res call({
     Object? actionsState = null,
   }) {
-    return _then(_$_Updating(
+    return _then(_$UpdatingImpl(
       null == actionsState
           ? _value.actionsState
           : actionsState // ignore: cast_nullable_to_non_nullable
@@ -441,8 +443,8 @@ class __$$_UpdatingCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Updating implements _Updating {
-  _$_Updating(this.actionsState);
+class _$UpdatingImpl implements _Updating {
+  _$UpdatingImpl(this.actionsState);
 
   @override
   final ActionsState actionsState;
@@ -453,10 +455,10 @@ class _$_Updating implements _Updating {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Updating &&
+            other is _$UpdatingImpl &&
             (identical(other.actionsState, actionsState) ||
                 other.actionsState == actionsState));
   }
@@ -467,8 +469,8 @@ class _$_Updating implements _Updating {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_UpdatingCopyWith<_$_Updating> get copyWith =>
-      __$$_UpdatingCopyWithImpl<_$_Updating>(this, _$identity);
+  _$$UpdatingImplCopyWith<_$UpdatingImpl> get copyWith =>
+      __$$UpdatingImplCopyWithImpl<_$UpdatingImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -546,22 +548,22 @@ class _$_Updating implements _Updating {
 }
 
 abstract class _Updating implements ActionsControlState {
-  factory _Updating(final ActionsState actionsState) = _$_Updating;
+  factory _Updating(final ActionsState actionsState) = _$UpdatingImpl;
 
   @override
   ActionsState get actionsState;
   @override
   @JsonKey(ignore: true)
-  _$$_UpdatingCopyWith<_$_Updating> get copyWith =>
+  _$$UpdatingImplCopyWith<_$UpdatingImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$_UpdateSuccessCopyWith<$Res>
+abstract class _$$UpdateSuccessImplCopyWith<$Res>
     implements $ActionsControlStateCopyWith<$Res> {
-  factory _$$_UpdateSuccessCopyWith(
-          _$_UpdateSuccess value, $Res Function(_$_UpdateSuccess) then) =
-      __$$_UpdateSuccessCopyWithImpl<$Res>;
+  factory _$$UpdateSuccessImplCopyWith(
+          _$UpdateSuccessImpl value, $Res Function(_$UpdateSuccessImpl) then) =
+      __$$UpdateSuccessImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({ActionsState actionsState});
@@ -571,11 +573,11 @@ abstract class _$$_UpdateSuccessCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_UpdateSuccessCopyWithImpl<$Res>
-    extends _$ActionsControlStateCopyWithImpl<$Res, _$_UpdateSuccess>
-    implements _$$_UpdateSuccessCopyWith<$Res> {
-  __$$_UpdateSuccessCopyWithImpl(
-      _$_UpdateSuccess _value, $Res Function(_$_UpdateSuccess) _then)
+class __$$UpdateSuccessImplCopyWithImpl<$Res>
+    extends _$ActionsControlStateCopyWithImpl<$Res, _$UpdateSuccessImpl>
+    implements _$$UpdateSuccessImplCopyWith<$Res> {
+  __$$UpdateSuccessImplCopyWithImpl(
+      _$UpdateSuccessImpl _value, $Res Function(_$UpdateSuccessImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -583,7 +585,7 @@ class __$$_UpdateSuccessCopyWithImpl<$Res>
   $Res call({
     Object? actionsState = null,
   }) {
-    return _then(_$_UpdateSuccess(
+    return _then(_$UpdateSuccessImpl(
       null == actionsState
           ? _value.actionsState
           : actionsState // ignore: cast_nullable_to_non_nullable
@@ -594,8 +596,8 @@ class __$$_UpdateSuccessCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_UpdateSuccess implements _UpdateSuccess {
-  _$_UpdateSuccess(this.actionsState);
+class _$UpdateSuccessImpl implements _UpdateSuccess {
+  _$UpdateSuccessImpl(this.actionsState);
 
   @override
   final ActionsState actionsState;
@@ -606,10 +608,10 @@ class _$_UpdateSuccess implements _UpdateSuccess {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_UpdateSuccess &&
+            other is _$UpdateSuccessImpl &&
             (identical(other.actionsState, actionsState) ||
                 other.actionsState == actionsState));
   }
@@ -620,8 +622,8 @@ class _$_UpdateSuccess implements _UpdateSuccess {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_UpdateSuccessCopyWith<_$_UpdateSuccess> get copyWith =>
-      __$$_UpdateSuccessCopyWithImpl<_$_UpdateSuccess>(this, _$identity);
+  _$$UpdateSuccessImplCopyWith<_$UpdateSuccessImpl> get copyWith =>
+      __$$UpdateSuccessImplCopyWithImpl<_$UpdateSuccessImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -699,22 +701,22 @@ class _$_UpdateSuccess implements _UpdateSuccess {
 }
 
 abstract class _UpdateSuccess implements ActionsControlState {
-  factory _UpdateSuccess(final ActionsState actionsState) = _$_UpdateSuccess;
+  factory _UpdateSuccess(final ActionsState actionsState) = _$UpdateSuccessImpl;
 
   @override
   ActionsState get actionsState;
   @override
   @JsonKey(ignore: true)
-  _$$_UpdateSuccessCopyWith<_$_UpdateSuccess> get copyWith =>
+  _$$UpdateSuccessImplCopyWith<_$UpdateSuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$_UpdateFailedCopyWith<$Res>
+abstract class _$$UpdateFailedImplCopyWith<$Res>
     implements $ActionsControlStateCopyWith<$Res> {
-  factory _$$_UpdateFailedCopyWith(
-          _$_UpdateFailed value, $Res Function(_$_UpdateFailed) then) =
-      __$$_UpdateFailedCopyWithImpl<$Res>;
+  factory _$$UpdateFailedImplCopyWith(
+          _$UpdateFailedImpl value, $Res Function(_$UpdateFailedImpl) then) =
+      __$$UpdateFailedImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({ActionsState actionsState});
@@ -724,11 +726,11 @@ abstract class _$$_UpdateFailedCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_UpdateFailedCopyWithImpl<$Res>
-    extends _$ActionsControlStateCopyWithImpl<$Res, _$_UpdateFailed>
-    implements _$$_UpdateFailedCopyWith<$Res> {
-  __$$_UpdateFailedCopyWithImpl(
-      _$_UpdateFailed _value, $Res Function(_$_UpdateFailed) _then)
+class __$$UpdateFailedImplCopyWithImpl<$Res>
+    extends _$ActionsControlStateCopyWithImpl<$Res, _$UpdateFailedImpl>
+    implements _$$UpdateFailedImplCopyWith<$Res> {
+  __$$UpdateFailedImplCopyWithImpl(
+      _$UpdateFailedImpl _value, $Res Function(_$UpdateFailedImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -736,7 +738,7 @@ class __$$_UpdateFailedCopyWithImpl<$Res>
   $Res call({
     Object? actionsState = null,
   }) {
-    return _then(_$_UpdateFailed(
+    return _then(_$UpdateFailedImpl(
       null == actionsState
           ? _value.actionsState
           : actionsState // ignore: cast_nullable_to_non_nullable
@@ -747,8 +749,8 @@ class __$$_UpdateFailedCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_UpdateFailed implements _UpdateFailed {
-  _$_UpdateFailed(this.actionsState);
+class _$UpdateFailedImpl implements _UpdateFailed {
+  _$UpdateFailedImpl(this.actionsState);
 
   @override
   final ActionsState actionsState;
@@ -759,10 +761,10 @@ class _$_UpdateFailed implements _UpdateFailed {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_UpdateFailed &&
+            other is _$UpdateFailedImpl &&
             (identical(other.actionsState, actionsState) ||
                 other.actionsState == actionsState));
   }
@@ -773,8 +775,8 @@ class _$_UpdateFailed implements _UpdateFailed {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_UpdateFailedCopyWith<_$_UpdateFailed> get copyWith =>
-      __$$_UpdateFailedCopyWithImpl<_$_UpdateFailed>(this, _$identity);
+  _$$UpdateFailedImplCopyWith<_$UpdateFailedImpl> get copyWith =>
+      __$$UpdateFailedImplCopyWithImpl<_$UpdateFailedImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -852,12 +854,12 @@ class _$_UpdateFailed implements _UpdateFailed {
 }
 
 abstract class _UpdateFailed implements ActionsControlState {
-  factory _UpdateFailed(final ActionsState actionsState) = _$_UpdateFailed;
+  factory _UpdateFailed(final ActionsState actionsState) = _$UpdateFailedImpl;
 
   @override
   ActionsState get actionsState;
   @override
   @JsonKey(ignore: true)
-  _$$_UpdateFailedCopyWith<_$_UpdateFailed> get copyWith =>
+  _$$UpdateFailedImplCopyWith<_$UpdateFailedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

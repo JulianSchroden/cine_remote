@@ -12,7 +12,7 @@ part of 'camera_discovery_cubit.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$CameraDiscoveryState {
@@ -99,23 +99,24 @@ class _$CameraDiscoveryStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_InitCopyWith<$Res> {
-  factory _$$_InitCopyWith(_$_Init value, $Res Function(_$_Init) then) =
-      __$$_InitCopyWithImpl<$Res>;
+abstract class _$$InitImplCopyWith<$Res> {
+  factory _$$InitImplCopyWith(
+          _$InitImpl value, $Res Function(_$InitImpl) then) =
+      __$$InitImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_InitCopyWithImpl<$Res>
-    extends _$CameraDiscoveryStateCopyWithImpl<$Res, _$_Init>
-    implements _$$_InitCopyWith<$Res> {
-  __$$_InitCopyWithImpl(_$_Init _value, $Res Function(_$_Init) _then)
+class __$$InitImplCopyWithImpl<$Res>
+    extends _$CameraDiscoveryStateCopyWithImpl<$Res, _$InitImpl>
+    implements _$$InitImplCopyWith<$Res> {
+  __$$InitImplCopyWithImpl(_$InitImpl _value, $Res Function(_$InitImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_Init extends _Init {
-  const _$_Init() : super._();
+class _$InitImpl extends _Init {
+  const _$InitImpl() : super._();
 
   @override
   String toString() {
@@ -123,9 +124,9 @@ class _$_Init extends _Init {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_Init);
+        (other.runtimeType == runtimeType && other is _$InitImpl);
   }
 
   @override
@@ -218,30 +219,30 @@ class _$_Init extends _Init {
 }
 
 abstract class _Init extends CameraDiscoveryState {
-  const factory _Init() = _$_Init;
+  const factory _Init() = _$InitImpl;
   const _Init._() : super._();
 }
 
 /// @nodoc
-abstract class _$$_InitInProgressCopyWith<$Res> {
-  factory _$$_InitInProgressCopyWith(
-          _$_InitInProgress value, $Res Function(_$_InitInProgress) then) =
-      __$$_InitInProgressCopyWithImpl<$Res>;
+abstract class _$$InitInProgressImplCopyWith<$Res> {
+  factory _$$InitInProgressImplCopyWith(_$InitInProgressImpl value,
+          $Res Function(_$InitInProgressImpl) then) =
+      __$$InitInProgressImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_InitInProgressCopyWithImpl<$Res>
-    extends _$CameraDiscoveryStateCopyWithImpl<$Res, _$_InitInProgress>
-    implements _$$_InitInProgressCopyWith<$Res> {
-  __$$_InitInProgressCopyWithImpl(
-      _$_InitInProgress _value, $Res Function(_$_InitInProgress) _then)
+class __$$InitInProgressImplCopyWithImpl<$Res>
+    extends _$CameraDiscoveryStateCopyWithImpl<$Res, _$InitInProgressImpl>
+    implements _$$InitInProgressImplCopyWith<$Res> {
+  __$$InitInProgressImplCopyWithImpl(
+      _$InitInProgressImpl _value, $Res Function(_$InitInProgressImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_InitInProgress extends _InitInProgress {
-  const _$_InitInProgress() : super._();
+class _$InitInProgressImpl extends _InitInProgress {
+  const _$InitInProgressImpl() : super._();
 
   @override
   String toString() {
@@ -249,9 +250,9 @@ class _$_InitInProgress extends _InitInProgress {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_InitInProgress);
+        (other.runtimeType == runtimeType && other is _$InitInProgressImpl);
   }
 
   @override
@@ -344,23 +345,25 @@ class _$_InitInProgress extends _InitInProgress {
 }
 
 abstract class _InitInProgress extends CameraDiscoveryState {
-  const factory _InitInProgress() = _$_InitInProgress;
+  const factory _InitInProgress() = _$InitInProgressImpl;
   const _InitInProgress._() : super._();
 }
 
 /// @nodoc
-abstract class _$$_ActiveCopyWith<$Res> {
-  factory _$$_ActiveCopyWith(_$_Active value, $Res Function(_$_Active) then) =
-      __$$_ActiveCopyWithImpl<$Res>;
+abstract class _$$ActiveImplCopyWith<$Res> {
+  factory _$$ActiveImplCopyWith(
+          _$ActiveImpl value, $Res Function(_$ActiveImpl) then) =
+      __$$ActiveImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String? currentIp, List<DiscoveryHandle> discoveryHandles});
 }
 
 /// @nodoc
-class __$$_ActiveCopyWithImpl<$Res>
-    extends _$CameraDiscoveryStateCopyWithImpl<$Res, _$_Active>
-    implements _$$_ActiveCopyWith<$Res> {
-  __$$_ActiveCopyWithImpl(_$_Active _value, $Res Function(_$_Active) _then)
+class __$$ActiveImplCopyWithImpl<$Res>
+    extends _$CameraDiscoveryStateCopyWithImpl<$Res, _$ActiveImpl>
+    implements _$$ActiveImplCopyWith<$Res> {
+  __$$ActiveImplCopyWithImpl(
+      _$ActiveImpl _value, $Res Function(_$ActiveImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -369,7 +372,7 @@ class __$$_ActiveCopyWithImpl<$Res>
     Object? currentIp = freezed,
     Object? discoveryHandles = null,
   }) {
-    return _then(_$_Active(
+    return _then(_$ActiveImpl(
       freezed == currentIp
           ? _value.currentIp
           : currentIp // ignore: cast_nullable_to_non_nullable
@@ -384,8 +387,9 @@ class __$$_ActiveCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Active extends _Active {
-  const _$_Active(this.currentIp, final List<DiscoveryHandle> discoveryHandles)
+class _$ActiveImpl extends _Active {
+  const _$ActiveImpl(
+      this.currentIp, final List<DiscoveryHandle> discoveryHandles)
       : _discoveryHandles = discoveryHandles,
         super._();
 
@@ -406,10 +410,10 @@ class _$_Active extends _Active {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Active &&
+            other is _$ActiveImpl &&
             (identical(other.currentIp, currentIp) ||
                 other.currentIp == currentIp) &&
             const DeepCollectionEquality()
@@ -423,8 +427,8 @@ class _$_Active extends _Active {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ActiveCopyWith<_$_Active> get copyWith =>
-      __$$_ActiveCopyWithImpl<_$_Active>(this, _$identity);
+  _$$ActiveImplCopyWith<_$ActiveImpl> get copyWith =>
+      __$$ActiveImplCopyWithImpl<_$ActiveImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -514,29 +518,31 @@ class _$_Active extends _Active {
 
 abstract class _Active extends CameraDiscoveryState {
   const factory _Active(final String? currentIp,
-      final List<DiscoveryHandle> discoveryHandles) = _$_Active;
+      final List<DiscoveryHandle> discoveryHandles) = _$ActiveImpl;
   const _Active._() : super._();
 
   String? get currentIp;
   List<DiscoveryHandle> get discoveryHandles;
   @JsonKey(ignore: true)
-  _$$_ActiveCopyWith<_$_Active> get copyWith =>
+  _$$ActiveImplCopyWith<_$ActiveImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$_PausedCopyWith<$Res> {
-  factory _$$_PausedCopyWith(_$_Paused value, $Res Function(_$_Paused) then) =
-      __$$_PausedCopyWithImpl<$Res>;
+abstract class _$$PausedImplCopyWith<$Res> {
+  factory _$$PausedImplCopyWith(
+          _$PausedImpl value, $Res Function(_$PausedImpl) then) =
+      __$$PausedImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String? currentIp});
 }
 
 /// @nodoc
-class __$$_PausedCopyWithImpl<$Res>
-    extends _$CameraDiscoveryStateCopyWithImpl<$Res, _$_Paused>
-    implements _$$_PausedCopyWith<$Res> {
-  __$$_PausedCopyWithImpl(_$_Paused _value, $Res Function(_$_Paused) _then)
+class __$$PausedImplCopyWithImpl<$Res>
+    extends _$CameraDiscoveryStateCopyWithImpl<$Res, _$PausedImpl>
+    implements _$$PausedImplCopyWith<$Res> {
+  __$$PausedImplCopyWithImpl(
+      _$PausedImpl _value, $Res Function(_$PausedImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -544,7 +550,7 @@ class __$$_PausedCopyWithImpl<$Res>
   $Res call({
     Object? currentIp = freezed,
   }) {
-    return _then(_$_Paused(
+    return _then(_$PausedImpl(
       freezed == currentIp
           ? _value.currentIp
           : currentIp // ignore: cast_nullable_to_non_nullable
@@ -555,8 +561,8 @@ class __$$_PausedCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Paused extends _Paused {
-  const _$_Paused(this.currentIp) : super._();
+class _$PausedImpl extends _Paused {
+  const _$PausedImpl(this.currentIp) : super._();
 
   @override
   final String? currentIp;
@@ -567,10 +573,10 @@ class _$_Paused extends _Paused {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Paused &&
+            other is _$PausedImpl &&
             (identical(other.currentIp, currentIp) ||
                 other.currentIp == currentIp));
   }
@@ -581,8 +587,8 @@ class _$_Paused extends _Paused {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PausedCopyWith<_$_Paused> get copyWith =>
-      __$$_PausedCopyWithImpl<_$_Paused>(this, _$identity);
+  _$$PausedImplCopyWith<_$PausedImpl> get copyWith =>
+      __$$PausedImplCopyWithImpl<_$PausedImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -671,33 +677,35 @@ class _$_Paused extends _Paused {
 }
 
 abstract class _Paused extends CameraDiscoveryState {
-  const factory _Paused(final String? currentIp) = _$_Paused;
+  const factory _Paused(final String? currentIp) = _$PausedImpl;
   const _Paused._() : super._();
 
   String? get currentIp;
   @JsonKey(ignore: true)
-  _$$_PausedCopyWith<_$_Paused> get copyWith =>
+  _$$PausedImplCopyWith<_$PausedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$_ErrorCopyWith<$Res> {
-  factory _$$_ErrorCopyWith(_$_Error value, $Res Function(_$_Error) then) =
-      __$$_ErrorCopyWithImpl<$Res>;
+abstract class _$$ErrorImplCopyWith<$Res> {
+  factory _$$ErrorImplCopyWith(
+          _$ErrorImpl value, $Res Function(_$ErrorImpl) then) =
+      __$$ErrorImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_ErrorCopyWithImpl<$Res>
-    extends _$CameraDiscoveryStateCopyWithImpl<$Res, _$_Error>
-    implements _$$_ErrorCopyWith<$Res> {
-  __$$_ErrorCopyWithImpl(_$_Error _value, $Res Function(_$_Error) _then)
+class __$$ErrorImplCopyWithImpl<$Res>
+    extends _$CameraDiscoveryStateCopyWithImpl<$Res, _$ErrorImpl>
+    implements _$$ErrorImplCopyWith<$Res> {
+  __$$ErrorImplCopyWithImpl(
+      _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_Error extends _Error {
-  const _$_Error() : super._();
+class _$ErrorImpl extends _Error {
+  const _$ErrorImpl() : super._();
 
   @override
   String toString() {
@@ -705,9 +713,9 @@ class _$_Error extends _Error {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_Error);
+        (other.runtimeType == runtimeType && other is _$ErrorImpl);
   }
 
   @override
@@ -800,6 +808,6 @@ class _$_Error extends _Error {
 }
 
 abstract class _Error extends CameraDiscoveryState {
-  const factory _Error() = _$_Error;
+  const factory _Error() = _$ErrorImpl;
   const _Error._() : super._();
 }

@@ -12,7 +12,7 @@ part of 'props_control_cubit.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$PropsControlState {
@@ -87,23 +87,24 @@ class _$PropsControlStateCopyWithImpl<$Res, $Val extends PropsControlState>
 }
 
 /// @nodoc
-abstract class _$$_InitCopyWith<$Res> {
-  factory _$$_InitCopyWith(_$_Init value, $Res Function(_$_Init) then) =
-      __$$_InitCopyWithImpl<$Res>;
+abstract class _$$InitImplCopyWith<$Res> {
+  factory _$$InitImplCopyWith(
+          _$InitImpl value, $Res Function(_$InitImpl) then) =
+      __$$InitImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_InitCopyWithImpl<$Res>
-    extends _$PropsControlStateCopyWithImpl<$Res, _$_Init>
-    implements _$$_InitCopyWith<$Res> {
-  __$$_InitCopyWithImpl(_$_Init _value, $Res Function(_$_Init) _then)
+class __$$InitImplCopyWithImpl<$Res>
+    extends _$PropsControlStateCopyWithImpl<$Res, _$InitImpl>
+    implements _$$InitImplCopyWith<$Res> {
+  __$$InitImplCopyWithImpl(_$InitImpl _value, $Res Function(_$InitImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_Init extends _Init {
-  const _$_Init() : super._();
+class _$InitImpl extends _Init {
+  const _$InitImpl() : super._();
 
   @override
   String toString() {
@@ -111,9 +112,9 @@ class _$_Init extends _Init {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_Init);
+        (other.runtimeType == runtimeType && other is _$InitImpl);
   }
 
   @override
@@ -195,25 +196,25 @@ class _$_Init extends _Init {
 }
 
 abstract class _Init extends PropsControlState {
-  const factory _Init() = _$_Init;
+  const factory _Init() = _$InitImpl;
   const _Init._() : super._();
 }
 
 /// @nodoc
-abstract class _$$_UpdatingCopyWith<$Res> {
-  factory _$$_UpdatingCopyWith(
-          _$_Updating value, $Res Function(_$_Updating) then) =
-      __$$_UpdatingCopyWithImpl<$Res>;
+abstract class _$$UpdatingImplCopyWith<$Res> {
+  factory _$$UpdatingImplCopyWith(
+          _$UpdatingImpl value, $Res Function(_$UpdatingImpl) then) =
+      __$$UpdatingImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<ControlProp> props});
 }
 
 /// @nodoc
-class __$$_UpdatingCopyWithImpl<$Res>
-    extends _$PropsControlStateCopyWithImpl<$Res, _$_Updating>
-    implements _$$_UpdatingCopyWith<$Res> {
-  __$$_UpdatingCopyWithImpl(
-      _$_Updating _value, $Res Function(_$_Updating) _then)
+class __$$UpdatingImplCopyWithImpl<$Res>
+    extends _$PropsControlStateCopyWithImpl<$Res, _$UpdatingImpl>
+    implements _$$UpdatingImplCopyWith<$Res> {
+  __$$UpdatingImplCopyWithImpl(
+      _$UpdatingImpl _value, $Res Function(_$UpdatingImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -221,7 +222,7 @@ class __$$_UpdatingCopyWithImpl<$Res>
   $Res call({
     Object? props = null,
   }) {
-    return _then(_$_Updating(
+    return _then(_$UpdatingImpl(
       null == props
           ? _value._props
           : props // ignore: cast_nullable_to_non_nullable
@@ -232,8 +233,8 @@ class __$$_UpdatingCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Updating extends _Updating {
-  const _$_Updating(final List<ControlProp> props)
+class _$UpdatingImpl extends _Updating {
+  const _$UpdatingImpl(final List<ControlProp> props)
       : _props = props,
         super._();
 
@@ -251,10 +252,10 @@ class _$_Updating extends _Updating {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Updating &&
+            other is _$UpdatingImpl &&
             const DeepCollectionEquality().equals(other._props, _props));
   }
 
@@ -265,8 +266,8 @@ class _$_Updating extends _Updating {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_UpdatingCopyWith<_$_Updating> get copyWith =>
-      __$$_UpdatingCopyWithImpl<_$_Updating>(this, _$identity);
+  _$$UpdatingImplCopyWith<_$UpdatingImpl> get copyWith =>
+      __$$UpdatingImplCopyWithImpl<_$UpdatingImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -344,30 +345,30 @@ class _$_Updating extends _Updating {
 }
 
 abstract class _Updating extends PropsControlState {
-  const factory _Updating(final List<ControlProp> props) = _$_Updating;
+  const factory _Updating(final List<ControlProp> props) = _$UpdatingImpl;
   const _Updating._() : super._();
 
   List<ControlProp> get props;
   @JsonKey(ignore: true)
-  _$$_UpdatingCopyWith<_$_Updating> get copyWith =>
+  _$$UpdatingImplCopyWith<_$UpdatingImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$_UpdateSuccessCopyWith<$Res> {
-  factory _$$_UpdateSuccessCopyWith(
-          _$_UpdateSuccess value, $Res Function(_$_UpdateSuccess) then) =
-      __$$_UpdateSuccessCopyWithImpl<$Res>;
+abstract class _$$UpdateSuccessImplCopyWith<$Res> {
+  factory _$$UpdateSuccessImplCopyWith(
+          _$UpdateSuccessImpl value, $Res Function(_$UpdateSuccessImpl) then) =
+      __$$UpdateSuccessImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<ControlProp> props});
 }
 
 /// @nodoc
-class __$$_UpdateSuccessCopyWithImpl<$Res>
-    extends _$PropsControlStateCopyWithImpl<$Res, _$_UpdateSuccess>
-    implements _$$_UpdateSuccessCopyWith<$Res> {
-  __$$_UpdateSuccessCopyWithImpl(
-      _$_UpdateSuccess _value, $Res Function(_$_UpdateSuccess) _then)
+class __$$UpdateSuccessImplCopyWithImpl<$Res>
+    extends _$PropsControlStateCopyWithImpl<$Res, _$UpdateSuccessImpl>
+    implements _$$UpdateSuccessImplCopyWith<$Res> {
+  __$$UpdateSuccessImplCopyWithImpl(
+      _$UpdateSuccessImpl _value, $Res Function(_$UpdateSuccessImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -375,7 +376,7 @@ class __$$_UpdateSuccessCopyWithImpl<$Res>
   $Res call({
     Object? props = null,
   }) {
-    return _then(_$_UpdateSuccess(
+    return _then(_$UpdateSuccessImpl(
       null == props
           ? _value._props
           : props // ignore: cast_nullable_to_non_nullable
@@ -386,8 +387,8 @@ class __$$_UpdateSuccessCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_UpdateSuccess extends _UpdateSuccess {
-  const _$_UpdateSuccess(final List<ControlProp> props)
+class _$UpdateSuccessImpl extends _UpdateSuccess {
+  const _$UpdateSuccessImpl(final List<ControlProp> props)
       : _props = props,
         super._();
 
@@ -405,10 +406,10 @@ class _$_UpdateSuccess extends _UpdateSuccess {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_UpdateSuccess &&
+            other is _$UpdateSuccessImpl &&
             const DeepCollectionEquality().equals(other._props, _props));
   }
 
@@ -419,8 +420,8 @@ class _$_UpdateSuccess extends _UpdateSuccess {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_UpdateSuccessCopyWith<_$_UpdateSuccess> get copyWith =>
-      __$$_UpdateSuccessCopyWithImpl<_$_UpdateSuccess>(this, _$identity);
+  _$$UpdateSuccessImplCopyWith<_$UpdateSuccessImpl> get copyWith =>
+      __$$UpdateSuccessImplCopyWithImpl<_$UpdateSuccessImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -499,30 +500,30 @@ class _$_UpdateSuccess extends _UpdateSuccess {
 
 abstract class _UpdateSuccess extends PropsControlState {
   const factory _UpdateSuccess(final List<ControlProp> props) =
-      _$_UpdateSuccess;
+      _$UpdateSuccessImpl;
   const _UpdateSuccess._() : super._();
 
   List<ControlProp> get props;
   @JsonKey(ignore: true)
-  _$$_UpdateSuccessCopyWith<_$_UpdateSuccess> get copyWith =>
+  _$$UpdateSuccessImplCopyWith<_$UpdateSuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$_UpdateFailedCopyWith<$Res> {
-  factory _$$_UpdateFailedCopyWith(
-          _$_UpdateFailed value, $Res Function(_$_UpdateFailed) then) =
-      __$$_UpdateFailedCopyWithImpl<$Res>;
+abstract class _$$UpdateFailedImplCopyWith<$Res> {
+  factory _$$UpdateFailedImplCopyWith(
+          _$UpdateFailedImpl value, $Res Function(_$UpdateFailedImpl) then) =
+      __$$UpdateFailedImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<ControlProp> props});
 }
 
 /// @nodoc
-class __$$_UpdateFailedCopyWithImpl<$Res>
-    extends _$PropsControlStateCopyWithImpl<$Res, _$_UpdateFailed>
-    implements _$$_UpdateFailedCopyWith<$Res> {
-  __$$_UpdateFailedCopyWithImpl(
-      _$_UpdateFailed _value, $Res Function(_$_UpdateFailed) _then)
+class __$$UpdateFailedImplCopyWithImpl<$Res>
+    extends _$PropsControlStateCopyWithImpl<$Res, _$UpdateFailedImpl>
+    implements _$$UpdateFailedImplCopyWith<$Res> {
+  __$$UpdateFailedImplCopyWithImpl(
+      _$UpdateFailedImpl _value, $Res Function(_$UpdateFailedImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -530,7 +531,7 @@ class __$$_UpdateFailedCopyWithImpl<$Res>
   $Res call({
     Object? props = null,
   }) {
-    return _then(_$_UpdateFailed(
+    return _then(_$UpdateFailedImpl(
       null == props
           ? _value._props
           : props // ignore: cast_nullable_to_non_nullable
@@ -541,8 +542,8 @@ class __$$_UpdateFailedCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_UpdateFailed extends _UpdateFailed {
-  const _$_UpdateFailed(final List<ControlProp> props)
+class _$UpdateFailedImpl extends _UpdateFailed {
+  const _$UpdateFailedImpl(final List<ControlProp> props)
       : _props = props,
         super._();
 
@@ -560,10 +561,10 @@ class _$_UpdateFailed extends _UpdateFailed {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_UpdateFailed &&
+            other is _$UpdateFailedImpl &&
             const DeepCollectionEquality().equals(other._props, _props));
   }
 
@@ -574,8 +575,8 @@ class _$_UpdateFailed extends _UpdateFailed {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_UpdateFailedCopyWith<_$_UpdateFailed> get copyWith =>
-      __$$_UpdateFailedCopyWithImpl<_$_UpdateFailed>(this, _$identity);
+  _$$UpdateFailedImplCopyWith<_$UpdateFailedImpl> get copyWith =>
+      __$$UpdateFailedImplCopyWithImpl<_$UpdateFailedImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -653,11 +654,12 @@ class _$_UpdateFailed extends _UpdateFailed {
 }
 
 abstract class _UpdateFailed extends PropsControlState {
-  const factory _UpdateFailed(final List<ControlProp> props) = _$_UpdateFailed;
+  const factory _UpdateFailed(final List<ControlProp> props) =
+      _$UpdateFailedImpl;
   const _UpdateFailed._() : super._();
 
   List<ControlProp> get props;
   @JsonKey(ignore: true)
-  _$$_UpdateFailedCopyWith<_$_UpdateFailed> get copyWith =>
+  _$$UpdateFailedImplCopyWith<_$UpdateFailedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

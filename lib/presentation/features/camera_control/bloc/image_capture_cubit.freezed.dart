@@ -12,7 +12,7 @@ part of 'image_capture_cubit.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ImageCaptureState {
@@ -100,25 +100,26 @@ class _$ImageCaptureStateCopyWithImpl<$Res, $Val extends ImageCaptureState>
 }
 
 /// @nodoc
-abstract class _$$_ImageCaptureStateInitCopyWith<$Res> {
-  factory _$$_ImageCaptureStateInitCopyWith(_$_ImageCaptureStateInit value,
-          $Res Function(_$_ImageCaptureStateInit) then) =
-      __$$_ImageCaptureStateInitCopyWithImpl<$Res>;
+abstract class _$$ImageCaptureStateInitImplCopyWith<$Res> {
+  factory _$$ImageCaptureStateInitImplCopyWith(
+          _$ImageCaptureStateInitImpl value,
+          $Res Function(_$ImageCaptureStateInitImpl) then) =
+      __$$ImageCaptureStateInitImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_ImageCaptureStateInitCopyWithImpl<$Res>
-    extends _$ImageCaptureStateCopyWithImpl<$Res, _$_ImageCaptureStateInit>
-    implements _$$_ImageCaptureStateInitCopyWith<$Res> {
-  __$$_ImageCaptureStateInitCopyWithImpl(_$_ImageCaptureStateInit _value,
-      $Res Function(_$_ImageCaptureStateInit) _then)
+class __$$ImageCaptureStateInitImplCopyWithImpl<$Res>
+    extends _$ImageCaptureStateCopyWithImpl<$Res, _$ImageCaptureStateInitImpl>
+    implements _$$ImageCaptureStateInitImplCopyWith<$Res> {
+  __$$ImageCaptureStateInitImplCopyWithImpl(_$ImageCaptureStateInitImpl _value,
+      $Res Function(_$ImageCaptureStateInitImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_ImageCaptureStateInit implements _ImageCaptureStateInit {
-  const _$_ImageCaptureStateInit();
+class _$ImageCaptureStateInitImpl implements _ImageCaptureStateInit {
+  const _$ImageCaptureStateInitImpl();
 
   @override
   String toString() {
@@ -126,9 +127,10 @@ class _$_ImageCaptureStateInit implements _ImageCaptureStateInit {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_ImageCaptureStateInit);
+        (other.runtimeType == runtimeType &&
+            other is _$ImageCaptureStateInitImpl);
   }
 
   @override
@@ -223,33 +225,33 @@ class _$_ImageCaptureStateInit implements _ImageCaptureStateInit {
 }
 
 abstract class _ImageCaptureStateInit implements ImageCaptureState {
-  const factory _ImageCaptureStateInit() = _$_ImageCaptureStateInit;
+  const factory _ImageCaptureStateInit() = _$ImageCaptureStateInitImpl;
 }
 
 /// @nodoc
-abstract class _$$_ImageCaptureStateInitInProgressCopyWith<$Res> {
-  factory _$$_ImageCaptureStateInitInProgressCopyWith(
-          _$_ImageCaptureStateInitInProgress value,
-          $Res Function(_$_ImageCaptureStateInitInProgress) then) =
-      __$$_ImageCaptureStateInitInProgressCopyWithImpl<$Res>;
+abstract class _$$ImageCaptureStateInitInProgressImplCopyWith<$Res> {
+  factory _$$ImageCaptureStateInitInProgressImplCopyWith(
+          _$ImageCaptureStateInitInProgressImpl value,
+          $Res Function(_$ImageCaptureStateInitInProgressImpl) then) =
+      __$$ImageCaptureStateInitInProgressImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_ImageCaptureStateInitInProgressCopyWithImpl<$Res>
+class __$$ImageCaptureStateInitInProgressImplCopyWithImpl<$Res>
     extends _$ImageCaptureStateCopyWithImpl<$Res,
-        _$_ImageCaptureStateInitInProgress>
-    implements _$$_ImageCaptureStateInitInProgressCopyWith<$Res> {
-  __$$_ImageCaptureStateInitInProgressCopyWithImpl(
-      _$_ImageCaptureStateInitInProgress _value,
-      $Res Function(_$_ImageCaptureStateInitInProgress) _then)
+        _$ImageCaptureStateInitInProgressImpl>
+    implements _$$ImageCaptureStateInitInProgressImplCopyWith<$Res> {
+  __$$ImageCaptureStateInitInProgressImplCopyWithImpl(
+      _$ImageCaptureStateInitInProgressImpl _value,
+      $Res Function(_$ImageCaptureStateInitInProgressImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_ImageCaptureStateInitInProgress
+class _$ImageCaptureStateInitInProgressImpl
     implements _ImageCaptureStateInitInProgress {
-  const _$_ImageCaptureStateInitInProgress();
+  const _$ImageCaptureStateInitInProgressImpl();
 
   @override
   String toString() {
@@ -257,10 +259,10 @@ class _$_ImageCaptureStateInitInProgress
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ImageCaptureStateInitInProgress);
+            other is _$ImageCaptureStateInitInProgressImpl);
   }
 
   @override
@@ -356,29 +358,31 @@ class _$_ImageCaptureStateInitInProgress
 
 abstract class _ImageCaptureStateInitInProgress implements ImageCaptureState {
   const factory _ImageCaptureStateInitInProgress() =
-      _$_ImageCaptureStateInitInProgress;
+      _$ImageCaptureStateInitInProgressImpl;
 }
 
 /// @nodoc
-abstract class _$$_ImageCaptureStateReadyCopyWith<$Res> {
-  factory _$$_ImageCaptureStateReadyCopyWith(_$_ImageCaptureStateReady value,
-          $Res Function(_$_ImageCaptureStateReady) then) =
-      __$$_ImageCaptureStateReadyCopyWithImpl<$Res>;
+abstract class _$$ImageCaptureStateReadyImplCopyWith<$Res> {
+  factory _$$ImageCaptureStateReadyImplCopyWith(
+          _$ImageCaptureStateReadyImpl value,
+          $Res Function(_$ImageCaptureStateReadyImpl) then) =
+      __$$ImageCaptureStateReadyImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_ImageCaptureStateReadyCopyWithImpl<$Res>
-    extends _$ImageCaptureStateCopyWithImpl<$Res, _$_ImageCaptureStateReady>
-    implements _$$_ImageCaptureStateReadyCopyWith<$Res> {
-  __$$_ImageCaptureStateReadyCopyWithImpl(_$_ImageCaptureStateReady _value,
-      $Res Function(_$_ImageCaptureStateReady) _then)
+class __$$ImageCaptureStateReadyImplCopyWithImpl<$Res>
+    extends _$ImageCaptureStateCopyWithImpl<$Res, _$ImageCaptureStateReadyImpl>
+    implements _$$ImageCaptureStateReadyImplCopyWith<$Res> {
+  __$$ImageCaptureStateReadyImplCopyWithImpl(
+      _$ImageCaptureStateReadyImpl _value,
+      $Res Function(_$ImageCaptureStateReadyImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_ImageCaptureStateReady implements _ImageCaptureStateReady {
-  const _$_ImageCaptureStateReady();
+class _$ImageCaptureStateReadyImpl implements _ImageCaptureStateReady {
+  const _$ImageCaptureStateReadyImpl();
 
   @override
   String toString() {
@@ -386,10 +390,10 @@ class _$_ImageCaptureStateReady implements _ImageCaptureStateReady {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ImageCaptureStateReady);
+            other is _$ImageCaptureStateReadyImpl);
   }
 
   @override
@@ -484,32 +488,33 @@ class _$_ImageCaptureStateReady implements _ImageCaptureStateReady {
 }
 
 abstract class _ImageCaptureStateReady implements ImageCaptureState {
-  const factory _ImageCaptureStateReady() = _$_ImageCaptureStateReady;
+  const factory _ImageCaptureStateReady() = _$ImageCaptureStateReadyImpl;
 }
 
 /// @nodoc
-abstract class _$$_ImageCaptureStateInProgressCopyWith<$Res> {
-  factory _$$_ImageCaptureStateInProgressCopyWith(
-          _$_ImageCaptureStateInProgress value,
-          $Res Function(_$_ImageCaptureStateInProgress) then) =
-      __$$_ImageCaptureStateInProgressCopyWithImpl<$Res>;
+abstract class _$$ImageCaptureStateInProgressImplCopyWith<$Res> {
+  factory _$$ImageCaptureStateInProgressImplCopyWith(
+          _$ImageCaptureStateInProgressImpl value,
+          $Res Function(_$ImageCaptureStateInProgressImpl) then) =
+      __$$ImageCaptureStateInProgressImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_ImageCaptureStateInProgressCopyWithImpl<$Res>
+class __$$ImageCaptureStateInProgressImplCopyWithImpl<$Res>
     extends _$ImageCaptureStateCopyWithImpl<$Res,
-        _$_ImageCaptureStateInProgress>
-    implements _$$_ImageCaptureStateInProgressCopyWith<$Res> {
-  __$$_ImageCaptureStateInProgressCopyWithImpl(
-      _$_ImageCaptureStateInProgress _value,
-      $Res Function(_$_ImageCaptureStateInProgress) _then)
+        _$ImageCaptureStateInProgressImpl>
+    implements _$$ImageCaptureStateInProgressImplCopyWith<$Res> {
+  __$$ImageCaptureStateInProgressImplCopyWithImpl(
+      _$ImageCaptureStateInProgressImpl _value,
+      $Res Function(_$ImageCaptureStateInProgressImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_ImageCaptureStateInProgress implements _ImageCaptureStateInProgress {
-  const _$_ImageCaptureStateInProgress();
+class _$ImageCaptureStateInProgressImpl
+    implements _ImageCaptureStateInProgress {
+  const _$ImageCaptureStateInProgressImpl();
 
   @override
   String toString() {
@@ -517,10 +522,10 @@ class _$_ImageCaptureStateInProgress implements _ImageCaptureStateInProgress {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ImageCaptureStateInProgress);
+            other is _$ImageCaptureStateInProgressImpl);
   }
 
   @override
@@ -615,29 +620,32 @@ class _$_ImageCaptureStateInProgress implements _ImageCaptureStateInProgress {
 }
 
 abstract class _ImageCaptureStateInProgress implements ImageCaptureState {
-  const factory _ImageCaptureStateInProgress() = _$_ImageCaptureStateInProgress;
+  const factory _ImageCaptureStateInProgress() =
+      _$ImageCaptureStateInProgressImpl;
 }
 
 /// @nodoc
-abstract class _$$_ImageCaptureStateErrorCopyWith<$Res> {
-  factory _$$_ImageCaptureStateErrorCopyWith(_$_ImageCaptureStateError value,
-          $Res Function(_$_ImageCaptureStateError) then) =
-      __$$_ImageCaptureStateErrorCopyWithImpl<$Res>;
+abstract class _$$ImageCaptureStateErrorImplCopyWith<$Res> {
+  factory _$$ImageCaptureStateErrorImplCopyWith(
+          _$ImageCaptureStateErrorImpl value,
+          $Res Function(_$ImageCaptureStateErrorImpl) then) =
+      __$$ImageCaptureStateErrorImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_ImageCaptureStateErrorCopyWithImpl<$Res>
-    extends _$ImageCaptureStateCopyWithImpl<$Res, _$_ImageCaptureStateError>
-    implements _$$_ImageCaptureStateErrorCopyWith<$Res> {
-  __$$_ImageCaptureStateErrorCopyWithImpl(_$_ImageCaptureStateError _value,
-      $Res Function(_$_ImageCaptureStateError) _then)
+class __$$ImageCaptureStateErrorImplCopyWithImpl<$Res>
+    extends _$ImageCaptureStateCopyWithImpl<$Res, _$ImageCaptureStateErrorImpl>
+    implements _$$ImageCaptureStateErrorImplCopyWith<$Res> {
+  __$$ImageCaptureStateErrorImplCopyWithImpl(
+      _$ImageCaptureStateErrorImpl _value,
+      $Res Function(_$ImageCaptureStateErrorImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_ImageCaptureStateError implements _ImageCaptureStateError {
-  const _$_ImageCaptureStateError();
+class _$ImageCaptureStateErrorImpl implements _ImageCaptureStateError {
+  const _$ImageCaptureStateErrorImpl();
 
   @override
   String toString() {
@@ -645,10 +653,10 @@ class _$_ImageCaptureStateError implements _ImageCaptureStateError {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ImageCaptureStateError);
+            other is _$ImageCaptureStateErrorImpl);
   }
 
   @override
@@ -743,32 +751,33 @@ class _$_ImageCaptureStateError implements _ImageCaptureStateError {
 }
 
 abstract class _ImageCaptureStateError implements ImageCaptureState {
-  const factory _ImageCaptureStateError() = _$_ImageCaptureStateError;
+  const factory _ImageCaptureStateError() = _$ImageCaptureStateErrorImpl;
 }
 
 /// @nodoc
-abstract class _$$_ImageCaptureStateUnsupportedCopyWith<$Res> {
-  factory _$$_ImageCaptureStateUnsupportedCopyWith(
-          _$_ImageCaptureStateUnsupported value,
-          $Res Function(_$_ImageCaptureStateUnsupported) then) =
-      __$$_ImageCaptureStateUnsupportedCopyWithImpl<$Res>;
+abstract class _$$ImageCaptureStateUnsupportedImplCopyWith<$Res> {
+  factory _$$ImageCaptureStateUnsupportedImplCopyWith(
+          _$ImageCaptureStateUnsupportedImpl value,
+          $Res Function(_$ImageCaptureStateUnsupportedImpl) then) =
+      __$$ImageCaptureStateUnsupportedImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_ImageCaptureStateUnsupportedCopyWithImpl<$Res>
+class __$$ImageCaptureStateUnsupportedImplCopyWithImpl<$Res>
     extends _$ImageCaptureStateCopyWithImpl<$Res,
-        _$_ImageCaptureStateUnsupported>
-    implements _$$_ImageCaptureStateUnsupportedCopyWith<$Res> {
-  __$$_ImageCaptureStateUnsupportedCopyWithImpl(
-      _$_ImageCaptureStateUnsupported _value,
-      $Res Function(_$_ImageCaptureStateUnsupported) _then)
+        _$ImageCaptureStateUnsupportedImpl>
+    implements _$$ImageCaptureStateUnsupportedImplCopyWith<$Res> {
+  __$$ImageCaptureStateUnsupportedImplCopyWithImpl(
+      _$ImageCaptureStateUnsupportedImpl _value,
+      $Res Function(_$ImageCaptureStateUnsupportedImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_ImageCaptureStateUnsupported implements _ImageCaptureStateUnsupported {
-  const _$_ImageCaptureStateUnsupported();
+class _$ImageCaptureStateUnsupportedImpl
+    implements _ImageCaptureStateUnsupported {
+  const _$ImageCaptureStateUnsupportedImpl();
 
   @override
   String toString() {
@@ -776,10 +785,10 @@ class _$_ImageCaptureStateUnsupported implements _ImageCaptureStateUnsupported {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ImageCaptureStateUnsupported);
+            other is _$ImageCaptureStateUnsupportedImpl);
   }
 
   @override
@@ -875,5 +884,5 @@ class _$_ImageCaptureStateUnsupported implements _ImageCaptureStateUnsupported {
 
 abstract class _ImageCaptureStateUnsupported implements ImageCaptureState {
   const factory _ImageCaptureStateUnsupported() =
-      _$_ImageCaptureStateUnsupported;
+      _$ImageCaptureStateUnsupportedImpl;
 }

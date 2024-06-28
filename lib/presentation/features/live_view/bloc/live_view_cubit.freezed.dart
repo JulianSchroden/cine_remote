@@ -12,7 +12,7 @@ part of 'live_view_cubit.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$LiveViewState {
@@ -86,11 +86,11 @@ class _$LiveViewStateCopyWithImpl<$Res, $Val extends LiveViewState>
 }
 
 /// @nodoc
-abstract class _$$_LiveViewStateCopyWith<$Res>
+abstract class _$$LiveViewStateImplCopyWith<$Res>
     implements $LiveViewStateCopyWith<$Res> {
-  factory _$$_LiveViewStateCopyWith(
-          _$_LiveViewState value, $Res Function(_$_LiveViewState) then) =
-      __$$_LiveViewStateCopyWithImpl<$Res>;
+  factory _$$LiveViewStateImplCopyWith(
+          _$LiveViewStateImpl value, $Res Function(_$LiveViewStateImpl) then) =
+      __$$LiveViewStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -102,11 +102,11 @@ abstract class _$$_LiveViewStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_LiveViewStateCopyWithImpl<$Res>
-    extends _$LiveViewStateCopyWithImpl<$Res, _$_LiveViewState>
-    implements _$$_LiveViewStateCopyWith<$Res> {
-  __$$_LiveViewStateCopyWithImpl(
-      _$_LiveViewState _value, $Res Function(_$_LiveViewState) _then)
+class __$$LiveViewStateImplCopyWithImpl<$Res>
+    extends _$LiveViewStateCopyWithImpl<$Res, _$LiveViewStateImpl>
+    implements _$$LiveViewStateImplCopyWith<$Res> {
+  __$$LiveViewStateImplCopyWithImpl(
+      _$LiveViewStateImpl _value, $Res Function(_$LiveViewStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -118,7 +118,7 @@ class __$$_LiveViewStateCopyWithImpl<$Res>
     Object? supportsTouchAutofocus = null,
     Object? autofocusState = freezed,
   }) {
-    return _then(_$_LiveViewState(
+    return _then(_$LiveViewStateImpl(
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -145,8 +145,8 @@ class __$$_LiveViewStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_LiveViewState extends _LiveViewState {
-  const _$_LiveViewState(
+class _$LiveViewStateImpl extends _LiveViewState {
+  const _$LiveViewStateImpl(
       {required this.status,
       this.imageBytes,
       this.aspectRatio = 16 / 9,
@@ -173,10 +173,10 @@ class _$_LiveViewState extends _LiveViewState {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_LiveViewState &&
+            other is _$LiveViewStateImpl &&
             (identical(other.status, status) || other.status == status) &&
             const DeepCollectionEquality()
                 .equals(other.imageBytes, imageBytes) &&
@@ -200,8 +200,8 @@ class _$_LiveViewState extends _LiveViewState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_LiveViewStateCopyWith<_$_LiveViewState> get copyWith =>
-      __$$_LiveViewStateCopyWithImpl<_$_LiveViewState>(this, _$identity);
+  _$$LiveViewStateImplCopyWith<_$LiveViewStateImpl> get copyWith =>
+      __$$LiveViewStateImplCopyWithImpl<_$LiveViewStateImpl>(this, _$identity);
 }
 
 abstract class _LiveViewState extends LiveViewState {
@@ -210,7 +210,7 @@ abstract class _LiveViewState extends LiveViewState {
       final Uint8List? imageBytes,
       final double aspectRatio,
       final bool supportsTouchAutofocus,
-      final TouchAutofocusState? autofocusState}) = _$_LiveViewState;
+      final TouchAutofocusState? autofocusState}) = _$LiveViewStateImpl;
   const _LiveViewState._() : super._();
 
   @override
@@ -225,6 +225,6 @@ abstract class _LiveViewState extends LiveViewState {
   TouchAutofocusState? get autofocusState;
   @override
   @JsonKey(ignore: true)
-  _$$_LiveViewStateCopyWith<_$_LiveViewState> get copyWith =>
+  _$$LiveViewStateImplCopyWith<_$LiveViewStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

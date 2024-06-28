@@ -12,7 +12,7 @@ part of 'live_view_overlay_cubit.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$LiveViewOverlayState {
@@ -64,22 +64,22 @@ class _$LiveViewOverlayStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_LiveViewOverlayStateCopyWith<$Res>
+abstract class _$$LiveViewOverlayStateImplCopyWith<$Res>
     implements $LiveViewOverlayStateCopyWith<$Res> {
-  factory _$$_LiveViewOverlayStateCopyWith(_$_LiveViewOverlayState value,
-          $Res Function(_$_LiveViewOverlayState) then) =
-      __$$_LiveViewOverlayStateCopyWithImpl<$Res>;
+  factory _$$LiveViewOverlayStateImplCopyWith(_$LiveViewOverlayStateImpl value,
+          $Res Function(_$LiveViewOverlayStateImpl) then) =
+      __$$LiveViewOverlayStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({bool showCenterMarker, bool showGrid});
 }
 
 /// @nodoc
-class __$$_LiveViewOverlayStateCopyWithImpl<$Res>
-    extends _$LiveViewOverlayStateCopyWithImpl<$Res, _$_LiveViewOverlayState>
-    implements _$$_LiveViewOverlayStateCopyWith<$Res> {
-  __$$_LiveViewOverlayStateCopyWithImpl(_$_LiveViewOverlayState _value,
-      $Res Function(_$_LiveViewOverlayState) _then)
+class __$$LiveViewOverlayStateImplCopyWithImpl<$Res>
+    extends _$LiveViewOverlayStateCopyWithImpl<$Res, _$LiveViewOverlayStateImpl>
+    implements _$$LiveViewOverlayStateImplCopyWith<$Res> {
+  __$$LiveViewOverlayStateImplCopyWithImpl(_$LiveViewOverlayStateImpl _value,
+      $Res Function(_$LiveViewOverlayStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -88,7 +88,7 @@ class __$$_LiveViewOverlayStateCopyWithImpl<$Res>
     Object? showCenterMarker = null,
     Object? showGrid = null,
   }) {
-    return _then(_$_LiveViewOverlayState(
+    return _then(_$LiveViewOverlayStateImpl(
       showCenterMarker: null == showCenterMarker
           ? _value.showCenterMarker
           : showCenterMarker // ignore: cast_nullable_to_non_nullable
@@ -103,8 +103,8 @@ class __$$_LiveViewOverlayStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_LiveViewOverlayState implements _LiveViewOverlayState {
-  const _$_LiveViewOverlayState(
+class _$LiveViewOverlayStateImpl implements _LiveViewOverlayState {
+  const _$LiveViewOverlayStateImpl(
       {this.showCenterMarker = true, this.showGrid = true});
 
   @override
@@ -120,10 +120,10 @@ class _$_LiveViewOverlayState implements _LiveViewOverlayState {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_LiveViewOverlayState &&
+            other is _$LiveViewOverlayStateImpl &&
             (identical(other.showCenterMarker, showCenterMarker) ||
                 other.showCenterMarker == showCenterMarker) &&
             (identical(other.showGrid, showGrid) ||
@@ -136,15 +136,16 @@ class _$_LiveViewOverlayState implements _LiveViewOverlayState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_LiveViewOverlayStateCopyWith<_$_LiveViewOverlayState> get copyWith =>
-      __$$_LiveViewOverlayStateCopyWithImpl<_$_LiveViewOverlayState>(
-          this, _$identity);
+  _$$LiveViewOverlayStateImplCopyWith<_$LiveViewOverlayStateImpl>
+      get copyWith =>
+          __$$LiveViewOverlayStateImplCopyWithImpl<_$LiveViewOverlayStateImpl>(
+              this, _$identity);
 }
 
 abstract class _LiveViewOverlayState implements LiveViewOverlayState {
   const factory _LiveViewOverlayState(
       {final bool showCenterMarker,
-      final bool showGrid}) = _$_LiveViewOverlayState;
+      final bool showGrid}) = _$LiveViewOverlayStateImpl;
 
   @override
   bool get showCenterMarker;
@@ -152,6 +153,6 @@ abstract class _LiveViewOverlayState implements LiveViewOverlayState {
   bool get showGrid;
   @override
   @JsonKey(ignore: true)
-  _$$_LiveViewOverlayStateCopyWith<_$_LiveViewOverlayState> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$LiveViewOverlayStateImplCopyWith<_$LiveViewOverlayStateImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

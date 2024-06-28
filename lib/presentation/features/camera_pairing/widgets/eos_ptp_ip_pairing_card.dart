@@ -8,10 +8,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/camera_pairing_cubit.dart';
 
 class EosPtpIpGuid {
+  // TODO: move to camera control
   final Uint8List guid = Uint8List(16);
 
   EosPtpIpGuid() {
     refresh();
+    Uint8List.fromList(List.generate(16, (index) => index));
   }
 
   void refresh() {
