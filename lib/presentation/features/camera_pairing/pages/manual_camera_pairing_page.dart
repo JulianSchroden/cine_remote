@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/add_demo_cameras_button.dart';
 import '../widgets/add_recent_camera_card.dart';
 
 class ManualCameraPairingPage extends StatelessWidget {
@@ -25,8 +24,6 @@ class ManualCameraPairingPage extends StatelessWidget {
                   onPressed: () => throw Exception(
                       "Test Exception to verify Firebase connection"),
                 ),
-                const SizedBox(height: 8),
-                const AddDemoCamerasButton(),
                 const SizedBox(height: 32),
               ],
             ),
