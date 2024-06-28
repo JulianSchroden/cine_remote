@@ -7,6 +7,8 @@ extension CameraModelDisplayExtension on CameraModel {
         return 'assets/images/canon_c100_ii.png';
       case CameraId.canon70D:
         return 'assets/images/canon_70d.png';
+      case CameraId.canonR7:
+        return 'assets/images/canon_r7.png';
     }
 
     return null;

@@ -51,5 +51,6 @@ flutter:
 
   assets:
     - assets/images/dummy_live_view_image.jpg
+    - assets/images/canon_r7.png
     - assets/images/canon_70d.png
     - assets/images/canon_c100_ii.png
