@@ -7,28 +7,33 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../../../test_helpers.dart';
+import '../../../../test_mocks.dart';
 
-class MockCameraDiscoveryService extends Mock
-    implements CameraDiscoveryService {}
+class MockWifiInfoAdapter extends Mock implements WifiInfoAdapter {}
 
 void main() {
   const currentIp = '192.168.0.65';
   const gatewayIp = '192.168.0.1';
 
   late CameraDiscoveryCubit sut;
-  late MockCameraDiscoveryService mockCameraDiscoveryService;
+  late MockCameraControl mockCameraControl;
+  late MockWifiInfoAdapter mockWifiInfoAdapter;
   late StreamController<CameraDiscoveryEvent> cameraDiscoveryStreamController;
 
   setUp(() {
-    mockCameraDiscoveryService = MockCameraDiscoveryService();
-    when(() => mockCameraDiscoveryService.wifiInfo())
-        .thenAnswer((_) => Future.value(const WifiInfo(currentIp, gatewayIp)));
+    mockCameraControl = MockCameraControl();
 
     cameraDiscoveryStreamController = StreamController<CameraDiscoveryEvent>();
-    when(() => mockCameraDiscoveryService.discover())
+    when(() => mockCameraControl.discover())
         .thenAnswer((_) => cameraDiscoveryStreamController.stream);
 
-    sut = CameraDiscoveryCubit(mockCameraDiscoveryService);
+    mockWifiInfoAdapter = MockWifiInfoAdapter();
+    when(() => mockWifiInfoAdapter.getLocalIp())
+        .thenAnswer((_) => Future.value(currentIp));
+    when(() => mockWifiInfoAdapter.getGatewayIp())
+        .thenAnswer((_) => Future.value(gatewayIp));
+
+    sut = CameraDiscoveryCubit(mockCameraControl, mockWifiInfoAdapter);
   });
 
   group('init', () {
@@ -45,7 +50,7 @@ void main() {
     blocTest<CameraDiscoveryCubit, CameraDiscoveryState>(
       'emits [initInProgress, error] when init fails',
       setUp: () {
-        when(() => mockCameraDiscoveryService.wifiInfo()).thenThrow(Error());
+        when(() => mockWifiInfoAdapter.getLocalIp()).thenThrow(Error());
       },
       build: () => sut,
       act: (bloc) => bloc.init(),
@@ -182,8 +187,8 @@ void main() {
         BlocTestStep(
           'ignores already discovered camera but emits [active] with updated localIp',
           setUp: () {
-            when(() => mockCameraDiscoveryService.wifiInfo()).thenAnswer((_) =>
-                Future.value(const WifiInfo('192.168.0.81', '192.168.0.80')));
+            when(() => mockWifiInfoAdapter.getLocalIp())
+                .thenAnswer((_) => Future.value('192.168.0.81'));
           },
           act: (_, controller) => controller.add(
             const CameraDiscoveryEvent.alive(

@@ -30,10 +30,11 @@ class CameraDiscoveryState with _$CameraDiscoveryState {
 }
 
 class CameraDiscoveryCubit extends Cubit<CameraDiscoveryState> {
-  final CameraDiscoveryService cameraDiscoveryService;
+  final CameraControl cameraControl;
+  final WifiInfoAdapter wifiInfoAdapter;
   StreamSubscription<CameraDiscoveryEvent>? _discoveryStreamSubscription;
 
-  CameraDiscoveryCubit(this.cameraDiscoveryService)
+  CameraDiscoveryCubit(this.cameraControl, this.wifiInfoAdapter)
       : super(const CameraDiscoveryState.init());
 
   @override
@@ -46,19 +47,19 @@ class CameraDiscoveryCubit extends Cubit<CameraDiscoveryState> {
     emit(const CameraDiscoveryState.initInProgress());
 
     try {
-      final wifiInfo = await cameraDiscoveryService.wifiInfo();
+      final localIp = await wifiInfoAdapter.getLocalIp();
       await startDiscovery();
 
-      emit(CameraDiscoveryState.active(wifiInfo.localIp, []));
+      emit(CameraDiscoveryState.active(localIp, []));
     } catch (e) {
       emit(const CameraDiscoveryState.error());
     }
   }
 
   Future<void> startDiscovery() async {
-    _discoveryStreamSubscription = cameraDiscoveryService.discover().listen(
+    _discoveryStreamSubscription = cameraControl.discover().listen(
       (discoveryEvent) async {
-        final wifiInfo = await cameraDiscoveryService.wifiInfo();
+        final localIp = await wifiInfoAdapter.getLocalIp();
 
         final previousHandles = state.maybeWhen(
             active: (_, discoveryHandles) => discoveryHandles,
@@ -66,26 +67,25 @@ class CameraDiscoveryCubit extends Cubit<CameraDiscoveryState> {
 
         if (discoveryEvent is CameraDiscoveryEventAlive) {
           if (previousHandles.contains(discoveryEvent.handle)) {
-            emit(
-                CameraDiscoveryState.active(wifiInfo.localIp, previousHandles));
+            emit(CameraDiscoveryState.active(localIp, previousHandles));
             return;
           }
 
           emit(CameraDiscoveryState.active(
-              wifiInfo.localIp, [discoveryEvent.handle, ...previousHandles]));
+              localIp, [discoveryEvent.handle, ...previousHandles]));
         } else if (discoveryEvent is CameraDiscoveryEventByeBye) {
           final updatedHandles = [...previousHandles]
             ..removeWhere((handle) => handle.id == discoveryEvent.id);
 
-          emit(CameraDiscoveryState.active(wifiInfo.localIp, updatedHandles));
+          emit(CameraDiscoveryState.active(localIp, updatedHandles));
         }
       },
       onError: (e, s) {
         emit(const CameraDiscoveryState.error());
       },
       onDone: () async {
-        final wifiInfo = await cameraDiscoveryService.wifiInfo();
-        emit(CameraDiscoveryState.paused(wifiInfo.localIp));
+        final localIp = await wifiInfoAdapter.getLocalIp();
+        emit(CameraDiscoveryState.paused(localIp));
       },
     );
   }
