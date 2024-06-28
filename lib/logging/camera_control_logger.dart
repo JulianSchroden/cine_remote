@@ -16,7 +16,7 @@ class CameraControlLoggerImpl extends Logger {
     dynamic error,
     StackTrace? stackTrace,
   ]) {
-    logger.log(level.toImpl(), message, error, stackTrace);
+    logger.log(level.toImpl(), message, error: error, stackTrace: stackTrace);
   }
 
   @override
@@ -25,7 +25,7 @@ class CameraControlLoggerImpl extends Logger {
     dynamic error,
     StackTrace? stackTrace,
   ]) {
-    logger.i(message, error, stackTrace);
+    logger.i(message, error: error, stackTrace: stackTrace);
   }
 
   @override
@@ -34,7 +34,7 @@ class CameraControlLoggerImpl extends Logger {
     dynamic error,
     StackTrace? stackTrace,
   ]) {
-    logger.w(message, error, stackTrace);
+    logger.w(message, error: error, stackTrace: stackTrace);
   }
 }
 
