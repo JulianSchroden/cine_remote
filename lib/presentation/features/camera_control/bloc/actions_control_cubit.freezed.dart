@@ -103,7 +103,8 @@ class __$$ActionsStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ActionsStateImpl implements _ActionsState {
-  _$ActionsStateImpl({required this.isRecording, required this.focusMode});
+  const _$ActionsStateImpl(
+      {required this.isRecording, required this.focusMode});
 
   @override
   final bool isRecording;
@@ -137,7 +138,7 @@ class _$ActionsStateImpl implements _ActionsState {
 }
 
 abstract class _ActionsState implements ActionsState {
-  factory _ActionsState(
+  const factory _ActionsState(
       {required final bool isRecording,
       required final AutoFocusMode focusMode}) = _$ActionsStateImpl;
 
@@ -291,7 +292,7 @@ class __$$InitImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$InitImpl implements _Init {
-  _$InitImpl(this.actionsState);
+  const _$InitImpl(this.actionsState);
 
   @override
   final ActionsState actionsState;
@@ -395,7 +396,7 @@ class _$InitImpl implements _Init {
 }
 
 abstract class _Init implements ActionsControlState {
-  factory _Init(final ActionsState actionsState) = _$InitImpl;
+  const factory _Init(final ActionsState actionsState) = _$InitImpl;
 
   @override
   ActionsState get actionsState;
@@ -444,7 +445,7 @@ class __$$UpdatingImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$UpdatingImpl implements _Updating {
-  _$UpdatingImpl(this.actionsState);
+  const _$UpdatingImpl(this.actionsState);
 
   @override
   final ActionsState actionsState;
@@ -548,7 +549,7 @@ class _$UpdatingImpl implements _Updating {
 }
 
 abstract class _Updating implements ActionsControlState {
-  factory _Updating(final ActionsState actionsState) = _$UpdatingImpl;
+  const factory _Updating(final ActionsState actionsState) = _$UpdatingImpl;
 
   @override
   ActionsState get actionsState;
@@ -597,7 +598,7 @@ class __$$UpdateSuccessImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$UpdateSuccessImpl implements _UpdateSuccess {
-  _$UpdateSuccessImpl(this.actionsState);
+  const _$UpdateSuccessImpl(this.actionsState);
 
   @override
   final ActionsState actionsState;
@@ -701,7 +702,8 @@ class _$UpdateSuccessImpl implements _UpdateSuccess {
 }
 
 abstract class _UpdateSuccess implements ActionsControlState {
-  factory _UpdateSuccess(final ActionsState actionsState) = _$UpdateSuccessImpl;
+  const factory _UpdateSuccess(final ActionsState actionsState) =
+      _$UpdateSuccessImpl;
 
   @override
   ActionsState get actionsState;
@@ -750,7 +752,7 @@ class __$$UpdateFailedImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$UpdateFailedImpl implements _UpdateFailed {
-  _$UpdateFailedImpl(this.actionsState);
+  const _$UpdateFailedImpl(this.actionsState);
 
   @override
   final ActionsState actionsState;
@@ -854,7 +856,8 @@ class _$UpdateFailedImpl implements _UpdateFailed {
 }
 
 abstract class _UpdateFailed implements ActionsControlState {
-  factory _UpdateFailed(final ActionsState actionsState) = _$UpdateFailedImpl;
+  const factory _UpdateFailed(final ActionsState actionsState) =
+      _$UpdateFailedImpl;
 
   @override
   ActionsState get actionsState;

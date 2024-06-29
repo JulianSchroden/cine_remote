@@ -1,38 +1,40 @@
 import 'dart:async';
 
 import 'package:bloc_test/bloc_test.dart';
+import 'package:camera_control_dart/camera_control_dart.dart';
+import 'package:cine_remote/presentation/features/camera_control/bloc/actions_control_cubit.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../../../test_helpers.dart';
 import '../../../../test_mocks.dart';
 
-void main() {}
-/*
 void main() {
   late MockCameraConnectionCubit mockCameraConnectionCubit;
   late MockCamera mockCamera;
-  const cameraHandle = EosCineHttpCameraHandle(cookies: [], supportedProps: []);
 
   setUp(() {
     mockCameraConnectionCubit = MockCameraConnectionCubit();
     mockCamera = MockCamera();
   });
 
+  ActionsControlCubit buildBloc() =>
+      ActionsControlCubit(mockCameraConnectionCubit);
+
   group('triggerRecord', () {
     blocTest<ActionsControlCubit, ActionsControlState>(
       'emits [updateFailed] when no camera connected',
-      setUp: () {
-        mockCameraConnectionCubit.setupCameraDisconnected();
-      },
-      build: () => ActionsControlCubit(
-        mockCameraConnectionCubit,
-        mockCamera,
-      ),
+      build: () => buildBloc(),
       act: (cubit) => cubit.triggerRecord(),
-      expect: () => [
-        ActionsControlState.updateFailed(
-            ActionsState(focusMode: AutoFocusMode.off, isRecording: false)),
+      expect: () => const [
+        ActionsControlState.updating(ActionsState(
+          focusMode: AutoFocusMode.off,
+          isRecording: false,
+        )),
+        ActionsControlState.updateFailed(ActionsState(
+          focusMode: AutoFocusMode.off,
+          isRecording: false,
+        )),
       ],
     );
 
@@ -40,9 +42,8 @@ void main() {
         StreamController<CameraUpdateEvent>>(
       'emits [updating, updateSuccess] when triggering record succeeds',
       setUp: () {
-        mockCameraConnectionCubit.setupCameraConnected(cameraHandle);
-        when(() => mockCamera.triggerRecord(cameraHandle))
-            .thenAnswer((_) async {});
+        when(() => mockCameraConnectionCubit.camera).thenReturn(mockCamera);
+        when(() => mockCamera.triggerRecord()).thenAnswer((_) async {});
 
         final cameraUpdateStreamController =
             StreamController<CameraUpdateEvent>();
@@ -50,10 +51,7 @@ void main() {
             .thenAnswer((_) => cameraUpdateStreamController.stream);
         return cameraUpdateStreamController;
       },
-      build: () => ActionsControlCubit(
-        mockCameraConnectionCubit,
-        mockCamera,
-      ),
+      build: () => buildBloc(),
       steps: [
         BlocTestStep('call init to setup stream subscription',
             act: (cubit, updateStreamController) => cubit.init(),
@@ -61,42 +59,46 @@ void main() {
         BlocTestStep(
           'emits [updating] after triggering record',
           act: (cubit, updateStreamController) => cubit.triggerRecord(),
-          expect: () => [
-            ActionsControlState.updating(
-                ActionsState(focusMode: AutoFocusMode.off, isRecording: false)),
+          expect: () => const [
+            ActionsControlState.updating(ActionsState(
+              focusMode: AutoFocusMode.off,
+              isRecording: false,
+            )),
           ],
         ),
         BlocTestStep(
           'emits [updateSuccess] once camera reports record event',
           act: (cubit, updateStreamController) => updateStreamController
               .add(const CameraUpdateEvent.recordState(true)),
-          expect: () => [
-            ActionsControlState.updateSuccess(
-                ActionsState(focusMode: AutoFocusMode.off, isRecording: true)),
+          expect: () => const [
+            ActionsControlState.updateSuccess(ActionsState(
+              focusMode: AutoFocusMode.off,
+              isRecording: true,
+            )),
           ],
         )
       ],
     );
 
     blocTest<ActionsControlCubit, ActionsControlState>(
-      'emits [updating, updateFailed] when triggering record succeeds',
+      'emits [updating, updateFailed] when triggering record fails',
       setUp: () {
-        mockCameraConnectionCubit.setupCameraConnected(cameraHandle);
-        when(() => mockCamera.triggerRecord(cameraHandle))
+        when(() => mockCameraConnectionCubit.camera).thenReturn(mockCamera);
+        when(() => mockCamera.triggerRecord())
             .thenThrow(() => Exception('trigger record failed'));
       },
-      build: () => ActionsControlCubit(
-        mockCameraConnectionCubit,
-        mockCamera,
-      ),
+      build: () => buildBloc(),
       act: (cubit) => cubit.triggerRecord(),
-      expect: () => [
-        ActionsControlState.updating(
-            ActionsState(focusMode: AutoFocusMode.off, isRecording: false)),
-        ActionsControlState.updateFailed(
-            ActionsState(focusMode: AutoFocusMode.off, isRecording: false)),
+      expect: () => const [
+        ActionsControlState.updating(ActionsState(
+          focusMode: AutoFocusMode.off,
+          isRecording: false,
+        )),
+        ActionsControlState.updateFailed(ActionsState(
+          focusMode: AutoFocusMode.off,
+          isRecording: false,
+        )),
       ],
     );
   });
 }
-*/

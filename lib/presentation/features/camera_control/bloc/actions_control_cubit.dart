@@ -1,16 +1,15 @@
 import 'dart:async';
 
 import 'package:camera_control_dart/camera_control_dart.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../camera_connection/bloc/camera_connection_cubit.dart';
+import 'base_camera_control_cubit.dart';
 
 part 'actions_control_cubit.freezed.dart';
 
 @freezed
 class ActionsState with _$ActionsState {
-  factory ActionsState({
+  const factory ActionsState({
     required bool isRecording,
     required AutoFocusMode focusMode,
   }) = _ActionsState;
@@ -18,22 +17,27 @@ class ActionsState with _$ActionsState {
 
 @freezed
 class ActionsControlState with _$ActionsControlState {
-  factory ActionsControlState.init(ActionsState actionsState) = _Init;
-  factory ActionsControlState.updating(ActionsState actionsState) = _Updating;
-  factory ActionsControlState.updateSuccess(ActionsState actionsState) =
+  const factory ActionsControlState.init(ActionsState actionsState) = _Init;
+  const factory ActionsControlState.updating(ActionsState actionsState) =
+      _Updating;
+  const factory ActionsControlState.updateSuccess(ActionsState actionsState) =
       _UpdateSuccess;
-  factory ActionsControlState.updateFailed(ActionsState actionsState) =
+  const factory ActionsControlState.updateFailed(ActionsState actionsState) =
       _UpdateFailed;
 }
 
-class ActionsControlCubit extends Cubit<ActionsControlState> {
-  final CameraConnectionCubit _cameraConnectionCubit;
+class ActionsControlCubit extends BaseCameraControlCubit<ActionsControlState> {
   StreamSubscription<CameraUpdateEvent>? _updateStreamSubscription;
 
   ActionsControlCubit(
-    this._cameraConnectionCubit,
-  ) : super(ActionsControlState.init(
-            ActionsState(isRecording: false, focusMode: AutoFocusMode.off)));
+    super.cameraConnectionCubit, [
+    super.initialState = const ActionsControlState.init(
+      ActionsState(
+        isRecording: false,
+        focusMode: AutoFocusMode.off,
+      ),
+    ),
+  ]);
 
   @override
   Future<void> close() async {
@@ -43,7 +47,7 @@ class ActionsControlCubit extends Cubit<ActionsControlState> {
 
   Future<void> init() async {
     await _updateStreamSubscription?.cancel();
-    _updateStreamSubscription = _cameraConnectionCubit.updateEvents.listen(
+    _updateStreamSubscription = cameraConnectionCubit.updateEvents.listen(
       (event) {
         event.maybeWhen(
             recordState: (isRecording) {
@@ -60,16 +64,12 @@ class ActionsControlCubit extends Cubit<ActionsControlState> {
   }
 
   Future<void> triggerRecord() async {
-    await _cameraConnectionCubit.withConnectedCamera((camera) async {
-      try {
-        emit(ActionsControlState.updating(state.actionsState));
-        await camera.triggerRecord();
-      } catch (e) {
-        emit(ActionsControlState.updateFailed(state.actionsState));
-      }
-    }, orElse: () {
+    try {
+      emit(ActionsControlState.updating(state.actionsState));
+      await camera.triggerRecord();
+    } catch (e) {
       emit(ActionsControlState.updateFailed(state.actionsState));
-    });
+    }
   }
 
   //Future<void> toggleAfLock() async {
