@@ -10,59 +10,47 @@ class PairingDataConverter
   const PairingDataConverter();
 
   @override
-  PairingData fromJson(Map<String, dynamic> json) {
-    switch (json['pairingDataType']) {
-      case 'demo':
+  PairingData fromJson(Map<String, dynamic> json) => switch (json) {
+        {'pairingDataType': 'demo'} => const DemoCameraPairingData(),
         {
-          return const DemoCameraPairingData();
-        }
-      case 'eosCineHttp':
+          'pairingDataType': 'eosCineHttp',
+          'address': String address,
+        } =>
+          EosCineHttpCameraPairingData(address: address),
         {
-          return EosCineHttpCameraPairingData(address: json['address']);
-        }
-      case 'eosPtpIp':
-        {
-          return EosPtpIpCameraPairingData(
-            guid: Uint8List.fromList(List<int>.from(json['guid'])),
-            address: json['address'],
-            clientName: json['clientName'],
-          );
-        }
-    }
-
-    throw JsonConverterException();
-  }
+          'pairingDataType': 'eosPtpIp',
+          'guid': List<int> guid,
+          'address': String address,
+          'clientName': String clientName
+        } =>
+          EosPtpIpCameraPairingData(
+            guid: Uint8List.fromList(guid),
+            address: address,
+            clientName: clientName,
+          ),
+        _ => throw JsonConverterException()
+      };
 
   @override
-  Map<String, dynamic> toJson(PairingData pairingData) {
-    switch (pairingData.runtimeType) {
-      case DemoCameraPairingData:
-        {
-          return {
+  Map<String, dynamic> toJson(PairingData pairingData) => switch (pairingData) {
+        DemoCameraPairingData() => {
             'pairingDataType': 'demo',
-          };
-        }
-      case EosCineHttpCameraPairingData:
-        {
-          final eosCinePairingData =
-              pairingData as EosCineHttpCameraPairingData;
-          return {
+          },
+        EosCineHttpCameraPairingData(:final address) => {
             'pairingDataType': 'eosCineHttp',
-            'address': eosCinePairingData.address,
-          };
-        }
-      case EosPtpIpCameraPairingData:
-        {
-          final eosPtpIpPairingData = pairingData as EosPtpIpCameraPairingData;
-          return {
+            'address': address,
+          },
+        EosPtpIpCameraPairingData(
+          :final guid,
+          :final address,
+          :final clientName
+        ) =>
+          {
             'pairingDataType': 'eosPtpIp',
-            'guid': eosPtpIpPairingData.guid.toList(),
-            'address': eosPtpIpPairingData.address,
-            'clientName': eosPtpIpPairingData.clientName,
-          };
-        }
-    }
-
-    return {};
-  }
+            'guid': guid.toList(),
+            'address': address,
+            'clientName': clientName,
+          },
+        _ => {}
+      };
 }
