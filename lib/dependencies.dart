@@ -83,7 +83,9 @@ void setupCrashReporting() {
 
 void setupLogging() {
   logger_impl.Logger.root.onRecord.listen((record) {
-    print('${record.level.name}: ${record.time}: ${record.message}');
+    if (kDebugMode) {
+      print('${record.level.name}: ${record.time}: ${record.message}');
+    }
   });
 }
 
