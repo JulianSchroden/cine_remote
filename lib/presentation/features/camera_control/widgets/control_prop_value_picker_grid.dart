@@ -9,10 +9,12 @@ import '../bloc/props_control_cubit.dart';
 class ControlPropValuePickerGrid extends StatefulWidget {
   final ControlProp controlProp;
   final double maxWidth;
+  final double maxHeight;
 
   const ControlPropValuePickerGrid({
     required this.controlProp,
     required this.maxWidth,
+    required this.maxHeight,
     super.key,
   });
 
@@ -31,21 +33,39 @@ class _ControlPropValuePickerGridState
 
   double calculateInitialScrollOffset() {
     // Offset calculation based on [SliverGridDelegateWithMaxCrossAxisExtent] getLayout.
-    final crossAxisExtend = widget.maxWidth - padding.horizontal;
-    final int crossAxisCount =
-        (crossAxisExtend / (maxCrossAxisExtent + crossAxisSpacing)).ceil();
-    final double usableCrossAxisExtent = math.max(
-      0.0,
-      crossAxisExtend - (crossAxisSpacing * (crossAxisCount - 1)),
-    );
-    final double childCrossAxisExtent = usableCrossAxisExtent / crossAxisCount;
-    final double childMainAxisExtent = childCrossAxisExtent;
+
+    final (:cellSize, :cellsPerRow) = layoutGridCells();
 
     final itemIndex = widget.controlProp.allowedValues
         .indexWhere((value) => value == widget.controlProp.currentValue);
-    final itemRowIndex = (itemIndex / crossAxisCount).floor();
+    final itemRowIndex = (itemIndex / cellsPerRow).floor();
 
-    return itemRowIndex * (childMainAxisExtent + mainAxisSpacing);
+    final rowHeightWithSpacing = cellSize + 2 * mainAxisSpacing;
+    final centerOffset = (widget.maxHeight - rowHeightWithSpacing) / 2;
+    final rowCount =
+        (widget.controlProp.allowedValues.length / cellsPerRow).ceil();
+    final scrollableContentHeight = (rowCount * cellSize) +
+        ((rowCount - 1) * mainAxisSpacing) +
+        padding.vertical;
+    final maxScrollOffset =
+        math.max(0.0, scrollableContentHeight - widget.maxHeight);
+    final scrollOffset =
+        (itemRowIndex * (cellSize + mainAxisSpacing) - centerOffset)
+            .clamp(0.0, maxScrollOffset);
+
+    return scrollOffset;
+  }
+
+  ({double cellSize, int cellsPerRow}) layoutGridCells() {
+    final crossAxisExtend = widget.maxWidth - padding.horizontal;
+    final crossAxisCount =
+        (crossAxisExtend / (maxCrossAxisExtent + crossAxisSpacing)).ceil();
+    final usableCrossAxisExtent = math.max(
+      0.0,
+      crossAxisExtend - (crossAxisSpacing * (crossAxisCount - 1)),
+    );
+    final childCrossAxisExtent = usableCrossAxisExtent / crossAxisCount;
+    return (cellSize: childCrossAxisExtent, cellsPerRow: crossAxisCount);
   }
 
   @override

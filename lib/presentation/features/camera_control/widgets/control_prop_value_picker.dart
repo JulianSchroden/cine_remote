@@ -23,6 +23,7 @@ class ControlPropValuePicker extends StatelessWidget {
         builder: (context, constraints, controlProp) =>
             ControlPropValuePickerGrid(
           maxWidth: constraints.maxWidth,
+          maxHeight: constraints.maxHeight,
           controlProp: controlProp,
         ),
       );
