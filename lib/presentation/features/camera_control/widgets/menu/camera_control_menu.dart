@@ -44,10 +44,10 @@ class CameraControlMenu extends StatelessWidget {
             const SizedBox(height: 16),
             TextButton(
               style: ButtonStyle(
-                  foregroundColor: MaterialStateProperty.all(Colors.white),
+                  foregroundColor: WidgetStateProperty.all(Colors.white),
                   backgroundColor:
-                      MaterialStateProperty.all(CineRemoteColors.warning),
-                  padding: MaterialStateProperty.all(const EdgeInsets.all(16))),
+                      WidgetStateProperty.all(CineRemoteColors.warning),
+                  padding: WidgetStateProperty.all(const EdgeInsets.all(16))),
               onPressed: () =>
                   context.read<CameraConnectionCubit>().disconnect(),
               child: const Text('Disconnect'),

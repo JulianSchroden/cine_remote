@@ -44,11 +44,11 @@ class ControlPropItem extends StatelessWidget {
     return TextButton(
       onPressed: onPressed,
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(
+        backgroundColor: WidgetStateProperty.all(
             isSelected ? Colors.grey[850]! : Colors.transparent),
-        padding: MaterialStateProperty.all(style.padding),
-        overlayColor: MaterialStateProperty.all(Colors.white10),
-        shape: MaterialStateProperty.all(style.shape),
+        padding: WidgetStateProperty.all(style.padding),
+        overlayColor: WidgetStateProperty.all(Colors.white10),
+        shape: WidgetStateProperty.all(style.shape),
       ),
       child: Text(
         data,

@@ -141,7 +141,7 @@ class _EosPtpIpPairingCardState extends State<EosPtpIpPairingCard> {
         ElevatedButton(
           onPressed: initiatePairing,
           style: ButtonStyle(
-              fixedSize: MaterialStateProperty.all(const Size.fromHeight(64))),
+              fixedSize: WidgetStateProperty.all(const Size.fromHeight(64))),
           child: const Text(
             'Initiate Paring',
             style: TextStyle(

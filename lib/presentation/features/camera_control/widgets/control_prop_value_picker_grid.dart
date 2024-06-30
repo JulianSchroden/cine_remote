@@ -96,10 +96,10 @@ class _ControlPropValuePickerGridState
                           .setProp(widget.controlProp.type, value);
                     },
               style: ButtonStyle(
-                shape: MaterialStateProperty.all<OutlinedBorder>(
+                shape: WidgetStateProperty.all<OutlinedBorder>(
                   const CircleBorder(),
                 ),
-                side: MaterialStateProperty.all(
+                side: WidgetStateProperty.all(
                   isCurrentValue
                       ? BorderSide(
                           width: 4,
@@ -109,7 +109,7 @@ class _ControlPropValuePickerGridState
                       : null,
                 ),
                 backgroundColor:
-                    MaterialStateProperty.all<Color>(Colors.grey[700]!),
+                    WidgetStateProperty.all<Color>(Colors.grey[700]!),
               ),
               child: Text(
                 value.toString(),

@@ -12,12 +12,12 @@ class RoundedTextButton extends StatelessWidget {
   static const double loadingIndicatorSize = 16;
 
   const RoundedTextButton({
-    Key? key,
+    super.key,
     required this.text,
     this.onPressed,
     this.minWidth = 280,
     this.showLoadingIndicator = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) => Stack(
@@ -26,27 +26,27 @@ class RoundedTextButton extends StatelessWidget {
           TextButton(
             style: ButtonStyle(
               minimumSize:
-                  MaterialStateProperty.all<Size>(Size(minWidth, height)),
-              fixedSize: MaterialStateProperty.all<Size>(
-                  const Size.fromHeight(height)),
-              shape: MaterialStateProperty.all<OutlinedBorder>(
+                  WidgetStateProperty.all<Size>(Size(minWidth, height)),
+              fixedSize:
+                  WidgetStateProperty.all<Size>(const Size.fromHeight(height)),
+              shape: WidgetStateProperty.all<OutlinedBorder>(
                 const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(
                     Radius.circular(height / 2),
                   ),
                 ),
               ),
-              padding: MaterialStateProperty.all<EdgeInsets>(
+              padding: WidgetStateProperty.all<EdgeInsets>(
                 const EdgeInsets.symmetric(horizontal: height / 2),
               ),
-              backgroundColor: MaterialStateProperty.resolveWith((states) {
-                if (states.contains(MaterialState.pressed)) {
+              backgroundColor: WidgetStateProperty.resolveWith((states) {
+                if (states.contains(WidgetState.pressed)) {
                   return CineRemoteColors.primary.withOpacity(0.75);
                 }
 
                 return CineRemoteColors.primary;
               }),
-              foregroundColor: MaterialStateProperty.all<Color>(
+              foregroundColor: WidgetStateProperty.all<Color>(
                 CineRemoteColors.primaryForeground,
               ),
             ),

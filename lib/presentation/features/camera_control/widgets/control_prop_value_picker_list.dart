@@ -73,7 +73,7 @@ class _ControlPropValuePickerListState
           padding: const EdgeInsets.symmetric(vertical: 3),
           child: TextButton(
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(
+              backgroundColor: WidgetStateProperty.all(
                 isCurrentValue
                     ? Colors.green
                         .withOpacity(widget.controlProp.isPending ? 0.5 : 1)

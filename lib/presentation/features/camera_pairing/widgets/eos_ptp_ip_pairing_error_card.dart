@@ -22,7 +22,7 @@ class EosPtpIpPairingErrorCard extends StatelessWidget {
         ElevatedButton(
           onPressed: () => Navigator.of(context).pop(),
           style: ButtonStyle(
-              fixedSize: MaterialStateProperty.all(const Size.fromHeight(64))),
+              fixedSize: WidgetStateProperty.all(const Size.fromHeight(64))),
           child: const Text(
             'Try again',
             style: TextStyle(

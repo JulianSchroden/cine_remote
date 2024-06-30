@@ -23,7 +23,7 @@ class CameraControlPagePortrait extends StatelessWidget {
           onPressed: () =>
               context.read<CameraControlLayoutCubit>().toggleMenu(),
           style: ButtonStyle(
-            foregroundColor: MaterialStateProperty.all(
+            foregroundColor: WidgetStateProperty.all(
                 state.showMenu ? CineRemoteColors.primary : Colors.white),
           ),
           child: const Text('Menu'),
