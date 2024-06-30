@@ -99,7 +99,7 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
     print(e);
     print(s);
 
-    await withConnectedCamera((camera) async {
+    await _withConnectedCamera((camera) async {
       emit(CameraConnectionState.disconnecting(camera));
       await camera.close();
     }, orElse: () {});
@@ -107,7 +107,7 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
     emit(const CameraConnectionState.disconnected());
   }
 
-  T withConnectedCamera<T>(
+  T _withConnectedCamera<T>(
     T Function(Camera camera) callback, {
     required T Function() orElse,
   }) =>
@@ -126,7 +126,7 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
         },
       );
 
-  Stream<CameraUpdateEvent> get updateEvents => withConnectedCamera(
+  Stream<CameraUpdateEvent> get updateEvents => _withConnectedCamera(
         (camera) => camera.events().handleError(
             (e, s) => handleConnectionAborted('update events error', e, s)),
         orElse: () => Stream.fromIterable([]),

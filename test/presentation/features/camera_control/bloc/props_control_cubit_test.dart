@@ -82,10 +82,6 @@ void main() {
     }
   }
 
-  void setupCameraConnected() {
-    when(() => mockCameraConnectionCubit.camera).thenReturn(mockCamera);
-  }
-
   PropsControlCubit buildBloc() =>
       PropsControlCubit(mockCameraConnectionCubit, mockDateTimeAdapter);
 
@@ -105,7 +101,7 @@ void main() {
       'emits [updating, updateSuccess] when reading initial prop data succeeds',
       seed: () => const PropsControlState.updateSuccess([]),
       setUp: () {
-        setupCameraConnected();
+        mockCameraConnectionCubit.setupCameraConnected(mockCamera);
         when(() => mockCameraConnectionCubit.updateEvents)
             .thenAnswer((_) => const Stream.empty());
 
@@ -136,7 +132,7 @@ void main() {
       'emits [updating, updateFailed] when getting prop data throws',
       seed: () => const PropsControlState.updateSuccess([]),
       setUp: () {
-        setupCameraConnected();
+        mockCameraConnectionCubit.setupCameraConnected(mockCamera);
 
         when(() => mockCamera.getProp(ControlPropType.aperture))
             .thenThrow(() => Exception('failed to get prop'));
@@ -165,7 +161,7 @@ void main() {
       'emits [updatedFailed] when controlProps not initialized',
       seed: () => const PropsControlState.init(),
       setUp: () {
-        setupCameraConnected();
+        mockCameraConnectionCubit.setupCameraConnected(mockCamera);
       },
       build: buildBloc,
       act: (cubit) => cubit.setProp(ControlPropType.aperture, propValue('4.0')),
@@ -178,7 +174,7 @@ void main() {
       'emits [updatedFailed] when there is no controlProp with provided propType',
       seed: () => PropsControlState.updateSuccess([apertureControlProp]),
       setUp: () {
-        setupCameraConnected();
+        mockCameraConnectionCubit.setupCameraConnected(mockCamera);
       },
       build: buildBloc,
       act: (cubit) => cubit.setProp(ControlPropType.iso, propValue('100')),
@@ -191,7 +187,7 @@ void main() {
       'emits [updating] with new value and isPending flag when updating prop value succeeds',
       seed: () => PropsControlState.updateSuccess([apertureControlProp]),
       setUp: () {
-        setupCameraConnected();
+        mockCameraConnectionCubit.setupCameraConnected(mockCamera);
         when(() => mockCamera.setProp(ControlPropType.aperture, any()))
             .thenAnswer((invocation) async {});
       },
@@ -211,7 +207,7 @@ void main() {
       'emits [updating, updateFailed] when setting prop fails',
       seed: () => PropsControlState.updateSuccess([apertureControlProp]),
       setUp: () {
-        setupCameraConnected();
+        mockCameraConnectionCubit.setupCameraConnected(mockCamera);
         when(() =>
                 mockCamera.setProp(ControlPropType.aperture, propValue('4.0')))
             .thenThrow((_) => Exception('failied to set prop'));
@@ -232,7 +228,7 @@ void main() {
 
   group('prop event handling', () {
     StreamController<CameraUpdateEvent> propEventTestSetup() {
-      setupCameraConnected();
+      mockCameraConnectionCubit.setupCameraConnected(mockCamera);
       setupGetProp({
         ControlPropType.aperture: apertureControlProp,
         ControlPropType.iso: isoControlProp,

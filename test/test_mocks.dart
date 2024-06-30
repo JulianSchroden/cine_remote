@@ -29,24 +29,10 @@ class MockCameraConnectionCubit extends Mock implements CameraConnectionCubit {}
 
 extension SetupCameraConnectedExtension on MockCameraConnectionCubit {
   void setupCameraConnected(Camera cameraValue) {
-    when(() => withConnectedCamera(any(), orElse: any(named: 'orElse')))
-        .thenAnswer(
-      (invocation) async {
-        invocation.positionalArguments[0].call(cameraValue);
-      },
-    );
-
     when(() => camera).thenReturn(cameraValue);
   }
 
   void setupCameraDisconnected() {
-    when(() => withConnectedCamera(any(), orElse: any(named: 'orElse')))
-        .thenAnswer(
-      (invocation) async {
-        invocation.namedArguments[const Symbol('orElse')].call();
-      },
-    );
-
     when(() => camera)
         .thenThrow(const CameraConnectionException('camera not connected'));
   }
