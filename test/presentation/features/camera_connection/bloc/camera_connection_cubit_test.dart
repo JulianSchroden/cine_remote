@@ -29,8 +29,10 @@ void main() {
   });
 
   CameraConnectionCubit buildCubit() => CameraConnectionCubit(
-      cameraControl: mockCameraControl,
-      recentCamerasRepostitory: mockRecentCamerasRepository);
+        cameraControl: mockCameraControl,
+        recentCamerasRepostitory: mockRecentCamerasRepository,
+        logger: MockLogger(),
+      );
 
   group('connectToDiscoveredCamera', () {
     const String cameraId = 'camera-1';

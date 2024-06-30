@@ -1,10 +1,13 @@
 import 'package:camera_control_dart/camera_control_dart.dart';
+import 'package:cine_remote/logging/logger.dart';
 import 'package:cine_remote/presentation/core/adapter/date_time_adapter.dart';
 import 'package:cine_remote/presentation/features/camera_connection/bloc/camera_connection_cubit.dart';
 import 'package:cine_remote/presentation/features/recent_cameras/repository/recent_cameras_repository.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockDateTimeAdapter extends Mock implements DateTimeAdapter {}
+
+class MockLogger extends Mock implements Logger {}
 
 class MockCameraControl extends Mock implements CameraControl {}
 

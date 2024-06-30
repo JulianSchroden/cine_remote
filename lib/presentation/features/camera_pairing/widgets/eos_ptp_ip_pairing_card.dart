@@ -5,6 +5,8 @@ import 'package:camera_control_dart/camera_control_dart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../dependencies.dart';
+import '../../../../logging/logger.dart';
 import '../bloc/camera_pairing_cubit.dart';
 
 class EosPtpIpGuid {
@@ -52,6 +54,7 @@ class _EosPtpIpPairingCardState extends State<EosPtpIpPairingCard> {
   final TextEditingController pairingGuidController = TextEditingController();
   final TextEditingController ipAddressController = TextEditingController();
   final TextEditingController clientNameController = TextEditingController();
+  final Logger logger = get<Logger>();
 
   @override
   void initState() {
@@ -66,14 +69,14 @@ class _EosPtpIpPairingCardState extends State<EosPtpIpPairingCard> {
   }
 
   void initiatePairing() {
-    print(
+    logger.info(
         'connect to: ${ipAddressController.text} with clientName: ${clientNameController.text} and guid: ${pairingGuidController.text}');
 
     final cameraHandle = CameraConnectionHandle(
       id: widget.discoveryHandle.id,
       model: widget.discoveryHandle.model,
       pairingData: EosPtpIpCameraPairingData(
-        address: widget.discoveryHandle.address,
+        address: ipAddressController.text,
         guid: pairingGuid.value,
         clientName: clientNameController.text,
       ),

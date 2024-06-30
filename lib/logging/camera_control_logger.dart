@@ -1,50 +1,47 @@
-import 'package:camera_control_dart/camera_control_dart.dart';
-import 'package:logger/logger.dart' as logger_impl;
+import 'package:camera_control_dart/camera_control_dart.dart' as camera_control;
+import 'package:cine_remote/logging/logger.dart';
 
-import 'structured_log_printer.dart';
+class CameraControlLoggerImpl extends camera_control.CameraControlLogger {
+  final Logger logger;
 
-class CameraControlLoggerImpl extends Logger {
-  final logger_impl.Logger logger;
-
-  CameraControlLoggerImpl()
-      : logger = logger_impl.Logger(printer: StructuredLogPrinter());
+  CameraControlLoggerImpl(this.logger);
 
   @override
-  void log<C extends LoggerChannel>(
-    LogLevel level,
+  void log<C extends camera_control.LoggerChannel>(
+    camera_control.LogLevel level,
     dynamic message, [
     dynamic error,
     StackTrace? stackTrace,
   ]) {
-    logger.log(level.toImpl(), message, error: error, stackTrace: stackTrace);
+    logger.log(level.toCommon(), message, error, stackTrace);
   }
 
   @override
-  void info<C extends LoggerChannel>(
+  void info<C extends camera_control.LoggerChannel>(
     dynamic message, [
     dynamic error,
     StackTrace? stackTrace,
   ]) {
-    logger.i(message, error: error, stackTrace: stackTrace);
+    logger.info(message, error, stackTrace);
   }
 
   @override
-  void warning<C extends LoggerChannel>(
+  void warning<C extends camera_control.LoggerChannel>(
     dynamic message, [
     dynamic error,
     StackTrace? stackTrace,
   ]) {
-    logger.w(message, error: error, stackTrace: stackTrace);
+    logger.warning(message, error, stackTrace);
   }
 }
 
-extension LogLevelToImplLevelExtension on LogLevel {
-  logger_impl.Level toImpl() {
+extension LogLevelToCommonLevelExtension on camera_control.LogLevel {
+  LogLevel toCommon() {
     switch (this) {
-      case LogLevel.info:
-        return logger_impl.Level.info;
-      case LogLevel.warning:
-        return logger_impl.Level.warning;
+      case camera_control.LogLevel.info:
+        return LogLevel.info;
+      case camera_control.LogLevel.warning:
+        return LogLevel.warning;
     }
   }
 }

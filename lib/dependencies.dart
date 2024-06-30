@@ -10,6 +10,7 @@ import 'package:logging/logging.dart' as logger_impl;
 import 'adapter/wifi_info_adapter.dart';
 import 'firebase_options.dart';
 import 'logging/camera_control_logger.dart';
+import 'logging/logger.dart';
 import 'presentation/core/adapter/date_time_adapter.dart';
 import 'presentation/features/camera_connection/bloc/camera_connection_cubit.dart';
 import 'presentation/features/camera_pairing/bloc/camera_pairing_cubit.dart';
@@ -19,6 +20,7 @@ import 'presentation/features/recent_cameras/repository/recent_cameras_repositor
 
 void registerDependencies() {
   factory<DateTimeAdapter>(() => const DateTimeAdapter());
+  singleton<Logger>(() => Logger());
   singleton<HiveAdapter>(() => const HiveAdapter());
   singleton<RecentCamerasRepostitory>(() => RecentCamerasRepostitory(
         get<HiveAdapter>(),
@@ -33,7 +35,7 @@ void registerDependencies() {
               .withEosPtpIp()
               .withEosCineHttp(get<WifiInfoAdapter>()))
           .withLogging(
-        logger: CameraControlLoggerImpl(),
+        logger: CameraControlLoggerImpl(get<Logger>()),
         enabledTopics: [
           const EosPtpTransactionQueueTopic(),
           const EosPtpIpDiscoveryTopic(),
@@ -43,6 +45,7 @@ void registerDependencies() {
   factory<CameraConnectionCubit>(() => CameraConnectionCubit(
         cameraControl: get<CameraControl>(),
         recentCamerasRepostitory: get<RecentCamerasRepostitory>(),
+        logger: get<Logger>(),
       ));
   factory<CameraDiscoveryCubit>(() => CameraDiscoveryCubit(
         get<CameraControl>(),

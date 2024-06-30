@@ -4,6 +4,7 @@ import 'package:camera_control_dart/camera_control_dart.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../logging/logger.dart';
 import '../../recent_cameras/repository/recent_cameras_repository.dart';
 
 part 'camera_connection_cubit.freezed.dart';
@@ -29,10 +30,12 @@ class CameraConnectionState with _$CameraConnectionState {
 class CameraConnectionCubit extends Cubit<CameraConnectionState> {
   final CameraControl cameraControl;
   final RecentCamerasRepostitory recentCamerasRepostitory;
+  final Logger logger;
 
   CameraConnectionCubit({
     required this.cameraControl,
     required this.recentCamerasRepostitory,
+    required this.logger,
   }) : super(const CameraConnectionState.disconnected());
 
   Future<void> connectToDiscoveredCamera(
@@ -53,7 +56,8 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
           pairingData: pairingData);
 
       return connect(cameraHandle);
-    } catch (e) {
+    } catch (e, s) {
+      logger.error('Failed to connect to discovered camera', e, s);
       emit(const CameraConnectionState.connectingFailed());
     }
   }
@@ -73,8 +77,8 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
       await recentCamerasRepostitory.addCamera(cameraHandle);
 
       emit(CameraConnectionState.connected(camera));
-    } catch (e) {
-      print(e);
+    } catch (e, s) {
+      logger.error('Failed to connect to handle $cameraHandle', e, s);
       emit(const CameraConnectionState.connectingFailed());
     }
   }
@@ -83,8 +87,8 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
     try {
       emit(CameraConnectionState.disconnecting(camera));
       await camera.disconnect();
-    } catch (e) {
-      print(e);
+    } catch (e, s) {
+      logger.warning('Failed to disconnect', e, s);
     } finally {
       emit(const CameraConnectionState.disconnected());
     }
@@ -95,9 +99,7 @@ class CameraConnectionCubit extends Cubit<CameraConnectionState> {
     dynamic e,
     StackTrace s,
   ) async {
-    print('handleConnectionAborted: $message');
-    print(e);
-    print(s);
+    logger.warning('Connection aborted: $message', e, s);
 
     await _withConnectedCamera((camera) async {
       emit(CameraConnectionState.disconnecting(camera));
