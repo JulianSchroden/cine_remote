@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:camera_control_dart/camera_control_dart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,13 +27,16 @@ class _ControlPropValuePickerListState
   late final ScrollController _listScrollController;
 
   double calculateInitialScrollOffset() {
-    final itemCenterOffset =
-        ((widget.maxHeight - listItemExtend) / listItemExtend) / 2;
-
-    final itemIndex = widget.controlProp.allowedValues
+    final allowedValues = widget.controlProp.allowedValues;
+    final itemIndex = allowedValues
         .indexWhere((value) => value == widget.controlProp.currentValue);
-    final maxIndex = widget.controlProp.allowedValues.length - 1;
-    return (itemIndex - itemCenterOffset).clamp(0, maxIndex) * listItemExtend;
+    final centerOffset = (widget.maxHeight - listItemExtend) / 2.0;
+    final maxScollOffset =
+        math.max(0.0, allowedValues.length * listItemExtend - widget.maxHeight);
+    final scrollOffset = ((itemIndex * listItemExtend) - centerOffset)
+        .clamp(0.0, maxScollOffset);
+
+    return scrollOffset;
   }
 
   @override
