@@ -67,16 +67,10 @@ class RecentCameraItem extends StatelessWidget {
 }
 
 extension CameraHandleConnectionInfoExtension on RecentCamera {
-  String get connectionInfo {
-    switch (pairingData.runtimeType) {
-      case DemoCameraPairingData:
-        return 'XXX.XXX.XXX.XXX';
-      case EosCineHttpCameraPairingData:
-        return (pairingData as EosCineHttpCameraPairingData).address;
-      case EosPtpIpCameraPairingData:
-        return (pairingData as EosPtpIpCameraPairingData).address;
-    }
-
-    return '';
-  }
+  String get connectionInfo => switch (pairingData) {
+        DemoCameraPairingData() => 'XXX.XXX.XXX.XXX',
+        EosCineHttpCameraPairingData(:final address) => address,
+        EosPtpIpCameraPairingData(:final address) => address,
+        _ => '',
+      };
 }
