@@ -45,7 +45,7 @@ class CineRemote extends StatelessWidget {
         theme: ThemeData(
           colorScheme: ColorScheme.dark(
             primary: Colors.green,
-            background: Colors.grey[850]!,
+            surface: Colors.grey[850]!,
           ),
         ),
         routes: {
