@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc_test/bloc_test.dart';
+import 'package:camera_control_dart/camera_control_dart.dart';
 import 'package:cine_remote/presentation/features/camera_control/bloc/props_control_cubit.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -8,41 +9,53 @@ import 'package:mocktail/mocktail.dart';
 import '../../../../test_helpers.dart';
 import '../../../../test_mocks.dart';
 
-void main() {}
-/*
+class DummyControlValue extends ControlPropValue {
+  @override
+  final String value;
+
+  const DummyControlValue(this.value);
+
+  @override
+  List<Object?> get props => [value];
+}
+
+class MockControlValue extends Mock implements ControlPropValue {}
+
+class FakeControlValue extends Fake implements ControlPropValue {}
+
 void main() {
   late MockCameraConnectionCubit mockCameraConnectionCubit;
   late MockCamera mockCamera;
   late MockDateTimeAdapter mockDateTimeAdapter;
 
-  const cameraHandle = EosCineHttpCameraHandle(
-    cookies: [],
-    supportedProps: [
-      ControlPropType.aperture,
-      ControlPropType.iso,
-      ControlPropType.whiteBalance,
+  ControlPropValue propValue(String value) {
+    return DummyControlValue(value);
+  }
+
+  final apertureControlProp = ControlProp(
+    type: ControlPropType.aperture,
+    currentValue: propValue('2.8'),
+    allowedValues: [
+      propValue('2.8'),
+      propValue('4.0'),
+      propValue('5.6'),
     ],
   );
-  const apertureControlProp = ControlProp(
-    type: ControlPropType.aperture,
-    currentValue: '2.8',
-    allowedValues: ['2.8', '4.0', '5.6'],
-  );
-  const isoControlProp = ControlProp(
+  final isoControlProp = ControlProp(
     type: ControlPropType.iso,
-    currentValue: '100',
-    allowedValues: ['100', '200', '400', '800'],
+    currentValue: propValue('100'),
+    allowedValues: [
+      propValue('100'),
+      propValue('200'),
+      propValue('400'),
+      propValue('800')
+    ],
   );
 
   final nowTime = DateTime(2023, 1, 10, 9, 18, 0);
 
   setUpAll(() {
-    registerFallbackValue(
-      const ControlProp(
-          type: ControlPropType.shutterAngle,
-          currentValue: '',
-          allowedValues: []),
-    );
+    registerFallbackValue(FakeControlValue());
   });
 
   setUp(() {
@@ -52,25 +65,38 @@ void main() {
     when(() => mockDateTimeAdapter.now()).thenReturn(nowTime);
   });
 
-  setupGetProp(
-    CameraHandle cameraHandle,
+  void setupControlPropCapability(List<ControlPropType> supportedProps) {
+    final mockDescriptor = MockCameraDescriptor();
+    when(() => mockDescriptor.getCapability<ControlPropCapability>())
+        .thenReturn(ControlPropCapability(supportedProps: supportedProps));
+    when(() => mockCamera.getDescriptor())
+        .thenAnswer((_) => Future.value(mockDescriptor));
+  }
+
+  void setupGetProp(
     Map<ControlPropType, ControlProp?> propTypeToProp,
   ) {
     for (final entry in propTypeToProp.entries) {
-      when(() => mockCamera.getProp(cameraHandle, entry.key))
+      when(() => mockCamera.getProp(entry.key))
           .thenAnswer((_) async => entry.value);
     }
   }
+
+  void setupCameraConnected() {
+    when(() => mockCameraConnectionCubit.camera).thenReturn(mockCamera);
+  }
+
+  PropsControlCubit buildBloc() =>
+      PropsControlCubit(mockCameraConnectionCubit, mockDateTimeAdapter);
 
   group('init', () {
     blocTest<PropsControlCubit, PropsControlState>(
       'emits [updatedFailed] when camera not connected',
       seed: () => const PropsControlState.updateSuccess([]),
-      setUp: () => mockCameraConnectionCubit.setupCameraDisconnected(),
-      build: () => PropsControlCubit(
-          mockCameraConnectionCubit, mockCamera, mockDateTimeAdapter),
+      build: buildBloc,
       act: (cubit) => cubit.init(),
       expect: () => [
+        const PropsControlState.updating([]),
         const PropsControlState.updateFailed([]),
       ],
     );
@@ -79,23 +105,30 @@ void main() {
       'emits [updating, updateSuccess] when reading initial prop data succeeds',
       seed: () => const PropsControlState.updateSuccess([]),
       setUp: () {
-        mockCameraConnectionCubit.setupCameraConnected(cameraHandle);
+        setupCameraConnected();
         when(() => mockCameraConnectionCubit.updateEvents)
             .thenAnswer((_) => const Stream.empty());
 
-        setupGetProp(cameraHandle, {
+        setupControlPropCapability([
+          ControlPropType.aperture,
+          ControlPropType.iso,
+          ControlPropType.whiteBalance,
+        ]);
+
+        setupGetProp({
           ControlPropType.aperture: apertureControlProp,
           ControlPropType.iso: isoControlProp,
           ControlPropType.whiteBalance: null,
         });
       },
-      build: () => PropsControlCubit(
-          mockCameraConnectionCubit, mockCamera, mockDateTimeAdapter),
+      build: buildBloc,
       act: (cubit) => cubit.init(),
       expect: () => [
         const PropsControlState.updating([]),
-        const PropsControlState.updateSuccess(
-            [apertureControlProp, isoControlProp]),
+        PropsControlState.updateSuccess([
+          apertureControlProp,
+          isoControlProp,
+        ]),
       ],
     );
 
@@ -103,13 +136,12 @@ void main() {
       'emits [updating, updateFailed] when getting prop data throws',
       seed: () => const PropsControlState.updateSuccess([]),
       setUp: () {
-        mockCameraConnectionCubit.setupCameraConnected(cameraHandle);
+        setupCameraConnected();
 
-        when(() => mockCamera.getProp(cameraHandle, ControlPropType.aperture))
+        when(() => mockCamera.getProp(ControlPropType.aperture))
             .thenThrow(() => Exception('failed to get prop'));
       },
-      build: () => PropsControlCubit(
-          mockCameraConnectionCubit, mockCamera, mockDateTimeAdapter),
+      build: buildBloc,
       act: (cubit) => cubit.init(),
       expect: () => [
         const PropsControlState.updating([]),
@@ -121,25 +153,22 @@ void main() {
   group('setProp', () {
     blocTest<PropsControlCubit, PropsControlState>(
       'emits [updatedFailed] when camera not connected',
-      seed: () => const PropsControlState.updateSuccess([]),
-      setUp: () => mockCameraConnectionCubit.setupCameraDisconnected(),
-      build: () => PropsControlCubit(
-          mockCameraConnectionCubit, mockCamera, mockDateTimeAdapter),
-      act: (cubit) => cubit.setProp(ControlPropType.aperture, '4.0'),
-      expect: () => [
-        const PropsControlState.updateFailed([]),
-      ],
+      setUp: () {
+        when(() => mockCamera.setProp(ControlPropType.aperture, any()))
+            .thenAnswer((_) => Future<void>.value());
+      },
+      build: buildBloc,
+      act: (cubit) => cubit.setProp(ControlPropType.aperture, propValue('4.0')),
     );
 
     blocTest<PropsControlCubit, PropsControlState>(
       'emits [updatedFailed] when controlProps not initialized',
       seed: () => const PropsControlState.init(),
       setUp: () {
-        mockCameraConnectionCubit.setupCameraConnected(cameraHandle);
+        setupCameraConnected();
       },
-      build: () => PropsControlCubit(
-          mockCameraConnectionCubit, mockCamera, mockDateTimeAdapter),
-      act: (cubit) => cubit.setProp(ControlPropType.aperture, '4.0'),
+      build: buildBloc,
+      act: (cubit) => cubit.setProp(ControlPropType.aperture, propValue('4.0')),
       expect: () => [
         const PropsControlState.updateFailed([]),
       ],
@@ -147,66 +176,64 @@ void main() {
 
     blocTest<PropsControlCubit, PropsControlState>(
       'emits [updatedFailed] when there is no controlProp with provided propType',
-      seed: () => const PropsControlState.updateSuccess([apertureControlProp]),
+      seed: () => PropsControlState.updateSuccess([apertureControlProp]),
       setUp: () {
-        mockCameraConnectionCubit.setupCameraConnected(cameraHandle);
+        setupCameraConnected();
       },
-      build: () => PropsControlCubit(
-          mockCameraConnectionCubit, mockCamera, mockDateTimeAdapter),
-      act: (cubit) => cubit.setProp(ControlPropType.iso, '100'),
+      build: buildBloc,
+      act: (cubit) => cubit.setProp(ControlPropType.iso, propValue('100')),
       expect: () => [
-        const PropsControlState.updateFailed([apertureControlProp]),
+        PropsControlState.updateFailed([apertureControlProp]),
       ],
     );
 
     blocTest<PropsControlCubit, PropsControlState>(
       'emits [updating] with new value and isPending flag when updating prop value succeeds',
-      seed: () => const PropsControlState.updateSuccess([apertureControlProp]),
+      seed: () => PropsControlState.updateSuccess([apertureControlProp]),
       setUp: () {
-        mockCameraConnectionCubit.setupCameraConnected(cameraHandle);
-        when(() => mockCamera.setProp(
-                cameraHandle, ControlPropType.aperture, '4.0'))
+        setupCameraConnected();
+        when(() => mockCamera.setProp(ControlPropType.aperture, any()))
             .thenAnswer((invocation) async {});
       },
-      build: () => PropsControlCubit(
-          mockCameraConnectionCubit, mockCamera, mockDateTimeAdapter),
-      act: (cubit) => cubit.setProp(ControlPropType.aperture, '4.0'),
+      build: buildBloc,
+      act: (cubit) => cubit.setProp(ControlPropType.aperture, propValue('4.0')),
       expect: () => [
         PropsControlState.updating([
           apertureControlProp.copyWith(
-              currentValue: '4.0', pendingSince: nowTime)
+            currentValue: propValue('4.0'),
+            pendingSince: nowTime,
+          )
         ]),
       ],
     );
 
     blocTest<PropsControlCubit, PropsControlState>(
       'emits [updating, updateFailed] when setting prop fails',
-      seed: () => const PropsControlState.updateSuccess([apertureControlProp]),
+      seed: () => PropsControlState.updateSuccess([apertureControlProp]),
       setUp: () {
-        mockCameraConnectionCubit.setupCameraConnected(cameraHandle);
-        when(() => mockCamera.setProp(
-                cameraHandle, ControlPropType.aperture, '4.0'))
+        setupCameraConnected();
+        when(() =>
+                mockCamera.setProp(ControlPropType.aperture, propValue('4.0')))
             .thenThrow((_) => Exception('failied to set prop'));
       },
-      build: () => PropsControlCubit(
-          mockCameraConnectionCubit, mockCamera, mockDateTimeAdapter),
-      act: (cubit) => cubit.setProp(ControlPropType.aperture, '4.0'),
+      build: buildBloc,
+      act: (cubit) => cubit.setProp(ControlPropType.aperture, propValue('4.0')),
       expect: () => [
         PropsControlState.updating([
           apertureControlProp.copyWith(
-            currentValue: '4.0',
+            currentValue: propValue('4.0'),
             pendingSince: nowTime,
           )
         ]),
-        const PropsControlState.updateFailed([apertureControlProp]),
+        PropsControlState.updateFailed([apertureControlProp]),
       ],
     );
   });
 
   group('prop event handling', () {
     StreamController<CameraUpdateEvent> propEventTestSetup() {
-      mockCameraConnectionCubit.setupCameraConnected(cameraHandle);
-      setupGetProp(cameraHandle, {
+      setupCameraConnected();
+      setupGetProp({
         ControlPropType.aperture: apertureControlProp,
         ControlPropType.iso: isoControlProp,
         ControlPropType.whiteBalance: null,
@@ -223,44 +250,53 @@ void main() {
             PropsControlState, StreamController<CameraUpdateEvent>>
         initBlocStep() => BlocTestStep(
               'calling init should emit [updating, updateSuccess]',
+              setUp: () {
+                setupControlPropCapability([
+                  ControlPropType.aperture,
+                  ControlPropType.iso,
+                  ControlPropType.whiteBalance,
+                ]);
+              },
               act: (cubit, updateStreamController) => cubit.init(),
-              expect: () => const [
-                PropsControlState.updating([]),
-                PropsControlState.updateSuccess(
-                    [apertureControlProp, isoControlProp])
+              expect: () => [
+                const PropsControlState.updating([]),
+                PropsControlState.updateSuccess([
+                  apertureControlProp,
+                  isoControlProp,
+                ])
               ],
             );
 
     BlocTestStep<PropsControlCubit, PropsControlState,
-            StreamController<CameraUpdateEvent>>
-        setIsoPropBlocStep() => BlocTestStep(
-              'calling setProp should emit [updating] with pendingSince set to current time',
-              setUp: () {
-                when(() => mockCamera.setProp(
-                      cameraHandle,
-                      ControlPropType.iso,
-                      '800',
-                    )).thenAnswer((_) async {});
-              },
-              act: (cubit, updateStreamController) =>
-                  cubit.setProp(ControlPropType.iso, '800'),
-              expect: () => [
-                PropsControlState.updating([
-                  apertureControlProp,
-                  isoControlProp.copyWith(
-                    currentValue: '800',
-                    pendingSince: nowTime,
-                  )
-                ])
-              ],
-            );
+        StreamController<CameraUpdateEvent>> setIsoPropBlocStep(
+      String value,
+    ) =>
+        BlocTestStep(
+          'calling setProp should emit [updating] with pendingSince set to current time',
+          setUp: () {
+            when(() => mockCamera.setProp(
+                  ControlPropType.iso,
+                  propValue(value),
+                )).thenAnswer((_) async {});
+          },
+          act: (cubit, updateStreamController) =>
+              cubit.setProp(ControlPropType.iso, propValue('800')),
+          expect: () => [
+            PropsControlState.updating([
+              apertureControlProp,
+              isoControlProp.copyWith(
+                currentValue: propValue(value),
+                pendingSince: nowTime,
+              )
+            ])
+          ],
+        );
 
     multiStepBlocTest<PropsControlCubit, PropsControlState,
         StreamController<CameraUpdateEvent>>(
       'should listen for updates and only emit [updateSuccess] for initialized props',
       setUp: propEventTestSetup,
-      build: () => PropsControlCubit(
-          mockCameraConnectionCubit, mockCamera, mockDateTimeAdapter),
+      build: buildBloc,
       steps: [
         initBlocStep(),
         BlocTestStep(
@@ -274,20 +310,24 @@ void main() {
         BlocTestStep(
           'prop event of uninitialized propType should be ignored',
           act: (cubit, updateStreamController) {
-            updateStreamController.add(const CameraUpdateEvent.prop(
-                ControlPropType.whiteBalance, '5100'));
+            updateStreamController.add(CameraUpdateEvent.propValueChanged(
+              ControlPropType.whiteBalance,
+              propValue('5100'),
+            ));
           },
           expect: () => [],
         ),
         BlocTestStep(
           'prop event of initialized propType should emit [updateSuccess]',
           act: (cubit, updateStreamController) {
-            updateStreamController.add(
-                const CameraUpdateEvent.prop(ControlPropType.aperture, '8.0'));
+            updateStreamController.add(CameraUpdateEvent.propValueChanged(
+              ControlPropType.aperture,
+              propValue('8.0'),
+            ));
           },
           expect: () => [
             PropsControlState.updateSuccess([
-              apertureControlProp.copyWith(currentValue: '8.0'),
+              apertureControlProp.copyWith(currentValue: propValue('8.0')),
               isoControlProp
             ])
           ],
@@ -299,30 +339,33 @@ void main() {
         StreamController<CameraUpdateEvent>>(
       'propEvent should only emit pending value when prop is pending',
       setUp: propEventTestSetup,
-      build: () => PropsControlCubit(
-          mockCameraConnectionCubit, mockCamera, mockDateTimeAdapter),
+      build: buildBloc,
       steps: [
         initBlocStep(),
-        setIsoPropBlocStep(),
+        setIsoPropBlocStep('800'),
         BlocTestStep(
           'should not emit when prop is pending and event contains different value',
           act: (cubit, updateStreamController) {
-            updateStreamController
-                .add(const CameraUpdateEvent.prop(ControlPropType.iso, '400'));
+            updateStreamController.add(CameraUpdateEvent.propValueChanged(
+              ControlPropType.iso,
+              propValue('400'),
+            ));
           },
           expect: () => [],
         ),
         BlocTestStep(
           'should emit [updateSuccess] with pendingSince set to null when event contains pending value',
           act: (cubit, updateStreamController) {
-            updateStreamController
-                .add(const CameraUpdateEvent.prop(ControlPropType.iso, '800'));
+            updateStreamController.add(CameraUpdateEvent.propValueChanged(
+              ControlPropType.iso,
+              propValue('800'),
+            ));
           },
           expect: () => [
             PropsControlState.updateSuccess([
               apertureControlProp,
               isoControlProp.copyWith(
-                currentValue: '800',
+                currentValue: propValue('800'),
                 pendingSince: null,
               )
             ])
@@ -335,11 +378,10 @@ void main() {
         StreamController<CameraUpdateEvent>>(
       'should reset pending state after pendingDuration to ensure state is not dead locked',
       setUp: propEventTestSetup,
-      build: () => PropsControlCubit(
-          mockCameraConnectionCubit, mockCamera, mockDateTimeAdapter),
+      build: buildBloc,
       steps: [
         initBlocStep(),
-        setIsoPropBlocStep(),
+        setIsoPropBlocStep('800'),
         BlocTestStep(
           'should emit [updateSuccess] with value from propEvent when pendingDuration is over',
           setUp: () {
@@ -348,13 +390,18 @@ void main() {
                     const Duration(milliseconds: 100)));
           },
           act: (cubit, updateStreamController) {
-            updateStreamController
-                .add(const CameraUpdateEvent.prop(ControlPropType.iso, '400'));
+            updateStreamController.add(CameraUpdateEvent.propValueChanged(
+              ControlPropType.iso,
+              propValue('400'),
+            ));
           },
           expect: () => [
             PropsControlState.updateSuccess([
               apertureControlProp,
-              isoControlProp.copyWith(currentValue: '400')
+              isoControlProp.copyWith(
+                currentValue: propValue('400'),
+                pendingSince: null,
+              )
             ])
           ],
         ),
@@ -362,4 +409,3 @@ void main() {
     );
   });
 }
-*/

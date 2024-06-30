@@ -1,47 +1,76 @@
 import 'dart:async';
 
 import 'package:camera_control_dart/camera_control_dart.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:equatable/equatable.dart';
 
 import '../../../../shared/extensions/list_extensions.dart';
 import '../../../core/adapter/date_time_adapter.dart';
 import '../../../core/extensions/control_prop_extension.dart';
-import '../../camera_connection/bloc/camera_connection_cubit.dart';
+import 'base_camera_control_cubit.dart';
 
-part 'props_control_cubit.freezed.dart';
+sealed class PropsControlState extends Equatable {
+  final List<ControlProp> controlProps;
 
-@freezed
-class PropsControlState with _$PropsControlState {
-  const PropsControlState._();
+  const PropsControlState(this.controlProps);
 
-  const factory PropsControlState.init() = _Init;
-  const factory PropsControlState.updating(List<ControlProp> props) = _Updating;
+  const factory PropsControlState.init() = PropsControlInitState;
+  const factory PropsControlState.updating(List<ControlProp> props) =
+      PropsControlUpdatingState;
   const factory PropsControlState.updateSuccess(List<ControlProp> props) =
-      _UpdateSuccess;
+      PropsControlUpdateSuccessState;
   const factory PropsControlState.updateFailed(List<ControlProp> props) =
-      _UpdateFailed;
+      PropsControlUpdateFailedState;
 
-  List<ControlProp> get controlProps => maybeWhen(
-      updating: (props) => props,
-      updateSuccess: (props) => props,
-      updateFailed: (props) => props,
-      orElse: () => <ControlProp>[]);
+  T maybeWhen<T>({
+    T Function()? init,
+    T Function(List<ControlProp> props)? updating,
+    T Function(List<ControlProp> props)? updateSuccess,
+    T Function(List<ControlProp> props)? updateFailed,
+    required T Function() orElse,
+  }) =>
+      switch (this) {
+        PropsControlInitState() => init?.call() ?? orElse(),
+        PropsControlUpdatingState(:final controlProps) =>
+          updating?.call(controlProps) ?? orElse(),
+        PropsControlUpdateSuccessState(:final controlProps) =>
+          updateSuccess?.call(controlProps) ?? orElse(),
+        PropsControlUpdateFailedState(:final controlProps) =>
+          updateFailed?.call(controlProps) ?? orElse(),
+      };
+
+  @override
+  List<Object?> get props => [controlProps];
 
   ControlProp getProp(ControlPropType propType) =>
       controlProps.firstWhere((prop) => prop.type == propType);
 }
 
-class PropsControlCubit extends Cubit<PropsControlState> {
+class PropsControlInitState extends PropsControlState {
+  const PropsControlInitState([super.controlProps = const []]);
+}
+
+class PropsControlUpdatingState extends PropsControlState {
+  const PropsControlUpdatingState(super.controlProps);
+}
+
+class PropsControlUpdateSuccessState extends PropsControlState {
+  const PropsControlUpdateSuccessState(super.controlProps);
+}
+
+class PropsControlUpdateFailedState extends PropsControlState {
+  const PropsControlUpdateFailedState(super.controlProps);
+}
+
+class PropsControlCubit extends BaseCameraControlCubit<PropsControlState> {
   static const pendingDuration = Duration(seconds: 2);
-  final CameraConnectionCubit _cameraConnectionCubit;
   final DateTimeAdapter _dateTimeAdapter;
   StreamSubscription<CameraUpdateEvent>? _updateStreamSubscription;
 
   PropsControlCubit(
-    this._cameraConnectionCubit,
-    this._dateTimeAdapter,
-  ) : super(const PropsControlState.init());
+    super.cameraConnectionCubit,
+    this._dateTimeAdapter, [
+    super.initialState = const PropsControlState.init(),
+  ]);
 
   @override
   Future<void> close() async {
@@ -50,62 +79,52 @@ class PropsControlCubit extends Cubit<PropsControlState> {
   }
 
   Future<void> init() async {
-    await _cameraConnectionCubit.withConnectedCamera((camera) async {
-      emit(const PropsControlState.updating([]));
+    emit(const PropsControlState.updating([]));
 
-      try {
-        final descriptor = await camera.getDescriptor();
-        final controlPropCapability =
-            descriptor.getCapability<ControlPropCapability>();
+    try {
+      final descriptor = await camera.getDescriptor();
+      final controlPropCapability =
+          descriptor.getCapability<ControlPropCapability>();
 
-        final controlProps = <ControlProp>[];
-        for (final propType in controlPropCapability.supportedProps) {
-          final controlProp = await camera.getProp(propType);
-          if (controlProp != null) {
-            controlProps.add(controlProp);
-          }
+      final controlProps = <ControlProp>[];
+      for (final propType in controlPropCapability.supportedProps) {
+        final controlProp = await camera.getProp(propType);
+        if (controlProp != null) {
+          controlProps.add(controlProp);
         }
-
-        await _setupUpdateListener();
-
-        emit(PropsControlState.updateSuccess(controlProps));
-      } catch (e) {
-        emit(const PropsControlState.updateFailed([]));
       }
-    }, orElse: () {
+
+      await _setupUpdateListener();
+
+      emit(PropsControlState.updateSuccess(controlProps));
+    } catch (e) {
       emit(const PropsControlState.updateFailed([]));
-    });
+    }
   }
 
   Future<void> setProp(ControlPropType propType, ControlPropValue value) async {
-    await _cameraConnectionCubit.withConnectedCamera(
-      (camera) async {
-        final previousProps = state.controlProps;
-        try {
-          final updatedProps = state.controlProps.copyWith(
-            predecate: (prop) => prop.type == propType,
-            transform: (prop) => prop.copyWith(
-              currentValue: value,
-              pendingSince: _dateTimeAdapter.now(),
-            ),
-          );
+    final previousProps = state.controlProps;
+    try {
+      final camera = this.camera;
+      final updatedProps = state.controlProps.copyWith(
+        predecate: (prop) => prop.type == propType,
+        transform: (prop) => prop.copyWith(
+          currentValue: value,
+          pendingSince: _dateTimeAdapter.now(),
+        ),
+      );
 
-          emit(PropsControlState.updating(updatedProps));
+      emit(PropsControlState.updating(updatedProps));
 
-          await camera.setProp(propType, value);
-        } catch (e) {
-          emit(PropsControlState.updateFailed(previousProps));
-        }
-      },
-      orElse: () {
-        emit(const PropsControlState.updateFailed([]));
-      },
-    );
+      await camera.setProp(propType, value);
+    } catch (e) {
+      emit(PropsControlState.updateFailed(previousProps));
+    }
   }
 
   Future<void> _setupUpdateListener() async {
     await _updateStreamSubscription?.cancel();
-    _updateStreamSubscription = _cameraConnectionCubit.updateEvents.listen(
+    _updateStreamSubscription = cameraConnectionCubit.updateEvents.listen(
       (event) {
         event.maybeWhen(
           propValueChanged: _handlePropValueChanged,
@@ -118,7 +137,13 @@ class PropsControlCubit extends Cubit<PropsControlState> {
 
   void _handlePropValueChanged(
       ControlPropType propType, ControlPropValue value) {
-    final prop = state.getProp(propType);
+    final prop =
+        state.controlProps.firstWhereOrNull((prop) => prop.type == propType);
+
+    if (prop == null) {
+      return;
+    }
+
     final isWithinPendingTime =
         prop.isWithinPendingTime(_dateTimeAdapter.now(), pendingDuration);
     final isWaitingForPendingValue =
