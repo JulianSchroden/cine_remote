@@ -19,12 +19,12 @@ class PairingDataConverter
           EosCineHttpCameraPairingData(address: address),
         {
           'pairingDataType': 'eosPtpIp',
-          'guid': List<int> guid,
+          'guid': List<dynamic> guid,
           'address': String address,
           'clientName': String clientName
         } =>
           EosPtpIpCameraPairingData(
-            guid: Uint8List.fromList(guid),
+            guid: Uint8List.fromList(List<int>.from(guid)),
             address: address,
             clientName: clientName,
           ),
