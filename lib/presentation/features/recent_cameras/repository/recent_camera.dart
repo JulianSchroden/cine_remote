@@ -2,9 +2,6 @@ import 'package:camera_control_dart/camera_control_dart.dart';
 import 'package:equatable/equatable.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'json_converter/camera_model_converter.dart';
-import 'json_converter/pairing_data_converter.dart';
-
 part 'recent_camera.g.dart';
 
 @JsonSerializable()

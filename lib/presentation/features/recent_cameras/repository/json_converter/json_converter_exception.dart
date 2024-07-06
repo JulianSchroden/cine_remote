@@ -1,1 +1,0 @@
-class JsonConverterException implements Exception {}
