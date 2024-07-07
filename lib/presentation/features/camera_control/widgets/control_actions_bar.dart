@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/camera_meta_cubit.dart';
 import 'capture_image_button.dart';
-import 'record_button.dart';
+import 'capture_movie_button.dart';
 
 class ControlActionsBar extends StatelessWidget {
   final Orientation orientation;
@@ -45,7 +45,7 @@ class ControlActionsBar extends StatelessWidget {
             const Spacer(),
             descriptor.mode is PhotoMode
                 ? const CaptureImageButton()
-                : const RecordButton(),
+                : const CaptureMovieButton(),
             const Spacer(),
           ],
         ),
