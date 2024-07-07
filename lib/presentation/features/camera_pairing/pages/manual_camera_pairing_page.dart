@@ -15,16 +15,10 @@ class ManualCameraPairingPage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             constraints: const BoxConstraints(maxWidth: 500),
             child: ListView(
-              children: [
-                const SizedBox(height: 24),
-                const AddRecentCameraCard(),
-                const SizedBox(height: 32),
-                TextButton(
-                  child: const Text('Throw test exception'),
-                  onPressed: () => throw Exception(
-                      "Test Exception to verify Firebase connection"),
-                ),
-                const SizedBox(height: 32),
+              children: const [
+                SizedBox(height: 32),
+                AddRecentCameraCard(),
+                SizedBox(height: 32),
               ],
             ),
           ),
