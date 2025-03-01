@@ -18,7 +18,7 @@ Table of Contents
 
 ## Project Overview
 
-In its current version, the app only supports white-listed camera models, which are currently the Canon C100II and the Canon EOS 70D.
+In its current version, the app only supports white-listed camera models, which are currently the Canon C100II, the Canon EOS 70D, and the Canon EOS R7.
 
 Beware that the communication with these cameras is based on reverse engineering their protocols. Since I didn't have access to any API documentation for these protocols, there are certainly edge cases the CineRemote app does not handle correctly.
 
@@ -48,6 +48,7 @@ For more info on the C100II's API and my development process, check out [my blog
 |:--------------|:------------|:---------------------------------------------------------------------------------------------|
 | Canon C100II  | EosCineHttp | Image capturing not available.                                                               |
 | Canon EOS 70D | PTP/IP      | Movie recording not available. The camera prohibits movie recordings when WiFi is turned on. |
+| Canon EOS R7  | PTP/IP      |                                                                                              |
 
 
 <br>
@@ -58,4 +59,3 @@ For more info on the C100II's API and my development process, check out [my blog
 - Adding support for more cameras
   - CCAPI-based cameras (modern Canon EOS models)
 - Improving error handling, e. g. detecting when the camera disconnects.
-- Adding overlays to the Live View Player (e.g., the rule of thirds grid)
