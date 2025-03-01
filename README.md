@@ -24,6 +24,8 @@ Beware that the communication with these cameras is based on reverse engineering
 
 For more info on the C100II's API and my development process, check out [my blog](https://julianschroden.com/series/Exploring-the-Canon-Browser-Remote-API/1/).
 
+Under the hood, Cine Remote uses the [camera_control_dart](https://github.com/JulianSchroden/camera_control_dart) package that implements all the camera control functionality.
+
 <p align="center">
   <img src="docs/assets/cine_remote_teaser.gif" alt="Cine Remote Demo"/>
 </p>
