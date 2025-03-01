@@ -1,3 +1,9 @@
+## 2025-03-01 v0.4.0+8
+- Add support for the Canon EOS R7 including starting and stopping movie recordings-
+- Adapt usage of [camera_control_dart](https://github.com/JulianSchroden/camera_control_dart) to updated interface
+- Prevent scroll overshooting when opening ControlPropPicker list and grid views
+- handle descriptor changed events to display correct ui (photo vs movie mode)
+
 ## 2023-10-20 v0.3.3+7
 - Extract camera_control code into separate package [camera_control_dart](https://github.com/JulianSchroden/camera_control_dart)
 

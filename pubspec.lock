@@ -137,9 +137,11 @@ packages:
   camera_control_dart:
     dependency: "direct main"
     description:
-      path: "../camera_control_dart"
-      relative: true
-    source: path
+      path: "."
+      ref: "v0.1.0"
+      resolved-ref: "668da68812b24eb7286ad41040bf68f58607ff64"
+      url: "https://github.com/JulianSchroden/camera_control_dart.git"
+    source: git
     version: "0.0.1"
   carousel_slider:
     dependency: "direct main"
