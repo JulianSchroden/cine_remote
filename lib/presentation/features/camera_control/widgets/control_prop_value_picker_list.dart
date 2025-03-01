@@ -93,7 +93,7 @@ class _ControlPropValuePickerListState
                         .setProp(widget.controlProp.type, value);
                   },
             child: Text(
-              value.toString(),
+              value.value,
               style: const TextStyle(color: Colors.white),
             ),
           ),

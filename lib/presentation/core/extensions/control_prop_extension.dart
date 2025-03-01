@@ -4,15 +4,15 @@ extension FormatControlPropExtension on ControlProp {
   String format() {
     switch (type) {
       case ControlPropType.iso:
-        return 'ISO $currentValue';
+        return 'ISO ${currentValue.value}';
       case ControlPropType.aperture:
-        return 'F$currentValue';
+        return 'F${currentValue.value}';
       case ControlPropType.shutterAngle:
-        return '$currentValue°';
+        return '${currentValue.value}°';
       case ControlPropType.shutterSpeed:
-        return '$currentValue';
+        return currentValue.value;
       case ControlPropType.whiteBalance:
-        return '${currentValue}K';
+        return '${currentValue.value}K';
     }
   }
 }
