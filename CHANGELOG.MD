@@ -1,3 +1,6 @@
+## 2025-03-01 v0.4.0+9
+- Fix ios ci/cd workflow
+
 ## 2025-03-01 v0.4.0+8
 - Add support for the Canon EOS R7 including starting and stopping movie recordings-
 - Adapt usage of [camera_control_dart](https://github.com/JulianSchroden/camera_control_dart) to updated interface
