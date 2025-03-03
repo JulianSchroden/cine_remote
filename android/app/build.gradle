@@ -25,6 +25,7 @@ if (flutterVersionName == null) {
 }
 
 android {
+    namespace "com.julianschroden.cine_remote"
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
