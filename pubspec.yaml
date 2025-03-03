@@ -14,6 +14,7 @@ dependencies:
   flutter:
     sdk: flutter
   camera_control_dart:
+    # path: "../camera_control_dart"
     git:
       url: https://github.com/JulianSchroden/camera_control_dart.git
       ref: v0.1.0
@@ -38,7 +39,7 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^5.0.0
   bloc_test: ^10.0.0
-  build_runner: 2.4.14
+  build_runner: 2.4.15
   freezed: ^3.0.0-0.0.dev
   json_serializable: ^6.9.3
   mocktail: ^1.0.4
