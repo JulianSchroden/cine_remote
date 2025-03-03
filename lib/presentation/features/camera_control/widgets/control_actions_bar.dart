@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/camera_meta_cubit.dart';
+import 'capture_bulb_image_button.dart';
 import 'capture_image_button.dart';
 import 'capture_movie_button.dart';
 
@@ -35,6 +36,18 @@ class ControlActionsBar extends StatelessWidget {
     );
   }
 
+  Widget _primaryAction(CameraDescriptor descriptor) {
+    switch (descriptor.mode) {
+      case PhotoMode(:final exposureMode)
+          when exposureMode == ExposureMode.bulb:
+        return const CaptureBulbImageButton();
+      case PhotoMode():
+        return const CaptureImageButton();
+      case VideoMode():
+        return const CaptureMovieButton();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CameraMetaCubit, CameraMetaState>(
@@ -43,9 +56,7 @@ class ControlActionsBar extends StatelessWidget {
           context: context,
           children: [
             const Spacer(),
-            descriptor.mode is PhotoMode
-                ? const CaptureImageButton()
-                : const CaptureMovieButton(),
+            _primaryAction(descriptor),
             const Spacer(),
           ],
         ),

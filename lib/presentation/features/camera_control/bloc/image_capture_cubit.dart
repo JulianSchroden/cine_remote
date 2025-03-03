@@ -47,4 +47,23 @@ class ImageCaptureCubit extends BaseCameraControlCubit<ImageCaptureState> {
       emit(const ImageCaptureState.error());
     }
   }
+
+  Future<void> startBulbCapture() async {
+    emit(const ImageCaptureState.inProgress());
+
+    try {
+      await camera.startBulbCapture();
+    } catch (e) {
+      emit(const ImageCaptureState.error());
+    }
+  }
+
+  Future<void> stopBulbCapture() async {
+    try {
+      await camera.stopBulbCapture();
+      emit(const ImageCaptureState.ready());
+    } catch (e) {
+      emit(const ImageCaptureState.error());
+    }
+  }
 }
