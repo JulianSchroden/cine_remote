@@ -29,7 +29,7 @@ class LiveViewControlOverlay extends StatelessWidget {
           ignoring: ignoreStartButtonPress,
           child: MaterialButton(
             onPressed: () => context.read<LiveViewCubit>().toggleLiveView(),
-            color: Colors.white.withOpacity(0.5),
+            color: Colors.white.withValues(alpha: 0.5),
             shape: const CircleBorder(),
             child: Stack(
               children: [

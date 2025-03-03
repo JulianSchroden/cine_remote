@@ -80,8 +80,8 @@ class _ControlPropValuePickerListState
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all(
                 isCurrentValue
-                    ? Colors.green
-                        .withOpacity(widget.controlProp.isPending ? 0.5 : 1)
+                    ? Colors.green.withValues(
+                        alpha: widget.controlProp.isPending ? 0.5 : 1)
                     : Colors.grey[700],
               ),
             ),

@@ -41,7 +41,7 @@ class RoundedTextButton extends StatelessWidget {
               ),
               backgroundColor: WidgetStateProperty.resolveWith((states) {
                 if (states.contains(WidgetState.pressed)) {
-                  return CineRemoteColors.primary.withOpacity(0.75);
+                  return CineRemoteColors.primary.withValues(alpha: 0.75);
                 }
 
                 return CineRemoteColors.primary;
